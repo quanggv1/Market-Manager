@@ -1,0 +1,13 @@
+//
+//  Utils.h
+//  Canets
+//
+//  Created by Quang on 11/30/16.
+//  Copyright © 2016 Quang. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Utils : NSObject
++ (void)hideKeyboard;
+@end
