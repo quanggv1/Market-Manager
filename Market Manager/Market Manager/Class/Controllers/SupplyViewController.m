@@ -1,18 +1,18 @@
 //
-//  ProductManagerViewController.m
+//  SupplyViewController.m
 //  Market Manager
 //
-//  Created by Quang on 2/13/17.
+//  Created by Hanhnn1 on 2/15/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "ProductManagerViewController.h"
+#import "SupplyViewController.h"
 
-@interface ProductManagerViewController ()
+@interface SupplyViewController ()
 
 @end
 
-@implementation ProductManagerViewController
+@implementation SupplyViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
