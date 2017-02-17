@@ -6,13 +6,13 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "CommodityViewController.h"
+#import "ProductViewController.h"
 
-@interface CommodityViewController ()
+@interface ProductViewController ()
 
 @end
 
-@implementation CommodityViewController
+@implementation ProductViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
