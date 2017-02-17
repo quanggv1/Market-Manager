@@ -16,6 +16,9 @@ con.connect(function(err){
     return;
   }
   console.log('Connection success');
+  con.query('CREATE DATABASE IF NOT EXISTS MarketManager', function(err){
+      //create table here
+  })
 });
 
 
