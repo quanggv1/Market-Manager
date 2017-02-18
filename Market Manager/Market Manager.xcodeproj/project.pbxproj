@@ -49,11 +49,15 @@
 		7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */; };
 		7466EB121E51F9A800A2C0F5 /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB111E51F9A800A2C0F5 /* OrderViewController.m */; };
 		7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB181E51FB1000A2C0F5 /* Utils.m */; };
+<<<<<<< HEAD
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
 		74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904581E58174A005D391D /* ProductPopOverViewController.m */; };
 		74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9045B1E5822AD005D391D /* ProductDetailViewController.m */; };
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.h.m */; };
+=======
+		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
+>>>>>>> 83d6128e84bb19563a5fe90ebbe7c30919e63bf6
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -158,7 +162,7 @@
 		74E9045A1E5822AD005D391D /* ProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailViewController.h; sourceTree = "<group>"; };
 		74E9045B1E5822AD005D391D /* ProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailViewController.m; sourceTree = "<group>"; };
 		BCB461481E545EB90090CBC3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
-		BCB461491E545EB90090CBC3 /* ProductViewController.h.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.h.m; sourceTree = "<group>"; };
+		BCB461491E545EB90090CBC3 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
 		BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
 		BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -377,7 +381,12 @@
 				74E9044A1E57F701005D391D /* Menu */,
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
 				7466EB111E51F9A800A2C0F5 /* OrderViewController.m */,
+<<<<<<< HEAD
 				74E904421E57F513005D391D /* Product */,
+=======
+				BCB461481E545EB90090CBC3 /* ProductViewController.h */,
+				BCB461491E545EB90090CBC3 /* ProductViewController.m */,
+>>>>>>> 83d6128e84bb19563a5fe90ebbe7c30919e63bf6
 				BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */,
 				BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */,
 				3D41D7641E5583C400123A71 /* ShopViewController.h */,
@@ -544,7 +553,7 @@
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
-				BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */,
+				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,
 				3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */,
 				3D41D76C1E558C9100123A71 /* LoginViewController.m in Sources */,
 				74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */,
