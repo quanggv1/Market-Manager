@@ -49,7 +49,7 @@
 		7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */; };
 		7466EB121E51F9A800A2C0F5 /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB111E51F9A800A2C0F5 /* OrderViewController.m */; };
 		7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB181E51FB1000A2C0F5 /* Utils.m */; };
-		BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.h.m */; };
+		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -146,7 +146,7 @@
 		7466EB171E51FB1000A2C0F5 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		7466EB181E51FB1000A2C0F5 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		BCB461481E545EB90090CBC3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
-		BCB461491E545EB90090CBC3 /* ProductViewController.h.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.h.m; sourceTree = "<group>"; };
+		BCB461491E545EB90090CBC3 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
 		BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
 		BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -368,7 +368,7 @@
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
 				7466EB111E51F9A800A2C0F5 /* OrderViewController.m */,
 				BCB461481E545EB90090CBC3 /* ProductViewController.h */,
-				BCB461491E545EB90090CBC3 /* ProductViewController.h.m */,
+				BCB461491E545EB90090CBC3 /* ProductViewController.m */,
 				BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */,
 				BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */,
 				3D41D7641E5583C400123A71 /* ShopViewController.h */,
@@ -497,7 +497,7 @@
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
-				BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */,
+				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,
 				3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */,
 				3D41D76C1E558C9100123A71 /* LoginViewController.m in Sources */,
 				7466EB121E51F9A800A2C0F5 /* OrderViewController.m in Sources */,
