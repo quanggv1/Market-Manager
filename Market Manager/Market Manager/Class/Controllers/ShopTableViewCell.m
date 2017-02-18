@@ -1,23 +1,22 @@
 //
-//  ProductCell.m
+//  ShopTableViewCell.m
 //  Market Manager
 //
 //  Created by Quang on 2/18/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "ProductCell.h"
-#import "ProductPopOverViewController.h"
+#import "ShopTableViewCell.h"
+#import "ShopPopOverViewController.h"
 
-@interface ProductCell()
-@property (weak, nonatomic) IBOutlet UIImageView *productImage;
-@property (weak, nonatomic) IBOutlet UILabel *productName;
+@interface ShopTableViewCell()
+@property (weak, nonatomic) IBOutlet UIImageView *shopImage;
+@property (weak, nonatomic) IBOutlet UILabel *shopName;
 @property (weak, nonatomic) IBOutlet UIButton *extendButton;
-@property (weak, nonatomic) Product *product;
+@property (weak, nonatomic) Shop *shop;
 @end
 
-
-@implementation ProductCell
+@implementation ShopTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -26,12 +25,14 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
 }
 
-- (void)initWith:(Product *)product {
-    if(!_product) {
-        _product = product;
-        _productName.text = _product.name;
+- (void)initWith:(Shop *)shop {
+    if(!_shop) {
+        _shop = shop;
+        _shopName.text = _shop.name;
     }
 }
 
@@ -42,7 +43,7 @@
     }
     id controller = ((UITableView *)view).dataSource;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    ProductPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardProductPopover];
+    ShopPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardShopPopover];
     vc.selectedIndexPath = [((UITableView *)view) indexPathForCell:self];
     vc.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController * popOverController = vc.popoverPresentationController;
@@ -51,9 +52,9 @@
     popOverController.sourceRect = self.extendButton.bounds;
     popOverController.permittedArrowDirections = UIPopoverArrowDirectionUp;
     [controller presentViewController:vc
-                       animated:YES
-                     completion:nil];
-
+                             animated:YES
+                           completion:nil];
+    
 }
 
 @end

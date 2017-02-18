@@ -1,13 +1,13 @@
 //
-//  ProductCell.h
+//  Supply.m
 //  Market Manager
 //
 //  Created by Quang on 2/18/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "Product.h"
+#import "Supply.h"
 
-@interface ProductCell : UITableViewCell
-- (void)initWith:(Product *)product;
+@implementation Supply
+
 @end

@@ -1,18 +1,18 @@
 //
-//  ProductPopOverViewController.m
+//  ShopPopOverViewController.m
 //  Market Manager
 //
 //  Created by Quang on 2/18/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "ProductPopOverViewController.h"
+#import "ShopPopOverViewController.h"
 
-@interface ProductPopOverViewController ()
+@interface ShopPopOverViewController ()
 
 @end
 
-@implementation ProductPopOverViewController
+@implementation ShopPopOverViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,8 +25,10 @@
 }
 
 - (IBAction)onDeleteButtonClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyProductDeletesItem object:_selectedIndexPath];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShopDeletesItem object:_selectedIndexPath];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
 
 @end
