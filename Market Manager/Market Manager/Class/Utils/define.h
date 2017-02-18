@@ -12,12 +12,13 @@
 
 
 #pragma mark - StoryboardIdentifiers
-
+static NSString *const StoryboardMain = @"MarketManager";
+static NSString *const StoryboardProductPopover = @"productPopOverId";
 
 static NSString *const CellMenu = @"menuCell";
 
 #pragma mark - Cell Identifier 
-
+static NSString *const CellProduct = @"productCellId";
 
 #pragma mark - Color
 #define appColor [UIColor colorWithRed:75.f/255.f green:192.f/255.f blue:223.f/255.f alpha:1]
@@ -27,9 +28,11 @@ static NSString *const CellMenu = @"menuCell";
 
 #pragma mark - Notification
 static NSString *const NotifyShowHideMenu = @"showHideMenu";
+static NSString *const NotifyProductDeletesItem = @"NotifyProductDeletesItem";
 
 #pragma mark - Segue
 static NSString *const SegueMain = @"segueMain";
+static NSString *const SegueProductDetail = @"showProductDetail";
 
 
 #pragma mark - Link

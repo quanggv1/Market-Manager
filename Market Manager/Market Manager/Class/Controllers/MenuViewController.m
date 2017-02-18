@@ -53,14 +53,14 @@
     _menuView.hidden = NO;
     _isMenuShow = !_isMenuShow;
     if(_isMenuShow) {
-        [UIView animateWithDuration:0.2f animations:^{
+        [UIView animateWithDuration:0.5f animations:^{
             CGRect frame = _menuView.frame;
             frame.origin.x = 0;
             [_menuView setFrame:frame];
         }];
     }
     else {
-        [UIView animateWithDuration:0.2f animations:^{
+        [UIView animateWithDuration:0.5f animations:^{
             CGRect frame = _menuView.frame;
             frame.origin.x -= frame.size.width;
             [_menuView setFrame:frame];

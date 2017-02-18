@@ -49,6 +49,10 @@
 		7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */; };
 		7466EB121E51F9A800A2C0F5 /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB111E51F9A800A2C0F5 /* OrderViewController.m */; };
 		7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB181E51FB1000A2C0F5 /* Utils.m */; };
+		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
+		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
+		74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904581E58174A005D391D /* ProductPopOverViewController.m */; };
+		74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9045B1E5822AD005D391D /* ProductDetailViewController.m */; };
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.h.m */; };
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
@@ -145,6 +149,14 @@
 		7466EB161E51FB1000A2C0F5 /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
 		7466EB171E51FB1000A2C0F5 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		7466EB181E51FB1000A2C0F5 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		74E904431E57F54D005D391D /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
+		74E904441E57F54D005D391D /* ProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCell.m; sourceTree = "<group>"; };
+		74E904541E57F781005D391D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		74E904551E57F781005D391D /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		74E904571E58174A005D391D /* ProductPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPopOverViewController.h; sourceTree = "<group>"; };
+		74E904581E58174A005D391D /* ProductPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPopOverViewController.m; sourceTree = "<group>"; };
+		74E9045A1E5822AD005D391D /* ProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailViewController.h; sourceTree = "<group>"; };
+		74E9045B1E5822AD005D391D /* ProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailViewController.m; sourceTree = "<group>"; };
 		BCB461481E545EB90090CBC3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
 		BCB461491E545EB90090CBC3 /* ProductViewController.h.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.h.m; sourceTree = "<group>"; };
 		BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
@@ -349,6 +361,7 @@
 		7466EB041E51F89D00A2C0F5 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				74E904531E57F781005D391D /* Models */,
 				3D41D76D1E55903800123A71 /* Libs */,
 				7466EB051E51F89D00A2C0F5 /* Controllers */,
 				7466EB091E51F89D00A2C0F5 /* Utils */,
@@ -361,14 +374,10 @@
 			children = (
 				3D41D76A1E558C9100123A71 /* LoginViewController.h */,
 				3D41D76B1E558C9100123A71 /* LoginViewController.m */,
-				7466EB0A1E51F8C900A2C0F5 /* MenuViewController.h */,
-				7466EB0B1E51F8C900A2C0F5 /* MenuViewController.m */,
-				7466EB0C1E51F8C900A2C0F5 /* MenuCell.h */,
-				7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */,
+				74E9044A1E57F701005D391D /* Menu */,
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
 				7466EB111E51F9A800A2C0F5 /* OrderViewController.m */,
-				BCB461481E545EB90090CBC3 /* ProductViewController.h */,
-				BCB461491E545EB90090CBC3 /* ProductViewController.h.m */,
+				74E904421E57F513005D391D /* Product */,
 				BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */,
 				BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */,
 				3D41D7641E5583C400123A71 /* ShopViewController.h */,
@@ -389,6 +398,41 @@
 				7466EB181E51FB1000A2C0F5 /* Utils.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		74E904421E57F513005D391D /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				BCB461481E545EB90090CBC3 /* ProductViewController.h */,
+				BCB461491E545EB90090CBC3 /* ProductViewController.h.m */,
+				74E904431E57F54D005D391D /* ProductCell.h */,
+				74E904441E57F54D005D391D /* ProductCell.m */,
+				74E904571E58174A005D391D /* ProductPopOverViewController.h */,
+				74E904581E58174A005D391D /* ProductPopOverViewController.m */,
+				74E9045A1E5822AD005D391D /* ProductDetailViewController.h */,
+				74E9045B1E5822AD005D391D /* ProductDetailViewController.m */,
+			);
+			name = Product;
+			sourceTree = "<group>";
+		};
+		74E9044A1E57F701005D391D /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				7466EB0A1E51F8C900A2C0F5 /* MenuViewController.h */,
+				7466EB0B1E51F8C900A2C0F5 /* MenuViewController.m */,
+				7466EB0C1E51F8C900A2C0F5 /* MenuCell.h */,
+				7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		74E904531E57F781005D391D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				74E904541E57F781005D391D /* Product.h */,
+				74E904551E57F781005D391D /* Product.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -485,21 +529,25 @@
 				3D41D7981E55903800123A71 /* IQUIWindow+Hierarchy.m in Sources */,
 				3D41D7CC1E56E33A00123A71 /* AFURLSessionManager.m in Sources */,
 				7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */,
+				74E904561E57F781005D391D /* Product.m in Sources */,
 				3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */,
 				3D41D79F1E55903800123A71 /* IQToolbar.m in Sources */,
 				7466EAED1E51E95E00A2C0F5 /* main.m in Sources */,
 				3D41D79E1E55903800123A71 /* IQTitleBarButtonItem.m in Sources */,
+				74E904451E57F54D005D391D /* ProductCell.m in Sources */,
 				3D41D79D1E55903800123A71 /* IQPreviousNextView.m in Sources */,
 				3D41D7941E55903800123A71 /* IQUIScrollView+Additions.m in Sources */,
 				3D41D7971E55903800123A71 /* IQUIViewController+Additions.m in Sources */,
 				3D41D7CA1E56E33A00123A71 /* AFURLRequestSerialization.m in Sources */,
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,
+				74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
 				BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */,
 				3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */,
 				3D41D76C1E558C9100123A71 /* LoginViewController.m in Sources */,
+				74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */,
 				7466EB121E51F9A800A2C0F5 /* OrderViewController.m in Sources */,
 				3D41D79A1E55903800123A71 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				3D41D7C71E56E33A00123A71 /* AFHTTPSessionManager.m in Sources */,
@@ -620,6 +668,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.Market-Manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -637,6 +686,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.Market-Manager";
 				PRODUCT_NAME = "$(TARGET_NAME)";
