@@ -49,15 +49,11 @@
 		7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */; };
 		7466EB121E51F9A800A2C0F5 /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB111E51F9A800A2C0F5 /* OrderViewController.m */; };
 		7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB181E51FB1000A2C0F5 /* Utils.m */; };
-<<<<<<< HEAD
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
 		74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904581E58174A005D391D /* ProductPopOverViewController.m */; };
 		74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9045B1E5822AD005D391D /* ProductDetailViewController.m */; };
-		BCB4614A1E545EB90090CBC3 /* ProductViewController.h.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.h.m */; };
-=======
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
->>>>>>> 83d6128e84bb19563a5fe90ebbe7c30919e63bf6
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -381,12 +377,9 @@
 				74E9044A1E57F701005D391D /* Menu */,
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
 				7466EB111E51F9A800A2C0F5 /* OrderViewController.m */,
-<<<<<<< HEAD
 				74E904421E57F513005D391D /* Product */,
-=======
 				BCB461481E545EB90090CBC3 /* ProductViewController.h */,
 				BCB461491E545EB90090CBC3 /* ProductViewController.m */,
->>>>>>> 83d6128e84bb19563a5fe90ebbe7c30919e63bf6
 				BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */,
 				BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */,
 				3D41D7641E5583C400123A71 /* ShopViewController.h */,
