@@ -1,23 +1,22 @@
 //
-//  SupplyTableViewCell.m
+//  UserTableViewCell.m
 //  Market Manager
 //
-//  Created by Quang on 2/18/17.
+//  Created by Quang on 2/19/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "SupplyTableViewCell.h"
-#import "SupplyPopOverViewController.h"
+#import "UserTableViewCell.h"
+#import "UserPopOverViewController.h"
 
-@interface SupplyTableViewCell()
-@property (weak, nonatomic) IBOutlet UIImageView *supplyImage;
-@property (weak, nonatomic) IBOutlet UILabel *supplyName;
+@interface UserTableViewCell()
+@property (weak, nonatomic) IBOutlet UIImageView *userImage;
+@property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UIButton *extendButton;
-@property (weak, nonatomic) Supply *supply;
-
+@property (weak, nonatomic) User *user;
 @end
 
-@implementation SupplyTableViewCell
+@implementation UserTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -26,14 +25,14 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
-- (void)initWith:(Supply *)supply {
-    if(!_supply) {
-        _supply = supply;
-        _supplyName.text = _supply.name;
+- (void)initWith:(User *)user {
+    if(!_user) {
+        _user = user;
+        _userName.text = _user.name;
     }
 }
 
@@ -44,7 +43,7 @@
     }
     id controller = ((UITableView *)view).dataSource;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    SupplyPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyPopover];
+    UserPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardUserPopover];
     vc.selectedIndexPath = [((UITableView *)view) indexPathForCell:self];
     vc.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController * popOverController = vc.popoverPresentationController;

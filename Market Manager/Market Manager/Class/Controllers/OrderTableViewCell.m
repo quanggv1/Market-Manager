@@ -1,23 +1,22 @@
 //
-//  SupplyTableViewCell.m
+//  OrderTableViewCell.m
 //  Market Manager
 //
-//  Created by Quang on 2/18/17.
+//  Created by Quang on 2/19/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "SupplyTableViewCell.h"
-#import "SupplyPopOverViewController.h"
+#import "OrderTableViewCell.h"
+#import "OrderPopOverViewController.h"
 
-@interface SupplyTableViewCell()
-@property (weak, nonatomic) IBOutlet UIImageView *supplyImage;
-@property (weak, nonatomic) IBOutlet UILabel *supplyName;
+@interface OrderTableViewCell()
+@property (weak, nonatomic) IBOutlet UIImageView *orderImage;
+@property (weak, nonatomic) IBOutlet UILabel *orderName;
 @property (weak, nonatomic) IBOutlet UIButton *extendButton;
-@property (weak, nonatomic) Supply *supply;
-
+@property (weak, nonatomic) Order *order;
 @end
 
-@implementation SupplyTableViewCell
+@implementation OrderTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -26,14 +25,12 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
-- (void)initWith:(Supply *)supply {
-    if(!_supply) {
-        _supply = supply;
-        _supplyName.text = _supply.name;
+- (void)initWith:(Order *)order {
+    if(!_order) {
+        _order = order;
+        _orderName.text = _order.name;
     }
 }
 
@@ -44,7 +41,7 @@
     }
     id controller = ((UITableView *)view).dataSource;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    SupplyPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyPopover];
+    OrderPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardOrderPopover];
     vc.selectedIndexPath = [((UITableView *)view) indexPathForCell:self];
     vc.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController * popOverController = vc.popoverPresentationController;

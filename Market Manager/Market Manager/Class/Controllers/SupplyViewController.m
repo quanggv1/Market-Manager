@@ -7,8 +7,13 @@
 //
 
 #import "SupplyViewController.h"
+#import "Supply.h"
+#import "SupplyTableViewCell.h"
+#import "SupplyDetailViewController.h"
 
-@interface SupplyViewController ()
+@interface SupplyViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *supplyTableView;
+@property (strong, nonatomic) NSMutableArray *supplies;
 
 @end
 
@@ -16,7 +21,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _supplyTableView.delegate = self;
+    _supplyTableView.dataSource = self;
+    [self download];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteItem:) name:NotifySupplyDeletesItem object:nil];
+}
+
+- (void)deleteItem:(NSNotification *)notificaion {
+    NSIndexPath *indexPath = [notificaion object];
+    [_supplies removeObjectAtIndex:indexPath.row];
+    [_supplyTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,5 +41,61 @@
 - (IBAction)onMenuClicked:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
 }
+
+
+- (void)download {
+    Supply *supply1 = [[Supply alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"supply1",@"name", nil]];
+    Supply *supply2 = [[Supply alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"supply2",@"name", nil]];
+    Supply *supply3 = [[Supply alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"supply3",@"name", nil]];
+    Supply *supply4 = [[Supply alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"supply4",@"name", nil]];
+    Supply *supply5 = [[Supply alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"supply5",@"name", nil]];
+    
+    _supplies = [[NSMutableArray alloc] initWithArray:@[supply1, supply2, supply3, supply4, supply5]];
+    [_supplyTableView reloadData];
+    
+    
+    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    //
+    //    [manager GET:@"http://sotayit.com/service/mobile/systemsetting" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    //        NSLog(@"%@", responseObject);
+    //    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    //        //
+    //    }];
+    
+    
+}
+
+#pragma mark - TABLE DATASOURCE
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _supplies.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SupplyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellSupply];
+    [cell initWith: [_supplies objectAtIndex:indexPath.row]];
+    return cell;
+}
+
+#pragma mark - TABLE DELEGATE
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self performSegueWithIdentifier:SegueSupplyDetail sender:self];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+}
+
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:SegueSupplyDetail]) {
+        SupplyDetailViewController *vc = segue.destinationViewController;
+        vc.supply = _supplies[_supplyTableView.indexPathForSelectedRow.row];
+    }
+}
+
+
 
 @end

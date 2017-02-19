@@ -6,8 +6,8 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Supply.h"
 
 @interface SupplyTableViewCell : UITableViewCell
-
+- (void)initWith:(Supply *)supply;
 @end

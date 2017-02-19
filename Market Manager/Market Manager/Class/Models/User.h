@@ -1,14 +1,14 @@
 //
-//  Supply.h
+//  User.h
 //  Market Manager
 //
-//  Created by Quang on 2/18/17.
+//  Created by Quang on 2/19/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Supply : NSObject
+@interface User : NSObject
 @property (nonatomic, strong) NSString *name;
 - (instancetype)initWith:(NSDictionary *)data;
 @end
