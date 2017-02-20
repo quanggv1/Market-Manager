@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 18, 2017 at 03:38 AM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.5.38
+-- Generation Time: Feb 20, 2017 at 11:06 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,49 +19,47 @@ SET time_zone = "+00:00";
 --
 -- Database: `MarketManager`
 --
-CREATE DATABASE IF NOT EXISTS MarketManager ;
-USE MarketManager;
+CREATE DATABASE IF NOT EXISTS `MarketManager` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `MarketManager`;
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employees`
+-- Table structure for table `product`
 --
 
-CREATE TABLE `employees` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `location` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `product` (
+  `productID` int(11) NOT NULL,
+  `productName` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `employees`
+-- Table structure for table `shop`
 --
 
-INSERT INTO `employees` (`id`, `name`, `location`) VALUES
-(1, 'Jasmine', 'Australia'),
-(2, 'Jay', 'India'),
-(3, 'Jim', 'Germany'),
-(4, 'Lesley', 'Scotland');
+CREATE TABLE `shop` (
+  `shopID` int(10) NOT NULL,
+  `shopName` varchar(100) NOT NULL,
+  `productID` int(10) NOT NULL,
+  `productName` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Bảng shop';
+
+-- --------------------------------------------------------
 
 --
--- Indexes for dumped tables
+-- Table structure for table `warehouse`
 --
 
---
--- Indexes for table `employees`
---
-ALTER TABLE `employees`
-  ADD PRIMARY KEY (`id`);
+CREATE TABLE `warehouse` (
+  `whID` int(10) NOT NULL,
+  `whName` varchar(100) NOT NULL,
+  `productID` int(10) NOT NULL,
+  `productName` varchar(100) NOT NULL,
+  `inputDate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table kho hàng';
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `employees`
---
-ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
