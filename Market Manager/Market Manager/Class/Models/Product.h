@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Product : NSObject
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *name, *date;
 - (instancetype)initWith:(NSDictionary *)data;
 @end
 

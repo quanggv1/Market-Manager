@@ -18,6 +18,7 @@ static NSString *const StoryboardShopPopover = @"shopPopOverId";
 static NSString *const StoryboardSupplyPopover = @"supplyPopOverViewControllerId";
 static NSString *const StoryboardOrderPopover = @"orderPopOverViewControllerId";
 static NSString *const StoryboardUserPopover = @"userPopOverViewControllerId";
+static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";

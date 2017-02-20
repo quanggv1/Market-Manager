@@ -6,6 +6,7 @@
 //  Copyright © 2016 Quang. All rights reserved.
 //
 
+#import "Product.h"
 
 @interface LoginViewController : UIViewController
 
