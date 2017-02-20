@@ -15,12 +15,14 @@ con.connect(function(err){
     console.log('Error connecting to Db' + err);
     return;
   }
-  console.log('Connection success');
+  console.log('Connect DB success');
 });
+app.listen(5000);
 
 /*============SQL Query==============*/
-app.get('/getProduct', function(req, res) {
-  con.query('SELECT * FROM product',function(err,rows){
+app.get('/getData', function(req, res) {
+  var table = req.query.tableName;
+  con.query('SELECT * FROM ' + table, function(err,rows){
     if(!!err) {
       console.log(err);
     } else {
@@ -31,29 +33,24 @@ app.get('/getProduct', function(req, res) {
   });
 });
 
-app.get('/getWareshouse', function(req, res) {
-  con.query('SELECT * FROM wareshouse',function(err,rows){
-    if(!!err) {
+/*insert*/
+app.get('/insertData', function(req) {
+  var table = req.query.tableName;
+  var product = { productName: 'Winnie'};
+  con.query('INSERT INTO' + tableName +' SET ?', product, function(err,res){
+    if(err) {
       console.log(err);
     } else {
-        console.log('Data received from Db:\n');
-        res.send(rows)
+      console.log('Last insert ID:', res.insertId);
     }
-
   });
 });
-
-app.get('/getShop', function(req, res) {
-  con.query('SELECT * FROM shop',function(err,rows){
-    if(!!err) {
-      console.log(err);
-    } else {
-        console.log('Data received from Db:\n');
-        res.send(rows)
-    }
-
-  });
+/*update */
+app.get('/updateData', function(req) {
+  var table = req.query.tableName;
+  var product = { productName: 'Winnie'};
 });
 
 
-app.listen(5000);
+
+
