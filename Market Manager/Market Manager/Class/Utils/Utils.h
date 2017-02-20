@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ActivityView.h"
 
 @interface Utils : NSObject
 + (void)hideKeyboard;
++ (void)showActivity;
++ (void)hideActivity;
 @end

@@ -10,7 +10,14 @@
 #define config_h
 
 
+typedef NS_ENUM(NSInteger, kActivityViewStyle){
+    kActivityViewStyleDefault = 0,
+    kActivityViewStyleMessage,
+    kActivityViewStyleProgress,
+};
 
+static CGFloat kActivityViewBaseWidth = 200;
+static CGFloat kActivityViewBaseHeight = 100;
 
 
 #endif /* config_h */

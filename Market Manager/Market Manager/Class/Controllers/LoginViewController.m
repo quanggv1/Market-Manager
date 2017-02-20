@@ -37,6 +37,7 @@
 }
 
 - (void)pushToMain {
+    [Utils showActivity];
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"menuViewController"];
     [self presentViewController:vc animated:YES completion:nil];
 }
