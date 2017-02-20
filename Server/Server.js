@@ -18,9 +18,33 @@ con.connect(function(err){
   console.log('Connection success');
 });
 
+/*============SQL Query==============*/
+app.get('/getProduct', function(req, res) {
+  con.query('SELECT * FROM product',function(err,rows){
+    if(!!err) {
+      console.log(err);
+    } else {
+        console.log('Data received from Db:\n');
+        res.send(rows)
+    }
 
-app.get('/getEmployees', function(req, res) {
-  con.query('SELECT * FROM employees',function(err,rows){
+  });
+});
+
+app.get('/getWareshouse', function(req, res) {
+  con.query('SELECT * FROM wareshouse',function(err,rows){
+    if(!!err) {
+      console.log(err);
+    } else {
+        console.log('Data received from Db:\n');
+        res.send(rows)
+    }
+
+  });
+});
+
+app.get('/getShop', function(req, res) {
+  con.query('SELECT * FROM shop',function(err,rows){
     if(!!err) {
       console.log(err);
     } else {
