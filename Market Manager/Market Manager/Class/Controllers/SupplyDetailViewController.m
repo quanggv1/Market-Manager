@@ -91,7 +91,17 @@
     [_productTableView reloadData];
 }
 
+- (IBAction)onRefreshClicked:(id)sender {
+    _productSearchTextField.text = @"";
+    productTableDataSource = _products;
+    [_productTableView reloadData];
+}
+
 #pragma mark - TABLE DATASOURCE
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return productTableDataSource.count;
 }

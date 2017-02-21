@@ -50,13 +50,13 @@
 }
 
 - (void)onShowHideMenu:(NSNotification*)notification {
-    _menuView.hidden = NO;
     _isMenuShow = !_isMenuShow;
     if(_isMenuShow) {
         [UIView animateWithDuration:0.5f animations:^{
             CGRect frame = _menuView.frame;
             frame.origin.x = 0;
             [_menuView setFrame:frame];
+            _menuView.hidden = NO;
         }];
     }
     else {
@@ -64,11 +64,17 @@
             CGRect frame = _menuView.frame;
             frame.origin.x -= frame.size.width;
             [_menuView setFrame:frame];
+        } completion:^(BOOL finished) {
+            _menuView.hidden = YES;
         }];
     }
 }
 
 #pragma mark - table
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _menuData.count;
 }

@@ -21,8 +21,9 @@
     [super viewDidLoad];
     [Utils hideKeyboard];
     NSDate *dateSetting = [[Utils dateFormatter] dateFromString:_date];
-    dateSetting = (dateSetting) ? dateSetting : [NSDate date];
-    [_datePicker setDate: dateSetting];
+    if(dateSetting) {
+        [_datePicker setDate: dateSetting];
+    }
 }
 
 - (IBAction)onPickerSelected:(UIDatePicker *)sender {
