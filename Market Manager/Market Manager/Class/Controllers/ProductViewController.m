@@ -58,7 +58,6 @@
         productTableDataSource = _products;
     }
     [_productTableView reloadData];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,25 +74,31 @@
     [self searchByName:[_productSearchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 }
 
+- (IBAction)onRefreshClicked:(id)sender {
+    [Utils hideKeyboard];
+    _productSearchTextField.text = @"";
+    [self searchByName:@""];
+}
+
 - (void)download {
-//    Product *product1 = [[Product alloc] initWith:@{@"name":@"product1", @"date":@"2017/02/1"}];
-//    Product *product2 = [[Product alloc] initWith:@{@"name":@"product2", @"date":@"2017/02/2"}];
-//    Product *product3 = [[Product alloc] initWith:@{@"name":@"product3", @"date":@"2017/02/2"}];
-//    Product *product4 = [[Product alloc] initWith:@{@"name":@"product4", @"date":@"2017/02/3"}];
-//    Product *product5 = [[Product alloc] initWith:@{@"name":@"product5", @"date":@"2017/02/1"}];
-//    
-//    _products = [[NSMutableArray alloc] initWithArray:@[product1, product2, product3, product4, product5]];
-//    productTableDataSource = _products;
-//    [_productTableView reloadData];
+    Product *product1 = [[Product alloc] initWith:@{@"name":@"product1", @"date":@"2017/02/1"}];
+    Product *product2 = [[Product alloc] initWith:@{@"name":@"product2", @"date":@"2017/02/2"}];
+    Product *product3 = [[Product alloc] initWith:@{@"name":@"product3", @"date":@"2017/02/2"}];
+    Product *product4 = [[Product alloc] initWith:@{@"name":@"product4", @"date":@"2017/02/3"}];
+    Product *product5 = [[Product alloc] initWith:@{@"name":@"product5", @"date":@"2017/02/1"}];
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-   // manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"product",@"tableName", nil];
-    [manager GET:@"http://localhost:5000/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"%@", responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //
-    }];
+    _products = [[NSMutableArray alloc] initWithArray:@[product1, product2, product3, product4, product5]];
+    productTableDataSource = _products;
+    [_productTableView reloadData];
+    
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//   // manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"product",@"tableName", nil];
+//    [manager GET:@"http://localhost:5000/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@", responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        //
+//    }];
 }
 
 #pragma mark - TABLE DATASOURCE
@@ -105,6 +110,10 @@
     ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProduct];
     [cell initWith: [productTableDataSource objectAtIndex:indexPath.row]];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
 }
 
 #pragma mark - TABLE DELEGATE
@@ -128,7 +137,5 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self searchByName:[_productSearchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 }
-
-
 
 @end
