@@ -36,8 +36,9 @@ app.get('/getData', function(req, res) {
 /*insert*/
 app.get('/insertData', function(req) {
   var table = req.query.tableName;
-  var product = { productName: 'Winnie'};
-  con.query('INSERT INTO' + tableName +' SET ?', product, function(err,res){
+  console.log(table)
+  var product = { productName: 'break'};
+  con.query('INSERT INTO ' + table +' SET ?', product, function(err,res){
     if(err) {
       console.log(err);
     } else {

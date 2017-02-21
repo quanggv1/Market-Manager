@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 20, 2017 at 11:06 AM
+-- Generation Time: Feb 21, 2017 at 10:12 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -25,13 +25,63 @@ USE `MarketManager`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `crateManager`
+--
+
+CREATE TABLE `crateManager` (
+  `crate_deli_ID` int(10) NOT NULL,
+  `date` date NOT NULL,
+  `quantity_left_yesterday` int(11) NOT NULL,
+  `in` int(11) NOT NULL,
+  `out` int(11) NOT NULL,
+  `balance` int(11) NOT NULL,
+  `description` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `crate_sellers`
+--
+
+CREATE TABLE `crate_sellers` (
+  `crate_deli_ID` int(10) NOT NULL,
+  `companyName` varchar(200) NOT NULL,
+  `description` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `order_ID` int(10) NOT NULL,
+  `shop_ID` int(10) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
 CREATE TABLE `product` (
   `productID` int(11) NOT NULL,
-  `productName` varchar(200) NOT NULL
+  `productName` varchar(200) NOT NULL,
+  `price` float NOT NULL,
+  `description` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUES
+(0, 'break', 0, ''),
+(0, 'break', 0, '');
 
 -- --------------------------------------------------------
 
@@ -43,7 +93,7 @@ CREATE TABLE `shop` (
   `shopID` int(10) NOT NULL,
   `shopName` varchar(100) NOT NULL,
   `productID` int(10) NOT NULL,
-  `productName` int(11) NOT NULL
+  `description` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Bảng shop';
 
 -- --------------------------------------------------------
@@ -56,8 +106,8 @@ CREATE TABLE `warehouse` (
   `whID` int(10) NOT NULL,
   `whName` varchar(100) NOT NULL,
   `productID` int(10) NOT NULL,
-  `productName` varchar(100) NOT NULL,
-  `inputDate` date NOT NULL
+  `inputDate` date NOT NULL,
+  `description` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table kho hàng';
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
