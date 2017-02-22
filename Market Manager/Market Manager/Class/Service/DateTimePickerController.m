@@ -23,17 +23,23 @@
     NSDate *dateSetting = [[Utils dateFormatter] dateFromString:_date];
     if(dateSetting) {
         [_datePicker setDate: dateSetting];
+    } else {
+        
     }
 }
 
 - (IBAction)onPickerSelected:(UIDatePicker *)sender {
-    if (self.target == nil || self.selector == nil) return;
-    if ([self.target respondsToSelector:self.selector]) {
-        [self.target performSelector:self.selector withObject:sender.date afterDelay:0.0];
-    }
+//    if (self.target == nil || self.selector == nil) return;
+//    if ([self.target respondsToSelector:self.selector]) {
+//        [self.target performSelector:self.selector withObject:sender.date afterDelay:0.0];
+//    }
 }
 
 - (IBAction)onOutsidePickerClicked:(id)sender {
+    if (self.target == nil || self.selector == nil) return;
+    if ([self.target respondsToSelector:self.selector]) {
+        [self.target performSelector:self.selector withObject:_datePicker.date afterDelay:0.0];
+    }
     [Utils hideDatePicker];
 }
 

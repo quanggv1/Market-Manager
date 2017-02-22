@@ -13,6 +13,7 @@
     self = [super init];
     if(self) {
         self.name = [data objectForKey:@"name"];
+        self.date = [data objectForKey:@"date"];
     }
     return self;
 }

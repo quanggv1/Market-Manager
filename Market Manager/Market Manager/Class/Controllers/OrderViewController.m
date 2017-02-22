@@ -14,9 +14,12 @@
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderTableView;
 @property (strong, nonatomic) NSMutableArray *orders;
+@property (weak, nonatomic) IBOutlet UITextField *orderSearchTextField;
 @end
 
-@implementation OrderViewController
+@implementation OrderViewController{
+    NSArray *orderTableDataSource;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,13 +46,14 @@
 
 
 - (void)download {
-    Order *order1 = [[Order alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"order1",@"name", nil]];
-    Order *order2 = [[Order alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"order2",@"name", nil]];
-    Order *order3 = [[Order alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"order3",@"name", nil]];
-    Order *order4 = [[Order alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"order4",@"name", nil]];
-    Order *order5 = [[Order alloc] initWith:[NSDictionary dictionaryWithObjectsAndKeys:@"order5",@"name", nil]];
+    Order *order1 = [[Order alloc] initWith:@{@"name":@"order1", @"date":@"2017/02/21"}];
+    Order *order2 = [[Order alloc] initWith:@{@"name":@"order2", @"date":@"2017/02/20"}];
+    Order *order3 = [[Order alloc] initWith:@{@"name":@"order3", @"date":@"2017/02/19"}];
+    Order *order4 = [[Order alloc] initWith:@{@"name":@"order4", @"date":@"2017/02/18"}];
+    Order *order5 = [[Order alloc] initWith:@{@"name":@"order5", @"date":@"2017/02/17"}];
     
     _orders = [[NSMutableArray alloc] initWithArray:@[order1, order2, order3, order4, order5]];
+    orderTableDataSource = _orders;
     [_orderTableView reloadData];
     
     
@@ -63,14 +67,36 @@
     //    }];
 }
 
+- (IBAction)onCalendarClicked:(id)sender {
+    [Utils showDatePickerWith:_orderSearchTextField.text target:self selector:@selector(onDatePickerSelected:)];
+}
+
+- (void)onDatePickerSelected:(NSDate *)dateSelected {
+    NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
+    _orderSearchTextField.text = date;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
+    orderTableDataSource = [_orders filteredArrayUsingPredicate:predicate];
+    [_orderTableView reloadData];
+}
+
+- (IBAction)onRefreshClicked:(id)sender {
+    _orderSearchTextField.text = @"";
+    orderTableDataSource = _orders;
+    [_orderTableView reloadData];
+}
+
 #pragma mark - TABLE DATASOURCE
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _orders.count;
+    return orderTableDataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
-    [cell initWith: [_orders objectAtIndex:indexPath.row]];
+    [cell initWith: [orderTableDataSource objectAtIndex:indexPath.row]];
     return cell;
 }
 
@@ -89,7 +115,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueOrderDetail]) {
         OrderDetailViewController *vc = segue.destinationViewController;
-        vc.order = _orders[_orderTableView.indexPathForSelectedRow.row];
+        vc.order = orderTableDataSource[_orderTableView.indexPathForSelectedRow.row];
     }
 }
 

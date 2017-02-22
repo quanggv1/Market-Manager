@@ -29,10 +29,8 @@
 }
 
 - (void)initWith:(Product *)product {
-    if(!_product) {
-        _product = product;
-        _productName.text = _product.name;
-    }
+    _product = product;
+    _productName.text = _product.name;
 }
 
 - (IBAction)onExtendClicked:(id)sender {

@@ -12,6 +12,7 @@
 @interface OrderTableViewCell()
 @property (weak, nonatomic) IBOutlet UIImageView *orderImage;
 @property (weak, nonatomic) IBOutlet UILabel *orderName;
+@property (weak, nonatomic) IBOutlet UILabel *dateOrderLabel;
 @property (weak, nonatomic) IBOutlet UIButton *extendButton;
 @property (weak, nonatomic) Order *order;
 @end
@@ -28,10 +29,9 @@
 }
 
 - (void)initWith:(Order *)order {
-    if(!_order) {
-        _order = order;
-        _orderName.text = _order.name;
-    }
+    _order = order;
+    _orderName.text = _order.name;
+    _dateOrderLabel.text = _order.date;
 }
 
 - (IBAction)onExtendClicked:(id)sender {

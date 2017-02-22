@@ -36,7 +36,7 @@ static NSString *const CellUser = @"userCellId";
 #pragma mark - Notification
 static NSString *const NotifyShowHideMenu = @"showHideMenu";
 static NSString *const NotifyProductDeletesItem = @"NotifyProductDeletesItem";
-static NSString *const NotifyShopDeletesItem = @"NotifyProductDeletesItem";
+static NSString *const NotifyShopDeletesItem = @"NotifyShopDeletesItem";
 static NSString *const NotifySupplyDeletesItem = @"NotifySupplyDeletesItem";
 static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyUserDeletesItem = @"NotifyUserDeletesItem";
