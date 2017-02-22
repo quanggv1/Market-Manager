@@ -26,6 +26,9 @@ static NSString *const CellShop = @"shopCellId";
 static NSString *const CellSupply = @"supplyCellId";
 static NSString *const CellOrder = @"orderCellId";
 static NSString *const CellUser = @"userCellId";
+static NSString *const CellCrateOrder = @"crateOrderCell";
+static NSString *const CellProductOrder = @"productOrderCell";
+
 
 #pragma mark - Color
 #define appColor [UIColor colorWithRed:75.f/255.f green:192.f/255.f blue:223.f/255.f alpha:1]
