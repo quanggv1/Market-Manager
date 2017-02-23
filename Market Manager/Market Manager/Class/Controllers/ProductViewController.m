@@ -91,14 +91,36 @@
     productTableDataSource = _products;
     [_productTableView reloadData];
     
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//   // manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-//    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"product",@"tableName", nil];
-//    [manager GET:@"http://localhost:5000/getData" parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+   // manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+   // NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"product",@"tableName", nil];
+    
+//    [manager GET:@"http://localhost:5000/selectData" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 //        NSLog(@"%@", responseObject);
 //    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 //        //
 //    }];
+ 
+    
+//    [manager GET:@"http://localhost:5000/updateData" parameters:@{@"tableName":@"product", @"params": @{@"productID":@"1", @"description": @"test description"}} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@", responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        //
+//    }];
+    
+//    [manager GET:@"http://localhost:5000/insertData" parameters:@{@"tableName":@"product", @"params": @{@"productName":@"kakak",@"price":@"134004", @"description": @"test description"}} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@", responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        //
+//    }];
+    
+//    [manager GET:@"http://localhost:5000/deleteData" parameters:@{@"tableName":@"product", @"params": @{@"idName":@"productID",@"idValue":@"1",@"price":@"134004", @"description": @"test description"}} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@", responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        //
+//    }];
+//
+
 }
 
 #pragma mark - TABLE DATASOURCE
