@@ -34,4 +34,17 @@
     return productList;
 }
 
+- (void)delete:(Product *)product {
+    for (Product *item in productList) {
+        if(item.productId == product.productId) {
+            [productList removeObject:item];
+            break;
+        }
+    }
+}
+
+- (void)insert:(Product *)product {
+    [productList insertObject:product atIndex:0];
+}
+
 @end

@@ -1,0 +1,35 @@
+//
+//  BaseViewController.m
+//  Market Manager
+//
+//  Created by Quang on 2/24/17.
+//  Copyright © 2017 Market Manager. All rights reserved.
+//
+
+#import "BaseViewController.h"
+#import "ActivityView.h"
+
+@interface BaseViewController ()
+
+@end
+
+@implementation BaseViewController{
+    ActivityView *activityView_;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    activityView_ = [[ActivityView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:activityView_];
+}
+
+- (void)showActivity {
+    [activityView_ show];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.0f]];
+}
+
+- (void)hideActivity {
+    [activityView_ hide];
+}
+
+@end

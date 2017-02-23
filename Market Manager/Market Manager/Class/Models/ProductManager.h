@@ -12,4 +12,6 @@
 + (instancetype)sharedInstance;
 - (void)setValueWith:(NSArray *)data;
 - (NSArray *)getProductList;
+- (void)delete:(Product *)product;
+- (void)insert:(Product *)product;
 @end

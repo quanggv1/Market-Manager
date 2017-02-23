@@ -6,8 +6,8 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ProductViewController : UIViewController
+@interface ProductViewController : BaseViewController
 
 @end

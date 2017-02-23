@@ -5,7 +5,7 @@ module.exports = {
           getData: function (con, req, res){
                 var table = req.query.tableName;
                 con.query('SELECT * FROM ' + table, function(err,rows){
-                  if(!!err) {
+                  if(err) {
                     console.log(err);
                   } else {
                       console.log('Data received from Db:\n');
@@ -14,14 +14,16 @@ module.exports = {
                 });
           },
           /*insert to table*/
-          insertData: function (con, req, res){
+          insertData: function (con, req, response){
               var table = req.query.tableName;
               var query = req.query.params;
               con.query('INSERT INTO ' + table +' SET ?', query, function(err,res){
                 if(err) {
                   console.log(err);
+                  response.send(err);
                 } else {
                   console.log('Last insert ID:', res.insertId);
+                  response.send(res);
                 }
               });
           },
@@ -45,7 +47,7 @@ module.exports = {
                 );
           },
           /*delete row*/
-          deleteData: function(con, req, res){
+          deleteData: function(con, req, response){
               var table = req.query.tableName;
               var params = req.query;
               var idName = req.query.params.idName;
@@ -54,8 +56,10 @@ module.exports = {
                      function (err, result) {
                         if (err){
                           console.log(err);
+                          response.send(err);
                         } else {
                           console.log('Deleted ' + result.affectedRows + ' rows');
+                          response.send(result);
                         }
                });
           },
