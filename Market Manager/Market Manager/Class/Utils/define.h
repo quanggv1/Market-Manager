@@ -19,6 +19,7 @@ static NSString *const StoryboardSupplyPopover = @"supplyPopOverViewControllerId
 static NSString *const StoryboardOrderPopover = @"orderPopOverViewControllerId";
 static NSString *const StoryboardUserPopover = @"userPopOverViewControllerId";
 static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
+static NSString *const StoryboardOrderDropdownList = @"orderDropDownListViewId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -28,6 +29,7 @@ static NSString *const CellOrder = @"orderCellId";
 static NSString *const CellUser = @"userCellId";
 static NSString *const CellCrateOrder = @"crateOrderCell";
 static NSString *const CellProductOrder = @"productOrderCell";
+static NSString *const CellOrderDropDown = @"orderDropdownCell";
 
 
 #pragma mark - Color

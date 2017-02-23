@@ -42,6 +42,12 @@
 		3D41D7D31E56E33A00123A71 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C21E56E33A00123A71 /* UIProgressView+AFNetworking.m */; };
 		3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */; };
 		3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */; };
+		3DFD45AE1E5ED24700069D7D /* OrderDropDownListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */; };
+		3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */; };
+		3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B61E5EE4AC00069D7D /* ProductManager.m */; };
+		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
+		3DFD45BD1E5EE69C00069D7D /* SupplyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BC1E5EE69C00069D7D /* SupplyManager.m */; };
+		3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */; };
 		7466EAED1E51E95E00A2C0F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EAEC1E51E95E00A2C0F5 /* main.m */; };
 		7466EAF01E51E95E00A2C0F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EAEF1E51E95E00A2C0F5 /* AppDelegate.m */; };
 		7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7466EAF71E51E95E00A2C0F5 /* Assets.xcassets */; };
@@ -151,6 +157,18 @@
 		3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		3D41D7C51E56E33A00123A71 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		3DFD45AC1E5ED24700069D7D /* OrderDropDownListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDropDownListViewController.h; sourceTree = "<group>"; };
+		3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDropDownListViewController.m; sourceTree = "<group>"; };
+		3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductTableViewCell.h; sourceTree = "<group>"; };
+		3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductTableViewCell.m; sourceTree = "<group>"; };
+		3DFD45B51E5EE4AC00069D7D /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
+		3DFD45B61E5EE4AC00069D7D /* ProductManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductManager.m; sourceTree = "<group>"; };
+		3DFD45B81E5EE62F00069D7D /* ShopManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopManager.h; sourceTree = "<group>"; };
+		3DFD45B91E5EE62F00069D7D /* ShopManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopManager.m; sourceTree = "<group>"; };
+		3DFD45BB1E5EE69C00069D7D /* SupplyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyManager.h; sourceTree = "<group>"; };
+		3DFD45BC1E5EE69C00069D7D /* SupplyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyManager.m; sourceTree = "<group>"; };
+		3DFD45BE1E5EE8CD00069D7D /* OrderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManager.h; sourceTree = "<group>"; };
+		3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManager.m; sourceTree = "<group>"; };
 		7466EAE81E51E95E00A2C0F5 /* Market Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Market Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7466EAEC1E51E95E00A2C0F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7466EAEE1E51E95E00A2C0F5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -493,12 +511,20 @@
 			children = (
 				74E904541E57F781005D391D /* Product.h */,
 				74E904551E57F781005D391D /* Product.m */,
+				3DFD45B51E5EE4AC00069D7D /* ProductManager.h */,
+				3DFD45B61E5EE4AC00069D7D /* ProductManager.m */,
 				74E904611E585834005D391D /* Shop.h */,
 				74E904621E585834005D391D /* Shop.m */,
+				3DFD45B81E5EE62F00069D7D /* ShopManager.h */,
+				3DFD45B91E5EE62F00069D7D /* ShopManager.m */,
 				74E9046E1E586189005D391D /* Supply.h */,
 				74E9046F1E586189005D391D /* Supply.m */,
+				3DFD45BB1E5EE69C00069D7D /* SupplyManager.h */,
+				3DFD45BC1E5EE69C00069D7D /* SupplyManager.m */,
 				74ED22281E59FC660079D3F0 /* Order.h */,
 				74ED22291E59FC660079D3F0 /* Order.m */,
+				3DFD45BE1E5EE8CD00069D7D /* OrderManager.h */,
+				3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */,
 				74ED22351E5A05350079D3F0 /* User.h */,
 				74ED22361E5A05350079D3F0 /* User.m */,
 			);
@@ -546,6 +572,10 @@
 				74ED22301E59FF560079D3F0 /* OrderPopOverViewController.m */,
 				74ED22321E59FF6E0079D3F0 /* OrderDetailViewController.h */,
 				74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */,
+				3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */,
+				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
+				3DFD45AC1E5ED24700069D7D /* OrderDropDownListViewController.h */,
+				3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -644,6 +674,7 @@
 				3D41D7D11E56E33A00123A71 /* UIButton+AFNetworking.m in Sources */,
 				3D41D7931E55903800123A71 /* IQNSArray+Sort.m in Sources */,
 				7466EAF01E51E95E00A2C0F5 /* AppDelegate.m in Sources */,
+				3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */,
 				3D41D7CB1E56E33A00123A71 /* AFURLResponseSerialization.m in Sources */,
 				3D41D7691E5583D700123A71 /* UserViewController.m in Sources */,
 				3D41D7D01E56E33A00123A71 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -660,6 +691,7 @@
 				74E904691E585DE0005D391D /* ShopDetailViewController.m in Sources */,
 				74ED22241E59F68B0079D3F0 /* SupplyPopOverViewController.m in Sources */,
 				74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */,
+				3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */,
 				7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */,
 				3D41D79C1E55903800123A71 /* IQBarButtonItem.m in Sources */,
 				74ED222E1E59FF1E0079D3F0 /* OrderTableViewCell.m in Sources */,
@@ -667,6 +699,7 @@
 				74ED222A1E59FC660079D3F0 /* Order.m in Sources */,
 				74E904601E585785005D391D /* ShopTableViewCell.m in Sources */,
 				74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */,
+				3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */,
 				3D41D7CC1E56E33A00123A71 /* AFURLSessionManager.m in Sources */,
 				7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */,
 				74E904561E57F781005D391D /* Product.m in Sources */,
@@ -681,7 +714,9 @@
 				3D41D7971E55903800123A71 /* IQUIViewController+Additions.m in Sources */,
 				3D41D7CA1E56E33A00123A71 /* AFURLRequestSerialization.m in Sources */,
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,
+				3DFD45AE1E5ED24700069D7D /* OrderDropDownListViewController.m in Sources */,
 				74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */,
+				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
 				74ED22411E5A05C30079D3F0 /* UserPopOverViewController.m in Sources */,
 				74ED22311E59FF560079D3F0 /* OrderPopOverViewController.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -691,6 +726,7 @@
 				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,
 				3D0C18921E5A82C2008CA470 /* ActivityView.m in Sources */,
 				3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */,
+				3DFD45BD1E5EE69C00069D7D /* SupplyManager.m in Sources */,
 				74E904701E586189005D391D /* Supply.m in Sources */,
 				74E904631E585834005D391D /* Shop.m in Sources */,
 				3D41D76C1E558C9100123A71 /* LoginViewController.m in Sources */,

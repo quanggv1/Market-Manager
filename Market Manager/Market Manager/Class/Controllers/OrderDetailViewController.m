@@ -8,7 +8,7 @@
 
 #import "OrderDetailViewController.h"
 
-@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *orderNameLbl;
 @property (weak, nonatomic) IBOutlet UIImageView *orderImageView;
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
@@ -51,6 +51,7 @@
     return YES;
 }
 
+#pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [_productOrderList removeObjectAtIndex:indexPath.row];
@@ -58,6 +59,15 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+#pragma mark - POPOVER DELEGATE
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
 }
 
 

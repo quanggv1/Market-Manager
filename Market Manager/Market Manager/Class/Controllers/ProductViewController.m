@@ -10,6 +10,7 @@
 #import "Product.h"
 #import "ProductCell.h"
 #import "ProductDetailViewController.h"
+#import "ProductManager.h"
 
 @interface ProductViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
@@ -81,17 +82,19 @@
 }
 
 - (void)download {
-    Product *product1 = [[Product alloc] initWith:@{@"name":@"product1", @"date":@"2017/02/1"}];
-    Product *product2 = [[Product alloc] initWith:@{@"name":@"product2", @"date":@"2017/02/2"}];
-    Product *product3 = [[Product alloc] initWith:@{@"name":@"product3", @"date":@"2017/02/2"}];
-    Product *product4 = [[Product alloc] initWith:@{@"name":@"product4", @"date":@"2017/02/3"}];
-    Product *product5 = [[Product alloc] initWith:@{@"name":@"product5", @"date":@"2017/02/1"}];
+    [[ProductManager sharedInstance] setValueWith:@[@{@"name":@"product1", @"date":@"2017/02/1"},
+                                                   @{@"name":@"product1", @"date":@"2017/02/1"},
+                                                   @{@"name":@"product1", @"date":@"2017/02/1"},
+                                                   @{@"name":@"product1", @"date":@"2017/02/1"},
+                                                   @{@"name":@"product1", @"date":@"2017/02/1"},
+                                                   @{@"name":@"product1", @"date":@"2017/02/1"},
+                                                    @{@"name":@"product1", @"date":@"2017/02/1"}]];
     
-    _products = [[NSMutableArray alloc] initWithArray:@[product1, product2, product3, product4, product5]];
+    _products = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
     productTableDataSource = _products;
     [_productTableView reloadData];
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
    // manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
    // NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"product",@"tableName", nil];
     
