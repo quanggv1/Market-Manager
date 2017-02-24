@@ -23,24 +23,26 @@ module.exports = {
                   response.send(err);
                 } else {
                   console.log('Last insert ID:', res.insertId);
-                  response.send(res);
+                  response.send({status: 200, data: {insertId: res.insertId}});
                 }
               });
           },
           /*update product description*/
-          updateProduct: function (con, req, res){
+          updateData: function (con, req, res){
                 var table = req.query.tableName;
                 var params = req.query.params;
-                var idName = req.query.params.idName;
-                var idValue = req.query.params.idValue;
+                var idName = params.idName;
+                var idValue = params.idValue;
                 con.query(
-                  'UPDATE ' + table + ' SET description = ? Where ' + idName + ' = ?',
-                  [params.description, idValue],
+                  'UPDATE ' + table + ' SET description = ?, productName = ?, price = ? Where ' + idName + ' = ?',
+                  [params.description, params.productName, params.price, idValue],
                   function (err, result) {
                     if (err) {
                       console.log(err);
+                      res.send(err);
                     } else {
                       console.log('Changed ' + result.changedRows + ' rows');
+                      res.send(result);
                     }
 
                   }

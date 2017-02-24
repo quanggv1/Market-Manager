@@ -45,6 +45,8 @@ static NSString *const NotifyShopDeletesItem = @"NotifyShopDeletesItem";
 static NSString *const NotifySupplyDeletesItem = @"NotifySupplyDeletesItem";
 static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyUserDeletesItem = @"NotifyUserDeletesItem";
+static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
+static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 
 
 #pragma mark - Segue

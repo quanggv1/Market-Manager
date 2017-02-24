@@ -34,11 +34,44 @@
                                              selector:@selector(deleteItem:)
                                                  name:NotifyProductDeletesItem
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(addNewItem:)
+                                                 name:NotifyProductAddNewItem
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateItem:)
+                                                 name:NotifyProductUpdateItem
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)addNewItem:(NSNotification *)notification {
+    [self showActivity];
+    [self onRefreshClicked:nil];
+    NSDictionary *newProductDic = notification.object;
+    NSDictionary *params = @{@"tableName":@"product",
+                             @"params": @{@"productName":[newProductDic objectForKey:@"productName"],
+                                          @"price":[newProductDic objectForKey:@"price"],
+                                          @"description": [newProductDic objectForKey:@"description"]}};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:@"http://localhost:5000/insertData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if([[responseObject objectForKey:@"status"] intValue] == 200) {
+            NSDictionary *data = [responseObject objectForKey:@"data"];
+            Product *newProduct = [[Product alloc] initWith:@{@"productID":[NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]],
+                                                              @"productName":[newProductDic objectForKey:@"productName"],
+                                                              @"price":[newProductDic objectForKey:@"price"],
+                                                              @"description": [newProductDic objectForKey:@"description"]}];
+            [[ProductManager sharedInstance] insert:newProduct];
+            _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
+            [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            [self hideActivity];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+    }];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {
@@ -47,8 +80,8 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{@"tableName":@"product",
-                             @"params": @{@"idName":[NSString stringWithFormat:@"%ld", productDeleted.productId],
-                                          @"idValue":@"1"}};
+                             @"params": @{@"idName":@"productID",
+                                          @"idValue":[NSString stringWithFormat:@"%ld", productDeleted.productId]}};
     [manager GET:@"http://localhost:5000/deleteData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self hideActivity];
         [[ProductManager sharedInstance] delete:productDeleted];
@@ -58,6 +91,31 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
     }];
+    
+    
+
+}
+
+- (void)updateItem:(NSNotification *)notification {
+    [self showActivity];
+    [self onRefreshClicked:nil];
+    Product *newProduct = notification.object;
+    NSDictionary *params = @{@"tableName":@"product",
+                             @"params":@{@"idName":@"productID",
+                                         @"idValue":[NSString stringWithFormat:@"%ld", newProduct.productId],
+                                         @"price": [NSString stringWithFormat:@"%f", newProduct.price],
+                                         @"description": newProduct.productDesc,
+                                         @"productName": newProduct.name}};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:@"http://localhost:5000/updateData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [[ProductManager sharedInstance] update:newProduct];
+        _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
+        [_productTableView reloadData];
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+    }];
+    
 }
 
 - (void)searchByName:(NSString* )name {
@@ -91,20 +149,7 @@
 }
 
 - (IBAction)onAddNewProduct:(id)sender {
-    [self showActivity];
-//    Product *newProduct = [Product alloc] initWith:@{@"productName":@"kakak",
-//                                                     @"price":@"134004",
-//                                                     @"description": @"test description"}
-    NSDictionary *params = @{@"tableName":@"product",
-                             @"params": @{@"productName":@"kakak",
-                                          @"price":@"134004",
-                                          @"description": @"test description"}};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:@"http://localhost:5000/insertData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [self hideActivity];
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                [self hideActivity];
-            }];
+    [self performSegueWithIdentifier:SegueProductDetail sender:self];
 }
 
 - (void)download {
@@ -119,27 +164,6 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
     }];
-
-    
-//    [manager GET:@"http://localhost:5000/updateData" parameters:@{@"tableName":@"product", @"params": @{@"productID":@"1", @"description": @"test description"}} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSLog(@"%@", responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        //
-//    }];
-    
-//    [manager GET:@"http://localhost:5000/insertData" parameters:@{@"tableName":@"product", @"params": @{@"productName":@"kakak",@"price":@"134004", @"description": @"test description"}} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSLog(@"%@", responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        //
-//    }];
-    
-//    [manager GET:@"http://localhost:5000/deleteData" parameters:@{@"tableName":@"product", @"params": @{@"idName":@"productID",@"idValue":@"1",@"price":@"134004", @"description": @"test description"}} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSLog(@"%@", responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        //
-//    }];
-//
-
 }
 
 #pragma mark - TABLE DATASOURCE
@@ -170,7 +194,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueProductDetail]) {
         ProductDetailViewController *vc = segue.destinationViewController;
-        vc.product = _productTableDataSource[_productTableView.indexPathForSelectedRow.row];
+        if(_productTableView.indexPathForSelectedRow) {
+            vc.product = _productTableDataSource[_productTableView.indexPathForSelectedRow.row];
+        }
     }
 }
 

@@ -47,4 +47,13 @@
     [productList insertObject:product atIndex:0];
 }
 
+- (void)update:(Product *)product {
+    for (Product *item in productList) {
+        if(item.productId == product.productId) {
+            NSMutableArray *newProductList = [productList mutableCopy];
+            [newProductList replaceObjectAtIndex:[productList indexOfObject:item] withObject:product];
+            productList = [NSMutableArray arrayWithArray:newProductList];
+        }
+    }
+}
 @end
