@@ -26,7 +26,10 @@
     _orderTableView.delegate = self;
     _orderTableView.dataSource = self;
     [self download];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteItem:) name:NotifyOrderDeletesItem object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deleteItem:)
+                                                 name:NotifyOrderDeletesItem
+                                               object:nil];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {

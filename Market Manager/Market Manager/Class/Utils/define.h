@@ -59,6 +59,11 @@ static NSString *const SegueUserDetail = @"showUserDetail";
 
 
 #pragma mark - Link
+static NSString *const API_GETDATA = @"http://localhost:5000/getData";
+static NSString *const API_UPDATEDATA = @"http://localhost:5000/updateData";
+static NSString *const API_DELETEDATA = @"http://localhost:5000/deleteData";
+static NSString *const API_INSERTDATA = @"http://localhost:5000/insertData";
+
 
 #endif /* define_h */
 

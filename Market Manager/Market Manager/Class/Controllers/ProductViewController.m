@@ -26,10 +26,6 @@
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
     [self download];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyProductDeletesItem
@@ -44,10 +40,6 @@
                                                object:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
 - (void)addNewItem:(NSNotification *)notification {
     [self showActivity];
     [self onRefreshClicked:nil];
@@ -57,7 +49,7 @@
                                           @"price":[newProductDic objectForKey:@"price"],
                                           @"description": [newProductDic objectForKey:@"description"]}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:@"http://localhost:5000/insertData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if([[responseObject objectForKey:@"status"] intValue] == 200) {
             NSDictionary *data = [responseObject objectForKey:@"data"];
             Product *newProduct = [[Product alloc] initWith:@{@"productID":[NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]],
@@ -82,7 +74,7 @@
     NSDictionary *params = @{@"tableName":@"product",
                              @"params": @{@"idName":@"productID",
                                           @"idValue":[NSString stringWithFormat:@"%ld", productDeleted.productId]}};
-    [manager GET:@"http://localhost:5000/deleteData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self hideActivity];
         [[ProductManager sharedInstance] delete:productDeleted];
         [_productTableDataSource removeObjectAtIndex:indexPath.row];
@@ -107,7 +99,7 @@
                                          @"description": newProduct.productDesc,
                                          @"productName": newProduct.name}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:@"http://localhost:5000/updateData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:API_UPDATEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [[ProductManager sharedInstance] update:newProduct];
         _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
         [_productTableView reloadData];
@@ -156,7 +148,7 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{@"tableName":@"product"};
-    [manager GET:@"http://localhost:5000/getData" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [[ProductManager sharedInstance] setValueWith:responseObject];
         _productTableDataSource = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
         [_productTableView reloadData];
