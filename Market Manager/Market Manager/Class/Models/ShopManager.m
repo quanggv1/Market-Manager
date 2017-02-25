@@ -34,4 +34,31 @@
     return shopList;
 }
 
+- (void)delete:(Shop *)shop {
+    for (Shop *item in shopList) {
+        if(item.ID == shop.ID) {
+            [shopList removeObject:item];
+            break;
+        }
+    }
+}
+
+- (void)insert:(Shop *)shop {
+    [shopList insertObject:shop atIndex:0];
+}
+
+- (void)update:(Shop *)shop {
+    for (Shop *item in shopList) {
+        if(item.ID == shop.ID) {
+            NSMutableArray *newshopList = [shopList mutableCopy];
+            [newshopList replaceObjectAtIndex:[shopList indexOfObject:item] withObject:shop];
+            shopList = [NSMutableArray arrayWithArray:newshopList];
+        }
+    }
+}
+
+- (void)deleteAll {
+    [shopList removeAllObjects];
+}
+
 @end

@@ -12,4 +12,8 @@
 + (instancetype)sharedInstance;
 - (void)setValueWith:(NSArray *)data;
 - (NSArray *)getShopList;
+- (void)delete:(Shop *)shop;
+- (void)insert:(Shop *)shop;
+- (void)update:(Shop *)shop;
+- (void)deleteAll;
 @end

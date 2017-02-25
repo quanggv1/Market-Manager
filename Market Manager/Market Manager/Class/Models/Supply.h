@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Supply : NSObject
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *name, *ID, *supplyDesc;
 - (instancetype)initWith:(NSDictionary *)data;
 @end

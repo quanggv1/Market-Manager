@@ -14,8 +14,6 @@
 #pragma mark - StoryboardIdentifiers
 static NSString *const StoryboardMain = @"MarketManager";
 static NSString *const StoryboardProductPopover = @"productPopOverId";
-static NSString *const StoryboardShopPopover = @"shopPopOverId";
-static NSString *const StoryboardSupplyPopover = @"supplyPopOverViewControllerId";
 static NSString *const StoryboardOrderPopover = @"orderPopOverViewControllerId";
 static NSString *const StoryboardUserPopover = @"userPopOverViewControllerId";
 static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
@@ -25,6 +23,8 @@ static NSString *const StoryboardShopNavigation = @"shopNavigationId";
 static NSString *const StoryboardSupplyNavigation = @"supplyNavigationId";
 static NSString *const StoryboardOrderNavigation = @"orderNavigationId";
 static NSString *const StoryboardUserNavigation = @"userNavigationId";
+static NSString *const StoryboardAddNewShop = @"AddNewShopViewId";
+static NSString *const StoryboardAddNewSupply = @"AddNewSupplyViewId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -68,6 +68,23 @@ static NSString *const API_GETDATA = @"http://192.168.1.17:5000/getData";
 static NSString *const API_UPDATEDATA = @"http://192.168.1.17:5000/updateData";
 static NSString *const API_DELETEDATA = @"http://192.168.1.17:5000/deleteData";
 static NSString *const API_INSERTDATA = @"http://192.168.1.17:5000/insertData";
+
+#pragma mark - Key
+static NSString *const kProductName = @"productName";
+static NSString *const kProductDesc = @"description";
+static NSString *const kProductPrice = @"price";
+static NSString *const kProductTableName = @"product";
+static NSString *const kProductID = @"productID";
+
+static NSString *const kShopID = @"shopID";
+static NSString *const kShopName = @"shopName";
+static NSString *const kShopDesc = @"description";
+static NSString *const kShopTableName = @"shop";
+
+static NSString *const kSupplyID = @"whID";
+static NSString *const kSupplyName = @"whName";
+static NSString *const kSupplyDesc = @"description";
+static NSString *const kSupplyTableName = @"warehouse";
 
 
 #endif /* define_h */

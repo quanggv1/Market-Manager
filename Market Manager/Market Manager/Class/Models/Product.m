@@ -12,10 +12,10 @@
 - (instancetype)initWith:(NSDictionary *)data {
     self = [super init];
     if(self) {
-        self.name = [data objectForKey:@"productName"];
-        self.productDesc = [data objectForKey:@"description"];
-        self.productId = [[data objectForKey:@"productID"] integerValue];
-        self.price = [[data objectForKey:@"price"] floatValue];
+        self.name = [NSString stringWithFormat:@"%@", [data objectForKey:kProductName]];
+        self.productDesc = [NSString stringWithFormat:@"%@", [data objectForKey:kProductDesc]];
+        self.productId = [[data objectForKey:kProductID] integerValue];
+        self.price = [[data objectForKey:kProductPrice] floatValue];
     }
     return self;
 }

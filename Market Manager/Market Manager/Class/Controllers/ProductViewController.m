@@ -47,9 +47,9 @@
     Product *productDeleted = _productTableDataSource[indexPath.row];
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":@"product",
-                             @"params": @{@"idName":@"productID",
-                                          @"idValue":[NSString stringWithFormat:@"%ld", productDeleted.productId]}};
+    NSDictionary *params = @{@"tableName":kProductTableName,
+                             @"params": @{@"idName":kProductID,
+                                          @"idValue":@(productDeleted.productId).stringValue}};
     [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self hideActivity];
         [[ProductManager sharedInstance] delete:productDeleted];
@@ -102,7 +102,7 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":@"product"};
+    NSDictionary *params = @{@"tableName":kProductTableName};
     [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [[ProductManager sharedInstance] setValueWith:responseObject];
         _productTableDataSource = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
