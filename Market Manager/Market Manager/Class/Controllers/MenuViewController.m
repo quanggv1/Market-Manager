@@ -9,6 +9,8 @@
 #import "MenuViewController.h"
 #import "MenuCell.h"
 #import "ProductManager.h"
+#import "ShopManager.h"
+#import "SupplyManager.h"
 
 @interface MenuViewController ()
 @property (weak, nonatomic) IBOutlet UIView *groupContainerViews;
@@ -118,6 +120,8 @@
             break;
         case 5:
             [[ProductManager sharedInstance] deleteAll];
+            [[ShopManager sharedInstance] deleteAll];
+            [[SupplyManager sharedInstance] deleteAll];
             [self dismissViewControllerAnimated:YES completion:nil];;
             break;
         default:

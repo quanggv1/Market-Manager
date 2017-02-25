@@ -7,7 +7,8 @@
 //
 
 #import "Supply.h"
+#import "BaseViewController.h"
 
-@interface SupplyDetailViewController : UIViewController
+@interface SupplyDetailViewController : BaseViewController
 @property (weak, nonatomic) Supply *supply;
 @end

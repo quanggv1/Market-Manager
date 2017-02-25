@@ -30,6 +30,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationItem.title = @"Product Management";
     [self reloadProductTableView];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)

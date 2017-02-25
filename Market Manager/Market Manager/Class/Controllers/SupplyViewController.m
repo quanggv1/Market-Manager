@@ -30,15 +30,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifySupplyDeletesItem
-                                               object:nil];
+    self.navigationItem.title = @"Ware House";
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {
@@ -47,15 +43,9 @@
     [_supplyTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)onMenuClicked:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
 }
-
 
 - (void)download {
     [self showActivity];
