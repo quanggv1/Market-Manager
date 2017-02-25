@@ -43,10 +43,7 @@
 
 - (IBAction)onProductDetailSave:(id)sender {
     if (![self checkData]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Alert message" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:ok];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input correct product name & price" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     } else {
         NSString *productName = [_productNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *price = [_productPriceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -80,6 +77,7 @@
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
 
 }
@@ -107,6 +105,7 @@
         [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
 }
 

@@ -15,4 +15,5 @@
 - (void)delete:(Product *)product;
 - (void)insert:(Product *)product;
 - (void)update:(Product *)product;
+- (void)deleteAll;
 @end

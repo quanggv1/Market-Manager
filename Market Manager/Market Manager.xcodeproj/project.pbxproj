@@ -49,6 +49,7 @@
 		3DFD45BD1E5EE69C00069D7D /* SupplyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BC1E5EE69C00069D7D /* SupplyManager.m */; };
 		3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */; };
 		742F5FFF1E5F5DB200DB1498 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */; };
+		743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 743242171E614EA6006ABCA0 /* CallbackAlertView.m */; };
 		7466EAED1E51E95E00A2C0F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EAEC1E51E95E00A2C0F5 /* main.m */; };
 		7466EAF01E51E95E00A2C0F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EAEF1E51E95E00A2C0F5 /* AppDelegate.m */; };
 		7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7466EAF71E51E95E00A2C0F5 /* Assets.xcassets */; };
@@ -172,6 +173,8 @@
 		3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManager.m; sourceTree = "<group>"; };
 		742F5FFD1E5F5DB200DB1498 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		743242161E614EA6006ABCA0 /* CallbackAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallbackAlertView.h; sourceTree = "<group>"; };
+		743242171E614EA6006ABCA0 /* CallbackAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallbackAlertView.m; sourceTree = "<group>"; };
 		7466EAE81E51E95E00A2C0F5 /* Market Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Market Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7466EAEC1E51E95E00A2C0F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7466EAEE1E51E95E00A2C0F5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -252,6 +255,8 @@
 		3D0C188F1E5A8297008CA470 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				743242161E614EA6006ABCA0 /* CallbackAlertView.h */,
+				743242171E614EA6006ABCA0 /* CallbackAlertView.m */,
 				3D0C18931E5AB0E2008CA470 /* DateTimePickerController.h */,
 				3D0C18941E5AB0E2008CA470 /* DateTimePickerController.m */,
 				3D0C18901E5A82C2008CA470 /* ActivityView.h */,
@@ -729,6 +734,7 @@
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
+				743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */,
 				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,
 				3D0C18921E5A82C2008CA470 /* ActivityView.m in Sources */,
 				3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */,

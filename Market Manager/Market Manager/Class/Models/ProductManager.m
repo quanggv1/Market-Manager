@@ -56,4 +56,8 @@
         }
     }
 }
+
+- (void)deleteAll {
+    [productList removeAllObjects];
+}
 @end

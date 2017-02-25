@@ -8,6 +8,7 @@
 
 #import "MenuViewController.h"
 #import "MenuCell.h"
+#import "ProductManager.h"
 
 @interface MenuViewController ()
 @property (weak, nonatomic) IBOutlet UIView *groupContainerViews;
@@ -116,6 +117,7 @@
             [_groupContainerViews addSubview:_userNavigationController.view];
             break;
         case 5:
+            [[ProductManager sharedInstance] deleteAll];
             [self dismissViewControllerAnimated:YES completion:nil];;
             break;
         default:

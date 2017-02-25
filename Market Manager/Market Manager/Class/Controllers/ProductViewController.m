@@ -42,10 +42,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)addNewItem:(NSNotification *)notification {
-    
-}
-
 - (void)deleteItem:(NSNotification *)notificaion {
     NSIndexPath *indexPath = [notificaion object];
     Product *productDeleted = _productTableDataSource[indexPath.row];
@@ -90,8 +86,7 @@
 }
 
 - (IBAction)onSearch:(id)sender {
-    [Utils hideKeyboard];
-    [self searchByName:[_productSearchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    [_productSearchTextField becomeFirstResponder];
 }
 
 - (IBAction)onRefreshClicked:(id)sender {
@@ -115,6 +110,7 @@
         [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
 }
 
