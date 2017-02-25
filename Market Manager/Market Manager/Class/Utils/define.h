@@ -20,6 +20,11 @@ static NSString *const StoryboardOrderPopover = @"orderPopOverViewControllerId";
 static NSString *const StoryboardUserPopover = @"userPopOverViewControllerId";
 static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
 static NSString *const StoryboardOrderDropdownList = @"orderDropDownListViewId";
+static NSString *const StoryboardProductNavigation = @"productNavigationId";
+static NSString *const StoryboardShopNavigation = @"shopNavigationId";
+static NSString *const StoryboardSupplyNavigation = @"supplyNavigationId";
+static NSString *const StoryboardOrderNavigation = @"orderNavigationId";
+static NSString *const StoryboardUserNavigation = @"userNavigationId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -59,10 +64,10 @@ static NSString *const SegueUserDetail = @"showUserDetail";
 
 
 #pragma mark - Link
-static NSString *const API_GETDATA = @"http://localhost:5000/getData";
-static NSString *const API_UPDATEDATA = @"http://localhost:5000/updateData";
-static NSString *const API_DELETEDATA = @"http://localhost:5000/deleteData";
-static NSString *const API_INSERTDATA = @"http://localhost:5000/insertData";
+static NSString *const API_GETDATA = @"http://192.168.1.17:5000/getData";
+static NSString *const API_UPDATEDATA = @"http://192.168.1.17:5000/updateData";
+static NSString *const API_DELETEDATA = @"http://192.168.1.17:5000/deleteData";
+static NSString *const API_INSERTDATA = @"http://192.168.1.17:5000/insertData";
 
 
 #endif /* define_h */

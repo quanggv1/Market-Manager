@@ -6,9 +6,9 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 #import "Product.h"
 
-@interface ProductDetailViewController : UIViewController
+@interface ProductDetailViewController : BaseViewController
 @property (weak, nonatomic) Product *product;
 @end

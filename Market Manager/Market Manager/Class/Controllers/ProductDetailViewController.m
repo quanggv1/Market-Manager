@@ -7,6 +7,7 @@
 //
 
 #import "ProductDetailViewController.h"
+#import "ProductManager.h"
 
 @interface ProductDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
@@ -54,15 +55,59 @@
             _product.name = productName;
             _product.price = [price floatValue];
             _product.productDesc = description;
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotifyProductUpdateItem object:_product];
+            [self updateProduct];
         } else {
-            NSDictionary *newProductDic = @{@"productName":productName,
-                                            @"price":price,
-                                            @"description": description};
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotifyProductAddNewItem object:newProductDic];
+            [self addNewProductWith:productName price:price description:description];
         }
-        [self.navigationController popViewControllerAnimated:YES];
+        
     }
+}
+
+- (void)addNewProductWith:(NSString *)productName price:(NSString *)price description:(NSString *)description {
+    [self showActivity];
+    NSDictionary *params = @{@"tableName":@"product",
+                             @"params": @{@"productName":productName,
+                                          @"price":price,
+                                          @"description": description}};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if([[responseObject objectForKey:@"status"] intValue] == 200) {
+            NSDictionary *data = [responseObject objectForKey:@"data"];
+            NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
+            [self insertNewProduct:productId name:productName price:price description:description];
+            [self hideActivity];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+    }];
+
+}
+
+- (void)insertNewProduct:(NSString *)productId name:(NSString *)productName price:(NSString *)price description:(NSString *)description {
+    Product *newProduct = [[Product alloc] initWith:@{@"productID":productId,
+                                                      @"productName":productName,
+                                                      @"price":price,
+                                                      @"description": description}];
+    [[ProductManager sharedInstance] insert:newProduct];
+}
+
+- (void)updateProduct {
+    [self showActivity];
+    NSDictionary *params = @{@"tableName":@"product",
+                             @"params":@{@"idName":@"productID",
+                                         @"idValue":[NSString stringWithFormat:@"%ld", _product.productId],
+                                         @"price": [NSString stringWithFormat:@"%f", _product.price],
+                                         @"description": _product.productDesc,
+                                         @"productName": _product.name}};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_UPDATEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [[ProductManager sharedInstance] update:_product];
+        [self.navigationController popViewControllerAnimated:YES];
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+    }];
 }
 
 - (void)onRightBarButtonClicked {

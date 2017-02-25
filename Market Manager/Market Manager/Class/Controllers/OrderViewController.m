@@ -32,6 +32,19 @@
                                                object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deleteItem:)
+                                                 name:NotifyOrderDeletesItem
+                                               object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)deleteItem:(NSNotification *)notificaion {
     NSIndexPath *indexPath = [notificaion object];
     [_orders removeObjectAtIndex:indexPath.row];

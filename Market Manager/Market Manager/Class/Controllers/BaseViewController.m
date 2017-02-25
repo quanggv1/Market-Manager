@@ -23,6 +23,11 @@
     [self.view addSubview:activityView_];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [Utils hideKeyboard];
+}
+
 - (void)showActivity {
     [activityView_ show];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.0f]];

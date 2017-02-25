@@ -24,11 +24,19 @@
     _supplyTableView.delegate = self;
     _supplyTableView.dataSource = self;
     [self download];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifySupplyDeletesItem
                                                object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {

@@ -26,44 +26,24 @@
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
     [self download];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self reloadProductTableView];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyProductDeletesItem
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(addNewItem:)
-                                                 name:NotifyProductAddNewItem
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateItem:)
-                                                 name:NotifyProductUpdateItem
-                                               object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)addNewItem:(NSNotification *)notification {
-    [self showActivity];
-    [self onRefreshClicked:nil];
-    NSDictionary *newProductDic = notification.object;
-    NSDictionary *params = @{@"tableName":@"product",
-                             @"params": @{@"productName":[newProductDic objectForKey:@"productName"],
-                                          @"price":[newProductDic objectForKey:@"price"],
-                                          @"description": [newProductDic objectForKey:@"description"]}};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:@"status"] intValue] == 200) {
-            NSDictionary *data = [responseObject objectForKey:@"data"];
-            Product *newProduct = [[Product alloc] initWith:@{@"productID":[NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]],
-                                                              @"productName":[newProductDic objectForKey:@"productName"],
-                                                              @"price":[newProductDic objectForKey:@"price"],
-                                                              @"description": [newProductDic objectForKey:@"description"]}];
-            [[ProductManager sharedInstance] insert:newProduct];
-            _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
-            [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-            [self hideActivity];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-    }];
+    
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {
@@ -83,40 +63,20 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
     }];
-    
-    
-
-}
-
-- (void)updateItem:(NSNotification *)notification {
-    [self showActivity];
-    [self onRefreshClicked:nil];
-    Product *newProduct = notification.object;
-    NSDictionary *params = @{@"tableName":@"product",
-                             @"params":@{@"idName":@"productID",
-                                         @"idValue":[NSString stringWithFormat:@"%ld", newProduct.productId],
-                                         @"price": [NSString stringWithFormat:@"%f", newProduct.price],
-                                         @"description": newProduct.productDesc,
-                                         @"productName": newProduct.name}};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_UPDATEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [[ProductManager sharedInstance] update:newProduct];
-        _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
-        [_productTableView reloadData];
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-    }];
-    
 }
 
 - (void)searchByName:(NSString* )name {
     if(name && name.length > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains %@", name];
         _productTableDataSource = [NSMutableArray arrayWithArray:[[[ProductManager sharedInstance] getProductList] filteredArrayUsingPredicate:predicate]];
+        [_productTableView reloadData];
     } else {
-        _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
+        [self reloadProductTableView];
     }
+}
+
+- (void)reloadProductTableView {
+    _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
     [_productTableView reloadData];
 }
 

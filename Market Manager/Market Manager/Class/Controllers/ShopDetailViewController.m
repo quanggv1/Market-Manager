@@ -42,17 +42,17 @@
                                                object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)deleteItem:(NSNotification *)notificaion {
     NSIndexPath *indexPath = [notificaion object];
     [_products removeObjectAtIndex:indexPath.row];
     productTableDataSource = _products;
     [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                              withRowAnimation:UITableViewRowAnimationFade];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,8 +73,8 @@
 - (void)onDatePickerSelected:(NSDate *)dateSelected {
     NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
     _productSearchTextField.text = date;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-    productTableDataSource = [_products filteredArrayUsingPredicate:predicate];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
+//    productTableDataSource = [_products filteredArrayUsingPredicate:predicate];
     [_productTableView reloadData];
 }
 

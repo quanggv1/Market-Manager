@@ -6,8 +6,8 @@
 //  Copyright © 2016 Quang. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface MenuViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface MenuViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource>
 
 @end

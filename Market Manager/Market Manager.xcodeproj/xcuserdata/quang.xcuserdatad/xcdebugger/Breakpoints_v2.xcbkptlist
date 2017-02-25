@@ -23,13 +23,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Market Manager/Class/Service/DateTimePickerController.m"
-            timestampString = "509467887.833602"
+            filePath = "Market Manager/Class/Controllers/ShopDetailViewController.m"
+            timestampString = "509688892.126504"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-onPickerSelected:"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-deleteItem:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Market Manager/Class/Controllers/ProductViewController.m"
+            timestampString = "509688899.262732"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "-deleteItem:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

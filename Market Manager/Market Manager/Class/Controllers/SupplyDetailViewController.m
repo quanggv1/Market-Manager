@@ -41,14 +41,6 @@
                                                object:nil];
 }
 
-- (void)deleteItem:(NSNotification *)notificaion {
-    NSIndexPath *indexPath = [notificaion object];
-    [_products removeObjectAtIndex:indexPath.row];
-    productTableDataSource = _products;
-    [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                             withRowAnimation:UITableViewRowAnimationFade];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -59,18 +51,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)deleteItem:(NSNotification *)notificaion {
+    NSIndexPath *indexPath = [notificaion object];
+    [_products removeObjectAtIndex:indexPath.row];
+    productTableDataSource = _products;
+    [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+}
+
 - (void)download {
     _products = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
     productTableDataSource = _products;
     [_productTableView reloadData];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    //
-    //    [manager GET:@"http://sotayit.com/service/mobile/systemsetting" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-    //        NSLog(@"%@", responseObject);
-    //    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-    //        //
-    //    }];
 }
 
 - (IBAction)onCalendarClicked:(id)sender {
@@ -80,8 +72,8 @@
 - (void)onDatePickerSelected:(NSDate *)dateSelected {
     NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
     _productSearchTextField.text = date;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-    productTableDataSource = [_products filteredArrayUsingPredicate:predicate];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
+//    productTableDataSource = [_products filteredArrayUsingPredicate:predicate];
     [_productTableView reloadData];
 }
 
