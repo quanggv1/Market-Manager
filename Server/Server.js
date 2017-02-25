@@ -1,6 +1,7 @@
 var express = require('express');
 var mysql = require("mysql");
 var app = express();
+var SQL = require('./sql');
 
 // First you need to create a connection to the db
 var con = mysql.createConnection({
@@ -19,39 +20,17 @@ con.connect(function(err){
 });
 app.listen(5000);
 
-/*============SQL Query==============*/
+
 app.get('/getData', function(req, res) {
-  var table = req.query.tableName;
-  con.query('SELECT * FROM ' + table, function(err,rows){
-    if(!!err) {
-      console.log(err);
-    } else {
-        console.log('Data received from Db:\n');
-        res.send(rows)
-    }
-
-  });
+  SQL.getData(con, req, res);
 });
 
-/*insert*/
-app.get('/insertData', function(req) {
-  var table = req.query.tableName;
-  console.log(table)
-  var product = { productName: 'break'};
-  con.query('INSERT INTO ' + table +' SET ?', product, function(err,res){
-    if(err) {
-      console.log(err);
-    } else {
-      console.log('Last insert ID:', res.insertId);
-    }
-  });
+app.get('/insertData', function(req, res) {
+  SQL.insertData(con, req, res);
 });
-/*update */
-app.get('/updateData', function(req) {
-  var table = req.query.tableName;
-  var product = { productName: 'Winnie'};
+app.get('/updateData', function(req, res) {
+  SQL.updateData(con, req, res);
 });
-
-
-
-
+app.get('/deleteData', function(req, res) {
+  SQL.deleteData(con, req, res);
+});

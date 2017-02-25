@@ -9,7 +9,6 @@
 #import "Utils.h"
 #import "DateTimePickerController.h"
 
-static ActivityView* activityView;
 static DateTimePickerController *dateTimePickerController;
 
 @implementation Utils
@@ -23,21 +22,6 @@ static DateTimePickerController *dateTimePickerController;
         topController = topController.presentedViewController;
     }
     return topController;
-}
-
-+ (void)showActivity {
-    if (!activityView) {
-        activityView = [[ActivityView alloc] initWithFrame:[self topViewController].view.frame];
-    }
-    [[self topViewController].view addSubview:activityView];
-    [activityView show];
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.0f]];
-}
-
-+ (void)hideActivity {
-    if (activityView) {
-        [activityView hide];
-    }
 }
 
 + (NSDateFormatter *)dateFormatter {

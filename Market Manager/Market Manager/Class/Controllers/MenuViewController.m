@@ -8,6 +8,7 @@
 
 #import "MenuViewController.h"
 #import "MenuCell.h"
+#import "ProductManager.h"
 
 @interface MenuViewController ()
 @property (weak, nonatomic) IBOutlet UIView *groupContainerViews;
@@ -15,38 +16,49 @@
 @property (weak, nonatomic) IBOutlet UIView *menuView;
 @property (nonatomic) BOOL isMenuShow;
 @property (nonatomic, strong) NSArray *menuData;
-@property (weak, nonatomic) IBOutlet UIView *commodityView;
-@property (weak, nonatomic) IBOutlet UIView *supplyView;
-@property (weak, nonatomic) IBOutlet UIView *orderView;
-@property (weak, nonatomic) IBOutlet UIView *shopView;
-@property (weak, nonatomic) IBOutlet UIView *userView;
 
 @property (weak, nonatomic) IBOutlet UILabel *labelUsername;
+@property (strong, nonatomic) UINavigationController *productNavigationController;
+@property (strong, nonatomic) UINavigationController *shopNavigationController;
+@property (strong, nonatomic) UINavigationController *supplyNavigationController;
+@property (strong, nonatomic) UINavigationController *orderNavigationController;
+@property (strong, nonatomic) UINavigationController *userNavigationController;
 @end
 
 @implementation MenuViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self showActivity];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onShowHideMenu:)
                                                  name:NotifyShowHideMenu
                                                object:nil];
-    _menuData = @[[[MenuCellProp alloc] initWith:@"Quan ly mat hang" image:@"ic_account_balance_wallet_36pt_3x"],
-                  [[MenuCellProp alloc] initWith:@"Quan ly nguon hang" image:@"ic_search_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Quan ly shop" image:@"ic_history_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Quan ly order" image:@"ic_library_books_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Quan ly user" image:@"ic_library_books_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_library_books_36pt"]];
+    
+    _productNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation];
+    _shopNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation];
+    _supplyNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation];
+    _orderNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation];
+    _userNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation];
+
+    _menuData = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Order Management" image:@"ic_description_36pt"],
+                  [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
-    [self setupUI];
 }
 
-- (void)setupUI {
-    _menuView.hidden = YES;
-    [self hideContainerViews];
-    _commodityView.hidden = NO;
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_groupContainerViews addSubview:_productNavigationController.view];
+    [self hideActivity];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)onShowHideMenu:(NSNotification*)notification {
@@ -90,21 +102,22 @@
     [self hideContainerViews];
     switch (indexPath.row) {
         case 0:
-            _commodityView.hidden = NO;
+            [_groupContainerViews addSubview:_productNavigationController.view];
             break;
         case 1:
-            _supplyView.hidden = NO;
+            [_groupContainerViews addSubview:_supplyNavigationController.view];
             break;
         case 2:
-            _shopView.hidden = NO;
+            [_groupContainerViews addSubview:_shopNavigationController.view];
             break;
         case 3:
-            _orderView.hidden = NO;
+            [_groupContainerViews addSubview:_orderNavigationController.view];
             break;
         case 4:
-            _userView.hidden = NO;
+            [_groupContainerViews addSubview:_userNavigationController.view];
             break;
         case 5:
+            [[ProductManager sharedInstance] deleteAll];
             [self dismissViewControllerAnimated:YES completion:nil];;
             break;
         default:
@@ -114,11 +127,11 @@
 }
 
 - (void)hideContainerViews {
-    _commodityView.hidden = YES;
-    _supplyView.hidden = YES;
-    _orderView.hidden = YES;
-    _shopView.hidden = YES;
-    _userView.hidden = YES;
+    [_productNavigationController.view removeFromSuperview];
+    [_shopNavigationController.view removeFromSuperview];
+    [_supplyNavigationController.view removeFromSuperview];
+    [_orderNavigationController.view removeFromSuperview];
+    [_userNavigationController.view removeFromSuperview];
 }
 
 

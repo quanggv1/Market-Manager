@@ -23,7 +23,20 @@
     _userTableView.delegate = self;
     _userTableView.dataSource = self;
     [self download];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteItem:) name:NotifyUserDeletesItem object:nil];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deleteItem:)
+                                                 name:NotifyUserDeletesItem
+                                               object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {

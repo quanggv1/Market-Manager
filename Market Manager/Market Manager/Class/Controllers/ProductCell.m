@@ -12,6 +12,7 @@
 @interface ProductCell()
 @property (weak, nonatomic) IBOutlet UIImageView *productImage;
 @property (weak, nonatomic) IBOutlet UILabel *productName;
+@property (weak, nonatomic) IBOutlet UILabel *productPrice;
 @property (weak, nonatomic) IBOutlet UIButton *extendButton;
 @property (weak, nonatomic) Product *product;
 @end
@@ -31,6 +32,7 @@
 - (void)initWith:(Product *)product {
     _product = product;
     _productName.text = _product.name;
+    _productPrice.text = [NSString stringWithFormat:@"Price: %.2f $", _product.price];
 }
 
 - (IBAction)onExtendClicked:(id)sender {

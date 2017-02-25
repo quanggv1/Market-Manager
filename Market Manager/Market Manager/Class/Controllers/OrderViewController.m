@@ -26,7 +26,23 @@
     _orderTableView.delegate = self;
     _orderTableView.dataSource = self;
     [self download];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteItem:) name:NotifyOrderDeletesItem object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deleteItem:)
+                                                 name:NotifyOrderDeletesItem
+                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deleteItem:)
+                                                 name:NotifyOrderDeletesItem
+                                               object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion {
@@ -52,7 +68,7 @@
     Order *order4 = [[Order alloc] initWith:@{@"name":@"order4", @"date":@"2017/02/18"}];
     Order *order5 = [[Order alloc] initWith:@{@"name":@"order5", @"date":@"2017/02/17"}];
     
-    _orders = [[NSMutableArray alloc] initWithArray:@[order1, order2, order3, order4, order5]];
+    _orders = [[NSMutableArray alloc] initWithArray:@[order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5,order1, order2, order3, order4, order5]];
     orderTableDataSource = _orders;
     [_orderTableView reloadData];
     

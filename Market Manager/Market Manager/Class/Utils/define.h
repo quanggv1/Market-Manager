@@ -19,6 +19,12 @@ static NSString *const StoryboardSupplyPopover = @"supplyPopOverViewControllerId
 static NSString *const StoryboardOrderPopover = @"orderPopOverViewControllerId";
 static NSString *const StoryboardUserPopover = @"userPopOverViewControllerId";
 static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
+static NSString *const StoryboardOrderDropdownList = @"orderDropDownListViewId";
+static NSString *const StoryboardProductNavigation = @"productNavigationId";
+static NSString *const StoryboardShopNavigation = @"shopNavigationId";
+static NSString *const StoryboardSupplyNavigation = @"supplyNavigationId";
+static NSString *const StoryboardOrderNavigation = @"orderNavigationId";
+static NSString *const StoryboardUserNavigation = @"userNavigationId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -26,6 +32,10 @@ static NSString *const CellShop = @"shopCellId";
 static NSString *const CellSupply = @"supplyCellId";
 static NSString *const CellOrder = @"orderCellId";
 static NSString *const CellUser = @"userCellId";
+static NSString *const CellCrateOrder = @"crateOrderCell";
+static NSString *const CellProductOrder = @"productOrderCell";
+static NSString *const CellOrderDropDown = @"orderDropdownCell";
+
 
 #pragma mark - Color
 #define appColor [UIColor colorWithRed:75.f/255.f green:192.f/255.f blue:223.f/255.f alpha:1]
@@ -40,6 +50,8 @@ static NSString *const NotifyShopDeletesItem = @"NotifyShopDeletesItem";
 static NSString *const NotifySupplyDeletesItem = @"NotifySupplyDeletesItem";
 static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyUserDeletesItem = @"NotifyUserDeletesItem";
+static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
+static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 
 
 #pragma mark - Segue
@@ -52,6 +64,11 @@ static NSString *const SegueUserDetail = @"showUserDetail";
 
 
 #pragma mark - Link
+static NSString *const API_GETDATA = @"http://192.168.1.17:5000/getData";
+static NSString *const API_UPDATEDATA = @"http://192.168.1.17:5000/updateData";
+static NSString *const API_DELETEDATA = @"http://192.168.1.17:5000/deleteData";
+static NSString *const API_INSERTDATA = @"http://192.168.1.17:5000/insertData";
+
 
 #endif /* define_h */
 

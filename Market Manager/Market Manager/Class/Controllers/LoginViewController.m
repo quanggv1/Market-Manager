@@ -41,27 +41,6 @@
 
 - (IBAction)onLoginClicked:(id)sender {
     [self pushToMain];
-//    [self sortByDate];
-//    [self searchByName:@"1"];
-}
-
-- (void)sortByDate {
-    NSArray *sortedArray = [_products sortedArrayUsingComparator:^NSComparisonResult(Product *obj1, Product *obj2) {
-        NSDate *d1 = [[Utils dateFormatter] dateFromString: obj1.date];
-        NSDate *d2 = [[Utils dateFormatter] dateFromString: obj2.date];
-        return [d1 compare: d2];
-    }];
-    _products = [[NSMutableArray alloc] initWithArray:sortedArray];
-}
-
-- (void)searchByName:(NSString* )name {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains %@", name];
-    NSArray *filteredArray = [_products filteredArrayUsingPredicate:predicate];
-}
-
-- (void)searchByDate:(NSString *)date {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-    NSArray *filteredArray = [_products filteredArrayUsingPredicate:predicate];
 }
 
 - (void)pushToMain {

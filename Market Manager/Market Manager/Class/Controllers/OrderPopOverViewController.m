@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.preferredContentSize = CGSizeMake(100, 200);
 }
 
 - (void)didReceiveMemoryWarning {
