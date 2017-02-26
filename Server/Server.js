@@ -2,6 +2,7 @@ var express = require('express');
 var mysql = require("mysql");
 var app = express();
 var SQL = require('./sql');
+var errorResp = {'code':'400', 'status':'error'};
 
 // First you need to create a connection to the db
 var con = mysql.createConnection({
@@ -20,7 +21,22 @@ con.connect(function(err){
 });
 app.listen(5000);
 
-
+app.get('/authen', function(req, res) {
+	console.log(req.query)
+	con.query('SELECT * FROM user WHERE userName = ? AND password = ?',[req.query.userName, req.query.password], function(err,rows){
+                  if(err) {
+                    console.log(err);
+                    res.send(errorResp);
+                  } else {
+                      if(rows.length > 0) {
+                      	console.log('OK');
+                      	res.send({'code':'200', 'status':'OK'});
+                      } else {
+                      	res.send(errorResp);
+                      }
+                  }
+     });
+});
 app.get('/getData', function(req, res) {
   SQL.getData(con, req, res);
 });

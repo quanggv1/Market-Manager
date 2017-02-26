@@ -1,3 +1,4 @@
+var errorResp = {'code':'400', 'status':'error'};
 
 /*============SQL Query==============*/
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
                 con.query('SELECT * FROM ' + table, function(err,rows){
                   if(err) {
                     console.log(err);
+                    res.send(errorResp);
                   } else {
                       console.log('Data received from Db:\n');
                       res.send(rows)
@@ -20,7 +22,7 @@ module.exports = {
               con.query('INSERT INTO ' + table +' SET ?', query, function(err,res){
                 if(err) {
                   console.log(err);
-                  response.send(err);
+                  response.send(errorResp);
                 } else {
                   console.log('Last insert ID:', res.insertId);
                   response.send({status: 200, data: {insertId: res.insertId}});
@@ -61,7 +63,11 @@ module.exports = {
                           response.send(err);
                         } else {
                           console.log('Deleted ' + result.affectedRows + ' rows');
-                          response.send(result);
+                          if(rows.length > 0){
+                            response.send({'code':200, 'status':'success'});
+                          } else {
+                            res.send(errorResp)
+                          }
                         }
                });
           },
