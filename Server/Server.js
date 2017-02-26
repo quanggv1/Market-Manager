@@ -23,9 +23,9 @@ app.listen(5000);
 
 app.get('/authen', function (req, res) {
   console.log(req.query)
-  con.query('SELECT * FROM user WHERE userName = ? AND password = ?', [req.query.userName, req.query.password], function (errorResp, rows) {
-    if (errorResp) {
-      console.log(errorResp);
+  con.query('SELECT * FROM user WHERE userName = ? AND password = ?', [req.query.userName, req.query.password], function (error, rows) {
+    if (error) {
+      console.log(error);
       res.send(errorResp);
     } else {
       if (rows.length > 0) {
