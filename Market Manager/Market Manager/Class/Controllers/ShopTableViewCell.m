@@ -7,12 +7,10 @@
 //
 
 #import "ShopTableViewCell.h"
-#import "ShopPopOverViewController.h"
 
 @interface ShopTableViewCell()
 @property (weak, nonatomic) IBOutlet UIImageView *shopImage;
 @property (weak, nonatomic) IBOutlet UILabel *shopName;
-@property (weak, nonatomic) IBOutlet UIButton *extendButton;
 @property (weak, nonatomic) Shop *shop;
 @end
 
@@ -30,31 +28,9 @@
 }
 
 - (void)initWith:(Shop *)shop {
-    if(!_shop) {
-        _shop = shop;
-        _shopName.text = _shop.name;
-    }
+    _shop = shop;
+    _shopName.text = _shop.name;
 }
 
-- (IBAction)onExtendClicked:(id)sender {
-    UIView *view = self;
-    while (!(view == nil || [view isKindOfClass:[UITableView class]])) {
-        view = view.superview;
-    }
-    id controller = ((UITableView *)view).dataSource;
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    ShopPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardShopPopover];
-    vc.selectedIndexPath = [((UITableView *)view) indexPathForCell:self];
-    vc.modalPresentationStyle = UIModalPresentationPopover;
-    UIPopoverPresentationController * popOverController = vc.popoverPresentationController;
-    [popOverController setDelegate:controller];
-    popOverController.sourceView = self.extendButton;
-    popOverController.sourceRect = self.extendButton.bounds;
-    popOverController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    [controller presentViewController:vc
-                             animated:YES
-                           completion:nil];
-    
-}
 
 @end

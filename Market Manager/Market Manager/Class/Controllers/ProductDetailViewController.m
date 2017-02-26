@@ -56,7 +56,6 @@
         } else {
             [self addNewProductWith:productName price:price description:description];
         }
-        
     }
 }
 

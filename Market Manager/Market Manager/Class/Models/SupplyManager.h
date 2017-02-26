@@ -12,4 +12,8 @@
 + (instancetype)sharedInstance;
 - (void)setValueWith:(NSArray *)data;
 - (NSArray *)getSupplyList;
+- (void)delete:(Supply *)supply;
+- (void)insert:(Supply *)supply;
+- (void)update:(Supply *)supply;
+- (void)deleteAll;
 @end

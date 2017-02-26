@@ -33,8 +33,9 @@
     [self download];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationItem.title = _supply.name;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyProductDeletesItem

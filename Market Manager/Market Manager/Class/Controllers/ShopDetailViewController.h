@@ -7,7 +7,8 @@
 //
 
 #import "Shop.h"
+#import "BaseViewController.h"
 
-@interface ShopDetailViewController : UIViewController
+@interface ShopDetailViewController : BaseViewController
 @property (weak, nonatomic) Shop *shop;
 @end

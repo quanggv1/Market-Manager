@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Shop : NSObject
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *name, *ID, *shopDesc;
 - (instancetype)initWith:(NSDictionary *)data;
 @end

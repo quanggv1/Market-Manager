@@ -44,6 +44,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    self.navigationItem.title = _shop.name;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
