@@ -63,6 +63,7 @@
 		748B20D61E620D8700571111 /* AddNewSupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B20D51E620D8700571111 /* AddNewSupplyViewController.m */; };
 		748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */; };
 		748B3A871E62944E00AA9AA6 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A861E62944E00AA9AA6 /* UserManager.m */; };
+		748B3A8A1E62C36300AA9AA6 /* ValidateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A891E62C36300AA9AA6 /* ValidateService.m */; };
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
 		74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904581E58174A005D391D /* ProductPopOverViewController.m */; };
@@ -204,6 +205,8 @@
 		748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewUserViewController.m; sourceTree = "<group>"; };
 		748B3A851E62944E00AA9AA6 /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManager.h; sourceTree = "<group>"; };
 		748B3A861E62944E00AA9AA6 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
+		748B3A881E62C36300AA9AA6 /* ValidateService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateService.h; sourceTree = "<group>"; };
+		748B3A891E62C36300AA9AA6 /* ValidateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidateService.m; sourceTree = "<group>"; };
 		74E904431E57F54D005D391D /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
 		74E904441E57F54D005D391D /* ProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCell.m; sourceTree = "<group>"; };
 		74E904541E57F781005D391D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
@@ -264,6 +267,8 @@
 				3D0C18941E5AB0E2008CA470 /* DateTimePickerController.m */,
 				3D0C18901E5A82C2008CA470 /* ActivityView.h */,
 				3D0C18911E5A82C2008CA470 /* ActivityView.m */,
+				748B3A881E62C36300AA9AA6 /* ValidateService.h */,
+				748B3A891E62C36300AA9AA6 /* ValidateService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -754,6 +759,7 @@
 				3D41D79A1E55903800123A71 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				3D41D7C71E56E33A00123A71 /* AFHTTPSessionManager.m in Sources */,
 				3D41D7CE1E56E33A00123A71 /* AFImageDownloader.m in Sources */,
+				748B3A8A1E62C36300AA9AA6 /* ValidateService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

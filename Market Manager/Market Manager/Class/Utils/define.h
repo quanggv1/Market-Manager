@@ -26,6 +26,7 @@ static NSString *const StoryboardUserNavigation = @"userNavigationId";
 static NSString *const StoryboardAddNewShop = @"AddNewShopViewId";
 static NSString *const StoryboardAddNewSupply = @"AddNewSupplyViewId";
 static NSString *const StoryboardAddNewUser = @"AddNewUserViewId";
+static NSString *const StoryboardMenuView = @"menuViewController";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -65,6 +66,7 @@ static NSString *const API_GETDATA = @"http://192.168.1.17:5000/getData";
 static NSString *const API_UPDATEDATA = @"http://192.168.1.17:5000/updateData";
 static NSString *const API_DELETEDATA = @"http://192.168.1.17:5000/deleteData";
 static NSString *const API_INSERTDATA = @"http://192.168.1.17:5000/insertData";
+static NSString *const API_AUTHEN  = @"http://192.168.1.17:5000/authen";
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";

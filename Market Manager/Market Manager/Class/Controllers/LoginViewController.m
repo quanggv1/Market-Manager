@@ -7,32 +7,30 @@
 //
 
 #import "LoginViewController.h"
+#import "ValidateService.h"
 
-@interface LoginViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+@interface LoginViewController ()<UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *labelPhoneValidation;
 @property (weak, nonatomic) IBOutlet UILabel *labelPasswordValidation;
 @property (weak, nonatomic) IBOutlet UIView *phoneSeparator;
 @property (weak, nonatomic) IBOutlet UIView *passwordSeparator;
-@property (strong, nonatomic) NSMutableArray *products;
+@property (assign, nonatomic) BOOL isUserNameValid;
+@property (assign, nonatomic) BOOL isPasswordValid;
 @end
 
 @implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    Product *product1 = [[Product alloc] initWith:@{@"name":@"product1", @"date":@"2017/02/1"}];
-    Product *product2 = [[Product alloc] initWith:@{@"name":@"product2", @"date":@"2017/02/2"}];
-    Product *product3 = [[Product alloc] initWith:@{@"name":@"product3", @"date":@"2017/02/2"}];
-    Product *product4 = [[Product alloc] initWith:@{@"name":@"product4", @"date":@"2017/02/3"}];
-    Product *product5 = [[Product alloc] initWith:@{@"name":@"product5", @"date":@"2017/02/1"}];
-    _products = [[NSMutableArray alloc] initWithArray:@[product1, product2, product3, product4, product5]];
+    _userNameTextField.delegate = self;
+    _passwordTextField.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _phoneTextField.text = @"";
+    _userNameTextField.text = @"";
     _passwordTextField.text = @"";
     _labelPhoneValidation.text = @"";
     _labelPasswordValidation.text = @"";
@@ -40,19 +38,94 @@
 }
 
 - (IBAction)onLoginClicked:(id)sender {
-    [self pushToMain];
+    if(![self isNameValid]) return;
+    if(![self isPasswordValid]) return;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSString *userName = _userNameTextField.text;
+    NSString *password = _passwordTextField.text;
+    NSDictionary *params = @{kUserName: userName,
+                             kUserPassword: password};
+    [manager GET:API_AUTHEN parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:@"code"] intValue] == 200 &&
+                [[responseObject objectForKey:@"status"] isEqualToString:@"OK"]){
+                 [self pushToMain];
+             } else {
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgAuthenFailed
+                                              target:self okTitle:@"OK"
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [CallbackAlertView setCallbackTaget:titleError
+                                         message:msgConnectFailed
+                                          target:self
+                                         okTitle:@"OK"
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+             [self hideActivity];
+         }];
 }
 
 - (void)pushToMain {
-    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"menuViewController"];
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardMenuView];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)onForgetPasswordClicked:(id)sender {
+    
 }
 
 - (IBAction)onSigninClicked:(id)sender {
     
+}
+
+#pragma mark - TEXTFIELD DELEGATE
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    if(textField == _userNameTextField) {
+        _phoneSeparator.backgroundColor = appColor;
+        _labelPhoneValidation.text = @"";
+    }
+    else if(textField == _passwordTextField) {
+        _passwordSeparator.backgroundColor = appColor;
+        _labelPasswordValidation.text = @"";
+    }
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    if(textField == _userNameTextField) {
+        [self isNameValid];
+    }
+    else if(textField == _passwordTextField) {
+        [self isPasswordValid];
+    }
+}
+
+- (BOOL)isNameValid {
+    _labelPhoneValidation.text = [ValidateService validName:_userNameTextField.text];
+    if([_labelPhoneValidation.text isEqualToString:@""]) {
+        _phoneSeparator.backgroundColor = [UIColor lightGrayColor];
+        return YES;
+    } else {
+        _phoneSeparator.backgroundColor = [UIColor redColor];
+        return NO;
+    }
+}
+
+- (BOOL)isPasswordValid {
+    _labelPasswordValidation.text = [ValidateService validPassword:_passwordTextField.text];
+    if([_labelPasswordValidation.text isEqualToString:@""]) {
+        _passwordSeparator.backgroundColor = [UIColor lightGrayColor];
+        return YES;
+    } else {
+        _passwordSeparator.backgroundColor = [UIColor redColor];
+        return NO;
+    }
 }
 
 
