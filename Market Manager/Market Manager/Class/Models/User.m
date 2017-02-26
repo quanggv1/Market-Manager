@@ -12,7 +12,9 @@
 - (instancetype)initWith:(NSDictionary *)data {
     self = [super init];
     if(self) {
-        self.name = [data objectForKey:@"name"];
+        self.name = [NSString stringWithFormat:@"%@",[data objectForKey:kUserName]];
+        self.ID = [NSString stringWithFormat:@"%@",[data objectForKey:kUserID]];
+        self.password = [NSString stringWithFormat:@"%@",[data objectForKey:kUserPassword]];
     }
     return self;
 }

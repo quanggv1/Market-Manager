@@ -61,6 +61,8 @@
 		7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EB181E51FB1000A2C0F5 /* Utils.m */; };
 		748B20D31E6200C200571111 /* AddNewShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B20D21E6200C200571111 /* AddNewShopViewController.m */; };
 		748B20D61E620D8700571111 /* AddNewSupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B20D51E620D8700571111 /* AddNewSupplyViewController.m */; };
+		748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */; };
+		748B3A871E62944E00AA9AA6 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A861E62944E00AA9AA6 /* UserManager.m */; };
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
 		74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904581E58174A005D391D /* ProductPopOverViewController.m */; };
@@ -78,7 +80,6 @@
 		74ED22371E5A05350079D3F0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22361E5A05350079D3F0 /* User.m */; };
 		74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */; };
 		74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */; };
-		74ED22411E5A05C30079D3F0 /* UserPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22401E5A05C30079D3F0 /* UserPopOverViewController.m */; };
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
@@ -199,6 +200,10 @@
 		748B20D21E6200C200571111 /* AddNewShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewShopViewController.m; sourceTree = "<group>"; };
 		748B20D41E620D8700571111 /* AddNewSupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewSupplyViewController.h; sourceTree = "<group>"; };
 		748B20D51E620D8700571111 /* AddNewSupplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewSupplyViewController.m; sourceTree = "<group>"; };
+		748B3A821E62914800AA9AA6 /* AddNewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewUserViewController.h; sourceTree = "<group>"; };
+		748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewUserViewController.m; sourceTree = "<group>"; };
+		748B3A851E62944E00AA9AA6 /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManager.h; sourceTree = "<group>"; };
+		748B3A861E62944E00AA9AA6 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
 		74E904431E57F54D005D391D /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
 		74E904441E57F54D005D391D /* ProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCell.m; sourceTree = "<group>"; };
 		74E904541E57F781005D391D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
@@ -233,8 +238,6 @@
 		74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTableViewCell.m; sourceTree = "<group>"; };
 		74ED223C1E5A05B40079D3F0 /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController.h; sourceTree = "<group>"; };
 		74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController.m; sourceTree = "<group>"; };
-		74ED223F1E5A05C30079D3F0 /* UserPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPopOverViewController.h; sourceTree = "<group>"; };
-		74ED22401E5A05C30079D3F0 /* UserPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPopOverViewController.m; sourceTree = "<group>"; };
 		BCB461481E545EB90090CBC3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
 		BCB461491E545EB90090CBC3 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
 		BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
@@ -537,6 +540,8 @@
 				3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */,
 				74ED22351E5A05350079D3F0 /* User.h */,
 				74ED22361E5A05350079D3F0 /* User.m */,
+				748B3A851E62944E00AA9AA6 /* UserManager.h */,
+				748B3A861E62944E00AA9AA6 /* UserManager.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -597,10 +602,10 @@
 				3D41D7681E5583D700123A71 /* UserViewController.m */,
 				74ED22391E5A05A00079D3F0 /* UserTableViewCell.h */,
 				74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */,
-				74ED223F1E5A05C30079D3F0 /* UserPopOverViewController.h */,
-				74ED22401E5A05C30079D3F0 /* UserPopOverViewController.m */,
 				74ED223C1E5A05B40079D3F0 /* UserDetailViewController.h */,
 				74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */,
+				748B3A821E62914800AA9AA6 /* AddNewUserViewController.h */,
+				748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -693,6 +698,7 @@
 				7466EB0E1E51F8C900A2C0F5 /* MenuViewController.m in Sources */,
 				3D41D7CD1E56E33A00123A71 /* AFAutoPurgingImageCache.m in Sources */,
 				3D41D7961E55903800123A71 /* IQUIView+Hierarchy.m in Sources */,
+				748B3A871E62944E00AA9AA6 /* UserManager.m in Sources */,
 				3D0C18951E5AB0E2008CA470 /* DateTimePickerController.m in Sources */,
 				3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */,
 				3D41D7A01E55903800123A71 /* IQUIView+IQKeyboardToolbar.m in Sources */,
@@ -712,6 +718,7 @@
 				74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */,
 				3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */,
 				3D41D7CC1E56E33A00123A71 /* AFURLSessionManager.m in Sources */,
+				748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */,
 				7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */,
 				74E904561E57F781005D391D /* Product.m in Sources */,
 				3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -728,7 +735,6 @@
 				3DFD45AE1E5ED24700069D7D /* OrderDropDownListViewController.m in Sources */,
 				74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */,
 				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
-				74ED22411E5A05C30079D3F0 /* UserPopOverViewController.m in Sources */,
 				74ED22311E59FF560079D3F0 /* OrderPopOverViewController.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,

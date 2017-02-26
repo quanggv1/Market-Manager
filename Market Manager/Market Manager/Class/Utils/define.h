@@ -25,6 +25,7 @@ static NSString *const StoryboardOrderNavigation = @"orderNavigationId";
 static NSString *const StoryboardUserNavigation = @"userNavigationId";
 static NSString *const StoryboardAddNewShop = @"AddNewShopViewId";
 static NSString *const StoryboardAddNewSupply = @"AddNewSupplyViewId";
+static NSString *const StoryboardAddNewUser = @"AddNewUserViewId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -46,13 +47,9 @@ static NSString *const CellOrderDropDown = @"orderDropdownCell";
 #pragma mark - Notification
 static NSString *const NotifyShowHideMenu = @"showHideMenu";
 static NSString *const NotifyProductDeletesItem = @"NotifyProductDeletesItem";
-static NSString *const NotifyShopDeletesItem = @"NotifyShopDeletesItem";
-static NSString *const NotifySupplyDeletesItem = @"NotifySupplyDeletesItem";
 static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
-static NSString *const NotifyUserDeletesItem = @"NotifyUserDeletesItem";
 static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
 static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
-
 
 #pragma mark - Segue
 static NSString *const SegueMain = @"segueMain";
@@ -85,6 +82,11 @@ static NSString *const kSupplyID = @"whID";
 static NSString *const kSupplyName = @"whName";
 static NSString *const kSupplyDesc = @"description";
 static NSString *const kSupplyTableName = @"warehouse";
+
+static NSString *const kUserTableName = @"user";
+static NSString *const kUserName = @"userName";
+static NSString *const kUserPassword = @"password";
+static NSString *const kUserID = @"userID";
 
 
 #endif /* define_h */

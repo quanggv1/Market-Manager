@@ -63,10 +63,10 @@ module.exports = {
                           response.send(err);
                         } else {
                           console.log('Deleted ' + result.affectedRows + ' rows');
-                          if(rows.length > 0){
+                          if(result.changedRows > 0){
                             response.send({'code':200, 'status':'success'});
                           } else {
-                            res.send(errorResp)
+                            response.send(errorResp)
                           }
                         }
                });

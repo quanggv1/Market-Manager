@@ -7,12 +7,14 @@
 //
 
 #import "UserViewController.h"
-#import "user.h"
-#import "userTableViewCell.h"
-#import "userDetailViewController.h"
+#import "User.h"
+#import "UserTableViewCell.h"
+#import "UserDetailViewController.h"
+#import "UserManager.h"
+#import "AddNewUserViewController.h"
 
-@interface UserViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
-@property (strong, nonatomic) NSMutableArray *users;
+@interface UserViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (strong, nonatomic) NSMutableArray *userDataSource;
 @property (weak, nonatomic) IBOutlet UITableView *userTableView;
 @end
 
@@ -27,22 +29,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.navigationItem.title = @"User Management";
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifyUserDeletesItem
-                                               object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)deleteItem:(NSNotification *)notificaion {
-    NSIndexPath *indexPath = [notificaion object];
-    [_users removeObjectAtIndex:indexPath.row];
-    [_userTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,32 +43,52 @@
 }
 
 - (void)download {
-    User *user1 = [[User alloc] initWith:@{@"name":@"user1"}];
-    User *user2 = [[User alloc] initWith:@{@"name":@"user2"}];
-    User *user3 = [[User alloc] initWith:@{@"name":@"user3"}];
-    User *user4 = [[User alloc] initWith:@{@"name":@"user4"}];
-    User *user5 = [[User alloc] initWith:@{@"name":@"user5"}];
-    _users = [[NSMutableArray alloc] initWithArray:@[user1, user2, user3, user4, user5]];
-    [_userTableView reloadData];
-    
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    //
-    //    [manager GET:@"http://sotayit.com/service/mobile/systemsetting" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-    //        NSLog(@"%@", responseObject);
-    //    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-    //        //
-    //    }];
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{@"tableName":kUserTableName};
+    [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [[UserManager sharedInstance] setValueWith:responseObject];
+        _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
+        [_userTableView reloadData];
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    }];
+}
+
+- (void)deleteItemAt:(NSIndexPath *)indexPath{
+    [self showActivity];
+    User *userDeleted = _userDataSource[indexPath.row];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{@"tableName":kUserTableName,
+                             @"params": @{@"idName":kUserID,
+                                          @"idValue":userDeleted.ID}};
+    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self hideActivity];
+        [[UserManager sharedInstance] delete:userDeleted];
+        [_userDataSource removeObjectAtIndex:indexPath.row];
+        [_userTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+    }];
+}
+
+- (IBAction)onAddNewUser:(id)sender {
+    [AddNewUserViewController showViewAt:self onSave:^(User *user) {
+        [_userDataSource insertObject:user atIndex:0];
+        [_userTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }];
 }
 
 #pragma mark - TABLE DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _users.count;
+    return _userDataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellUser];
-    [cell initWith: [_users objectAtIndex:indexPath.row]];
+    [cell initWith: [_userDataSource objectAtIndex:indexPath.row]];
     return cell;
 }
 
@@ -92,14 +100,17 @@
     
 }
 
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteItemAt:indexPath];
+    }
 }
 
+#pragma mark - SEGUE
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueUserDetail]) {
         UserDetailViewController *vc = segue.destinationViewController;
-        vc.user = _users[_userTableView.indexPathForSelectedRow.row];
+        vc.user = _userDataSource[_userTableView.indexPathForSelectedRow.row];
     }
 }
 @end
