@@ -61,4 +61,11 @@
     [shopList removeAllObjects];
 }
 
+- (NSArray *)getShopNameList {
+    NSMutableArray *ShopNameList = [[NSMutableArray alloc] init];
+    for (Shop *item in shopList) {
+        [ShopNameList addObject:item.name];
+    }
+    return ShopNameList;
+}
 @end

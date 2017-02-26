@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UINavigationController *supplyNavigationController;
 @property (strong, nonatomic) UINavigationController *orderNavigationController;
 @property (strong, nonatomic) UINavigationController *userNavigationController;
+@property (strong, nonatomic) UINavigationController *crateNavigationController;
 @end
 
 @implementation MenuViewController
@@ -42,13 +43,15 @@
     _supplyNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation];
     _orderNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation];
     _userNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation];
+    _crateNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation];
 
     _menuData = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:@"Order Management" image:@"ic_description_36pt"],
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
+                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"],
+                  [[MenuCellProp alloc] initWith:@"CrateManager" image:@""]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
 }
@@ -124,6 +127,8 @@
             [[SupplyManager sharedInstance] deleteAll];
             [self dismissViewControllerAnimated:YES completion:nil];;
             break;
+        case 6:
+            [_groupContainerViews addSubview:_crateNavigationController.view];
         default:
             break;
     }
@@ -136,6 +141,7 @@
     [_supplyNavigationController.view removeFromSuperview];
     [_orderNavigationController.view removeFromSuperview];
     [_userNavigationController.view removeFromSuperview];
+    [_crateNavigationController.view removeFromSuperview];
 }
 
 

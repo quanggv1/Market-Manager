@@ -13,7 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *orderImage;
 @property (weak, nonatomic) IBOutlet UILabel *orderName;
 @property (weak, nonatomic) IBOutlet UILabel *dateOrderLabel;
-@property (weak, nonatomic) IBOutlet UIButton *extendButton;
 @property (weak, nonatomic) Order *order;
 @end
 
@@ -34,25 +33,5 @@
     _dateOrderLabel.text = _order.date;
 }
 
-- (IBAction)onExtendClicked:(id)sender {
-    UIView *view = self;
-    while (!(view == nil || [view isKindOfClass:[UITableView class]])) {
-        view = view.superview;
-    }
-    id controller = ((UITableView *)view).dataSource;
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    OrderPopOverViewController *vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardOrderPopover];
-    vc.selectedIndexPath = [((UITableView *)view) indexPathForCell:self];
-    vc.modalPresentationStyle = UIModalPresentationPopover;
-    UIPopoverPresentationController * popOverController = vc.popoverPresentationController;
-    [popOverController setDelegate:controller];
-    popOverController.sourceView = self.extendButton;
-    popOverController.sourceRect = self.extendButton.bounds;
-    popOverController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    [controller presentViewController:vc
-                             animated:YES
-                           completion:nil];
-    
-}
 
 @end

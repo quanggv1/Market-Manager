@@ -60,4 +60,12 @@
 - (void)deleteAll {
     [productList removeAllObjects];
 }
+
+- (NSArray *)getProductNameList {
+    NSMutableArray *productNameList = [[NSMutableArray alloc] init];
+    for (Product *item in productList) {
+        [productNameList addObject:item.name];
+    }
+    return productNameList;
+}
 @end

@@ -14,8 +14,6 @@
 #pragma mark - StoryboardIdentifiers
 static NSString *const StoryboardMain = @"MarketManager";
 static NSString *const StoryboardProductPopover = @"productPopOverId";
-static NSString *const StoryboardOrderPopover = @"orderPopOverViewControllerId";
-static NSString *const StoryboardUserPopover = @"userPopOverViewControllerId";
 static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
 static NSString *const StoryboardOrderDropdownList = @"orderDropDownListViewId";
 static NSString *const StoryboardProductNavigation = @"productNavigationId";
@@ -27,6 +25,7 @@ static NSString *const StoryboardAddNewShop = @"AddNewShopViewId";
 static NSString *const StoryboardAddNewSupply = @"AddNewSupplyViewId";
 static NSString *const StoryboardAddNewUser = @"AddNewUserViewId";
 static NSString *const StoryboardMenuView = @"menuViewController";
+static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -59,7 +58,6 @@ static NSString *const SegueShopDetail = @"showShopDetail";
 static NSString *const SegueSupplyDetail = @"showSupplyDetail";
 static NSString *const SegueOrderDetail = @"showOrderDetail";
 static NSString *const SegueUserDetail = @"showUserDetail";
-
 
 #pragma mark - Link
 static NSString *const API_GETDATA = @"http://192.168.1.17:5000/getData";

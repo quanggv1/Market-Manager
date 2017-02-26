@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^OnSelectedCell)(NSString *result);
 @interface OrderDropDownListViewController : UIViewController
-
+@property (strong, nonatomic) OnSelectedCell onSelectedCell;
+- (void)onSelected:(OnSelectedCell)callback;
+- (void)setRecommendList:(NSString *)name;
+- (void)updateRecommedListWith:(NSString *)keySearch;
 @end

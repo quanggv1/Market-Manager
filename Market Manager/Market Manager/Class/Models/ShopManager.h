@@ -16,4 +16,5 @@
 - (void)insert:(Shop *)shop;
 - (void)update:(Shop *)shop;
 - (void)deleteAll;
+- (NSArray *)getShopNameList;
 @end

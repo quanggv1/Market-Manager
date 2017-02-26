@@ -14,7 +14,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *productQuantityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *wareHouseTextField;
 @end
-@implementation OrderProductTableViewCell
+@implementation OrderProductTableViewCell {
+    OrderDropDownListViewController *orderDropDownList;
+    id controller;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -22,7 +25,16 @@
     _productQuantityTextField.delegate = self;
     _wareHouseTextField.delegate = self;
     
-    // Initialization code
+    [_productNameTextField addTarget:self
+                              action:@selector(productNameTextFieldDidChange:)
+                    forControlEvents:UIControlEventEditingChanged];
+    [_wareHouseTextField addTarget:self
+                            action:@selector(productNameTextFieldDidChange:)
+                    forControlEvents:UIControlEventEditingChanged];
+}
+
+- (void)productNameTextFieldDidChange:(UITextField *)textField {
+    [orderDropDownList updateRecommedListWith:textField.text];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -32,23 +44,41 @@
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
-    UIView *view = self;
-    while (!(view == nil || [view isKindOfClass:[UITableView class]])) {
-        view = view.superview;
+    if(textField == _productQuantityTextField) {
+        
+    } else {
+        [self showPopUpAt:textField];
+        [orderDropDownList onSelected:^(NSString *result) {
+            [textField setText:result];
+            [Utils hideKeyboard];
+        }];
     }
-    id controller = ((UITableView *)view).dataSource;
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    OrderDropDownListViewController* vc = [storyboard instantiateViewControllerWithIdentifier:StoryboardOrderDropdownList];
-    //    vc.selectedIndexPath = [((UITableView *)view) indexPathForCell:self];
-    vc.modalPresentationStyle = UIModalPresentationPopover;
-    UIPopoverPresentationController * popOverController = vc.popoverPresentationController;
+}
+
+- (void)showPopUpAt:(UITextField *)textField {
+    if(!orderDropDownList) {
+        UIView *view = self;
+        while (!(view == nil || [view isKindOfClass:[UITableView class]])) {
+            view = view.superview;
+        }
+        controller = ((UITableView *)view).dataSource;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
+        orderDropDownList = [storyboard instantiateViewControllerWithIdentifier:StoryboardOrderDropdownList];
+        orderDropDownList.modalPresentationStyle = UIModalPresentationPopover;
+    }
+    UIPopoverPresentationController * popOverController = orderDropDownList.popoverPresentationController;
     [popOverController setDelegate:controller];
     popOverController.sourceView = textField;
     popOverController.sourceRect = textField.bounds;
     popOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    [controller presentViewController:vc
+    [controller presentViewController:orderDropDownList
                              animated:YES
                            completion:nil];
+    if(textField == _productNameTextField) {
+        [orderDropDownList setRecommendList:kProductTableName];
+    } else {
+        [orderDropDownList setRecommendList:kShopTableName];
+    }
 }
 
 

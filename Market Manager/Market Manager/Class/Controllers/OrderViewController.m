@@ -13,7 +13,7 @@
 
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderTableView;
-@property (strong, nonatomic) NSMutableArray *orders;
+@property (strong, nonatomic) NSMutableArray *orderDataSource;
 @property (weak, nonatomic) IBOutlet UITextField *orderSearchTextField;
 @end
 
@@ -47,7 +47,7 @@
 
 - (void)deleteItem:(NSNotification *)notificaion {
     NSIndexPath *indexPath = [notificaion object];
-    [_orders removeObjectAtIndex:indexPath.row];
+    [_orderDataSource removeObjectAtIndex:indexPath.row];
     [_orderTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -68,8 +68,8 @@
     Order *order4 = [[Order alloc] initWith:@{@"name":@"order4", @"date":@"2017/02/18"}];
     Order *order5 = [[Order alloc] initWith:@{@"name":@"order5", @"date":@"2017/02/17"}];
     
-    _orders = [[NSMutableArray alloc] initWithArray:@[order1, order2, order3, order4, order5]];
-    orderTableDataSource = _orders;
+    _orderDataSource = [[NSMutableArray alloc] initWithArray:@[order1, order2, order3, order4, order5]];
+    orderTableDataSource = _orderDataSource;
     [_orderTableView reloadData];
     
     
@@ -91,14 +91,33 @@
     NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
     _orderSearchTextField.text = date;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-    orderTableDataSource = [_orders filteredArrayUsingPredicate:predicate];
+    orderTableDataSource = [_orderDataSource filteredArrayUsingPredicate:predicate];
     [_orderTableView reloadData];
 }
 
 - (IBAction)onRefreshClicked:(id)sender {
     _orderSearchTextField.text = @"";
-    orderTableDataSource = _orders;
+    orderTableDataSource = _orderDataSource;
     [_orderTableView reloadData];
+}
+
+- (void)deleteItemAt:(NSIndexPath *)indexPath {
+    [_orderDataSource removeObjectAtIndex:indexPath.row];
+    [_orderTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    [self showActivity];
+//    Order *order = _orderDataSource[indexPath.row];
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSDictionary *params = @{@"tableName":kOrderTableName,
+//                             @"params": @{@"idName":kOrderID,
+//                                          @"idValue":Order.ID}};
+//    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        [self hideActivity];
+//        [[OrderManager sharedInstance] delete:Order];
+//        [_OrderDataSource removeObjectAtIndex:indexPath.row];
+//        [_OrderTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        [self hideActivity];
+//    }];
 }
 
 #pragma mark - TABLE DATASOURCE
@@ -124,8 +143,10 @@
     
 }
 
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteItemAt:indexPath];
+    }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
