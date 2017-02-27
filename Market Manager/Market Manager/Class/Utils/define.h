@@ -60,11 +60,11 @@ static NSString *const SegueOrderDetail = @"showOrderDetail";
 static NSString *const SegueUserDetail = @"showUserDetail";
 
 #pragma mark - Link
-static NSString *const API_GETDATA = @"http://192.168.1.17:5000/getData";
-static NSString *const API_UPDATEDATA = @"http://192.168.1.17:5000/updateData";
-static NSString *const API_DELETEDATA = @"http://192.168.1.17:5000/deleteData";
-static NSString *const API_INSERTDATA = @"http://192.168.1.17:5000/insertData";
-static NSString *const API_AUTHEN  = @"http://192.168.1.17:5000/authen";
+static NSString *const API_GETDATA = @"http://172.27.97.149:5000/getData";
+static NSString *const API_UPDATEDATA = @"http://172.27.97.149:5000/updateData";
+static NSString *const API_DELETEDATA = @"http://172.27.97.149:5000/deleteData";
+static NSString *const API_INSERTDATA = @"http://172.27.97.149:5000/insertData";
+static NSString *const API_AUTHEN  = @"http://172.27.97.149:5000/authen";
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";

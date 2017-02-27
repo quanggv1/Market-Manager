@@ -16,4 +16,5 @@
 - (void)insert:(Supply *)supply;
 - (void)update:(Supply *)supply;
 - (void)deleteAll;
+- (NSArray *)getSupplyNameList;
 @end

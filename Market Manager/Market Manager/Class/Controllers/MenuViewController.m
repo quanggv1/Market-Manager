@@ -50,8 +50,8 @@
                   [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:@"Order Management" image:@"ic_description_36pt"],
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"],
-                  [[MenuCellProp alloc] initWith:@"CrateManager" image:@""]];
+                  [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_exit_to_app_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
 }
@@ -122,13 +122,13 @@
             [_groupContainerViews addSubview:_userNavigationController.view];
             break;
         case 5:
+            [_groupContainerViews addSubview:_crateNavigationController.view];
+            break;
+        case 6:
             [[ProductManager sharedInstance] deleteAll];
             [[ShopManager sharedInstance] deleteAll];
             [[SupplyManager sharedInstance] deleteAll];
-            [self dismissViewControllerAnimated:YES completion:nil];;
-            break;
-        case 6:
-            [_groupContainerViews addSubview:_crateNavigationController.view];
+            [self dismissViewControllerAnimated:YES completion:nil];
         default:
             break;
     }

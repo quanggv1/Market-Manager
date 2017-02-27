@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *productNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *productQuantityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *wareHouseTextField;
+@property (weak, nonatomic) IBOutlet UITextField *shopTextField;
 @end
 @implementation OrderProductTableViewCell {
     OrderDropDownListViewController *orderDropDownList;
@@ -24,6 +25,7 @@
     _productNameTextField.delegate = self;
     _productQuantityTextField.delegate = self;
     _wareHouseTextField.delegate = self;
+    _shopTextField.delegate = self;
     
     [_productNameTextField addTarget:self
                               action:@selector(productNameTextFieldDidChange:)
@@ -31,6 +33,9 @@
     [_wareHouseTextField addTarget:self
                             action:@selector(productNameTextFieldDidChange:)
                     forControlEvents:UIControlEventEditingChanged];
+    [_shopTextField addTarget:self
+                            action:@selector(productNameTextFieldDidChange:)
+                  forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)productNameTextFieldDidChange:(UITextField *)textField {
@@ -76,8 +81,10 @@
                            completion:nil];
     if(textField == _productNameTextField) {
         [orderDropDownList setRecommendList:kProductTableName];
-    } else {
+    } else if(textField == _shopTextField) {
         [orderDropDownList setRecommendList:kShopTableName];
+    } else if(textField == _wareHouseTextField) {
+        [orderDropDownList setRecommendList:kSupplyTableName];
     }
 }
 

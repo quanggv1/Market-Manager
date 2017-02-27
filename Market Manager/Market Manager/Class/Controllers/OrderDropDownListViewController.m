@@ -11,6 +11,7 @@
 #import "ShopManager.h"
 #import "Product.h"
 #import "Shop.h"
+#import "SupplyManager.h"
 
 @interface OrderDropDownListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderDropdownTableView;
@@ -55,6 +56,8 @@
         recommendList = [[ProductManager sharedInstance] getProductNameList];
     } else if([name isEqualToString:kShopTableName]) {
         recommendList = [[ShopManager sharedInstance] getShopNameList];
+    } else if([name isEqualToString:kSupplyTableName]) {
+        recommendList = [[SupplyManager sharedInstance] getSupplyNameList];
     }
     orderDropdownDatasource = [recommendList subarrayWithRange:NSMakeRange(0, (recommendList.count >= 10) ? 9 : recommendList.count)];
     [self reloadData];

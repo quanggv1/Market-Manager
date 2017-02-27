@@ -61,5 +61,12 @@
     [supplyList removeAllObjects];
 }
 
+- (NSArray *)getSupplyNameList {
+    NSMutableArray *SupplyNameList = [[NSMutableArray alloc] init];
+    for (Supply *item in supplyList) {
+        [SupplyNameList addObject:item.name];
+    }
+    return SupplyNameList;
+}
 
 @end
