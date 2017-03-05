@@ -2,6 +2,50 @@ var errorResp = {'code':'400', 'status':'error'};
 
 /*============SQL Query==============*/
 module.exports = {
+        /*Authentication*/
+          authen: function(con, req, res){
+            con.query('SELECT * FROM user WHERE userName = ? AND password = ?', [req.query.userName, req.query.password], function (error, rows) {
+              if (error) {
+                console.log(error);
+                res.send(errorResp);
+              } else {
+                if (rows.length > 0) {
+                  console.log('OK');
+                  res.send({ 'code': '200', 'status': 'OK' });
+                } else {
+                  res.send(errorResp);
+                }
+              }
+          });
+          },
+        /*select order list*/
+          getOrderList: function(con, req, res) {
+            var sql = "SELECT shop_order.order_ID, shop_order.shop_ID, shop.shopName, order_each_day.order_quantity FROM shop_order JOIN shop ON shop_order.shop_ID = shop.shopID JOIN order_each_day ON shop_order.order_ID = order_each_day.oderID";
+            con.query(sql, function(err, rows) {
+                if(err) {
+                    console.log(err);
+                    res.send(errorResp);
+                  } else {
+                      console.log('Data received from Db:\n');
+                      res.send(rows)
+                  }
+            });
+          },
+           /*select order list by date*/
+          getOrderListByDate:function(con, req, res) {
+            var strDate = req.query.date;
+            var sql = "SELECT shop_order.order_ID, shop_order.shop_ID, shop.shopName, order_each_day.order_quantity FROM shop_order JOIN shop ON shop_order.shop_ID = shop.shopID JOIN order_each_day ON shop_order.order_ID = order_each_day.oderID WHERE shop_order.date=?";
+            
+            con.query(sql,strDate, function(err, rows) {
+                if(err) {
+                    console.log(err);
+                    res.send(errorResp);
+                  } else {
+                      console.log('Data received from Db:\n');
+                      res.send(rows)
+                  }
+            });
+          },
         /*select from table*/
           getData: function (con, req, res){
                 var table = req.query.tableName;

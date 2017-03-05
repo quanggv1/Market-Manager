@@ -38,6 +38,9 @@
 }
 
 - (IBAction)onLoginClicked:(id)sender {
+
+    [self pushToMain];
+
 //    if(![self isNameValid]) return;
 //    if(![self isPasswordValid]) return;
 //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -70,7 +73,6 @@
 //                                  cancelCallback:nil];
 //             [self hideActivity];
 //         }];
-    [self pushToMain];
 }
 
 - (void)pushToMain {

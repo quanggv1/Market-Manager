@@ -22,20 +22,17 @@ con.connect(function (err) {
 app.listen(5000);
 
 app.get('/authen', function (req, res) {
-  console.log(req.query)
-  con.query('SELECT * FROM user WHERE userName = ? AND password = ?', [req.query.userName, req.query.password], function (error, rows) {
-    if (error) {
-      console.log(error);
-      res.send(errorResp);
-    } else {
-      if (rows.length > 0) {
-        console.log('OK');
-        res.send({ 'code': '200', 'status': 'OK' });
-      } else {
-        res.send(errorResp);
-      }
-    }
-  });
+  SQL.authen(con, req, res);
+});
+
+app.get('/getOrderList', function(req, res) {
+  SQL.getOrderList(con, req, res);
+});
+app.get('/getOrderListByDate', function(req, res) {
+  SQL.getOrderListByDate(con, req, res);
+});
+app.get('/updateOrder', function (req, res) {
+  SQL.aupdateOrder(con, req, res);
 });
 app.get('/getData', function (req, res) {
   SQL.getData(con, req, res);
