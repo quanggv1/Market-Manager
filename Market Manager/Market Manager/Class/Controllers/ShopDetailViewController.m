@@ -8,7 +8,7 @@
 
 #import "ShopDetailViewController.h"
 #import "Product.h"
-#import "ProductCell.h"
+#import "ShopProductTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
 
@@ -20,9 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *shopNameLbl;
 @end
 
-@implementation ShopDetailViewController{
-    NSArray *productTableDataSource;
-}
+@implementation ShopDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,22 +34,24 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifyProductDeletesItem
-                                               object:nil];
+    self.navigationItem.title = _shop.name;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProduct:) name:NotifyShopProductUpdate object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.navigationItem.title = _shop.name;
+    self.navigationItem.title = @"";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)deleteItem:(NSNotification *)notificaion {
-    NSIndexPath *indexPath = [notificaion object];
+- (void)updateProduct:(NSNotification *)notify {
+    NSIndexPath *indexPath = [notify.object objectForKey:@"index"];
+    Product *product = [notify.object objectForKey:@"product"];
+    [_products replaceObjectAtIndex:indexPath.row withObject:product];
+}
+
+- (void)deleteItemAt:(NSIndexPath *)indexPath {
     [_products removeObjectAtIndex:indexPath.row];
-    productTableDataSource = _products;
     [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                              withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -62,8 +62,9 @@
 }
 
 - (void)download {
-    _products = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
-    productTableDataSource = _products;
+    Product *product = [[Product alloc] initWith:@{kProductName:@"Potato", kProductSTake: @"5", kProductID: @"1", kProductPrice: @"5.5"}];
+    Product *product2 = [[Product alloc] initWith:@{kProductName:@"Potato", kProductSTake: @"5", kProductID: @"1", kProductPrice: @"5.5"}];
+    _products = [[NSMutableArray alloc] initWithArray:@[product, product2, product, product]];
     [_productTableView reloadData];
 }
 
@@ -81,7 +82,6 @@
 
 - (IBAction)onRefreshClicked:(id)sender {
     _productSearchTextField.text = @"";
-    productTableDataSource = _products;
     [_productTableView reloadData];
 }
 
@@ -91,23 +91,25 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return productTableDataSource.count;
+    return _products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProduct];
-    [cell initWith: [productTableDataSource objectAtIndex:indexPath.row]];
+    ShopProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellShopProduct];
+    [cell setProduct:_products[indexPath.row]];
     return cell;
 }
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:SegueProductDetail sender:self];
+//    [self performSegueWithIdentifier:SegueProductDetail sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteItemAt:indexPath];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

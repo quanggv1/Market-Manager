@@ -36,6 +36,7 @@ static NSString *const CellUser = @"userCellId";
 static NSString *const CellCrateOrder = @"crateOrderCell";
 static NSString *const CellProductOrder = @"productOrderCell";
 static NSString *const CellOrderDropDown = @"orderDropdownCell";
+static NSString *const CellShopProduct = @"ShopProductTableViewCellId";
 
 
 #pragma mark - Color
@@ -50,6 +51,7 @@ static NSString *const NotifyProductDeletesItem = @"NotifyProductDeletesItem";
 static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
 static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
+static NSString *const NotifyShopProductUpdate = @"NotifyShopProductUpdate";
 
 #pragma mark - Segue
 static NSString *const SegueMain = @"segueMain";
@@ -58,13 +60,14 @@ static NSString *const SegueShopDetail = @"showShopDetail";
 static NSString *const SegueSupplyDetail = @"showSupplyDetail";
 static NSString *const SegueOrderDetail = @"showOrderDetail";
 static NSString *const SegueUserDetail = @"showUserDetail";
+static NSString *const SegueShowOrder = @"showOrder";
 
 #pragma mark - Link
-static NSString *const API_GETDATA = @"http://172.27.97.149:5000/getData";
-static NSString *const API_UPDATEDATA = @"http://172.27.97.149:5000/updateData";
-static NSString *const API_DELETEDATA = @"http://172.27.97.149:5000/deleteData";
-static NSString *const API_INSERTDATA = @"http://172.27.97.149:5000/insertData";
-static NSString *const API_AUTHEN  = @"http://172.27.97.149:5000/authen";
+static NSString *const API_GETDATA = @"http://localhost:5000/getData";
+static NSString *const API_UPDATEDATA = @"http://localhost:5000/updateData";
+static NSString *const API_DELETEDATA = @"http://localhost:5000/deleteData";
+static NSString *const API_INSERTDATA = @"http://localhost:5000/insertData";
+static NSString *const API_AUTHEN  = @"http://localhost:5000/authen";
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
@@ -72,6 +75,7 @@ static NSString *const kProductDesc = @"description";
 static NSString *const kProductPrice = @"price";
 static NSString *const kProductTableName = @"product";
 static NSString *const kProductID = @"productID";
+static NSString *const kProductSTake = @"STake";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";

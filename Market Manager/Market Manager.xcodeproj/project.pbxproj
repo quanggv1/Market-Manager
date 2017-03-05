@@ -50,6 +50,8 @@
 		3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */; };
 		742F5FFF1E5F5DB200DB1498 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */; };
 		743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 743242171E614EA6006ABCA0 /* CallbackAlertView.m */; };
+		744424EB1E6B089100F0ECA8 /* ShopProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 744424EA1E6B089100F0ECA8 /* ShopProductTableViewCell.m */; };
+		744424EE1E6B1BE900F0ECA8 /* ShopOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */; };
 		7466EAED1E51E95E00A2C0F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EAEC1E51E95E00A2C0F5 /* main.m */; };
 		7466EAF01E51E95E00A2C0F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7466EAEF1E51E95E00A2C0F5 /* AppDelegate.m */; };
 		7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7466EAF71E51E95E00A2C0F5 /* Assets.xcassets */; };
@@ -177,6 +179,10 @@
 		742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		743242161E614EA6006ABCA0 /* CallbackAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallbackAlertView.h; sourceTree = "<group>"; };
 		743242171E614EA6006ABCA0 /* CallbackAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallbackAlertView.m; sourceTree = "<group>"; };
+		744424E91E6B089100F0ECA8 /* ShopProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopProductTableViewCell.h; sourceTree = "<group>"; };
+		744424EA1E6B089100F0ECA8 /* ShopProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopProductTableViewCell.m; sourceTree = "<group>"; };
+		744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderViewController.h; sourceTree = "<group>"; };
+		744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrderViewController.m; sourceTree = "<group>"; };
 		7466EAE81E51E95E00A2C0F5 /* Market Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Market Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7466EAEC1E51E95E00A2C0F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7466EAEE1E51E95E00A2C0F5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -560,6 +566,8 @@
 				74E9045F1E585785005D391D /* ShopTableViewCell.m */,
 				74E904671E585DE0005D391D /* ShopDetailViewController.h */,
 				74E904681E585DE0005D391D /* ShopDetailViewController.m */,
+				744424E91E6B089100F0ECA8 /* ShopProductTableViewCell.h */,
+				744424EA1E6B089100F0ECA8 /* ShopProductTableViewCell.m */,
 				748B20D11E6200C200571111 /* AddNewShopViewController.h */,
 				748B20D21E6200C200571111 /* AddNewShopViewController.m */,
 			);
@@ -596,6 +604,8 @@
 				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
 				3DFD45AC1E5ED24700069D7D /* OrderDropDownListViewController.h */,
 				3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */,
+				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
+				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -713,6 +723,7 @@
 				74E904691E585DE0005D391D /* ShopDetailViewController.m in Sources */,
 				742F5FFF1E5F5DB200DB1498 /* BaseViewController.m in Sources */,
 				74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */,
+				744424EE1E6B1BE900F0ECA8 /* ShopOrderViewController.m in Sources */,
 				3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */,
 				7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */,
 				3D41D79C1E55903800123A71 /* IQBarButtonItem.m in Sources */,
@@ -742,6 +753,7 @@
 				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
 				74ED22311E59FF560079D3F0 /* OrderPopOverViewController.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				744424EB1E6B089100F0ECA8 /* ShopProductTableViewCell.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
