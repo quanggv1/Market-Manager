@@ -26,6 +26,9 @@
     [super viewDidLoad];
     _orderDropdownTableView.dataSource = self;
     _orderDropdownTableView.delegate = self;
+    recommendList = @[@"type1", @"type2", @"type3"];
+    orderDropdownDatasource = recommendList;
+    self.preferredContentSize = CGSizeMake(150, orderDropdownDatasource.count * 35);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -49,18 +52,20 @@
         orderDropdownDatasource = [NSMutableArray arrayWithArray:[recommendList filteredArrayUsingPredicate:predicate]];
     }
     [_orderDropdownTableView reloadData];
+    self.preferredContentSize = CGSizeMake(150, orderDropdownDatasource.count * 35);
 }
 
 - (void)setRecommendList:(NSString *)name {
-    if([name isEqualToString:kProductTableName]) {
-        recommendList = [[ProductManager sharedInstance] getProductNameList];
-    } else if([name isEqualToString:kShopTableName]) {
-        recommendList = [[ShopManager sharedInstance] getShopNameList];
-    } else if([name isEqualToString:kSupplyTableName]) {
-        recommendList = [[SupplyManager sharedInstance] getSupplyNameList];
-    }
-    orderDropdownDatasource = [recommendList subarrayWithRange:NSMakeRange(0, (recommendList.count >= 10) ? 9 : recommendList.count)];
-    [self reloadData];
+//    if([name isEqualToString:kProductTableName]) {
+//        recommendList = [[ProductManager sharedInstance] getProductNameList];
+//    } else if([name isEqualToString:kShopTableName]) {
+//        recommendList = [[ShopManager sharedInstance] getShopNameList];
+//    } else if([name isEqualToString:kSupplyTableName]) {
+//        recommendList = [[SupplyManager sharedInstance] getSupplyNameList];
+//    }
+//    orderDropdownDatasource = [recommendList subarrayWithRange:NSMakeRange(0, (recommendList.count >= 10) ? 9 : recommendList.count)];
+//    recommendList = @[@"type1", @"type2", @"type3"];
+//    [self reloadData];
 }
 
 - (void)reloadData {

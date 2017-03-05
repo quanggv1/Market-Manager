@@ -6,8 +6,8 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Product.h"
 
 @interface OrderProductTableViewCell : UITableViewCell
-
+@property (weak, nonatomic) Product *product;
 @end

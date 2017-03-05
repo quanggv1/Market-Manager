@@ -48,7 +48,7 @@
     _menuData = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Order Management" image:@"ic_description_36pt"],
+                  [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
                   [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_exit_to_app_36pt"],
                   [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];

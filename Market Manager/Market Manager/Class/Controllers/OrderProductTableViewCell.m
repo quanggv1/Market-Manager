@@ -10,48 +10,49 @@
 #import "OrderDropDownListViewController.h"
 
 @interface OrderProductTableViewCell()<UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *productNameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *productQuantityTextField;
-@property (weak, nonatomic) IBOutlet UITextField *wareHouseTextField;
-@property (weak, nonatomic) IBOutlet UITextField *shopTextField;
+@property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *productOrderLabel;
+@property (weak, nonatomic) IBOutlet UITextField *wh1TextField;
+@property (weak, nonatomic) IBOutlet UITextField *wh2TextField;
+@property (weak, nonatomic) IBOutlet UITextField *whTLTextField;
+@property (weak, nonatomic) IBOutlet UITextField *crateQtyTextField;
+@property (weak, nonatomic) IBOutlet UITextField *crateTypeTextField;
 @end
 @implementation OrderProductTableViewCell {
     OrderDropDownListViewController *orderDropDownList;
     id controller;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    _productNameTextField.delegate = self;
-    _productQuantityTextField.delegate = self;
-    _wareHouseTextField.delegate = self;
-    _shopTextField.delegate = self;
+-(void)layoutSubviews {
+    _productNameLabel.text = _product.name;
+    _productOrderLabel.text = [NSString stringWithFormat:@"%ld", _product.order];
     
-    [_productNameTextField addTarget:self
-                              action:@selector(productNameTextFieldDidChange:)
-                    forControlEvents:UIControlEventEditingChanged];
-    [_wareHouseTextField addTarget:self
-                            action:@selector(productNameTextFieldDidChange:)
-                    forControlEvents:UIControlEventEditingChanged];
-    [_shopTextField addTarget:self
-                            action:@selector(productNameTextFieldDidChange:)
-                  forControlEvents:UIControlEventEditingChanged];
+    
 }
 
-- (void)productNameTextFieldDidChange:(UITextField *)textField {
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    _wh1TextField.delegate = self;
+    _wh2TextField.delegate = self;
+    _whTLTextField.delegate = self;
+    _crateQtyTextField.delegate = self;
+    _crateTypeTextField.delegate = self;
+    
+    [_crateTypeTextField addTarget:self
+                              action:@selector(crateTypeTextFieldDidChange:)
+                    forControlEvents:UIControlEventEditingChanged];
+}
+
+- (void)crateTypeTextFieldDidChange:(UITextField *)textField {
     [orderDropDownList updateRecommedListWith:textField.text];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
-    if(textField == _productQuantityTextField) {
-        
-    } else {
+    if(textField == _crateTypeTextField) {
         [self showPopUpAt:textField];
         [orderDropDownList onSelected:^(NSString *result) {
             [textField setText:result];
@@ -79,13 +80,6 @@
     [controller presentViewController:orderDropDownList
                              animated:YES
                            completion:nil];
-    if(textField == _productNameTextField) {
-        [orderDropDownList setRecommendList:kProductTableName];
-    } else if(textField == _shopTextField) {
-        [orderDropDownList setRecommendList:kShopTableName];
-    } else if(textField == _wareHouseTextField) {
-        [orderDropDownList setRecommendList:kSupplyTableName];
-    }
 }
 
 

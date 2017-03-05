@@ -17,6 +17,7 @@
         self.productId = [[data objectForKey:kProductID] integerValue];
         self.price = [[data objectForKey:kProductPrice] floatValue];
         self.STake = [[data objectForKey:kProductSTake] integerValue];
+        self.order = [[data objectForKey:kProductOrder] integerValue];
     }
     return self;
 }

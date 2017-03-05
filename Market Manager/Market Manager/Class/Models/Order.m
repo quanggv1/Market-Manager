@@ -14,6 +14,7 @@
     if(self) {
         self.name = [data objectForKey:@"name"];
         self.date = [data objectForKey:@"date"];
+        self.isOrderDone = [[data objectForKey:@"status"] boolValue];
     }
     return self;
 }

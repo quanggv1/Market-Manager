@@ -76,6 +76,7 @@ static NSString *const kProductPrice = @"price";
 static NSString *const kProductTableName = @"product";
 static NSString *const kProductID = @"productID";
 static NSString *const kProductSTake = @"STake";
+static NSString *const kProductOrder = @"order";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";
@@ -91,6 +92,8 @@ static NSString *const kUserTableName = @"user";
 static NSString *const kUserName = @"userName";
 static NSString *const kUserPassword = @"password";
 static NSString *const kUserID = @"userID";
+
+static NSString *const kTitleOrderManagement = @"Order Management";
 
 
 #endif /* define_h */

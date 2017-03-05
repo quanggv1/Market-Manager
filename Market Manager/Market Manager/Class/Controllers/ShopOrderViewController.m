@@ -24,10 +24,14 @@
     [self download];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationItem.title = kTitleOrderManagement;
+}
+
 - (IBAction)onMenuClicked:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
 }
-
 
 - (void)download {
     [self showActivity];
@@ -43,7 +47,6 @@
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface Product : NSObject
-@property (nonatomic, strong) NSString *name, *productDesc;
-@property (nonatomic, assign) NSInteger productId, STake;
+@property (nonatomic, strong) NSString *name, *productDesc, *crateType;
+@property (nonatomic, assign) NSInteger productId, STake, order, wh1, wh2, whTL, crateQty;
 @property (nonatomic, assign) float price;
 - (instancetype)initWith:(NSDictionary *)data;
 @end
