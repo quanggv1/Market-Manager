@@ -38,38 +38,39 @@
 }
 
 - (IBAction)onLoginClicked:(id)sender {
-    if(![self isNameValid]) return;
-    if(![self isPasswordValid]) return;
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *userName = _userNameTextField.text;
-    NSString *password = _passwordTextField.text;
-    NSDictionary *params = @{kUserName: userName,
-                             kUserPassword: password};
-    [manager GET:API_AUTHEN parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:@"code"] intValue] == 200 &&
-                [[responseObject objectForKey:@"status"] isEqualToString:@"OK"]){
-                 [self pushToMain];
-             } else {
-                 [CallbackAlertView setCallbackTaget:titleError
-                                             message:msgAuthenFailed
-                                              target:self okTitle:@"OK"
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [CallbackAlertView setCallbackTaget:titleError
-                                         message:msgConnectFailed
-                                          target:self
-                                         okTitle:@"OK"
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];
-             [self hideActivity];
-         }];
+    [self pushToMain];
+//    if(![self isNameValid]) return;
+//    if(![self isPasswordValid]) return;
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSString *userName = _userNameTextField.text;
+//    NSString *password = _passwordTextField.text;
+//    NSDictionary *params = @{kUserName: userName,
+//                             kUserPassword: password};
+//    [manager GET:API_AUTHEN parameters:params
+//        progress:nil
+//         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//             if([[responseObject objectForKey:@"code"] intValue] == 200 &&
+//                [[responseObject objectForKey:@"status"] isEqualToString:@"OK"]){
+//                 [self pushToMain];
+//             } else {
+//                 [CallbackAlertView setCallbackTaget:titleError
+//                                             message:msgAuthenFailed
+//                                              target:self okTitle:@"OK"
+//                                          okCallback:nil
+//                                         cancelTitle:nil
+//                                      cancelCallback:nil];
+//             }
+//             [self hideActivity];
+//         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//             [CallbackAlertView setCallbackTaget:titleError
+//                                         message:msgConnectFailed
+//                                          target:self
+//                                         okTitle:@"OK"
+//                                      okCallback:nil
+//                                     cancelTitle:nil
+//                                  cancelCallback:nil];
+//             [self hideActivity];
+//         }];
 }
 
 - (void)pushToMain {
