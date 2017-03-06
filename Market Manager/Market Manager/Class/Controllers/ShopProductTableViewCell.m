@@ -8,7 +8,9 @@
 
 #import "ShopProductTableViewCell.h"
 
-@implementation ShopProductTableViewCell
+@implementation ShopProductTableViewCell {
+    Product *_product;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -20,10 +22,11 @@
     [super setSelected:selected animated:animated];
 }
 
--(void)layoutSubviews {
-    _productNameLabel.text = _product.name;
-    _productPriceLabel.text = [NSString stringWithFormat:@"%.2f $", _product.price];
-    _productSTakeTextField.text = [NSString stringWithFormat:@"%ld", _product.STake];
+-(void)setProduct:(Product *)product {
+    _product = product;
+    _productNameLabel.text = product.name;
+    _productPriceLabel.text = [NSString stringWithFormat:@"%.2f $", product.price];
+    _productSTakeTextField.text = [NSString stringWithFormat:@"%ld", product.STake];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {

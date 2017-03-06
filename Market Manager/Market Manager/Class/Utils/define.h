@@ -63,13 +63,18 @@ static NSString *const SegueUserDetail = @"showUserDetail";
 static NSString *const SegueShowOrder = @"showOrder";
 
 #pragma mark - Link
-static NSString *const API_GETDATA = @"http://localhost:5000/getData";
-static NSString *const API_UPDATEDATA = @"http://localhost:5000/updateData";
-static NSString *const API_DELETEDATA = @"http://localhost:5000/deleteData";
-static NSString *const API_INSERTDATA = @"http://localhost:5000/insertData";
-static NSString *const API_AUTHEN  = @"http://localhost:5000/authen";
-static NSString *const API_GETODERLISTBYDATE = @"http://localhost:5000/getOrderListByDate";
+
+//#define SERVER @"http://localhost:5000/"
+#define SERVER @"http://172.27.97.149:5000/"
+#define API_GETDATA [SERVER stringByAppendingString:@"getData"]
+#define API_UPDATEDATA [SERVER stringByAppendingString:@"updateData"]
+#define API_DELETEDATA [SERVER stringByAppendingString:@"deleteData"]
+#define API_INSERTDATA [SERVER stringByAppendingString:@"insertData"]
+#define API_AUTHEN [SERVER stringByAppendingString:@"authen"]
+#define API_GETODERLISTBYDATE [SERVER stringByAppendingString:@"getOrderListByDate"]
 //http://localhost:5000/getOrderListByDate?date=2017-03-01
+
+
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
 static NSString *const kProductDesc = @"description";

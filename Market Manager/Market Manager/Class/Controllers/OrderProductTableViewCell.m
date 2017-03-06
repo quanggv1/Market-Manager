@@ -17,17 +17,17 @@
 @property (weak, nonatomic) IBOutlet UITextField *whTLTextField;
 @property (weak, nonatomic) IBOutlet UITextField *crateQtyTextField;
 @property (weak, nonatomic) IBOutlet UITextField *crateTypeTextField;
+@property (weak, nonatomic) Product *product;
 @end
 @implementation OrderProductTableViewCell {
     OrderDropDownListViewController *orderDropDownList;
     id controller;
 }
 
--(void)layoutSubviews {
+-(void)setProduct:(Product *)product {
+    _product = product;
     _productNameLabel.text = _product.name;
     _productOrderLabel.text = [NSString stringWithFormat:@"%ld", _product.order];
-    
-    
 }
 
 - (void)awakeFromNib {

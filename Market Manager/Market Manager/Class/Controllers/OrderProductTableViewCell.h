@@ -9,5 +9,5 @@
 #import "Product.h"
 
 @interface OrderProductTableViewCell : UITableViewCell
-@property (weak, nonatomic) Product *product;
+-(void)setProduct:(Product *)product;
 @end
