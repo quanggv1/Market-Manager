@@ -70,6 +70,7 @@ static NSString *const API_INSERTDATA = @"http://localhost:5000/insertData";
 static NSString *const API_AUTHEN  = @"http://localhost:5000/authen";
 static NSString *const API_GETODERLISTBYDATE = @"http://localhost:5000/getOrderListByDate";
 //http://localhost:5000/getOrderListByDate?date=2017-03-01
+static NSString *const API_GETSHOP_PRODUCT_LIST = @"http://localhost:5000/getShopProductList";
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
 static NSString *const kProductDesc = @"description";

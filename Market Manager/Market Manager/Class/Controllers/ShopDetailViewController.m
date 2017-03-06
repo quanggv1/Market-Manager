@@ -62,6 +62,16 @@
 }
 
 - (void)download {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{@"date":@"2017-03-01"};
+    [manager GET:API_GETSHOP_PRODUCT_LIST parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"response %@", responseObject);
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    }];
+
     Product *product = [[Product alloc] initWith:@{kProductName:@"Potato", kProductSTake: @"5", kProductID: @"1", kProductPrice: @"5.5"}];
     Product *product2 = [[Product alloc] initWith:@{kProductName:@"Potato", kProductSTake: @"5", kProductID: @"1", kProductPrice: @"5.5"}];
     _products = [[NSMutableArray alloc] initWithArray:@[product, product2, product, product]];

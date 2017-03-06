@@ -18,6 +18,20 @@ module.exports = {
               }
           });
           },
+           /*select order list*/
+          getShopProductList: function(con, req, res) {
+            var sql = "SELECT * FROM `shop_product` WHERE date=?";
+            var strDate = req.query.date;
+            con.query(sql,strDate, function(err, rows) {
+                if(err) {
+                    console.log(err);
+                    res.send(errorResp);
+                  } else {
+                      console.log('Data received from Db:\n');
+                      res.send(rows)
+                  }
+            });
+          },
         /*select order list*/
           getOrderList: function(con, req, res) {
             var sql = "SELECT shop_order.order_ID, shop_order.shop_ID, shop.shopName, order_each_day.order_quantity FROM shop_order JOIN shop ON shop_order.shop_ID = shop.shopID JOIN order_each_day ON shop_order.order_ID = order_each_day.oderID";

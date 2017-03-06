@@ -24,7 +24,9 @@ app.listen(5000);
 app.get('/authen', function (req, res) {
   SQL.authen(con, req, res);
 });
-
+app.get('/getShopProductList', function(req, res) {
+  SQL.getShopProductList(con, req, res);
+});
 app.get('/getOrderList', function(req, res) {
   SQL.getOrderList(con, req, res);
 });
