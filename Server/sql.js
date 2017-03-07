@@ -20,7 +20,7 @@ module.exports = {
           },
            /*select order list*/
           getShopProductList: function(con, req, res) {
-            var sql = "SELECT * FROM `shop_product` WHERE date=?";
+            var sql = "SELECT shop_product.productID, shop_product.shopID, shop_product.stockTake, shop_product.date, product.productName FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.date =?";
             var strDate = req.query.date;
             con.query(sql,strDate, function(err, rows) {
                 if(err) {
