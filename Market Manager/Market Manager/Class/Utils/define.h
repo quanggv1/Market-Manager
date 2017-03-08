@@ -72,8 +72,10 @@ static NSString *const SegueShowOrder = @"showOrder";
 ////http://localhost:5000/getOrderListByDate?date=2017-03-01
 //static NSString *const API_GETSHOP_PRODUCT_LIST = @"http://localhost:5000/getShopProductList";
 
-//#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.149:5000/"
+#define SERVER @"http://localhost:5000/"
+//#define SERVER @"http://172.27.97.149:5000/"
+//#define SERVER @"http://192.168.1.17:5000/"
+
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
 #define API_UPDATEDATA [SERVER stringByAppendingString:@"updateData"]
 #define API_DELETEDATA [SERVER stringByAppendingString:@"deleteData"]
