@@ -504,6 +504,8 @@
 				742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */,
 				3D41D76A1E558C9100123A71 /* LoginViewController.h */,
 				3D41D76B1E558C9100123A71 /* LoginViewController.m */,
+				3D2F4B021E6FB2A600030536 /* RecommendListViewController.h */,
+				3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */,
 				74E9044A1E57F701005D391D /* Menu */,
 				74ED222B1E59FC850079D3F0 /* Order */,
 				74E904421E57F513005D391D /* Product */,
@@ -626,8 +628,6 @@
 				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
 				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
 				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
-				3D2F4B021E6FB2A600030536 /* RecommendListViewController.h */,
-				3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";

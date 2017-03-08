@@ -36,6 +36,9 @@ app.get('/getOrderList', function(req, res) {
 app.get('/getOrderListByDate', function(req, res) {
   SQL.getOrderListByDate(con, req, res);
 });
+app.get('/getOrderListByShopID', function(req, res) {
+  SQL.getOrderListByShopID(con, req, res);
+});
 app.get('/updateOrder', function (req, res) {
   SQL.aupdateOrder(con, req, res);
 });

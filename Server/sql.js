@@ -48,21 +48,36 @@ module.exports = {
 
   /*select order list*/
   getOrderList: function (con, req, res) {
-    var sql = "SELECT shop_order.order_ID, shop_order.shop_ID, shop.shopName, order_each_day.order_quantity FROM shop_order JOIN shop ON shop_order.shop_ID = shop.shopID JOIN order_each_day ON shop_order.order_ID = order_each_day.oderID";
+    var sql = "SELECT order.order_ID, order.shop_ID, shop.shopName, order_each_day.order_quantity FROM order JOIN shop ON order.shop_ID = shop.shopID JOIN order_each_day ON order.order_ID = order_each_day.oderID";
     con.query(sql, function (err, rows) {
       if (err) {
         console.log(err);
         res.send(errorResp);
       } else {
         console.log('Data received from Db:\n');
-        res.send(rows)
+        res.send({ code: '200', status: 'OK', data: rows });
       }
     });
   },
+  /*select order list by shop*/
+  getOrderListByShopID: function (con, req, res) {
+    var shopID = req.query.shopID;
+    var sql = "SELECT order.order_ID, order.shop_ID, shop.shopName, order_each_day.order_quantity FROM order JOIN shop ON order.shop_ID = shop.shopID JOIN order_each_day ON order.order_ID = order_each_day.oderID WHERE order.shop_ID=?";
+    con.query(sql, shopID, function (err, rows) {
+      if (err) {
+        console.log(err);
+        res.send(errorResp);
+      } else {
+        console.log('Data received from Db:\n');
+        res.send({ code: '200', status: 'OK', data: rows });
+      }
+    });
+  },
+
   /*select order list by date*/
   getOrderListByDate: function (con, req, res) {
     var strDate = req.query.date;
-    var sql = "SELECT shop_order.order_ID, shop_order.shop_ID, shop.shopName, order_each_day.order_quantity FROM shop_order JOIN shop ON shop_order.shop_ID = shop.shopID JOIN order_each_day ON shop_order.order_ID = order_each_day.oderID WHERE shop_order.date=?";
+    var sql = "SELECT order.order_ID, order.shop_ID, shop.shopName, order_each_day.order_quantity FROM order JOIN shop ON order.shop_ID = shop.shopID JOIN order_each_day ON order.order_ID = order_each_day.oderID WHERE order.date=?";
 
     con.query(sql, strDate, function (err, rows) {
       if (err) {
@@ -70,7 +85,7 @@ module.exports = {
         res.send(errorResp);
       } else {
         console.log('Data received from Db:\n');
-        res.send(rows)
+        res.send({ code: '200', status: 'OK', data: rows });
       }
     });
   },
