@@ -9,8 +9,7 @@
 #import "BaseViewController.h"
 #import "ActivityView.h"
 
-@interface BaseViewController ()
-
+@interface BaseViewController ()<UIPreviewInteractionDelegate>
 @end
 
 @implementation BaseViewController{
@@ -36,6 +35,11 @@
 
 - (void)hideActivity {
     [activityView_ hide];
+}
+
+#pragma mark - POPOVER DELEGATE
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
 }
 
 @end

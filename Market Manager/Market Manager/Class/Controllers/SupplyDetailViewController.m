@@ -105,10 +105,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone;
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueProductDetail]) {
         ProductDetailViewController *vc = segue.destinationViewController;

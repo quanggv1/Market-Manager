@@ -7,7 +7,8 @@
 //
 
 #import "Product.h"
+#import "iCarousel.h"
 
 @interface OrderProductTableViewCell : UITableViewCell
-@property (weak, nonatomic) Product *product;
+- (void)setProduct:(Product *)product;
 @end

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D0C18921E5A82C2008CA470 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C18911E5A82C2008CA470 /* ActivityView.m */; };
 		3D0C18951E5AB0E2008CA470 /* DateTimePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C18941E5AB0E2008CA470 /* DateTimePickerController.m */; };
+		3D2F4B041E6FB2A600030536 /* RecommendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */; };
 		3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7651E5583C400123A71 /* ShopViewController.m */; };
 		3D41D7691E5583D700123A71 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7681E5583D700123A71 /* UserViewController.m */; };
 		3D41D76C1E558C9100123A71 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D76B1E558C9100123A71 /* LoginViewController.m */; };
@@ -42,7 +43,10 @@
 		3D41D7D31E56E33A00123A71 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C21E56E33A00123A71 /* UIProgressView+AFNetworking.m */; };
 		3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */; };
 		3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */; };
-		3DFD45AE1E5ED24700069D7D /* OrderDropDownListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */; };
+		3D6BF9051E6E9F8D00EA3ADB /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */; };
+		3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9041E6E9F8D00EA3ADB /* Info.plist */; };
+		3D6BF9091E6EA44400EA3ADB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9071E6EA44400EA3ADB /* background.png */; };
+		3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9081E6EA44400EA3ADB /* page.png */; };
 		3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */; };
 		3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B61E5EE4AC00069D7D /* ProductManager.m */; };
 		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
@@ -92,6 +96,8 @@
 		3D0C18911E5A82C2008CA470 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
 		3D0C18931E5AB0E2008CA470 /* DateTimePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimePickerController.h; sourceTree = "<group>"; };
 		3D0C18941E5AB0E2008CA470 /* DateTimePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimePickerController.m; sourceTree = "<group>"; };
+		3D2F4B021E6FB2A600030536 /* RecommendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendListViewController.h; sourceTree = "<group>"; };
+		3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendListViewController.m; sourceTree = "<group>"; };
 		3D41D7641E5583C400123A71 /* ShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopViewController.h; sourceTree = "<group>"; };
 		3D41D7651E5583C400123A71 /* ShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopViewController.m; sourceTree = "<group>"; };
 		3D41D7671E5583D700123A71 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
@@ -163,8 +169,11 @@
 		3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		3D41D7C51E56E33A00123A71 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
-		3DFD45AC1E5ED24700069D7D /* OrderDropDownListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDropDownListViewController.h; sourceTree = "<group>"; };
-		3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDropDownListViewController.m; sourceTree = "<group>"; };
+		3D6BF9021E6E9F8D00EA3ADB /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		3D6BF9041E6E9F8D00EA3ADB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D6BF9071E6EA44400EA3ADB /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		3D6BF9081E6EA44400EA3ADB /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
 		3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductTableViewCell.h; sourceTree = "<group>"; };
 		3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B51E5EE4AC00069D7D /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
@@ -282,6 +291,7 @@
 		3D41D76D1E55903800123A71 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				3D6BF9011E6E9F8D00EA3ADB /* iCarousel */,
 				3D41D7A21E56E33A00123A71 /* AFNetworking */,
 				3D41D76E1E55903800123A71 /* IQKeyboardManager */,
 			);
@@ -423,6 +433,16 @@
 			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
+		3D6BF9011E6E9F8D00EA3ADB /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				3D6BF9021E6E9F8D00EA3ADB /* iCarousel.h */,
+				3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */,
+				3D6BF9041E6E9F8D00EA3ADB /* Info.plist */,
+			);
+			path = iCarousel;
+			sourceTree = "<group>";
+		};
 		7466EADF1E51E95E00A2C0F5 = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +466,8 @@
 				7466EAEE1E51E95E00A2C0F5 /* AppDelegate.h */,
 				7466EAEF1E51E95E00A2C0F5 /* AppDelegate.m */,
 				7466EB131E51FA2400A2C0F5 /* PrefixHeader.pch */,
+				3D6BF9071E6EA44400EA3ADB /* background.png */,
+				3D6BF9081E6EA44400EA3ADB /* page.png */,
 				7466EB021E51F5DB00A2C0F5 /* MarketManager.storyboard */,
 				7466EAF71E51E95E00A2C0F5 /* Assets.xcassets */,
 				7466EAF91E51E95F00A2C0F5 /* LaunchScreen.storyboard */,
@@ -602,10 +624,10 @@
 				74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */,
 				3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */,
 				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
-				3DFD45AC1E5ED24700069D7D /* OrderDropDownListViewController.h */,
-				3DFD45AD1E5ED24700069D7D /* OrderDropDownListViewController.m */,
 				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
 				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
+				3D2F4B021E6FB2A600030536 /* RecommendListViewController.h */,
+				3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -685,8 +707,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7466EAFB1E51E95F00A2C0F5 /* LaunchScreen.storyboard in Resources */,
+				3D6BF9091E6EA44400EA3ADB /* background.png in Resources */,
 				7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */,
 				3D41D7A11E55903800123A71 /* IQKeyboardManager.bundle in Resources */,
+				3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */,
+				3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */,
 				7466EB031E51F5DB00A2C0F5 /* MarketManager.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,6 +745,7 @@
 				74E9046D1E58616F005D391D /* SupplyTableViewCell.m in Sources */,
 				3D41D7D21E56E33A00123A71 /* UIImageView+AFNetworking.m in Sources */,
 				3D41D7951E55903800123A71 /* IQUITextFieldView+Additions.m in Sources */,
+				3D2F4B041E6FB2A600030536 /* RecommendListViewController.m in Sources */,
 				74E904691E585DE0005D391D /* ShopDetailViewController.m in Sources */,
 				742F5FFF1E5F5DB200DB1498 /* BaseViewController.m in Sources */,
 				74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */,
@@ -734,6 +760,7 @@
 				74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */,
 				3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */,
 				3D41D7CC1E56E33A00123A71 /* AFURLSessionManager.m in Sources */,
+				3D6BF9051E6E9F8D00EA3ADB /* iCarousel.m in Sources */,
 				748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */,
 				7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */,
 				74E904561E57F781005D391D /* Product.m in Sources */,
@@ -748,7 +775,6 @@
 				3D41D7971E55903800123A71 /* IQUIViewController+Additions.m in Sources */,
 				3D41D7CA1E56E33A00123A71 /* AFURLRequestSerialization.m in Sources */,
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,
-				3DFD45AE1E5ED24700069D7D /* OrderDropDownListViewController.m in Sources */,
 				74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */,
 				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
 				74ED22311E59FF560079D3F0 /* OrderPopOverViewController.m in Sources */,

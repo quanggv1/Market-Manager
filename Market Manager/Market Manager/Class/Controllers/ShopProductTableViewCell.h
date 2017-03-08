@@ -13,5 +13,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productPriceLabel;
 @property (weak, nonatomic) IBOutlet UITextField *productSTakeTextField;
-@property (strong, nonatomic) Product *product;
+- (void)setProduct:(Product *)product;
 @end

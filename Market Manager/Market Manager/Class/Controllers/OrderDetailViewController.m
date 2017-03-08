@@ -48,10 +48,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - POPOVER DELEGATE
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone;
-}
 
 
 

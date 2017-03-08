@@ -15,7 +15,7 @@
 static NSString *const StoryboardMain = @"MarketManager";
 static NSString *const StoryboardProductPopover = @"productPopOverId";
 static NSString *const StoryboardDatePicker = @"datePickerIdentifier";
-static NSString *const StoryboardOrderDropdownList = @"orderDropDownListViewId";
+static NSString *const StoryboardRecommendList = @"recommendListViewControllerId";
 static NSString *const StoryboardProductNavigation = @"productNavigationId";
 static NSString *const StoryboardShopNavigation = @"shopNavigationId";
 static NSString *const StoryboardSupplyNavigation = @"supplyNavigationId";
@@ -90,7 +90,7 @@ static NSString *const kProductDesc = @"description";
 static NSString *const kProductPrice = @"price";
 static NSString *const kProductTableName = @"product";
 static NSString *const kProductID = @"productID";
-static NSString *const kProductSTake = @"STake";
+static NSString *const kProductSTake = @"stockTake";
 static NSString *const kProductOrder = @"order";
 
 static NSString *const kShopID = @"shopID";
@@ -110,6 +110,9 @@ static NSString *const kUserID = @"userID";
 
 static NSString *const kTitleOrderManagement = @"Order Management";
 
+static NSString *const kCode = @"code";
+static NSString *const kStatus = @"status";
+static NSString *const kData = @"data";
 
 #endif /* define_h */
 

@@ -27,6 +27,9 @@ app.get('/authen', function (req, res) {
 app.get('/getShopProductList', function(req, res) {
   SQL.getShopProductList(con, req, res);
 });
+app.get('/getShopProductListByDate', function(req, res) {
+  SQL.getShopProductListByDate(con, req, res);
+});
 app.get('/getOrderList', function(req, res) {
   SQL.getOrderList(con, req, res);
 });

@@ -23,11 +23,16 @@
 }
 
 - (void)setValueWith:(NSArray *)data {
-    productList = [[NSMutableArray alloc] init];
+    productList = [[NSMutableArray alloc] initWithArray:[self getProductListWith:data]];
+}
+
+- (NSArray *)getProductListWith:(NSArray *)data {
+    NSMutableArray *products = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in data) {
         Product *product = [[Product alloc] initWith:dictionary];
-        [productList addObject:product];
+        [products addObject:product];
     }
+    return products;
 }
 
 - (NSArray *)getProductList {

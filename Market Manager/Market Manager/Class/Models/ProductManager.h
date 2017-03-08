@@ -17,4 +17,5 @@
 - (void)update:(Product *)product;
 - (void)deleteAll;
 - (NSArray *)getProductNameList;
+- (NSArray *)getProductListWith:(NSArray *)data;
 @end
