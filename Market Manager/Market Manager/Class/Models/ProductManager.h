@@ -18,4 +18,5 @@
 - (void)deleteAll;
 - (NSArray *)getProductNameList;
 - (NSArray *)getProductListWith:(NSArray *)data;
+- (NSString *)getProductIdBy:(NSString *)productName;
 @end

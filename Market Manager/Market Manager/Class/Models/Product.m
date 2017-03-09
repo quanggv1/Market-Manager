@@ -14,7 +14,7 @@
     if(self) {
         self.name = [NSString stringWithFormat:@"%@", [data objectForKey:kProductName]];
         self.productDesc = [NSString stringWithFormat:@"%@", [data objectForKey:kProductDesc]];
-        self.productId = [[data objectForKey:kProductID] integerValue];
+        self.productId = [NSString stringWithFormat:@"%@", [data objectForKey:kProductID]];
         self.price = [[data objectForKey:kProductPrice] floatValue];
         self.STake = [[data objectForKey:kProductSTake] integerValue];
         self.order = [[data objectForKey:kProductOrder] integerValue];

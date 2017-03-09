@@ -50,7 +50,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{@"tableName":kProductTableName,
                              @"params": @{@"idName":kProductID,
-                                          @"idValue":@(productDeleted.productId).stringValue}};
+                                          @"idValue":productDeleted.productId}};
     [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self hideActivity];
         [[ProductManager sharedInstance] delete:productDeleted];

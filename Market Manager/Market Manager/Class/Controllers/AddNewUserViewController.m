@@ -65,7 +65,7 @@ static AddNewUserViewController *addNewUserViewController;
                                           kUserPassword: userPassword}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:@"status"] intValue] == 200) {
+        if([[responseObject objectForKey:kCode] intValue] == 200) {
             NSDictionary *data = [responseObject objectForKey:@"data"];
             NSString *userID = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
             [self addNewUser:userID name:userName password:userPassword];

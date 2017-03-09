@@ -55,7 +55,6 @@ static RecommendListViewController *recommendListViewCtrl;
     self.preferredContentSize = CGSizeMake(150, _recommendTableView.contentSize.height + 10);
 }
 
-
 #pragma mark - TABLE DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return orderDropdownDatasource.count;

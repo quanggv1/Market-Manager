@@ -11,7 +11,7 @@
 #import "Shop.h"
 
 static AddNewShopViewController *addNewShopViewController;
-@interface AddNewShopViewController ()
+@interface AddNewShopViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *shopNameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *shopDescTextView;
 @end
@@ -45,6 +45,10 @@ static AddNewShopViewController *addNewShopViewController;
     }
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    _shopNameTextField.text = [_shopNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
 - (IBAction)onCancelClicked:(id)sender {
     [Utils hideKeyboard];
     [self dismiss];
@@ -52,38 +56,33 @@ static AddNewShopViewController *addNewShopViewController;
 
 - (IBAction)onSaveClicked:(id)sender {
     [Utils hideKeyboard];
-    NSString *shopName = [_shopNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSString *shopDesc = [_shopDescTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if(!shopName || shopName.length == 0) {
+    if(_shopNameTextField.text.length == 0) {
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input shop name" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         return;
     }
+    
+    Shop *newShop = [[Shop alloc] init];
+    newShop.name = _shopNameTextField.text;
+    newShop.shopDesc = _shopDescTextView.text;
 
     [self showActivity];
     NSDictionary *params = @{@"tableName":kShopTableName,
-                             @"params": @{kShopName:shopName,
-                                          kShopDesc: shopDesc}};
+                             @"params": @{kShopName:newShop.name,
+                                          kShopDesc: newShop.shopDesc}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:@"status"] intValue] == 200) {
-            NSDictionary *data = [responseObject objectForKey:@"data"];
-            NSString *shopID = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
-            [self addNewShop:shopID name:shopName description:shopDesc];
-            [self hideActivity];
+        if ([[responseObject objectForKey:kCode] intValue] == 200) {
+            newShop.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:kInsertID]];
+            [[ShopManager sharedInstance] insert:newShop];
             [self dismiss];
+        } else {
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         }
+        [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
-}
-
-- (void)addNewShop:(NSString *)shopID name:(NSString *)shopName description:(NSString *)description {
-    Shop *newShop = [[Shop alloc] initWith:@{kShopID:shopID,
-                                             kShopName:shopName,
-                                             kShopDesc: description}];
-    [[ShopManager sharedInstance] insert:newShop];
-    self.saveCallback(newShop);
 }
 
 @end

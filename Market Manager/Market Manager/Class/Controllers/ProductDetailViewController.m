@@ -67,12 +67,14 @@
                                           @"description": description}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:@"status"] intValue] == 200) {
-            NSDictionary *data = [responseObject objectForKey:@"data"];
+        if([[responseObject objectForKey:kCode] intValue] == 200) {
+            NSDictionary *data = [responseObject objectForKey:kData];
             NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
             [self insertNewProduct:productId name:productName price:price description:description];
-            [self hideActivity];
             [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+            [self hideActivity];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
@@ -93,7 +95,7 @@
     [self showActivity];
     NSDictionary *params = @{@"tableName":@"product",
                              @"params":@{@"idName":@"productID",
-                                         @"idValue":[NSString stringWithFormat:@"%ld", _product.productId],
+                                         @"idValue":_product.productId,
                                          @"price": [NSString stringWithFormat:@"%f", _product.price],
                                          @"description": _product.productDesc,
                                          @"productName": _product.name}};

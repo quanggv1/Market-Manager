@@ -11,12 +11,12 @@
 #import "ShopProductTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
+#import "AddNewShopProductViewController.h"
 
 @interface ShopDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *shopImageView;
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
 @property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
-@property (strong, nonatomic) NSMutableArray *products;
 @property (weak, nonatomic) IBOutlet UILabel *shopNameLbl;
 @end
 
@@ -33,7 +33,6 @@
     searchDate = [[Utils dateFormatter] stringFromDate:[NSDate date]];
     _productSearchTextField.text = searchDate;
     [self downloadWith:searchDate];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,6 +45,13 @@
     [super viewWillDisappear:animated];
     self.navigationItem.title = @"";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (IBAction)addNewProduct:(id)sender {
+    [AddNewShopProductViewController showViewAt:self onSave:^(Product *product) {
+        [_products insertObject:product atIndex:0];
+        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }];
 }
 
 - (void)updateProduct:(NSNotification *)notify {
@@ -68,7 +74,7 @@
 - (void)downloadWith:(NSString *) stringDate{
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kShopID:_shop.ID, kDate: stringDate };
+    NSDictionary *params = @{kShopID:_shop.ID, kDate: stringDate, kShopName: _shop.name};
     [manager GET:API_GETSHOP_PRODUCT_LIST parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([[responseObject objectForKey:kCode] integerValue] == 200) {
             _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
@@ -81,6 +87,8 @@
         [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
+        _products = nil;
+        [_productTableView reloadData];
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
 }
@@ -102,6 +110,26 @@
 - (IBAction)onRefreshClicked:(id)sender {
     _productSearchTextField.text = @"";
     [_productTableView reloadData];
+}
+
+- (IBAction)onExport:(id)sender {
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kShopName:_shop.name, kShopID: _shop.ID, kDate: searchDate };
+    [manager GET:API_EXPORT_SHOP_PRODUCTS parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+            [CallbackAlertView setCallbackTaget:@"Successfully!" message:@"Exported" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        } else if(([[responseObject objectForKey:kCode] integerValue] == 300)) {
+            [CallbackAlertView setCallbackTaget:@"Message" message:@"This record has been exported!" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        } else {
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Export failed!" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        }
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    }];
+
 }
 
 #pragma mark - TABLE DATASOURCE

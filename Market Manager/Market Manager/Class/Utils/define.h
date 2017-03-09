@@ -26,6 +26,7 @@ static NSString *const StoryboardAddNewSupply = @"AddNewSupplyViewId";
 static NSString *const StoryboardAddNewUser = @"AddNewUserViewId";
 static NSString *const StoryboardMenuView = @"menuViewController";
 static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
+static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewControllerId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -72,8 +73,8 @@ static NSString *const SegueShowOrder = @"showOrder";
 ////http://localhost:5000/getOrderListByDate?date=2017-03-01
 //static NSString *const API_GETSHOP_PRODUCT_LIST = @"http://localhost:5000/getShopProductList";
 
-//#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.149:5000/"
+#define SERVER @"http://localhost:5000/"
+//#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -83,8 +84,7 @@ static NSString *const SegueShowOrder = @"showOrder";
 #define API_AUTHEN [SERVER stringByAppendingString:@"authen"]
 #define API_GETODERLISTBYDATE [SERVER stringByAppendingString:@"getOrderListByDate"]
 #define API_GETSHOP_PRODUCT_LIST [SERVER stringByAppendingString:@"getShopProductList"]
-
-
+#define API_EXPORT_SHOP_PRODUCTS [SERVER stringByAppendingString:@"exportShopProducts"]
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
@@ -116,6 +116,9 @@ static NSString *const kCode = @"code";
 static NSString *const kStatus = @"status";
 static NSString *const kData = @"data";
 static NSString *const kDate = @"date";
+static NSString *const kInsertID = @"insertId";
+
+static NSString *const kShopProductTableName = @"shop_product";
 
 #endif /* define_h */
 

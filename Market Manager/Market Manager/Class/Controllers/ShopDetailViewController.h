@@ -11,4 +11,5 @@
 
 @interface ShopDetailViewController : BaseViewController
 @property (weak, nonatomic) Shop *shop;
+@property (strong, nonatomic) NSMutableArray *products;
 @end

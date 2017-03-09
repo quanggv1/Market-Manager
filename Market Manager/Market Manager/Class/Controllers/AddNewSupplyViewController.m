@@ -11,7 +11,7 @@
 #import "Supply.h"
 
 static AddNewSupplyViewController *addNewSupplyViewController;
-@interface AddNewSupplyViewController ()
+@interface AddNewSupplyViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *SupplyNameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *SupplyDescTextView;
 @end
@@ -20,12 +20,16 @@ static AddNewSupplyViewController *addNewSupplyViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _SupplyNameTextField.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    _SupplyNameTextField.text = [_SupplyNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
 + (void)showViewAt:(UIViewController *)controller onSave:(SaveCallback)saveCallback {
@@ -52,38 +56,33 @@ static AddNewSupplyViewController *addNewSupplyViewController;
 
 - (IBAction)onSaveClicked:(id)sender {
     [Utils hideKeyboard];
-    NSString *SupplyName = [_SupplyNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSString *SupplyDesc = [_SupplyDescTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if(!SupplyName || SupplyName.length == 0) {
+    Supply *newSupply = [[Supply alloc] init];
+    newSupply.name = _SupplyNameTextField.text;
+    newSupply.supplyDesc = _SupplyDescTextView.text;
+    if(newSupply.name.length == 0) {
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input Supply name" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         return;
     }
     
     [self showActivity];
     NSDictionary *params = @{@"tableName":kSupplyTableName,
-                             @"params": @{kSupplyName:SupplyName,
-                                          kSupplyDesc: SupplyDesc}};
+                             @"params": @{kSupplyName:newSupply.name,
+                                          kSupplyDesc: newSupply.supplyDesc}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:@"status"] intValue] == 200) {
-            NSDictionary *data = [responseObject objectForKey:@"data"];
-            NSString *SupplyID = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
-            [self addNewSupply:SupplyID name:SupplyName description:SupplyDesc];
-            [self hideActivity];
+        [self hideActivity];
+        if([[responseObject objectForKey:kCode] intValue] == 200) {
+            newSupply.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:@"insertId"]];
+            [[SupplyManager sharedInstance] insert:newSupply];
+            self.saveCallback(newSupply);
             [self dismiss];
+        } else {
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
-}
-
-- (void)addNewSupply:(NSString *)SupplyID name:(NSString *)SupplyName description:(NSString *)description {
-    Supply *newSupply = [[Supply alloc] initWith:@{kSupplyID:SupplyID,
-                                             kSupplyName:SupplyName,
-                                             kSupplyDesc: description}];
-    [[SupplyManager sharedInstance] insert:newSupply];
-    self.saveCallback(newSupply);
 }
 
 @end

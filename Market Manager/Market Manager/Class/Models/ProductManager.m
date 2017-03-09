@@ -73,4 +73,13 @@
     }
     return productNameList;
 }
+
+- (NSString *)getProductIdBy:(NSString *)productName {
+    for (Product *item in productList) {
+        if([item.name isEqualToString:productName]) {
+            return item.productId;
+        }
+    }
+    return nil;
+}
 @end
