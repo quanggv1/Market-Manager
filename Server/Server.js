@@ -25,31 +25,42 @@ con.connect(function (err) {
 app.listen(5000);
 
 app.get('/authen', function (req, res) {
+  // convertXlsx2Json("./uploads/products/shop-products.xlsx", function callbacnSuccess(result) {
+  //   req.query.tableName = "shop_product";
+  //   result.forEach(function(item) {
+  //     req.query.params = item;
+  //     SQL.insertData(con, req, res);
+  //   })
+  // }, function callbackError(result) {
 
-  var xls = json2xls(JSON.parse(fs.readFileSync("data.json", 'utf8')));
-  fs.writeFileSync('data.xlsx', xls, 'binary');
-  console.log(123);
-
-  // xlsx2json({
-  //   input: "order.xlsx",
-  //   output: 'data.json',
-  //   lowerCaseHeaders: true
-  // }, function (err, result) {
-  //   if (err) {
-  //     console.error(err);
-  //   } else {
-  //     console.log(result);
-  //   }
   // });
-  // SQL.authen(con, req, res);
+  SQL.authen(con, req, res);
 });
 
+function convertJson2Xlsx(json, targetFilePath) {
+  var xls = json2xls(json);
+  fs.writeFileSync(targetFilePath, xls, 'binary')
+  // fs.writeFileSync('data.xlsx', xls, 'binary');
+}
+
+function convertXlsx2Json(filePath, onSuccess, onError) {
+  xlsx2json({
+    input: filePath,
+    output: null,
+    lowerCaseHeaders: false
+  }, function (err, result) {
+    if (err) {
+      onError(err);
+    } else {
+      onSuccess(result)
+    }
+  });
+}
+/** shop managerment */
 app.get('/getShopProductList', function (req, res) {
   SQL.getShopProductList(con, req, res);
 });
-app.get('/getShopProductListByDate', function (req, res) {
-  SQL.getShopProductListByDate(con, req, res);
-});
+/** order managerment */
 app.get('/getOrderList', function (req, res) {
   SQL.getOrderList(con, req, res);
 });
@@ -62,6 +73,7 @@ app.get('/getOrderListByShopID', function (req, res) {
 app.get('/updateOrder', function (req, res) {
   SQL.aupdateOrder(con, req, res);
 });
+/** common api */
 app.get('/getData', function (req, res) {
   SQL.getData(con, req, res);
 });

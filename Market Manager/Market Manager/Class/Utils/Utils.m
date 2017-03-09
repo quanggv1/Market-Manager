@@ -26,7 +26,7 @@ static DateTimePickerController *dateTimePickerController;
 
 + (NSDateFormatter *)dateFormatter {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy/MM/dd"];
+    [df setDateFormat:@"yyyy-MM-dd"];
     return df;
 }
 

@@ -20,7 +20,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *shopNameLbl;
 @end
 
-@implementation ShopDetailViewController
+@implementation ShopDetailViewController {
+    NSString *searchDate;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,7 +30,9 @@
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
-    [self download];
+    searchDate = [[Utils dateFormatter] stringFromDate:[NSDate date]];
+    _productSearchTextField.text = searchDate;
+    [self downloadWith:searchDate];
 
 }
 
@@ -61,13 +65,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)download {
+- (void)downloadWith:(NSString *) stringDate{
+    [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    NSDictionary *params = @{@"date":@"2017-03-01"};
-    [manager GET:API_GETSHOP_PRODUCT_LIST parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSDictionary *params = @{kShopID:_shop.ID, kDate: stringDate };
+    [manager GET:API_GETSHOP_PRODUCT_LIST parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([[responseObject objectForKey:kCode] integerValue] == 200) {
             _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
             [_productTableView reloadData];
+        } else {
+            _products = nil;
+            [_productTableView reloadData];
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Unavaiable data for this day" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         }
         [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -83,9 +92,11 @@
 - (void)onDatePickerSelected:(NSDate *)dateSelected {
     NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
     _productSearchTextField.text = date;
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-//    productTableDataSource = [_products filteredArrayUsingPredicate:predicate];
-    [_productTableView reloadData];
+    if(![date isEqualToString:searchDate]) {
+        searchDate = date;
+        [self downloadWith:date];
+        [_productTableView reloadData];
+    }
 }
 
 - (IBAction)onRefreshClicked:(id)sender {

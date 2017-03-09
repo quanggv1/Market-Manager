@@ -18,32 +18,27 @@ module.exports = {
       }
     });
   },
-  /*select order list*/
+  /*select shop's products*/
   getShopProductList: function (con, req, res) {
-    var sql = "SELECT shop_product.productID, shop_product.shopID, shop_product.stockTake, shop_product.date, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID";
-    con.query(sql, function (err, rows) {
-      if (err) {
-        console.log(err);
-        res.send(errorResp);
-      } else {
-        console.log('Data received from Db:\n');
-        res.send({ code: '200', status: 'OK', data: rows });
-      }
-    });
-  },
-
-  getShopProductListByDate: function (con, req, res) {
-    var sql = "SELECT shop_product.productID, shop_product.shopID, shop_product.stockTake, shop_product.date, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.date =?";
-    var strDate = req.query.date;
-    con.query(sql, strDate, function (err, rows) {
-      if (err) {
-        console.log(err);
-        res.send(errorResp);
-      } else {
-        console.log('Data received from Db:\n');
-        res.send({ code: '200', status: 'OK', data: rows });
-      }
-    });
+    var reqDate = new Date(req.query.date);
+    var currentDate = new Date();
+    var timeDiff = Math.abs(currentDate.getTime() - reqDate.getTime());
+    var diffDays = Math.round(timeDiff / (1000 * 3600 * 24));
+    if (diffDays == 0) {
+      var shopID = req.query.shopID;
+      var sql = "SELECT shop_product.productID, shop_product.shopID, shop_product.stockTake, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.shopID=?";
+      con.query(sql, shopID, function (err, rows) {
+        if (err) {
+          console.log(err);
+          res.send(errorResp);
+        } else {
+          console.log('Data received from Db:\n');
+          res.send({ code: '200', status: 'OK', data: rows });
+        }
+      });
+    } else {
+      res.send(errorResp);
+    }
   },
 
   /*select order list*/
@@ -112,7 +107,7 @@ module.exports = {
         response.send(errorResp);
       } else {
         console.log('Last insert ID:', res.insertId);
-        response.send({ status: 200, data: { insertId: res.insertId } });
+        // response.send({ status: 200, data: { insertId: res.insertId } });
       }
     });
   },
@@ -133,7 +128,6 @@ module.exports = {
           console.log('Changed ' + result.changedRows + ' rows');
           res.send(result);
         }
-
       }
     );
   },
