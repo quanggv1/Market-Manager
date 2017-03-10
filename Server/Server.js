@@ -27,17 +27,32 @@ con.connect(function (err) {
 app.listen(5000);
 
 app.get('/authen', function (req, res) {
-  // convertXlsx2Json("./uploads/products/shop-products.xlsx", function callbacnSuccess(result) {
-  //   req.query.tableName = "shop_product";
-  //   result.forEach(function(item) {
-  //     req.query.params = item;
-  //     SQL.insertData(con, req, res);
-  //   })
-  // }, function callbackError(result) {
-
-  // });
   SQL.authen(con, req, res);
 });
+
+/** order managerment */
+app.get('/getOrderList', function (req, res) {
+  SQL.getOrderList(con, req, function (success) {
+    res.send({ code: '200', data: success })
+  }, function (error) {
+    res.send(errorResp);
+  });
+});
+
+/** common api */
+app.get('/getData', function (req, res) {
+  SQL.getData(con, req, res);
+});
+app.get('/insertData', function (req, res) {
+  SQL.insertData(con, req, res);
+});
+app.get('/updateData', function (req, res) {
+  SQL.updateData(con, req, res);
+});
+app.get('/deleteData', function (req, res) {
+  SQL.deleteData(con, req, res);
+});
+
 
 /** shop managerment */
 app.get('/getShopProductList', function (req, res) {
@@ -62,38 +77,26 @@ app.get('/getShopProductList', function (req, res) {
   }
 });
 
-/** order managerment */
-app.get('/getOrderList', function (req, res) {
-  SQL.getOrderList(con, req, res);
-});
-app.get('/getOrderListByDate', function (req, res) {
-  SQL.getOrderListByDate(con, req, res);
-});
-app.get('/getOrderListByShopID', function (req, res) {
-  SQL.getOrderListByShopID(con, req, res);
-});
-app.get('/updateOrder', function (req, res) {
-  SQL.aupdateOrder(con, req, res);
-});
-/** common api */
-app.get('/getData', function (req, res) {
-  SQL.getData(con, req, res);
-});
-app.get('/insertData', function (req, res) {
-  SQL.insertData(con, req, res);
-});
-app.get('/updateData', function (req, res) {
-  SQL.updateData(con, req, res);
-});
-app.get('/deleteData', function (req, res) {
-  SQL.deleteData(con, req, res);
+app.get('/exportShopProducts', function (req, res) {
+  var updates = req.query.params;
+  var shopProductIDs = updates[0].shopProductID;
+  var stockTakes = updates[0].stockTake;
+  updateShopProduct(shopProductIDs, stockTakes, req, res);
 });
 
-/** export shop products */
-app.get('/exportShopProducts', function (req, res) {
-  if (req.query.date != today()) {
-    res.send({ code: 300 });
+function updateShopProduct(shopProductIDs, stockTakes, req, res) {
+  if (shopProductIDs.length > 0) {
+    /** update data to database */
+    SQL.updateShopProduct(con, { shopProductID: shopProductIDs[0], stockTake: stockTakes[0] }, function (success) {
+      shopProductIDs = shopProductIDs.splice(1, shopProductIDs.length);
+      stockTakes = stockTakes.splice(1, stockTakes.length);
+      console.log(shopProductIDs[0]);
+      updateShopProduct(shopProductIDs, stockTakes, req, res);
+    }, function (error) {
+      res.send(errorResp);
+    })
   } else {
+    /** export json to excel */
     SQL.getShopProductList(con, req, function onSuccess(result) {
       var targetFilePath = './uploads/shops/' + req.query.shopName + today() + '.xlsx';
       convertJson2Xlsx(result, targetFilePath, function onSuccess() {
@@ -105,7 +108,7 @@ app.get('/exportShopProducts', function (req, res) {
       res.send(errorResp);
     })
   }
-});
+}
 
 function convertJson2Xlsx(json, targetFilePath, onSuccess, onError) {
   var xls = json2xls(json);
