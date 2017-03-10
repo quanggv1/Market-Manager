@@ -24,6 +24,10 @@
     _productOrderList = [[NSMutableArray alloc] initWithArray:@[product1, product1, product1]];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

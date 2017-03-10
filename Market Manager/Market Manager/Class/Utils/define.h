@@ -73,8 +73,8 @@ static NSString *const SegueShowOrder = @"showOrder";
 ////http://localhost:5000/getOrderListByDate?date=2017-03-01
 //static NSString *const API_GETSHOP_PRODUCT_LIST = @"http://localhost:5000/getShopProductList";
 
-#define SERVER @"http://localhost:5000/"
-//#define SERVER @"http://172.27.97.149:5000/"
+//#define SERVER @"http://localhost:5000/"
+#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -82,7 +82,7 @@ static NSString *const SegueShowOrder = @"showOrder";
 #define API_DELETEDATA [SERVER stringByAppendingString:@"deleteData"]
 #define API_INSERTDATA [SERVER stringByAppendingString:@"insertData"]
 #define API_AUTHEN [SERVER stringByAppendingString:@"authen"]
-#define API_GETODERLISTBYDATE [SERVER stringByAppendingString:@"getOrderListByDate"]
+#define API_GET_ORDERS [SERVER stringByAppendingString:@"getOrderList"]
 #define API_GETSHOP_PRODUCT_LIST [SERVER stringByAppendingString:@"getShopProductList"]
 #define API_EXPORT_SHOP_PRODUCTS [SERVER stringByAppendingString:@"exportShopProducts"]
 
@@ -94,6 +94,7 @@ static NSString *const kProductTableName = @"product";
 static NSString *const kProductID = @"productID";
 static NSString *const kProductSTake = @"stockTake";
 static NSString *const kProductOrder = @"order";
+static NSString *const kShopProductID = @"shopProductID";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";

@@ -21,7 +21,7 @@ module.exports = {
   /*select shop's products*/
   getShopProductList: function (con, req, onSuccess, onError) {
     var shopID = req.query.shopID;
-    var sql = "SELECT shop_product.productID, shop_product.shopID, shop_product.stockTake, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.shopID=?";
+    var sql = "SELECT shop_product.shopProductID, shop_product.productID, shop_product.shopID, shop_product.stockTake, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.shopID=?";
     con.query(sql, shopID, function (err, rows) {
       if (err) {
         console.log(err);
@@ -33,49 +33,32 @@ module.exports = {
     });
   },
 
-  /*select order list*/
-  getOrderList: function (con, req, res) {
-    var sql = "SELECT order.order_ID, order.shop_ID, shop.shopName, order_each_day.order_quantity FROM order JOIN shop ON order.shop_ID = shop.shopID JOIN order_each_day ON order.order_ID = order_each_day.oderID";
-    con.query(sql, function (err, rows) {
-      if (err) {
-        console.log(err);
-        res.send(errorResp);
+  updateShopProduct: function (con, params, onSuccess, onError) {
+    con.query('UPDATE shop_product SET stockTake = ? WHERE shopProductID = ?', [params.stockTake, params.shopProductID], function(err, result) {
+      if(err) {
+        onError(err);
       } else {
-        console.log('Data received from Db:\n');
-        res.send({ code: '200', status: 'OK', data: rows });
+        onSuccess(result);
       }
-    });
+    }) 
   },
-  /*select order list by shop*/
-  getOrderListByShopID: function (con, req, res) {
+
+  /*select order list*/
+  getOrderList: function (con, req, onSuccess, onError) {
     var shopID = req.query.shopID;
-    var sql = "SELECT order.order_ID, order.shop_ID, shop.shopName, order_each_day.order_quantity FROM order JOIN shop ON order.shop_ID = shop.shopID JOIN order_each_day ON order.order_ID = order_each_day.oderID WHERE order.shop_ID=?";
+    var sql = "SELECT * FROM order WHERE shopID = ?";
     con.query(sql, shopID, function (err, rows) {
       if (err) {
         console.log(err);
-        res.send(errorResp);
+        onError(err);
       } else {
         console.log('Data received from Db:\n');
-        res.send({ code: '200', status: 'OK', data: rows });
+        onSuccess(rows);
       }
     });
   },
 
-  /*select order list by date*/
-  getOrderListByDate: function (con, req, res) {
-    var strDate = req.query.date;
-    var sql = "SELECT order.order_ID, order.shop_ID, shop.shopName, order_each_day.order_quantity FROM order JOIN shop ON order.shop_ID = shop.shopID JOIN order_each_day ON order.order_ID = order_each_day.oderID WHERE order.date=?";
 
-    con.query(sql, strDate, function (err, rows) {
-      if (err) {
-        console.log(err);
-        res.send(errorResp);
-      } else {
-        console.log('Data received from Db:\n');
-        res.send({ code: '200', status: 'OK', data: rows });
-      }
-    });
-  },
   /*select from table*/
   getData: function (con, req, res) {
     var table = req.query.tableName;
@@ -135,8 +118,8 @@ module.exports = {
           response.send(err);
         } else {
           console.log('Deleted ' + result.affectedRows + ' rows');
-          if (result.changedRows > 0) {
-            response.send({ 'code': 200, 'status': 'success' });
+          if (result.affectedRows > 0) {
+            response.send({ code: 200, status: 'success' });
           } else {
             response.send(errorResp)
           }

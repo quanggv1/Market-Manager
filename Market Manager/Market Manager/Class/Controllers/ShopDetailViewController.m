@@ -22,6 +22,7 @@
 
 @implementation ShopDetailViewController {
     NSString *searchDate;
+    NSString *today;
 }
 
 - (void)viewDidLoad {
@@ -30,9 +31,10 @@
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
-    searchDate = [[Utils dateFormatter] stringFromDate:[NSDate date]];
-    _productSearchTextField.text = searchDate;
-    [self downloadWith:searchDate];
+    today = [[Utils dateFormatter] stringFromDate:[NSDate date]];
+    _productSearchTextField.text = today;
+    searchDate = today;
+    [self downloadWith:today];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,9 +63,25 @@
 }
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {
-    [_products removeObjectAtIndex:indexPath.row];
-    [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                             withRowAnimation:UITableViewRowAnimationFade];
+    [self showActivity];
+    Product *product = _products[indexPath.row];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{@"tableName":kShopProductTableName,
+                             @"params": @{@"idName":kShopProductID,
+                                          @"idValue":product.shopProductID}};
+    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if([[responseObject objectForKey:kCode] integerValue] == 200) {
+            [_products removeObjectAtIndex:indexPath.row];
+            [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                     withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        }
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,23 +131,29 @@
 }
 
 - (IBAction)onExport:(id)sender {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kShopName:_shop.name, kShopID: _shop.ID, kDate: searchDate };
-    [manager GET:API_EXPORT_SHOP_PRODUCTS parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-            [CallbackAlertView setCallbackTaget:@"Successfully!" message:@"Exported" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-        } else if(([[responseObject objectForKey:kCode] integerValue] == 300)) {
-            [CallbackAlertView setCallbackTaget:@"Message" message:@"This record has been exported!" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-        } else {
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"Export failed!" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    if (!_products) return;
+    if ([searchDate isEqualToString:today]) {
+        [self showActivity];
+        NSMutableArray *updates = [[NSMutableArray alloc] init];
+        for (Product *product in _products) {
+            [updates addObject:@{kShopProductID: product.shopProductID, kProductSTake: @(product.STake)}];
         }
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-    }];
-
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSDictionary *params = @{kShopName:_shop.name, kShopID: _shop.ID, kDate: searchDate, @"params":updates};
+        [manager GET:API_EXPORT_SHOP_PRODUCTS parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+                [CallbackAlertView setCallbackTaget:@"Successfully!" message:@"Exported" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+            } else {
+                [CallbackAlertView setCallbackTaget:@"Error" message:@"Export failed!" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+            }
+            [self hideActivity];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [self hideActivity];
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        }];
+    } else {
+        [CallbackAlertView setCallbackTaget:@"Message" message:@"This record has been exported!" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    }
 }
 
 #pragma mark - TABLE DATASOURCE

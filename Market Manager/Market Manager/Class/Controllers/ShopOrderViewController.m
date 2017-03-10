@@ -9,6 +9,7 @@
 #import "ShopOrderViewController.h"
 #import "ShopManager.h"
 #import "ShopTableViewCell.h"
+#import "OrderViewController.h"
 
 @interface ShopOrderViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *shopTableView;
@@ -68,6 +69,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self performSegueWithIdentifier:SegueShowOrder sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:SegueShopDetail]) {
+        OrderViewController *vc = segue.destinationViewController;
+        vc.shop = _shopDataSource[_shopTableView.indexPathForSelectedRow.row];
+    }
 }
 
 @end

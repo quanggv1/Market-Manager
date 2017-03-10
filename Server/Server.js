@@ -3,9 +3,9 @@ var mysql = require("mysql");
 var app = express();
 var SQL = require('./sql');
 var errorResp = { 'code': '400', 'status': 'error' };
-var json2xls = require('json2xls');
+var json2csv = require('json2csv');
 var fs = require('fs');
-var xlsx2json = require("xlsx-to-json-lc");
+var csvjson = require('csvjson');
 
 var errorResp = { 'code': '400', 'status': 'error' };
 
@@ -63,10 +63,9 @@ app.get('/getShopProductList', function (req, res) {
       res.send(errorResp);
     })
   } else {
-    var targetFilePath = './uploads/shops/' + req.query.shopName + req.query.date + '.xlsx';
+    var targetFilePath = './uploads/shops/' + req.query.shopName + req.query.date + '.csv';
     if (fs.existsSync(targetFilePath)) {
-      convertXlsx2Json(targetFilePath, function onSuccess(result) {
-        console.log(result);
+      convertCSV2Json(targetFilePath, function onSuccess(result) {
         res.send({ code: 200, data: result });
       }, function onError(err) {
         res.send(errorResp);
@@ -98,8 +97,8 @@ function updateShopProduct(shopProductIDs, stockTakes, req, res) {
   } else {
     /** export json to excel */
     SQL.getShopProductList(con, req, function onSuccess(result) {
-      var targetFilePath = './uploads/shops/' + req.query.shopName + today() + '.xlsx';
-      convertJson2Xlsx(result, targetFilePath, function onSuccess() {
+      var targetFilePath = './uploads/shops/' + req.query.shopName + today() + '.csv';
+      convertJson2CSV(result, targetFilePath, function onSuccess() {
         res.send({ code: 200 });
       }, function onError() {
         res.send(errorResp);
@@ -110,29 +109,23 @@ function updateShopProduct(shopProductIDs, stockTakes, req, res) {
   }
 }
 
-function convertJson2Xlsx(json, targetFilePath, onSuccess, onError) {
-  var xls = json2xls(json);
-  fs.writeFile(targetFilePath, xls, 'binary', function (err) {
+function convertJson2CSV(json, targetFilePath, onSuccess, onError) {
+  var csv = json2csv({ data: json, fields: null });
+  fs.writeFile(targetFilePath, csv, function (err) {
     if (err) {
       onError();
     } else {
       onSuccess();
     }
-  })
-}
-
-function convertXlsx2Json(filePath, onSuccess, onError) {
-  xlsx2json({
-    input: filePath,
-    output: null,
-    lowerCaseHeaders: false
-  }, function (err, result) {
-    if (err) {
-      onError(err);
-    } else {
-      onSuccess(result)
-    }
   });
+}
+function convertCSV2Json(filePath, onSuccess, onError) {
+  var data = fs.readFileSync(filePath, { encoding : 'utf8'});
+  var options = {
+    delimiter : ',' ,// optional 
+    quote     : '"' // optional 
+  };
+  onSuccess(csvjson.toObject(data, options))
 }
 
 function today() {

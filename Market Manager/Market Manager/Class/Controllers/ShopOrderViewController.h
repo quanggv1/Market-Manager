@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "Shop.h"
 
 @interface ShopOrderViewController : BaseViewController
-
 @end

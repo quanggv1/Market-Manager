@@ -114,14 +114,6 @@ static AddNewShopProductViewController *addNewShopProductViewController;
     }];
 }
 
-- (void)addNewShop:(NSString *)shopID name:(NSString *)shopName description:(NSString *)description {
-//    Shop *newShop = [[Shop alloc] initWith:@{kShopID:shopID,
-//                                             kShopName:shopName,
-//                                             kShopDesc: description}];
-//    [[ShopManager sharedInstance] insert:newShop];
-//    self.saveCallback(newShop);
-}
-
 - (BOOL)isNewProductSatisfiedReq {
     NSString *productName = _productNameTextField.text;
     if ([productNameList containsObject: productName]) {

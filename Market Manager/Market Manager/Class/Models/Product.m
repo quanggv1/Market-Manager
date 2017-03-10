@@ -18,6 +18,7 @@
         self.price = [[data objectForKey:kProductPrice] floatValue];
         self.STake = [[data objectForKey:kProductSTake] integerValue];
         self.order = [[data objectForKey:kProductOrder] integerValue];
+        self.shopProductID = [NSString stringWithFormat:@"%@", [data objectForKey:kShopProductID]];
     }
     return self;
 }

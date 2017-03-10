@@ -34,6 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationItem.title = _shop.name;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyOrderDeletesItem
@@ -56,31 +57,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)onMenuClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
-}
-
-
 - (void)download {
-    Order *order1 = [[Order alloc] initWith:@{@"name":@"order1", @"date":@"2017/02/21"}];
-    Order *order2 = [[Order alloc] initWith:@{@"name":@"order2", @"date":@"2017/02/20"}];
-    Order *order3 = [[Order alloc] initWith:@{@"name":@"order3", @"date":@"2017/02/19"}];
-    Order *order4 = [[Order alloc] initWith:@{@"name":@"order4", @"date":@"2017/02/18"}];
-    Order *order5 = [[Order alloc] initWith:@{@"name":@"order5", @"date":@"2017/02/17"}];
-    
-    _orderDataSource = [[NSMutableArray alloc] initWithArray:@[order1, order2, order3, order4, order5]];
-    orderTableDataSource = _orderDataSource;
-    [_orderTableView reloadData];
-    
-    
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    //
-    //    [manager GET:@"http://sotayit.com/service/mobile/systemsetting" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-    //        NSLog(@"%@", responseObject);
-    //    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-    //        //
-    //    }];
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kShopID:_shop.ID};
+    [manager GET:API_GET_ORDERS parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    }];
 }
 
 - (IBAction)onCalendarClicked:(id)sender {
