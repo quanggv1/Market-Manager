@@ -12,9 +12,9 @@
 - (instancetype)initWith:(NSDictionary *)data {
     self = [super init];
     if(self) {
-        self.name = [data objectForKey:@"name"];
-        self.date = [data objectForKey:@"date"];
-        self.isOrderDone = [[data objectForKey:@"status"] boolValue];
+        self.ID = [NSString stringWithFormat:@"%@", [data objectForKey:kOrderID]];
+        self.date = [NSString stringWithFormat:@"%@",[data objectForKey:kDate]];
+        self.status = [[data objectForKey:kStatus] integerValue];
     }
     return self;
 }

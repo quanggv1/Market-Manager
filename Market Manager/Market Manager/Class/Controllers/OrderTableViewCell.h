@@ -9,5 +9,5 @@
 #import "Order.h"
 
 @interface OrderTableViewCell : UITableViewCell
-- (void)initWith:(Order *)order;
+- (void)setOrder:(Order *)order;
 @end

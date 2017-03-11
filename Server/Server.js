@@ -39,20 +39,43 @@ app.get('/getOrderList', function (req, res) {
   });
 });
 
+app.get('/addNewOrder', function (req, res) {
+  var productOrders = JSON.parse(req.query.params);
+  addNewOrder(productOrders, req.query.orderID, res);
+})
+
+app.get('/getOrderDetail', function(req, res) {
+  SQL.getOrderDetail(con, req, function(success){
+    res.send({ code: '200', data: success })
+  }, function(error) {
+    res.send(errorResp);
+  })
+})
+
 /** common api */
 app.get('/getData', function (req, res) {
   SQL.getData(con, req, res);
 });
+
 app.get('/insertData', function (req, res) {
-  SQL.insertData(con, req, res);
+  SQL.insertData(con, req, function (success) {
+    res.send({ code: 200, status: 'OK', data: { insertId: success.insertId } });
+  }, function (error) {
+    res.send(errorResp);
+  });
 });
+
 app.get('/updateData', function (req, res) {
-  SQL.updateData(con, req, res);
+  SQL.updateData(con, req, function (success) {
+    res.send({code: 200});
+  }, function (error) {
+    res.send(errorResp);
+  });
 });
+
 app.get('/deleteData', function (req, res) {
   SQL.deleteData(con, req, res);
 });
-
 
 /** shop managerment */
 app.get('/getShopProductList', function (req, res) {
@@ -77,9 +100,8 @@ app.get('/getShopProductList', function (req, res) {
 });
 
 app.get('/exportShopProducts', function (req, res) {
-  var updates = req.query.params;
-  var shopProductIDs = updates[0].shopProductID;
-  var stockTakes = updates[0].stockTake;
+  var shopProductIDs = req.query.params[0].shopProductID;
+  var stockTakes = req.query.params[0].stockTake;
   updateShopProduct(shopProductIDs, stockTakes, req, res);
 });
 
@@ -89,7 +111,6 @@ function updateShopProduct(shopProductIDs, stockTakes, req, res) {
     SQL.updateShopProduct(con, { shopProductID: shopProductIDs[0], stockTake: stockTakes[0] }, function (success) {
       shopProductIDs = shopProductIDs.splice(1, shopProductIDs.length);
       stockTakes = stockTakes.splice(1, stockTakes.length);
-      console.log(shopProductIDs[0]);
       updateShopProduct(shopProductIDs, stockTakes, req, res);
     }, function (error) {
       res.send(errorResp);
@@ -109,6 +130,31 @@ function updateShopProduct(shopProductIDs, stockTakes, req, res) {
   }
 }
 
+function addNewOrder(productOrders, orderID, res) {
+  var req = {query: {}};
+  if (productOrders.length > 0) {
+    req.query.tableName = 'order_each_day';
+    req.query.params = productOrders[0];
+    SQL.insertData(con, req, function(success) {
+      productOrders = productOrders.splice(1, productOrders.length);
+      addNewOrder(productOrders, orderID, res);
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    req.query.tableName = 'orders';
+    req.query.params = {};
+    req.query.params.status = 1;
+    req.query.idName = 'orderID';
+    req.query.idValue = orderID;
+    SQL.updateData(con, req, function(success) {
+      res.send({ code: 200 });
+    }, function (error) {
+      res.send(errorResp);
+    })
+  }
+}
+
 function convertJson2CSV(json, targetFilePath, onSuccess, onError) {
   var csv = json2csv({ data: json, fields: null });
   fs.writeFile(targetFilePath, csv, function (err) {
@@ -120,10 +166,10 @@ function convertJson2CSV(json, targetFilePath, onSuccess, onError) {
   });
 }
 function convertCSV2Json(filePath, onSuccess, onError) {
-  var data = fs.readFileSync(filePath, { encoding : 'utf8'});
+  var data = fs.readFileSync(filePath, { encoding: 'utf8' });
   var options = {
-    delimiter : ',' ,// optional 
-    quote     : '"' // optional 
+    delimiter: ',',// optional 
+    quote: '"' // optional 
   };
   onSuccess(csvjson.toObject(data, options))
 }

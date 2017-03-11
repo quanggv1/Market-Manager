@@ -10,6 +10,8 @@
 #import "Order.h"
 #import "OrderTableViewCell.h"
 #import "OrderDetailViewController.h"
+#import "OrderManager.h"
+#import "OrderFormViewController.h"
 
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderTableView;
@@ -17,15 +19,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *orderSearchTextField;
 @end
 
-@implementation OrderViewController{
-    NSArray *orderTableDataSource;
-}
+@implementation OrderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _orderTableView.delegate = self;
     _orderTableView.dataSource = self;
-    [self download];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyOrderDeletesItem
@@ -34,7 +33,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationItem.title = _shop.name;
+    
+    [self download];
+    self.navigationItem.title = [_shop.name stringByAppendingString:@"Orders"];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyOrderDeletesItem
@@ -49,7 +50,8 @@
 - (void)deleteItem:(NSNotification *)notificaion {
     NSIndexPath *indexPath = [notificaion object];
     [_orderDataSource removeObjectAtIndex:indexPath.row];
-    [_orderTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [_orderTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                           withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,72 +63,125 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopID:_shop.ID};
-    [manager GET:API_GET_ORDERS parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        
+    [manager GET:API_GET_ORDERS
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+            if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                _orderDataSource = [NSMutableArray arrayWithArray:[[OrderManager sharedInstance] getOrderList:[responseObject objectForKey:kData]]];
+                [_orderTableView reloadData];
+            } else {
+                [CallbackAlertView setCallbackTaget:titleError
+                                            message:msgConnectFailed
+                                             target:self
+                                            okTitle:btnOK
+                                         okCallback:nil
+                                        cancelTitle:nil
+                                     cancelCallback:nil];
+            }
+            [self hideActivity];
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
+            [self hideActivity];
+            [CallbackAlertView setCallbackTaget:titleError
+                                        message:msgConnectFailed
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+         }];
+}
+
+- (IBAction)addNewOrder:(id)sender {
+    [self showActivity];
+    Order *order = [[Order alloc] init];
+    order.shopID = _shop.ID;
+    order.date = [Utils stringTodayDateTime];
+    order.status = kOrderNew;
+    NSDictionary *params = @{kTableName:kOrderTableName,
+                             kParams: @{kShopID: order.shopID,
+                                          kDate: order.date,
+                                        kStatus: @(order.status)}};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_INSERTDATA parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
+                NSDictionary *data = [responseObject objectForKey:kData];
+                order.ID = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
+                [_orderDataSource insertObject:order atIndex:0];
+                [_orderTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                                       withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                [CallbackAlertView setCallbackTaget:titleError
+                                            message:msgAddNewOrderFailed
+                                             target:self
+                                            okTitle:btnOK
+                                         okCallback:nil
+                                        cancelTitle:nil
+                                     cancelCallback:nil];
+            }
+            [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-    }];
-}
-
-- (IBAction)onCalendarClicked:(id)sender {
-    [Utils showDatePickerWith:_orderSearchTextField.text target:self selector:@selector(onDatePickerSelected:)];
-}
-
-- (void)onDatePickerSelected:(NSDate *)dateSelected {
-    NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
-    _orderSearchTextField.text = date;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-    orderTableDataSource = [_orderDataSource filteredArrayUsingPredicate:predicate];
-    [_orderTableView reloadData];
-}
-
-- (IBAction)onRefreshClicked:(id)sender {
-    _orderSearchTextField.text = @"";
-    orderTableDataSource = _orderDataSource;
-    [_orderTableView reloadData];
+            [CallbackAlertView setCallbackTaget:titleError
+                                        message:msgConnectFailed
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+         }];
 }
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {
-    [_orderDataSource removeObjectAtIndex:indexPath.row];
-    [_orderTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    [self showActivity];
-//    Order *order = _orderDataSource[indexPath.row];
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    NSDictionary *params = @{@"tableName":kOrderTableName,
-//                             @"params": @{@"idName":kOrderID,
-//                                          @"idValue":Order.ID}};
-//    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        [self hideActivity];
-//        [[OrderManager sharedInstance] delete:Order];
-//        [_OrderDataSource removeObjectAtIndex:indexPath.row];
-//        [_OrderTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        [self hideActivity];
-//    }];
+    [self showActivity];
+    Order *order = _orderDataSource[indexPath.row];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kTableName:kOrderTableName,
+                             kParams: @{kIdName:kOrderID,
+                                        kIdValue:order.ID}};
+    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self hideActivity];
+        if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+            [_orderDataSource removeObjectAtIndex:indexPath.row];
+            [_orderTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            [CallbackAlertView setCallbackTaget:titleError
+                                        message:msgSomethingWhenWrong
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [CallbackAlertView setCallbackTaget:titleError
+                                    message:msgConnectFailed
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    }];
 }
 
 #pragma mark - TABLE DATASOURCE
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.1f;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return orderTableDataSource.count;
+    return _orderDataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
-    [cell initWith: [orderTableDataSource objectAtIndex:indexPath.row]];
+    [cell setOrder: [_orderDataSource objectAtIndex:indexPath.row]];
     return cell;
 }
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [self performSegueWithIdentifier:SegueOrderDetail sender:self];
+    Order *order = _orderDataSource[indexPath.row];
+    [self performSegueWithIdentifier:(order.status == 0) ?
+                     SegueOrderForm : SegueOrderDetail sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
@@ -140,7 +195,11 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueOrderDetail]) {
         OrderDetailViewController *vc = segue.destinationViewController;
-        vc.order = orderTableDataSource[_orderTableView.indexPathForSelectedRow.row];
+        vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
+    } else if([segue.identifier isEqualToString:SegueOrderForm]) {
+        OrderFormViewController *vc = segue.destinationViewController;
+        vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
+        vc.shop = _shop;
     }
 }
 

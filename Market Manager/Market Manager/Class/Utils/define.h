@@ -38,12 +38,15 @@ static NSString *const CellCrateOrder = @"crateOrderCell";
 static NSString *const CellProductOrder = @"productOrderCell";
 static NSString *const CellOrderDropDown = @"orderDropdownCell";
 static NSString *const CellShopProduct = @"ShopProductTableViewCellId";
+static NSString *const CellNewOrder = @"OrderFormTableViewCellId";
 
 
 #pragma mark - Color
 #define appColor [UIColor colorWithRed:75.f/255.f green:192.f/255.f blue:223.f/255.f alpha:1]
 
 #pragma mark - Response status
+#define kResSuccess 200
+#define kResFailed 400
 
 
 #pragma mark - Notification
@@ -53,6 +56,7 @@ static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
 static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 static NSString *const NotifyShopProductUpdate = @"NotifyShopProductUpdate";
+static NSString *const NotifyNewOrderUpdate = @"NotifyNewOrderUpdate";
 
 #pragma mark - Segue
 static NSString *const SegueMain = @"segueMain";
@@ -62,6 +66,7 @@ static NSString *const SegueSupplyDetail = @"showSupplyDetail";
 static NSString *const SegueOrderDetail = @"showOrderDetail";
 static NSString *const SegueUserDetail = @"showUserDetail";
 static NSString *const SegueShowOrder = @"showOrder";
+static NSString *const SegueOrderForm = @"showOrderForm";
 
 #pragma mark - Link
 #define SERVER @"http://localhost:5000/"
@@ -76,6 +81,8 @@ static NSString *const SegueShowOrder = @"showOrder";
 #define API_GET_ORDERS [SERVER stringByAppendingString:@"getOrderList"]
 #define API_GETSHOP_PRODUCT_LIST [SERVER stringByAppendingString:@"getShopProductList"]
 #define API_EXPORT_SHOP_PRODUCTS [SERVER stringByAppendingString:@"exportShopProducts"]
+#define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
+#define API_GET_ORDER_DETAIL [SERVER stringByAppendingString:@"getOrderDetail"]
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
@@ -102,6 +109,10 @@ static NSString *const kUserName = @"userName";
 static NSString *const kUserPassword = @"password";
 static NSString *const kUserID = @"userID";
 
+static NSString *const kOrderTableName = @"orders";
+static NSString *const kOrderID = @"orderID";
+static NSString *const kOrderQty = @"order_quantity";
+
 static NSString *const kTitleOrderManagement = @"Order Management";
 
 static NSString *const kCode = @"code";
@@ -110,6 +121,10 @@ static NSString *const kData = @"data";
 static NSString *const kDate = @"date";
 static NSString *const kInsertID = @"insertId";
 
+static NSString *const kTableName = @"tableName";
+static NSString *const kParams = @"params";
+static NSString *const kIdName = @"idName";
+static NSString *const kIdValue = @"idValue";
 static NSString *const kShopProductTableName = @"shop_product";
 
 #endif /* define_h */

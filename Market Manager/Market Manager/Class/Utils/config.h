@@ -19,6 +19,12 @@ typedef NS_ENUM(NSInteger, kActivityViewStyle){
 static CGFloat kActivityViewBaseWidth = 200;
 static CGFloat kActivityViewBaseHeight = 100;
 
+typedef NS_ENUM(NSInteger, kOrderStatus){
+    kOrderNew = 0,
+    kOrderWaiting,
+    kOrderDone,
+};
+
 
 #endif /* config_h */
 

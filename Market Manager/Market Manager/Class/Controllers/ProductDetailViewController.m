@@ -61,15 +61,15 @@
 
 - (void)addNewProductWith:(NSString *)productName price:(NSString *)price description:(NSString *)description {
     [self showActivity];
-    NSDictionary *params = @{@"tableName":@"product",
-                             @"params": @{@"productName":productName,
-                                          @"price":price,
-                                          @"description": description}};
+    NSDictionary *params = @{kTableName:kProductTableName,
+                             kParams: @{kProductName: productName,
+                                          kProductPrice: price,
+                                          kProductDesc: description}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if([[responseObject objectForKey:kCode] intValue] == 200) {
             NSDictionary *data = [responseObject objectForKey:kData];
-            NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
+            NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
             [self insertNewProduct:productId name:productName price:price description:description];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
@@ -80,7 +80,6 @@
         [self hideActivity];
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
     }];
-
 }
 
 - (void)insertNewProduct:(NSString *)productId name:(NSString *)productName price:(NSString *)price description:(NSString *)description {
@@ -94,9 +93,9 @@
 - (void)updateProduct {
     [self showActivity];
     NSDictionary *params = @{@"tableName":@"product",
-                             @"params":@{@"idName":@"productID",
-                                         @"idValue":_product.productId,
-                                         @"price": [NSString stringWithFormat:@"%f", _product.price],
+                             @"idName":@"productID",
+                             @"idValue":_product.productId,
+                             @"params":@{@"price": [NSString stringWithFormat:@"%f", _product.price],
                                          @"description": _product.productDesc,
                                          @"productName": _product.name}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

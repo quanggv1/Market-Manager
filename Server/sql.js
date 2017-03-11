@@ -46,8 +46,23 @@ module.exports = {
   /*select order list*/
   getOrderList: function (con, req, onSuccess, onError) {
     var shopID = req.query.shopID;
-    var sql = "SELECT * FROM order WHERE shopID = ?";
+    console.log(shopID)
+    var sql = 'SELECT * FROM orders WHERE `shopID` = ?';
     con.query(sql, shopID, function (err, rows) {
+      if (err) {
+        console.log(err);
+        onError(err);
+      } else {
+        console.log('Data received from Db:\n');
+        onSuccess(rows);
+      }
+    });
+  },
+
+  getOrderDetail: function (con, req, onSuccess, onError) {
+    var orderID = req.query.orderID;
+    var sql = 'SELECT * FROM order_each_day WHERE `orderID` = ?';
+    con.query(sql, orderID, function (err, rows) {
       if (err) {
         console.log(err);
         onError(err);
@@ -73,34 +88,34 @@ module.exports = {
     });
   },
   /*insert to table*/
-  insertData: function (con, req, response) {
+  insertData: function (con, req, onSuccess, onError) {
     var table = req.query.tableName;
     var query = req.query.params;
     con.query('INSERT INTO ' + table + ' SET ?', query, function (err, res) {
       if (err) {
         console.log(err);
-        response.send(errorResp);
+        onError(err);
       } else {
-        response.send({ code:200, status: 'OK', data: { insertId: res.insertId } });
+        onSuccess(res)
       }
     });
   },
   /*update product description*/
-  updateData: function (con, req, res) {
+  updateData: function (con, req, onSuccess, onError) {
     var table = req.query.tableName;
-    var params = req.query.params;
-    var idName = params.idName;
-    var idValue = params.idValue;
-    con.query(
-      'UPDATE ' + table + ' SET description = ?, productName = ?, price = ? Where ' + idName + ' = ?',
-      [params.description, params.productName, params.price, idValue],
+    var query = req.query.params;
+    var idName = req.query.idName;
+    var idValue = req.query.idValue;
+    console.log(query);
+    con.query('UPDATE ' + table + ' SET ? Where ' + idName + ' = '  + idValue, query,
       function (err, result) {
         if (err) {
           console.log(err);
-          res.send(err);
+          onError(err);
         } else {
-          console.log('Changed ' + result.changedRows + ' rows');
-          res.send(result);
+          if(result.changedRows > 0) onSuccess(result);
+          else onError(err);
+          console.log(result);
         }
       }
     );

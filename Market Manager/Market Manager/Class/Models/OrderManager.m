@@ -33,4 +33,13 @@
 - (NSArray *)getOrderList {
     return orderList;
 }
+
+- (NSArray *)getOrderList:(NSArray *)array {
+    NSMutableArray *orders = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in array) {
+        Order *order = [[Order alloc] initWith:dictionary];
+        [orders addObject:order];
+    }
+    return orders;
+}
 @end

@@ -70,6 +70,8 @@
 		748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */; };
 		748B3A871E62944E00AA9AA6 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A861E62944E00AA9AA6 /* UserManager.m */; };
 		748B3A8A1E62C36300AA9AA6 /* ValidateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A891E62C36300AA9AA6 /* ValidateService.m */; };
+		74C5A7331E73F94200BB5B40 /* OrderFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A7321E73F94200BB5B40 /* OrderFormViewController.m */; };
+		74C5A7361E73FE2F00BB5B40 /* OrderFormTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A7351E73FE2F00BB5B40 /* OrderFormTableViewCell.m */; };
 		74D4EB111E7192DF0041FD72 /* AddNewShopProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D4EB101E7192DF0041FD72 /* AddNewShopProductViewController.m */; };
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
@@ -83,7 +85,6 @@
 		74ED22271E59F7160079D3F0 /* SupplyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */; };
 		74ED222A1E59FC660079D3F0 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22291E59FC660079D3F0 /* Order.m */; };
 		74ED222E1E59FF1E0079D3F0 /* OrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED222D1E59FF1E0079D3F0 /* OrderTableViewCell.m */; };
-		74ED22311E59FF560079D3F0 /* OrderPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22301E59FF560079D3F0 /* OrderPopOverViewController.m */; };
 		74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */; };
 		74ED22371E5A05350079D3F0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22361E5A05350079D3F0 /* User.m */; };
 		74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */; };
@@ -223,6 +224,10 @@
 		748B3A861E62944E00AA9AA6 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
 		748B3A881E62C36300AA9AA6 /* ValidateService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateService.h; sourceTree = "<group>"; };
 		748B3A891E62C36300AA9AA6 /* ValidateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidateService.m; sourceTree = "<group>"; };
+		74C5A7311E73F94200BB5B40 /* OrderFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderFormViewController.h; sourceTree = "<group>"; };
+		74C5A7321E73F94200BB5B40 /* OrderFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderFormViewController.m; sourceTree = "<group>"; };
+		74C5A7341E73FE2F00BB5B40 /* OrderFormTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderFormTableViewCell.h; sourceTree = "<group>"; };
+		74C5A7351E73FE2F00BB5B40 /* OrderFormTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderFormTableViewCell.m; sourceTree = "<group>"; };
 		74D4EB0F1E7192DF0041FD72 /* AddNewShopProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewShopProductViewController.h; sourceTree = "<group>"; };
 		74D4EB101E7192DF0041FD72 /* AddNewShopProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewShopProductViewController.m; sourceTree = "<group>"; };
 		74E904431E57F54D005D391D /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
@@ -249,8 +254,6 @@
 		74ED22291E59FC660079D3F0 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		74ED222C1E59FF1E0079D3F0 /* OrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTableViewCell.h; sourceTree = "<group>"; };
 		74ED222D1E59FF1E0079D3F0 /* OrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTableViewCell.m; sourceTree = "<group>"; };
-		74ED222F1E59FF560079D3F0 /* OrderPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderPopOverViewController.h; sourceTree = "<group>"; };
-		74ED22301E59FF560079D3F0 /* OrderPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderPopOverViewController.m; sourceTree = "<group>"; };
 		74ED22321E59FF6E0079D3F0 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 		74ED22351E5A05350079D3F0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -531,6 +534,17 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		74C5A7301E73F92A00BB5B40 /* OrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+				74ED22321E59FF6E0079D3F0 /* OrderDetailViewController.h */,
+				74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */,
+				3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */,
+				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
+			);
+			name = OrderDetail;
+			sourceTree = "<group>";
+		};
 		74E904421E57F513005D391D /* Product */ = {
 			isa = PBXGroup;
 			children = (
@@ -621,18 +635,17 @@
 		74ED222B1E59FC850079D3F0 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
+				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
 				7466EB111E51F9A800A2C0F5 /* OrderViewController.m */,
 				74ED222C1E59FF1E0079D3F0 /* OrderTableViewCell.h */,
 				74ED222D1E59FF1E0079D3F0 /* OrderTableViewCell.m */,
-				74ED222F1E59FF560079D3F0 /* OrderPopOverViewController.h */,
-				74ED22301E59FF560079D3F0 /* OrderPopOverViewController.m */,
-				74ED22321E59FF6E0079D3F0 /* OrderDetailViewController.h */,
-				74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */,
-				3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */,
-				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
-				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
-				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
+				74C5A7311E73F94200BB5B40 /* OrderFormViewController.h */,
+				74C5A7321E73F94200BB5B40 /* OrderFormViewController.m */,
+				74C5A7341E73FE2F00BB5B40 /* OrderFormTableViewCell.h */,
+				74C5A7351E73FE2F00BB5B40 /* OrderFormTableViewCell.m */,
+				74C5A7301E73F92A00BB5B40 /* OrderDetail */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -730,6 +743,7 @@
 			files = (
 				748B20D61E620D8700571111 /* AddNewSupplyViewController.m in Sources */,
 				3D41D7D31E56E33A00123A71 /* UIProgressView+AFNetworking.m in Sources */,
+				74C5A7361E73FE2F00BB5B40 /* OrderFormTableViewCell.m in Sources */,
 				748B20D31E6200C200571111 /* AddNewShopViewController.m in Sources */,
 				74D4EB111E7192DF0041FD72 /* AddNewShopProductViewController.m in Sources */,
 				3D41D7C91E56E33A00123A71 /* AFSecurityPolicy.m in Sources */,
@@ -783,11 +797,11 @@
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,
 				74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */,
 				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
-				74ED22311E59FF560079D3F0 /* OrderPopOverViewController.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				744424EB1E6B089100F0ECA8 /* ShopProductTableViewCell.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
+				74C5A7331E73F94200BB5B40 /* OrderFormViewController.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
 				743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */,
 				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,

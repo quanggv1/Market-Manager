@@ -12,4 +12,5 @@
 + (instancetype)sharedInstance;
 - (void)setValueWith:(NSArray *)data;
 - (NSArray *)getOrderList;
+- (NSArray *)getOrderList:(NSArray *)array;
 @end

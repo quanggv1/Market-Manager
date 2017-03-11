@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Order : NSObject
-@property (nonatomic, strong) NSString *name, *date;
-@property (nonatomic, assign) BOOL isOrderDone;
+@property (nonatomic, strong) NSString *date, *shopID, *ID;
+@property (nonatomic, assign) NSInteger status;
 - (instancetype)initWith:(NSDictionary *)data;
 @end

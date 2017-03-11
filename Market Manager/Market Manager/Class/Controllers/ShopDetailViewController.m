@@ -40,13 +40,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear :animated];
     self.navigationItem.title = _shop.name;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateProduct:) name:NotifyShopProductUpdate object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationItem.title = @"";
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)addNewProduct:(id)sender {
@@ -54,12 +47,6 @@
         [_products insertObject:product atIndex:0];
         [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     }];
-}
-
-- (void)updateProduct:(NSNotification *)notify {
-    NSIndexPath *indexPath = [notify.object objectForKey:@"index"];
-    Product *product = [notify.object objectForKey:@"product"];
-    [_products replaceObjectAtIndex:indexPath.row withObject:product];
 }
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {

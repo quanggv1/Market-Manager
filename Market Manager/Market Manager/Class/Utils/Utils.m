@@ -30,6 +30,10 @@ static DateTimePickerController *dateTimePickerController;
     return df;
 }
 
++ (NSString *)stringTodayDateTime {
+    return [[Utils dateFormatter] stringFromDate:[NSDate date]];
+}
+
 + (void)showDatePickerWith:(NSString *)date target:(id)target selector:(SEL)selector {
     if (!dateTimePickerController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];

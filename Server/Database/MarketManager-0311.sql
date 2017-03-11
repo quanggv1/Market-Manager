@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2017 at 06:39 AM
+-- Generation Time: Mar 11, 2017 at 03:01 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -66,20 +66,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `date` varchar(100) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`orderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`orderID`, `shopID`, `date`, `status`) VALUES
-(1, 1, '2017-03-01', 0),
-(2, 1, '2017-03-01', 0),
-(4, 1, '2017-03-11', 0),
-(5, 1, '2017-03-11', 0),
-(6, 1, '2017-03-11', 0),
-(7, 1, '2017-03-11', 0),
-(8, 1, '2017-03-11', 0);
+(1, 1, '2017-03-11', 1);
 
 -- --------------------------------------------------------
 
@@ -89,7 +83,7 @@ INSERT INTO `orders` (`orderID`, `shopID`, `date`, `status`) VALUES
 
 DROP TABLE IF EXISTS `order_each_day`;
 CREATE TABLE IF NOT EXISTS `order_each_day` (
-  `oderID` int(10) NOT NULL,
+  `orderID` int(10) NOT NULL,
   `productID` int(10) NOT NULL,
   `stockTake` int(10) NOT NULL COMMENT 'So du tu hom truoc',
   `deliverFrom` int(10) NOT NULL COMMENT 'Nhập từ wh1, wh2,...',
@@ -103,8 +97,8 @@ CREATE TABLE IF NOT EXISTS `order_each_day` (
 -- Dumping data for table `order_each_day`
 --
 
-INSERT INTO `order_each_day` (`oderID`, `productID`, `stockTake`, `deliverFrom`, `order_quantity`, `quantity_needed`, `crate_deli_ID`, `crates_received`) VALUES
-(1, 1, 5, 1, 10, 0, 1, 3);
+INSERT INTO `order_each_day` (`orderID`, `productID`, `stockTake`, `deliverFrom`, `order_quantity`, `quantity_needed`, `crate_deli_ID`, `crates_received`) VALUES
+(1, 24, 12123, 0, 12, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -126,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUES
-(24, 'Asparagus', 1, ''),
+(24, 'Asparagus', 5, ''),
 (25, 'Bitter melon', 1, ''),
 (26, 'Ind Bitter Melon', 1, ''),
 (27, 'Broccoli', 1, ''),
@@ -569,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `shop_product` (
 
 INSERT INTO `shop_product` (`shopProductID`, `shopID`, `productID`, `stockTake`, `description`) VALUES
 (1, 1, 24, 12123, ''),
-(2, 1, 25, 1, ''),
+(2, 1, 25, 121, ''),
 (3, 1, 26, 1, ''),
 (4, 1, 27, 1, ''),
 (5, 1, 28, 1, ''),

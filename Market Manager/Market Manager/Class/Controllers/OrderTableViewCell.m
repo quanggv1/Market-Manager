@@ -7,11 +7,9 @@
 //
 
 #import "OrderTableViewCell.h"
-#import "OrderPopOverViewController.h"
 
 @interface OrderTableViewCell()
-@property (weak, nonatomic) IBOutlet UIImageView *orderImage;
-@property (weak, nonatomic) IBOutlet UILabel *orderName;
+@property (weak, nonatomic) IBOutlet UIView *statusView;
 @property (weak, nonatomic) IBOutlet UILabel *dateOrderLabel;
 @property (weak, nonatomic) Order *order;
 @end
@@ -27,10 +25,22 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void)initWith:(Order *)order {
+-(void)setOrder:(Order *)order {
     _order = order;
-    _orderName.text = _order.name;
-    _dateOrderLabel.text = _order.date;
+    _dateOrderLabel.text = [NSString stringWithFormat:@"%@         ID: %@", _order.date, _order.ID];
+    switch (_order.status) {
+        case 0:
+            _statusView.backgroundColor = [UIColor greenColor];
+            break;
+        case 1:
+            _statusView.backgroundColor = [UIColor yellowColor];
+            break;
+        case 2:
+            _statusView.backgroundColor = [UIColor blueColor];
+            break;
+        default:
+            break;
+    }
 }
 
 

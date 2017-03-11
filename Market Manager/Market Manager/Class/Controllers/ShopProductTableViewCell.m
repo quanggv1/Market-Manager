@@ -9,7 +9,7 @@
 #import "ShopProductTableViewCell.h"
 
 @interface ShopProductTableViewCell()
-@property (strong, nonatomic) Product *product;
+@property (weak, nonatomic) Product *product;
 @end
 
 @implementation ShopProductTableViewCell
@@ -33,12 +33,6 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     _product.STake = [_productSTakeTextField.text floatValue];
-    UIView *view = self;
-    while (!(view == nil || [view isKindOfClass:[UITableView class]])) {
-        view = view.superview;
-    }
-    NSIndexPath *indexPath = [((UITableView *)view) indexPathForCell:self];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShopProductUpdate object:@{@"index": indexPath, @"product": _product}];
 }
 
 @end

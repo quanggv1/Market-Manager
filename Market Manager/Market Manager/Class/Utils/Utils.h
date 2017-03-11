@@ -11,6 +11,7 @@
 @interface Utils : NSObject
 + (void)hideKeyboard;
 + (NSDateFormatter *)dateFormatter;
++ (NSString *)stringTodayDateTime;
 + (void)showDatePickerWith:(NSString *)date target:(id)target selector:(SEL)selector;
 + (void)hideDatePicker;
 @end

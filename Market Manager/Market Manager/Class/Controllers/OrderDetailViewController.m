@@ -22,6 +22,7 @@
     _orderFormTableView.delegate = self;
     Product *product1 = [[Product alloc] initWith:@{kProductName:@"potato", kProductOrder:@"3"}];
     _productOrderList = [[NSMutableArray alloc] initWithArray:@[product1, product1, product1]];
+    [self download];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -31,6 +32,44 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+- (void)download {
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kOrderID:_order.ID};
+    [manager GET:API_GET_ORDER_DETAIL
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+//                 _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
+//                 [_productTableView reloadData];
+             } else {
+//                 _products = nil;
+//                 [_productTableView reloadData];
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgSomethingWhenWrong
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
+             [self hideActivity];
+//             _products = nil;
+//             [_productTableView reloadData];
+             [CallbackAlertView setCallbackTaget:titleError
+                                         message:msgConnectFailed
+                                          target:self
+                                         okTitle:btnOK
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+         }];
+}
+
 
 #pragma mark - TABLE DATASOUCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

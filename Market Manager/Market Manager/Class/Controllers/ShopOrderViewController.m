@@ -37,7 +37,7 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kShopTableName};
+    NSDictionary *params = @{kTableName:kShopTableName};
     [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [[ShopManager sharedInstance] setValueWith:responseObject];
         _shopDataSource = [[NSMutableArray alloc] initWithArray:[[ShopManager sharedInstance] getShopList]];
@@ -73,7 +73,7 @@
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:SegueShopDetail]) {
+    if([segue.identifier isEqualToString:SegueShowOrder]) {
         OrderViewController *vc = segue.destinationViewController;
         vc.shop = _shopDataSource[_shopTableView.indexPathForSelectedRow.row];
     }
