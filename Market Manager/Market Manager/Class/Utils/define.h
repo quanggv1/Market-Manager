@@ -39,6 +39,7 @@ static NSString *const CellProductOrder = @"productOrderCell";
 static NSString *const CellOrderDropDown = @"orderDropdownCell";
 static NSString *const CellShopProduct = @"ShopProductTableViewCellId";
 static NSString *const CellNewOrder = @"OrderFormTableViewCellId";
+static NSString *const CellCrateManager = @"CrateTableViewCellID";
 
 
 #pragma mark - Color
@@ -110,6 +111,10 @@ static NSString *const kUserTableName = @"user";
 static NSString *const kUserName = @"userName";
 static NSString *const kUserPassword = @"password";
 static NSString *const kUserID = @"userID";
+
+static NSString *const kCrateID = @"crateID";
+static NSString *const kCrateName = @"crateName";
+static NSString *const kCrateTableName = @"crate";
 
 static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";
