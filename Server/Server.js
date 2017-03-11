@@ -148,6 +148,7 @@ function addNewOrder(productOrders, orderID, res) {
       res.send(errorResp);
     })
   } else {
+    /** update order table after insert into order_each_day */
     req.query.tableName = 'orders';
     req.query.params = {};
     req.query.params.status = 1;
@@ -192,7 +193,7 @@ function today() {
 }
 
 function updateOrderDetail(productOrders, orderID, res) {
-  var req = {query : {}}
+  var req = { query: {} }
   if (productOrders.length > 0) {
     /** update order_each_day */
     req.query.tableName = 'order_each_day';

@@ -136,8 +136,7 @@ module.exports = {
           console.log(err);
           onError(err);
         } else {
-          if(result.changedRows > 0) onSuccess(result);
-          else onError(err);
+          onSuccess(result)
           console.log(result);
         }
       }
