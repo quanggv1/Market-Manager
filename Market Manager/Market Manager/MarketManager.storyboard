@@ -1321,7 +1321,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dOH-4C-yTv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4148" y="2586.6566716641682"/>
+            <point key="canvasLocation" x="4170" y="2589"/>
         </scene>
         <!--Recommend List View Controller-->
         <scene sceneID="bjP-CV-fS5">
@@ -1488,8 +1488,8 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JW8-L6-mVK">
                                         <rect key="frame" x="8" y="0.0" width="94" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dfF-iV-yg5">
@@ -1497,14 +1497,14 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="55" id="QFA-vI-xns"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-Wp-Pip">
                                         <rect key="frame" x="212" y="0.0" width="158" height="40"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In Stock" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ynR-v7-g08">
@@ -1512,12 +1512,12 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="55" id="Dxj-8b-gUL"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.88159980459999998" green="0.52901365619999996" blue="0.1076859953" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="3c0-Wp-Pip" secondAttribute="trailing" constant="5" id="0Sa-Ve-BJN"/>
                                     <constraint firstItem="JW8-L6-mVK" firstAttribute="width" secondItem="duf-hv-kQ0" secondAttribute="width" multiplier="1:4" id="4hi-T9-42z"/>
@@ -1558,7 +1558,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iI3-WI-J0v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4946" y="2589"/>
+            <point key="canvasLocation" x="4897" y="2589"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DL1-Ix-dd9">
@@ -2946,10 +2946,32 @@
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Tix-43-OjK" kind="relationship" relationship="rootViewController" id="bzd-aq-pFu"/>
+                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JMM-cq-htK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1734" y="4021"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="z75-Xd-G3C">
+            <objects>
+                <viewController id="Tix-43-OjK" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fX7-Ov-VC7"/>
+                        <viewControllerLayoutGuide type="bottom" id="gHR-Qz-SyV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7yr-fR-vYQ">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kQP-8I-XRE"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Vi-IP-kQR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2521" y="4021"/>
         </scene>
     </scenes>
     <resources>
