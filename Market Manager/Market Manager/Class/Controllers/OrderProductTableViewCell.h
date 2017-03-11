@@ -7,7 +7,6 @@
 //
 
 #import "Product.h"
-#import "iCarousel.h"
 
 @interface OrderProductTableViewCell : UITableViewCell
 - (void)setProduct:(Product *)product;

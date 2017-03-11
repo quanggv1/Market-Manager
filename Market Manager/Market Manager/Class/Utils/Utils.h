@@ -14,4 +14,5 @@
 + (NSString *)stringTodayDateTime;
 + (void)showDatePickerWith:(NSString *)date target:(id)target selector:(SEL)selector;
 + (void)hideDatePicker;
++ (NSString *)objectToJsonString:(id )object;
 @end

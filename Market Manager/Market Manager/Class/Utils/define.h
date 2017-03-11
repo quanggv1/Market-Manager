@@ -83,6 +83,7 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 #define API_EXPORT_SHOP_PRODUCTS [SERVER stringByAppendingString:@"exportShopProducts"]
 #define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
 #define API_GET_ORDER_DETAIL [SERVER stringByAppendingString:@"getOrderDetail"]
+#define API_UPDATE_ORDER_DETAIL [SERVER stringByAppendingString:@"updateOrderDetail"]
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
@@ -91,8 +92,9 @@ static NSString *const kProductPrice = @"price";
 static NSString *const kProductTableName = @"product";
 static NSString *const kProductID = @"productID";
 static NSString *const kProductSTake = @"stockTake";
-static NSString *const kProductOrder = @"order";
+static NSString *const kProductOrder = @"order_quantity";
 static NSString *const kShopProductID = @"shopProductID";
+static NSString *const kProductOrderID = @"productOrderID";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";
@@ -120,6 +122,12 @@ static NSString *const kStatus = @"status";
 static NSString *const kData = @"data";
 static NSString *const kDate = @"date";
 static NSString *const kInsertID = @"insertId";
+
+static NSString *const kCrateQty = @"crate_qty";
+static NSString *const kCrateType = @"crate_type";
+static NSString *const kWh1 = @"wh1";
+static NSString *const kWh2 = @"wh2";
+static NSString *const kWhTL = @"wh3";
 
 static NSString *const kTableName = @"tableName";
 static NSString *const kParams = @"params";

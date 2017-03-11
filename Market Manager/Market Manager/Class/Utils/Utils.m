@@ -48,5 +48,10 @@ static DateTimePickerController *dateTimePickerController;
     dateTimePickerController = nil;
 }
 
++ (NSString *)objectToJsonString:(id )object {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object options:0 error:nil];
+    return  [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+}
+
 
 @end

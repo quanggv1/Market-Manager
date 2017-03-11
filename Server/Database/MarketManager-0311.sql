@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2017 at 03:01 PM
+-- Generation Time: Mar 11, 2017 at 05:08 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -66,14 +66,16 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `date` varchar(100) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`orderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`orderID`, `shopID`, `date`, `status`) VALUES
-(1, 1, '2017-03-11', 1);
+(4, 3, '2017-03-11', 1),
+(5, 1, '2017-03-11', 2),
+(6, 1, '2017-03-11', 1);
 
 -- --------------------------------------------------------
 
@@ -83,22 +85,27 @@ INSERT INTO `orders` (`orderID`, `shopID`, `date`, `status`) VALUES
 
 DROP TABLE IF EXISTS `order_each_day`;
 CREATE TABLE IF NOT EXISTS `order_each_day` (
+  `productOrderID` int(11) NOT NULL AUTO_INCREMENT,
   `orderID` int(10) NOT NULL,
   `productID` int(10) NOT NULL,
   `stockTake` int(10) NOT NULL COMMENT 'So du tu hom truoc',
-  `deliverFrom` int(10) NOT NULL COMMENT 'Nhập từ wh1, wh2,...',
-  `order_quantity` int(10) NOT NULL COMMENT 'So luong',
-  `quantity_needed` int(10) NOT NULL,
-  `crate_deli_ID` int(10) NOT NULL COMMENT 'Mã thùng',
-  `crates_received` int(10) NOT NULL COMMENT 'Số lượng thùng'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `wh1` int(10) NOT NULL COMMENT 'Nhập từ wh1, wh2,...',
+  `order_quantity` int(10) NOT NULL COMMENT 'So luong order',
+  `crate_type` int(10) NOT NULL COMMENT 'Mã thùng',
+  `crate_qty` int(10) NOT NULL COMMENT 'Số lượng thùng',
+  `wh2` int(11) NOT NULL,
+  `wh3` int(11) NOT NULL,
+  PRIMARY KEY (`productOrderID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_each_day`
 --
 
-INSERT INTO `order_each_day` (`orderID`, `productID`, `stockTake`, `deliverFrom`, `order_quantity`, `quantity_needed`, `crate_deli_ID`, `crates_received`) VALUES
-(1, 24, 12123, 0, 12, 0, 0, 0);
+INSERT INTO `order_each_day` (`productOrderID`, `orderID`, `productID`, `stockTake`, `wh1`, `order_quantity`, `crate_type`, `crate_qty`, `wh2`, `wh3`) VALUES
+(1, 4, 24, 1, 0, 2, 0, 0, 0, 0),
+(2, 5, 24, 12123, 22, 46, 0, 0, 3, 2),
+(3, 6, 24, 12123, 0, 3, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 

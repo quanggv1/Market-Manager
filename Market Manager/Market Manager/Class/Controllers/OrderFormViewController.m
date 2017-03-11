@@ -96,7 +96,7 @@
 
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kParams:[self arrayToJson:orders],
+    NSDictionary *params = @{kParams:[self objectToJson:orders],
                              kOrderID: _order.ID};
     [manager GET:API_ADD_NEW_ORDER
       parameters:params
@@ -136,9 +136,9 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(NSString *)arrayToJson:(NSArray *)dict
+-(NSString *)objectToJson:(id )object
 {
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object options:0 error:nil];
     return  [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
 }
 

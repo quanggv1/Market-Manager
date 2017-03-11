@@ -44,12 +44,17 @@ app.get('/addNewOrder', function (req, res) {
   addNewOrder(productOrders, req.query.orderID, res);
 })
 
-app.get('/getOrderDetail', function(req, res) {
-  SQL.getOrderDetail(con, req, function(success){
+app.get('/getOrderDetail', function (req, res) {
+  SQL.getOrderDetail(con, req, function (success) {
     res.send({ code: '200', data: success })
-  }, function(error) {
+  }, function (error) {
     res.send(errorResp);
   })
+})
+
+app.get('/updateOrderDetail', function (req, res) {
+  var productOrders = JSON.parse(req.query.params)
+  updateOrderDetail(productOrders, req.query.orderID, res)
 })
 
 /** common api */
@@ -67,7 +72,7 @@ app.get('/insertData', function (req, res) {
 
 app.get('/updateData', function (req, res) {
   SQL.updateData(con, req, function (success) {
-    res.send({code: 200});
+    res.send({ code: 200 });
   }, function (error) {
     res.send(errorResp);
   });
@@ -131,11 +136,12 @@ function updateShopProduct(shopProductIDs, stockTakes, req, res) {
 }
 
 function addNewOrder(productOrders, orderID, res) {
-  var req = {query: {}};
+  var req = { query: {} };
   if (productOrders.length > 0) {
+    /** insert product order into order_each_day */
     req.query.tableName = 'order_each_day';
     req.query.params = productOrders[0];
-    SQL.insertData(con, req, function(success) {
+    SQL.insertData(con, req, function (success) {
       productOrders = productOrders.splice(1, productOrders.length);
       addNewOrder(productOrders, orderID, res);
     }, function (error) {
@@ -147,7 +153,7 @@ function addNewOrder(productOrders, orderID, res) {
     req.query.params.status = 1;
     req.query.idName = 'orderID';
     req.query.idValue = orderID;
-    SQL.updateData(con, req, function(success) {
+    SQL.updateData(con, req, function (success) {
       res.send({ code: 200 });
     }, function (error) {
       res.send(errorResp);
@@ -183,4 +189,33 @@ function today() {
   day = (day < 10 ? "0" : "") + day;
   date = year + '-' + month + '-' + day;
   return date;
+}
+
+function updateOrderDetail(productOrders, orderID, res) {
+  var req = {query : {}}
+  if (productOrders.length > 0) {
+    /** update order_each_day */
+    req.query.tableName = 'order_each_day';
+    req.query.params = productOrders[0]
+    req.query.idName = 'productOrderID';
+    req.query.idValue = productOrders[0].productOrderID;
+    SQL.updateData(con, req, function (success) {
+      productOrders = productOrders.splice(1, productOrders.length);
+      updateOrderDetail(productOrders, orderID, res);
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    /** update order table after update order_each_day */
+    req.query.tableName = 'orders';
+    req.query.params = {};
+    req.query.params.status = 2;
+    req.query.idName = 'orderID';
+    req.query.idValue = orderID;
+    SQL.updateData(con, req, function (success) {
+      res.send({ code: 200 });
+    }, function (error) {
+      res.send(errorResp);
+    })
+  }
 }

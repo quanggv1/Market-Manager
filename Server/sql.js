@@ -47,7 +47,7 @@ module.exports = {
   getOrderList: function (con, req, onSuccess, onError) {
     var shopID = req.query.shopID;
     console.log(shopID)
-    var sql = 'SELECT * FROM orders WHERE `shopID` = ?';
+    var sql = 'SELECT * FROM orders  WHERE `shopID` = ?';
     con.query(sql, shopID, function (err, rows) {
       if (err) {
         console.log(err);
@@ -61,7 +61,7 @@ module.exports = {
 
   getOrderDetail: function (con, req, onSuccess, onError) {
     var orderID = req.query.orderID;
-    var sql = 'SELECT * FROM order_each_day WHERE `orderID` = ?';
+    var sql = 'SELECT order_each_day.*, product.productName FROM `order_each_day` JOIN product ON order_each_day.productID = product.productID WHERE `orderID` = ?';
     con.query(sql, orderID, function (err, rows) {
       if (err) {
         console.log(err);
