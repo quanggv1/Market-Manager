@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 11, 2017 at 04:33 AM
+-- Generation Time: Mar 11, 2017 at 06:39 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -56,24 +56,30 @@ CREATE TABLE IF NOT EXISTS `crate_sellers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Table structure for table `orders`
 --
 
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE IF NOT EXISTS `order` (
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
   `orderID` int(10) NOT NULL AUTO_INCREMENT,
   `shopID` int(10) NOT NULL,
-  `date` date NOT NULL,
+  `date` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL,
   PRIMARY KEY (`orderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `order`
+-- Dumping data for table `orders`
 --
 
-INSERT INTO `order` (`orderID`, `shopID`, `date`) VALUES
-(1, 1, '2017-03-01'),
-(2, 1, '2017-03-01');
+INSERT INTO `orders` (`orderID`, `shopID`, `date`, `status`) VALUES
+(1, 1, '2017-03-01', 0),
+(2, 1, '2017-03-01', 0),
+(4, 1, '2017-03-11', 0),
+(5, 1, '2017-03-11', 0),
+(6, 1, '2017-03-11', 0),
+(7, 1, '2017-03-11', 0),
+(8, 1, '2017-03-11', 0);
 
 -- --------------------------------------------------------
 
@@ -113,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `price` float NOT NULL,
   `description` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`productID`)
-) ENGINE=InnoDB AUTO_INCREMENT=397 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
@@ -492,7 +498,11 @@ INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUE
 (393, 'Bong He', 1, ''),
 (394, 'Purple yam', 1, ''),
 (395, 'Star fruit', 1, ''),
-(396, '1233', 1, '');
+(396, '1233', 1, ''),
+(397, '123', 123, ''),
+(398, '1223', 2, ''),
+(399, '32', 1, ''),
+(400, '1', 1, '');
 
 -- --------------------------------------------------------
 
@@ -558,7 +568,7 @@ CREATE TABLE IF NOT EXISTS `shop_product` (
 --
 
 INSERT INTO `shop_product` (`shopProductID`, `shopID`, `productID`, `stockTake`, `description`) VALUES
-(1, 1, 24, 1, ''),
+(1, 1, 24, 12123, ''),
 (2, 1, 25, 1, ''),
 (3, 1, 26, 1, ''),
 (4, 1, 27, 1, ''),
