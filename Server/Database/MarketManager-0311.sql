@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2017 at 10:48 AM
+-- Generation Time: Mar 11, 2017 at 04:33 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `MarketManager`
 --
+CREATE DATABASE IF NOT EXISTS `MarketManager` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `MarketManager`;
 
 -- --------------------------------------------------------
 
@@ -26,7 +28,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `crateManager`
 --
 
-CREATE TABLE `crateManager` (
+DROP TABLE IF EXISTS `crateManager`;
+CREATE TABLE IF NOT EXISTS `crateManager` (
   `crate_deli_ID` int(10) NOT NULL,
   `date` date NOT NULL,
   `quantity_left_yesterday` int(11) NOT NULL,
@@ -42,10 +45,12 @@ CREATE TABLE `crateManager` (
 -- Table structure for table `crate_sellers`
 --
 
-CREATE TABLE `crate_sellers` (
-  `crate_deli_ID` int(10) NOT NULL,
+DROP TABLE IF EXISTS `crate_sellers`;
+CREATE TABLE IF NOT EXISTS `crate_sellers` (
+  `crate_deli_ID` int(10) NOT NULL AUTO_INCREMENT,
   `companyName` varchar(200) NOT NULL,
-  `description` varchar(200) NOT NULL
+  `description` varchar(200) NOT NULL,
+  PRIMARY KEY (`crate_deli_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -54,17 +59,19 @@ CREATE TABLE `crate_sellers` (
 -- Table structure for table `order`
 --
 
-CREATE TABLE `order` (
-  `order_ID` int(10) NOT NULL,
-  `shop_ID` int(10) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE IF NOT EXISTS `order` (
+  `orderID` int(10) NOT NULL AUTO_INCREMENT,
+  `shopID` int(10) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`orderID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`order_ID`, `shop_ID`, `date`) VALUES
+INSERT INTO `order` (`orderID`, `shopID`, `date`) VALUES
 (1, 1, '2017-03-01'),
 (2, 1, '2017-03-01');
 
@@ -74,7 +81,8 @@ INSERT INTO `order` (`order_ID`, `shop_ID`, `date`) VALUES
 -- Table structure for table `order_each_day`
 --
 
-CREATE TABLE `order_each_day` (
+DROP TABLE IF EXISTS `order_each_day`;
+CREATE TABLE IF NOT EXISTS `order_each_day` (
   `oderID` int(10) NOT NULL,
   `productID` int(10) NOT NULL,
   `stockTake` int(10) NOT NULL COMMENT 'So du tu hom truoc',
@@ -98,12 +106,14 @@ INSERT INTO `order_each_day` (`oderID`, `productID`, `stockTake`, `deliverFrom`,
 -- Table structure for table `product`
 --
 
-CREATE TABLE `product` (
-  `productID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE IF NOT EXISTS `product` (
+  `productID` int(11) NOT NULL AUTO_INCREMENT,
   `productName` varchar(200) NOT NULL,
   `price` float NOT NULL,
-  `description` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `description` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`productID`)
+) ENGINE=InnoDB AUTO_INCREMENT=397 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
@@ -481,7 +491,24 @@ INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUE
 (392, 'Dot Dau', 1, ''),
 (393, 'Bong He', 1, ''),
 (394, 'Purple yam', 1, ''),
-(395, 'Star fruit', 1, '');
+(395, 'Star fruit', 1, ''),
+(396, '1233', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `records`
+--
+
+DROP TABLE IF EXISTS `records`;
+CREATE TABLE IF NOT EXISTS `records` (
+  `recordID` int(11) NOT NULL AUTO_INCREMENT,
+  `recordSubID` int(11) NOT NULL,
+  `recordType` int(11) NOT NULL,
+  `recordName` varchar(100) NOT NULL,
+  `recordPath` varchar(100) NOT NULL,
+  PRIMARY KEY (`recordID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -489,12 +516,14 @@ INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUE
 -- Table structure for table `shop`
 --
 
-CREATE TABLE `shop` (
-  `shopID` int(10) NOT NULL,
+DROP TABLE IF EXISTS `shop`;
+CREATE TABLE IF NOT EXISTS `shop` (
+  `shopID` int(10) NOT NULL AUTO_INCREMENT,
   `shopName` varchar(100) NOT NULL,
   `productID` int(10) NOT NULL,
-  `description` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Bảng shop';
+  `description` varchar(200) NOT NULL,
+  PRIMARY KEY (`shopID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COMMENT='Bảng shop';
 
 --
 -- Dumping data for table `shop`
@@ -514,19 +543,21 @@ INSERT INTO `shop` (`shopID`, `shopName`, `productID`, `description`) VALUES
 -- Table structure for table `shop_product`
 --
 
-CREATE TABLE `shop_product` (
-  `ID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `shop_product`;
+CREATE TABLE IF NOT EXISTS `shop_product` (
+  `shopProductID` int(11) NOT NULL AUTO_INCREMENT,
   `shopID` int(10) NOT NULL,
   `productID` int(10) NOT NULL,
   `stockTake` int(10) NOT NULL COMMENT 'Hàng tồn từ hôm qua',
-  `description` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `description` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`shopProductID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2234 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `shop_product`
 --
 
-INSERT INTO `shop_product` (`ID`, `shopID`, `productID`, `stockTake`, `description`) VALUES
+INSERT INTO `shop_product` (`shopProductID`, `shopID`, `productID`, `stockTake`, `description`) VALUES
 (1, 1, 24, 1, ''),
 (2, 1, 25, 1, ''),
 (3, 1, 26, 1, ''),
@@ -2758,7 +2789,8 @@ INSERT INTO `shop_product` (`ID`, `shopID`, `productID`, `stockTake`, `descripti
 (2229, 6, 392, 1, ''),
 (2230, 6, 393, 1, ''),
 (2231, 6, 394, 1, ''),
-(2232, 6, 395, 1, '');
+(2232, 6, 395, 1, ''),
+(2233, 1, 396, 0, '');
 
 -- --------------------------------------------------------
 
@@ -2766,11 +2798,13 @@ INSERT INTO `shop_product` (`ID`, `shopID`, `productID`, `stockTake`, `descripti
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `userID` int(10) NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `userID` int(10) NOT NULL AUTO_INCREMENT,
   `userName` varchar(100) NOT NULL,
-  `password` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `password` varchar(20) NOT NULL,
+  PRIMARY KEY (`userID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -2787,13 +2821,15 @@ INSERT INTO `user` (`userID`, `userName`, `password`) VALUES
 -- Table structure for table `warehouse`
 --
 
-CREATE TABLE `warehouse` (
-  `whID` int(11) NOT NULL,
+DROP TABLE IF EXISTS `warehouse`;
+CREATE TABLE IF NOT EXISTS `warehouse` (
+  `whID` int(11) NOT NULL AUTO_INCREMENT,
   `whName` varchar(100) NOT NULL,
   `productID` int(10) NOT NULL,
   `inputDate` date NOT NULL,
-  `description` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table kho hàng';
+  `description` varchar(200) NOT NULL,
+  PRIMARY KEY (`whID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COMMENT='Table kho hàng';
 
 --
 -- Dumping data for table `warehouse`
@@ -2804,91 +2840,6 @@ INSERT INTO `warehouse` (`whID`, `whName`, `productID`, `inputDate`, `descriptio
 (2, 'WH2', 0, '0000-00-00', ''),
 (3, 'WH T&L', 0, '0000-00-00', '');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `crate_sellers`
---
-ALTER TABLE `crate_sellers`
-  ADD PRIMARY KEY (`crate_deli_ID`);
-
---
--- Indexes for table `order`
---
-ALTER TABLE `order`
-  ADD PRIMARY KEY (`order_ID`);
-
---
--- Indexes for table `product`
---
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`productID`);
-
---
--- Indexes for table `shop`
---
-ALTER TABLE `shop`
-  ADD PRIMARY KEY (`shopID`);
-
---
--- Indexes for table `shop_product`
---
-ALTER TABLE `shop_product`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`userID`);
-
---
--- Indexes for table `warehouse`
---
-ALTER TABLE `warehouse`
-  ADD PRIMARY KEY (`whID`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `crate_sellers`
---
-ALTER TABLE `crate_sellers`
-  MODIFY `crate_deli_ID` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `order`
---
-ALTER TABLE `order`
-  MODIFY `order_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `product`
---
-ALTER TABLE `product`
-  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=396;
---
--- AUTO_INCREMENT for table `shop`
---
-ALTER TABLE `shop`
-  MODIFY `shopID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `shop_product`
---
-ALTER TABLE `shop_product`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2233;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `userID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `warehouse`
---
-ALTER TABLE `warehouse`
-  MODIFY `whID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
