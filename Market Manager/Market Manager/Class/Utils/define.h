@@ -27,6 +27,7 @@ static NSString *const StoryboardAddNewUser = @"AddNewUserViewId";
 static NSString *const StoryboardMenuView = @"menuViewController";
 static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
 static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewControllerId";
+static NSString *const StoryboardAddNewSupplyProduct = @"AddNewSupplyProductViewControllerId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellProduct = @"productCellId";
@@ -151,6 +152,7 @@ static NSString *const kParams = @"params";
 static NSString *const kIdName = @"idName";
 static NSString *const kIdValue = @"idValue";
 static NSString *const kShopProductTableName = @"shop_product";
+static NSString *const kWarehouseProductTableName = @"warehouse_product";
 
 #endif /* define_h */
 

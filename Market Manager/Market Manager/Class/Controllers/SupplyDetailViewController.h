@@ -11,4 +11,5 @@
 
 @interface SupplyDetailViewController : BaseViewController
 @property (weak, nonatomic) Supply *supply;
+@property (strong, nonatomic) NSMutableArray *products;
 @end

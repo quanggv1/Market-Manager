@@ -1,24 +1,24 @@
 //
-//  AddNewShopProductViewController.m
+//  AddNewSupplyProductViewController.m
 //  Market Manager
 //
 //  Created by Quang on 3/9/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "AddNewShopProductViewController.h"
+#import "AddNewSupplyProductViewController.h"
 #import "RecommendListViewController.h"
 #import "ProductManager.h"
-#import "ShopDetailViewController.h"
+#import "SupplyDetailViewController.h"
 
-static AddNewShopProductViewController *addNewShopProductViewController;
-@interface AddNewShopProductViewController ()
+static AddNewSupplyProductViewController *addNewSupplyProductViewController;
+@interface AddNewSupplyProductViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *productNameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *productDescTextView;
-@property (weak, nonatomic) ShopDetailViewController *shopDetailViewController;
+@property (weak, nonatomic) SupplyDetailViewController *supplyDetailViewController;
 @end
 
-@implementation AddNewShopProductViewController {
+@implementation AddNewSupplyProductViewController {
     NSArray *productNameList;
 }
 
@@ -26,9 +26,11 @@ static AddNewShopProductViewController *addNewShopProductViewController;
     [super viewDidLoad];
     _productNameTextField.delegate = self;
     [_productNameTextField addTarget:self
-                            action:@selector(textFieldDidChange:)
-                  forControlEvents:UIControlEventEditingChanged];
+                              action:@selector(textFieldDidChange:)
+                    forControlEvents:UIControlEventEditingChanged];
     productNameList = [[ProductManager sharedInstance] getProductNameList];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,20 +39,20 @@ static AddNewShopProductViewController *addNewShopProductViewController;
 }
 
 + (void)showViewAt:(UIViewController *)controller onSave:(SaveCallback)saveCallback {
-    if(!addNewShopProductViewController) {
-        addNewShopProductViewController = [[UIStoryboard storyboardWithName:StoryboardMain bundle:nil] instantiateViewControllerWithIdentifier:StoryboardAddNewShopProduct];
-        [controller addChildViewController:addNewShopProductViewController];
-        [controller.view addSubview:addNewShopProductViewController.view];
-        addNewShopProductViewController.saveCallback = saveCallback;
-        addNewShopProductViewController.shopDetailViewController = (ShopDetailViewController *)controller;
+    if(!addNewSupplyProductViewController) {
+        addNewSupplyProductViewController = [[UIStoryboard storyboardWithName:StoryboardMain bundle:nil] instantiateViewControllerWithIdentifier:StoryboardAddNewSupplyProduct];
+        [controller addChildViewController:addNewSupplyProductViewController];
+        [controller.view addSubview:addNewSupplyProductViewController.view];
+        addNewSupplyProductViewController.saveCallback = saveCallback;
+        addNewSupplyProductViewController.supplyDetailViewController = (SupplyDetailViewController *)controller;
     }
 }
 
 - (void)dismiss {
-    if(addNewShopProductViewController) {
-        [addNewShopProductViewController removeFromParentViewController];
-        [addNewShopProductViewController.view removeFromSuperview];
-        addNewShopProductViewController = nil;
+    if(addNewSupplyProductViewController) {
+        [addNewSupplyProductViewController removeFromParentViewController];
+        [addNewSupplyProductViewController.view removeFromSuperview];
+        addNewSupplyProductViewController = nil;
     }
 }
 
@@ -60,9 +62,9 @@ static AddNewShopProductViewController *addNewShopProductViewController;
                                               viewSource:_productNameTextField
                                               recommends:productNameList
                                               onSelected:^(NSString *result) {
-            [textField setText:result];
-            [Utils hideKeyboard];
-        }];
+                                                  [textField setText:result];
+                                                  [Utils hideKeyboard];
+                                              }];
     }
 }
 
@@ -85,37 +87,38 @@ static AddNewShopProductViewController *addNewShopProductViewController;
     Product *newProduct = [[Product alloc] init];
     newProduct.name = _productNameTextField.text;
     newProduct.productDesc = _productDescTextView.text;
-    newProduct.shopID = _shopDetailViewController.shop.ID;
+    newProduct.whID = _supplyDetailViewController.supply.ID;
     newProduct.productId = [[ProductManager sharedInstance] getProductIdBy:newProduct.name];
     if(newProduct.name == 0) {
         [CallbackAlertView setCallbackTaget:@"Error"
                                     message:@"Please input product name"
                                      target:self
                                     okTitle:@"OK"
-                                 okCallback:nil cancelTitle:nil
+                                 okCallback:nil
+                                cancelTitle:nil
                              cancelCallback:nil];
         return;
     }
     
     [self showActivity];
-    NSDictionary *params = @{kTableName:kShopProductTableName,
-                             kParams: @{kShopID: newProduct.shopID,
-                                          kShopDesc: newProduct.productDesc,
-                                          kProductID: newProduct.productId}};
+    NSDictionary *params = @{kTableName:kWarehouseProductTableName,
+                                kParams: @{kSupplyID: newProduct.whID,
+                                           kProductDesc: newProduct.productDesc,
+                                           kProductID: newProduct.productId}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA
       parameters:params
         progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:kCode] intValue] == 200) {
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
                  newProduct.productWhID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:kInsertID]];
                  _saveCallback(newProduct);
                  [self dismiss];
              } else {
-                 [CallbackAlertView setCallbackTaget:titleError
-                                             message:msgConnectFailed
+                 [CallbackAlertView setCallbackTaget:@"Error"
+                                             message:@"Can't connect to server"
                                               target:self
-                                             okTitle:btnOK
+                                             okTitle:@"OK"
                                           okCallback:nil
                                          cancelTitle:nil
                                       cancelCallback:nil];
@@ -123,40 +126,27 @@ static AddNewShopProductViewController *addNewShopProductViewController;
              [self hideActivity];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [self hideActivity];
-             [CallbackAlertView setCallbackTaget:titleError
-                                         message:msgConnectFailed
+             [CallbackAlertView setCallbackTaget:@"Error"
+                                         message:@"Can't connect to server"
                                           target:self
-                                         okTitle:btnOK
+                                         okTitle:@"OK"
                                       okCallback:nil
                                      cancelTitle:nil
-                                  cancelCallback:nil];
-         }];
+                                  cancelCallback:nil];    }];
 }
 
 - (BOOL)isNewProductSatisfiedReq {
     NSString *productName = _productNameTextField.text;
     if ([productNameList containsObject: productName]) {
-        for (Product *product in _shopDetailViewController.products) {
+        for (Product *product in _supplyDetailViewController.products) {
             if ([product.name isEqualToString: productName]) {
-                [CallbackAlertView setCallbackTaget:@"Error"
-                                            message:@"This product is exist"
-                                             target:self
-                                            okTitle:@"OK"
-                                         okCallback:nil
-                                        cancelTitle:nil
-                                     cancelCallback:nil];
+                [CallbackAlertView setCallbackTaget:@"Error" message:@"This product is exist" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
                 return NO;
             }
         }
         return YES;
     } else {
-        [CallbackAlertView setCallbackTaget:@"Error"
-                                    message:@"This product is not exist"
-                                     target:self
-                                    okTitle:@"OK"
-                                 okCallback:nil
-                                cancelTitle:nil
-                             cancelCallback:nil];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"This product is not exist" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         return NO;
     }
 }

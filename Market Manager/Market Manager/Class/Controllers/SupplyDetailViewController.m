@@ -11,11 +11,11 @@
 #import "SupplyProductTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
+#import "AddNewSupplyProductViewController.h"
 
 @interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
 @property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
-@property (strong, nonatomic) NSMutableArray *products;
 @end
 
 @implementation SupplyDetailViewController {
@@ -107,11 +107,24 @@
     }
 }
 
-- (IBAction)onRefreshClicked:(id)sender {
-
+- (IBAction)addNewProduct:(id)sender {
+    [AddNewSupplyProductViewController showViewAt:self onSave:^(Product *product) {
+        [_products insertObject:product atIndex:0];
+        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }];
 }
 
 - (IBAction)onExportClicked:(id)sender {
+    [CallbackAlertView setCallbackTaget:@"Message"
+                                message:@"After export, your data will be refreshed. Are you sure to continue?"
+                                 target:self
+                                okTitle:@"OK"
+                             okCallback:@selector(export)
+                            cancelTitle:@"Cancel"
+                         cancelCallback:nil];
+}
+
+- (void)export {
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
         [self showActivity];
@@ -121,14 +134,10 @@
             progress:nil
              success:^(NSURLSessionDataTask * task, id responseObject) {
                  if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                     [CallbackAlertView setCallbackTaget:titleSuccess
-                                                 message:@"Exported"
-                                                  target:self
-                                                 okTitle:btnOK
-                                              okCallback:nil
-                                             cancelTitle:nil
-                                          cancelCallback:nil];
+                     [self refreshData];
+                     [self onSaveClicked:nil];
                  } else {
+                     [self hideActivity];
                      [CallbackAlertView setCallbackTaget:titleError
                                                  message:msgSomethingWhenWrong
                                                   target:self
@@ -137,7 +146,6 @@
                                              cancelTitle:nil
                                           cancelCallback:nil];
                  }
-                 [self hideActivity];
              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                  [self hideActivity];
                  [CallbackAlertView setCallbackTaget:titleError
@@ -148,8 +156,6 @@
                                          cancelTitle:nil
                                       cancelCallback:nil];
              }];
-
-
     } else {
         [CallbackAlertView setCallbackTaget:@"Message"
                                     message:@"This record has been exported!"
@@ -159,9 +165,15 @@
                                 cancelTitle:nil
                              cancelCallback:nil];
     }
-    
-    
-    
+}
+
+- (void)refreshData {
+    for (Product *product in _products) {
+        product.STake = product.whTotal;
+        product.inQty = 0;
+        product.outQty = 0;
+    }
+    [_productTableView reloadData];
 }
 
 - (IBAction)onSaveClicked:(id)sender {
