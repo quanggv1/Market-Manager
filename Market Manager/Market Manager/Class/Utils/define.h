@@ -90,6 +90,8 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 #define API_GET_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"getWarehouseProducts"]
 #define API_UPDATE_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"updateWarehouseProducts"]
 #define API_EXPORT_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"exportWarehouseProducts"]
+#define API_CHECK_TOTAL_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"checkTotalWarehouseProduct"]
+
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";

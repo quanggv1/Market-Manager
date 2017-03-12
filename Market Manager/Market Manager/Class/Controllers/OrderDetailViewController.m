@@ -10,14 +10,13 @@
 #import "OrderProductTableViewCell.h"
 #import "ProductManager.h"
 
-@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate>
+@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, OrderProductDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (strong, nonatomic) NSMutableArray *productOrderList;
 @end
 
 @implementation OrderDetailViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     _orderFormTableView.dataSource = self;
@@ -135,6 +134,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];
     cell.product = _productOrderList[indexPath.row];
+    cell.delegate = self;
     return cell;
 }
 
@@ -146,9 +146,48 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
-
-
-
-
+- (void)textFieldDidEndEditingFinish:(OrderProductTableViewCell *)cell textField:(UITextField *)textField :(completion)complete{
+    NSString *whName;
+    if(textField == cell.wh1TextField) {
+        whName = @"wh1";
+    } else if(textField == cell.wh2TextField) {
+        whName = @"wh2";
+        
+    } else if (textField == cell.whTLTextField) {
+        whName = @"wh3";
+    }
+    [self showActivity];
+    NSDictionary *params = @{kParams: @{kSupplyName: whName, kProductID:@"24"
+                                        }};
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_CHECK_TOTAL_WAREHOUSE_PRODUCTS
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
+                 NSLog(@"response %@", responseObject);
+                 complete(YES);
+             } else {
+                 [CallbackAlertView setCallbackTaget:@"Error"
+                                             message:@"Quantity is smaller than total"
+                                              target:self
+                                             okTitle:@"OK"
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             complete(NO);
+             [CallbackAlertView setCallbackTaget:@"Error"
+                                         message:@"Can't connect to server"
+                                          target:self
+                                         okTitle:@"OK"
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+         }];
+}
 
 @end

@@ -9,7 +9,7 @@
 #import "OrderProductTableViewCell.h"
 #import "RecommendListViewController.h"
 
-@interface OrderProductTableViewCell()<UITextFieldDelegate>
+@interface OrderProductTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productOrderLabel;
 @property (weak, nonatomic) IBOutlet UITextField *wh1TextField;
@@ -22,7 +22,7 @@
 @property (weak, nonatomic) id controller;
 @end
 @implementation OrderProductTableViewCell
-
+@synthesize delegate = _delegate;
 - (id)controller {
     if(!_controller) {
         UIView *view = self;
@@ -48,8 +48,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _wh1TextField.delegate = self;
+    _wh1TextField.tag = 1;
     _wh2TextField.delegate = self;
+    _wh2TextField.tag = 2;
     _whTLTextField.delegate = self;
+    _wh2TextField.tag = 3;
     _crateQtyTextField.delegate = self;
     _crateTypeTextField.delegate = self;
     [_crateTypeTextField addTarget:self
@@ -76,12 +79,16 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    _product.wh1 = [_wh1TextField.text integerValue];
-    _product.wh2 = [_wh2TextField.text integerValue];
-    _product.whTL = [_whTLTextField.text integerValue];
-    _product.crateQty = [_crateQtyTextField.text integerValue];
-    _product.crateType = [_crateTypeTextField.text integerValue];
+    [_delegate textFieldDidEndEditingFinish:self textField:textField :^(BOOL finish){
+        if(finish){
+            _product.wh1 = [_wh1TextField.text integerValue];
+            _product.wh2 = [_wh2TextField.text integerValue];
+            _product.whTL = [_whTLTextField.text integerValue];
+            _product.crateQty = [_crateQtyTextField.text integerValue];
+            _product.crateType = [_crateTypeTextField.text integerValue];
+        }
+    }];
+    
 }
-
 
 @end

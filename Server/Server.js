@@ -44,7 +44,13 @@ app.get('/authen', function (req, res) {
   // })
   SQL.authen(con, req, res);
 });
-
+app.get('/checkTotalWarehouseProduct', function (req, res) {
+    SQL.checkTotalWarehouseProduct(con, req, function (success) {
+      res.send({ code: 200, data: success });
+    }, function (error) {
+      res.send(errorResp);
+    })
+});
 /** 
  * 
  * 

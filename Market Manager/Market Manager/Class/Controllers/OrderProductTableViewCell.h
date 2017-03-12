@@ -7,7 +7,12 @@
 //
 
 #import "Product.h"
-
-@interface OrderProductTableViewCell : UITableViewCell
+typedef void(^completion)(BOOL);
+@class OrderProductTableViewCell;
+@protocol OrderProductDelegate <NSObject>
+- (void)textFieldDidEndEditingFinish:(OrderProductTableViewCell *)cell textField:(UITextField *)text :(completion) complete;
+@end
+@interface OrderProductTableViewCell : UITableViewCell <UITextFieldDelegate>
+@property (nonatomic, retain) id<OrderProductDelegate> delegate;
 - (void)setProduct:(Product *)product;
 @end

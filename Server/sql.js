@@ -176,6 +176,22 @@ module.exports = {
       }
     });
   },
+  checkTotalWarehouseProduct: function (con, req, onSuccess, onError) {
+    var pd_ID = req.query.params.productID;
+    var whName = req.query.params.whName;
+    console.log(req.query)
+    console.log(pd_ID)
+    console.log(whName)
+    con.query('SELECT SUM(wh1) as total FROM order_each_day WHERE order_each_day.productID=24',[whName, pd_ID], function (err, rows) {
+      if (err) {
+        console.log(err);
+        onError(err);
+      } else {
+        console.log('Data received from Db:\n');
+        onSuccess(rows);
+      }
+    });
+  },
 
   updateShopStock: function (con, shopID, productID, stockTake) {
     con.query('UPDATE shop_product SET stockTake = ? WHERE shopID = ? AND productID = ?', [stockTake, shopID, productID],
