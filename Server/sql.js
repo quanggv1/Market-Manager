@@ -164,5 +164,19 @@ module.exports = {
       });
   },
 
+  getWarehouseProducts: function (con, req, onSuccess, onError) {
+    var whID = req.query.whID;
+    var sql = "SELECT warehouse_product.*, product.productName FROM warehouse_product JOIN product ON warehouse_product.productID = product.productID WHERE whID = ?";
+    con.query(sql, whID, function (err, rows) {
+      if (err) {
+        console.log(err);
+        onError(err);
+      } else {
+        console.log('Data received from Db:\n');
+        onSuccess(rows);
+      }
+    });
+  },
+
 };
 

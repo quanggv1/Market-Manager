@@ -40,6 +40,7 @@ static NSString *const CellOrderDropDown = @"orderDropdownCell";
 static NSString *const CellShopProduct = @"ShopProductTableViewCellId";
 static NSString *const CellNewOrder = @"OrderFormTableViewCellId";
 static NSString *const CellCrateManager = @"CrateTableViewCellID";
+static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 
 
 #pragma mark - Color
@@ -85,6 +86,9 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 #define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
 #define API_GET_ORDER_DETAIL [SERVER stringByAppendingString:@"getOrderDetail"]
 #define API_UPDATE_ORDER_DETAIL [SERVER stringByAppendingString:@"updateOrderDetail"]
+#define API_GET_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"getWarehouseProducts"]
+#define API_UPDATE_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"updateWarehouseProducts"]
+#define API_EXPORT_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"exportWarehouseProducts"]
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
@@ -96,6 +100,7 @@ static NSString *const kProductSTake = @"stockTake";
 static NSString *const kProductOrder = @"order_quantity";
 static NSString *const kShopProductID = @"shopProductID";
 static NSString *const kProductOrderID = @"productOrderID";
+static NSString *const kProductWareHouseID = @"wh_pd_ID";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";
@@ -111,6 +116,13 @@ static NSString *const kUserTableName = @"user";
 static NSString *const kUserName = @"userName";
 static NSString *const kUserPassword = @"password";
 static NSString *const kUserID = @"userID";
+
+static NSString *const kWarehouseID = @"whID";
+static NSString *const kWhName = @"whName";
+static NSString *const kWhOutQuantity = @"outQuantity";
+static NSString *const kWhInQuantity = @"inQuantity";
+static NSString *const kWhTotal = @"total";
+//outQty, inQty, whTotal
 
 static NSString *const kCrateID = @"crateID";
 static NSString *const kCrateName = @"crateName";

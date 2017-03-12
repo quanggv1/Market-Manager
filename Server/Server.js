@@ -27,10 +27,122 @@ con.connect(function (err) {
 app.listen(5000);
 
 app.get('/authen', function (req, res) {
+
+  // var targetFilePath = './uploads/products/Workbook1.csv';
+  // convertCSV2Json(targetFilePath, function onSuccess(result) {
+  //   req.query.tableName = 'warehouse_product';
+  //   result.forEach(function (item) {
+  //     req.query.params = item
+  //     SQL.insertData(con, req, function (success) {
+  //       console.log(result)
+  //     }, function (error) {
+  //       res.send(errorResp);
+  //     })
+  //   })
+  // }, function onError(err) {
+  //   res.send(errorResp);
+  // })
   SQL.authen(con, req, res);
 });
 
-/** order managerment */
+/** 
+ * 
+ * 
+ * warehouse management 
+ * 
+ * 
+ * */
+app.get('/getWarehouseProducts', function (req, res) {
+  if (today() === req.query.date) {
+    SQL.getWarehouseProducts(con, req, function (success) {
+      res.send({ code: 200, data: success });
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    var targetFilePath = './uploads/warehouses/' + req.query.whName + req.query.date + '.csv';
+    if (fs.existsSync(targetFilePath)) {
+      convertCSV2Json(targetFilePath, function onSuccess(result) {
+        res.send({ code: 200, data: result });
+      }, function onError(err) {
+        res.send(errorResp);
+      })
+    } else {
+      res.send(errorResp);
+    }
+  }
+});
+
+app.get('/exportWarehouseProducts', function (req, res) {
+  SQL.getWarehouseProducts(con, req, function onSuccess(result) {
+    var targetFilePath = './uploads/warehouses/' + req.query.whName + today() + '.csv';
+    convertJson2CSV(result, targetFilePath, function onSuccess() {
+      res.send({ code: 200 });
+    }, function onError() {
+      res.send(errorResp);
+    })
+  }, function onError(error) {
+    res.send(errorResp);
+  })
+})
+
+// function updateShopProduct(shopProductIDs, stockTakes, req, res) {
+//   if (shopProductIDs.length > 0) {
+//     /** update data to database */
+//     SQL.updateShopProduct(con, { shopProductID: shopProductIDs[0], stockTake: stockTakes[0] }, function (success) {
+//       shopProductIDs = shopProductIDs.splice(1, shopProductIDs.length);
+//       stockTakes = stockTakes.splice(1, stockTakes.length);
+//       updateShopProduct(shopProductIDs, stockTakes, req, res);
+//     }, function (error) {
+//       res.send(errorResp);
+//     })
+//   } else {
+//     /** export json to excel */
+//     SQL.getShopProductList(con, req, function onSuccess(result) {
+//       var targetFilePath = './uploads/shops/' + req.query.shopName + today() + '.csv';
+//       convertJson2CSV(result, targetFilePath, function onSuccess() {
+//         res.send({ code: 200 });
+//       }, function onError() {
+//         res.send(errorResp);
+//       })
+//     }, function onError(error) {
+//       res.send(errorResp);
+//     })
+//   }
+// }
+
+app.get('/updateWarehouseProducts', function (req, res) {
+  var warehouseProducts = JSON.parse(req.query.params)
+  updateWarehouseProducts(warehouseProducts, res)
+})
+
+function updateWarehouseProducts(warehouseProducts, res) {
+  var req = { query: {} }
+  if (warehouseProducts.length > 0) {
+    /** update order_each_day */
+    req.query.tableName = 'warehouse_product';
+    req.query.params = warehouseProducts[0]
+    req.query.idName = 'wh_pd_ID';
+    req.query.idValue = warehouseProducts[0].wh_pd_ID;
+    SQL.updateData(con, req, function (success) {
+      warehouseProducts = warehouseProducts.splice(1, warehouseProducts.length);
+      updateWarehouseProducts(warehouseProducts, res);
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    res.send({ code: 200 });
+  }
+}
+
+
+/** 
+ * 
+ * 
+ * order management 
+ * 
+ * 
+ * */
 app.get('/getOrderList', function (req, res) {
   SQL.getOrderList(con, req, function (success) {
     res.send({ code: '200', data: success })
@@ -57,7 +169,13 @@ app.get('/updateOrderDetail', function (req, res) {
   updateOrderDetail(productOrders, req.query.orderID, res)
 })
 
-/** common api */
+/** 
+ * 
+ * 
+ * common api 
+ * 
+ * 
+ * */
 app.get('/getData', function (req, res) {
   SQL.getData(con, req, res);
 });
@@ -82,7 +200,11 @@ app.get('/deleteData', function (req, res) {
   SQL.deleteData(con, req, res);
 });
 
-/** shop managerment */
+/** 
+ * 
+ * shop managerment 
+ * 
+ * */
 app.get('/getShopProductList', function (req, res) {
   if (today() === req.query.date) {
     SQL.getShopProductList(con, req, function onSuccess(result) {
@@ -172,6 +294,7 @@ function convertJson2CSV(json, targetFilePath, onSuccess, onError) {
     }
   });
 }
+
 function convertCSV2Json(filePath, onSuccess, onError) {
   var data = fs.readFileSync(filePath, { encoding: 'utf8' });
   var options = {

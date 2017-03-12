@@ -93,6 +93,7 @@
 		74ED22371E5A05350079D3F0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22361E5A05350079D3F0 /* User.m */; };
 		74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */; };
 		74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */; };
+		74FB615F1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */; };
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
@@ -274,6 +275,8 @@
 		74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTableViewCell.m; sourceTree = "<group>"; };
 		74ED223C1E5A05B40079D3F0 /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController.h; sourceTree = "<group>"; };
 		74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController.m; sourceTree = "<group>"; };
+		74FB615D1E74FB9E00F65BF1 /* SupplyProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyProductTableViewCell.h; sourceTree = "<group>"; };
+		74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyProductTableViewCell.m; sourceTree = "<group>"; };
 		BCB461481E545EB90090CBC3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
 		BCB461491E545EB90090CBC3 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
 		BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
@@ -654,6 +657,8 @@
 				74E9046C1E58616F005D391D /* SupplyTableViewCell.m */,
 				74ED22251E59F7160079D3F0 /* SupplyDetailViewController.h */,
 				74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */,
+				74FB615D1E74FB9E00F65BF1 /* SupplyProductTableViewCell.h */,
+				74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */,
 				748B20D41E620D8700571111 /* AddNewSupplyViewController.h */,
 				748B20D51E620D8700571111 /* AddNewSupplyViewController.m */,
 			);
@@ -769,6 +774,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74FB615F1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m in Sources */,
 				748B20D61E620D8700571111 /* AddNewSupplyViewController.m in Sources */,
 				3D41D7D31E56E33A00123A71 /* UIProgressView+AFNetworking.m in Sources */,
 				74C5A7361E73FE2F00BB5B40 /* OrderFormTableViewCell.m in Sources */,

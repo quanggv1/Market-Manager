@@ -80,26 +80,44 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopID:_shop.ID, kDate: stringDate, kShopName: _shop.name};
-    [manager GET:API_GETSHOP_PRODUCT_LIST parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-            _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
-            [_productTableView reloadData];
-        } else {
+    [manager GET:API_GETSHOP_PRODUCT_LIST
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             
+            if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+                _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
+                [_productTableView reloadData];
+            } else {
+                _products = nil;
+                [_productTableView reloadData];
+                [CallbackAlertView setCallbackTaget:titleError
+                                            message:@"Unavaiable data for this day"
+                                             target:self
+                                            okTitle:btnOK
+                                         okCallback:nil
+                                        cancelTitle:nil
+                                     cancelCallback:nil];
+            }
+            [self hideActivity];
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
+            [self hideActivity];
             _products = nil;
             [_productTableView reloadData];
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"Unavaiable data for this day" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-        }
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        _products = nil;
-        [_productTableView reloadData];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-    }];
+            [CallbackAlertView setCallbackTaget:titleError
+                                        message:@"Can't connect to server"
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+        }];
 }
 
 - (IBAction)onCalendarClicked:(id)sender {
-    [Utils showDatePickerWith:_productSearchTextField.text target:self selector:@selector(onDatePickerSelected:)];
+    [Utils showDatePickerWith:_productSearchTextField.text
+                       target:self
+                     selector:@selector(onDatePickerSelected:)];
 }
 
 - (void)onDatePickerSelected:(NSDate *)dateSelected {
@@ -108,7 +126,6 @@
     if(![date isEqualToString:searchDate]) {
         searchDate = date;
         [self downloadWith:date];
-        [_productTableView reloadData];
     }
 }
 

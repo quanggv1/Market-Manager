@@ -8,43 +8,39 @@
 
 #import "SupplyDetailViewController.h"
 #import "Product.h"
-#import "ProductCell.h"
+#import "SupplyProductTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
 
-@interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *supplyNameLbl;
-@property (weak, nonatomic) IBOutlet UIImageView *supplyImageView;
+@interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
 @property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
 @property (strong, nonatomic) NSMutableArray *products;
 @end
 
-@implementation SupplyDetailViewController{
-    NSArray *productTableDataSource;
+@implementation SupplyDetailViewController {
+    NSString *searchDate;
+    NSString *today;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _supplyNameLbl.text = _supply.name;
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
-    [self download];
+    today = [[Utils dateFormatter] stringFromDate:[NSDate date]];
+    _productSearchTextField.text = today;
+    searchDate = today;
+    [self downloadWith:today];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationItem.title = _supply.name;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifyProductDeletesItem
-                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,15 +51,47 @@
 - (void)deleteItem:(NSNotification *)notificaion {
     NSIndexPath *indexPath = [notificaion object];
     [_products removeObjectAtIndex:indexPath.row];
-    productTableDataSource = _products;
     [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                              withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)download {
-    _products = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
-    productTableDataSource = _products;
-    [_productTableView reloadData];
+- (void)downloadWith:(NSString *)date{
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kWarehouseID:_supply.ID,
+                             kDate: date,
+                             kWhName: _supply.name};
+    [manager GET:API_GET_WAREHOUSE_PRODUCTS
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+                 _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
+                 [_productTableView reloadData];
+             } else {
+                 _products = nil;
+                 [_productTableView reloadData];
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:@"Unavaiable data for this day"
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
+             [self hideActivity];
+             _products = nil;
+             [_productTableView reloadData];
+             [CallbackAlertView setCallbackTaget:titleError
+                                         message:msgConnectFailed
+                                          target:self
+                                         okTitle:btnOK
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+         }];
 }
 
 - (IBAction)onCalendarClicked:(id)sender {
@@ -73,15 +101,124 @@
 - (void)onDatePickerSelected:(NSDate *)dateSelected {
     NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
     _productSearchTextField.text = date;
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.date contains %@", date];
-//    productTableDataSource = [_products filteredArrayUsingPredicate:predicate];
-    [_productTableView reloadData];
+    if(![date isEqualToString:searchDate]) {
+        searchDate = date;
+        [self downloadWith:date];
+    }
 }
 
 - (IBAction)onRefreshClicked:(id)sender {
-    _productSearchTextField.text = @"";
-    productTableDataSource = _products;
-    [_productTableView reloadData];
+
+}
+
+- (IBAction)onExportClicked:(id)sender {
+    if (!_products) return;
+    if ([searchDate isEqualToString:today]) {
+        [self showActivity];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        [manager GET:API_EXPORT_WAREHOUSE_PRODUCTS
+          parameters:@{kWarehouseID:_supply.ID, kWhName: _supply.name}
+            progress:nil
+             success:^(NSURLSessionDataTask * task, id responseObject) {
+                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                     [CallbackAlertView setCallbackTaget:titleSuccess
+                                                 message:@"Exported"
+                                                  target:self
+                                                 okTitle:btnOK
+                                              okCallback:nil
+                                             cancelTitle:nil
+                                          cancelCallback:nil];
+                 } else {
+                     [CallbackAlertView setCallbackTaget:titleError
+                                                 message:msgSomethingWhenWrong
+                                                  target:self
+                                                 okTitle:@"OK"
+                                              okCallback:nil
+                                             cancelTitle:nil
+                                          cancelCallback:nil];
+                 }
+                 [self hideActivity];
+             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                 [self hideActivity];
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgConnectFailed
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }];
+
+
+    } else {
+        [CallbackAlertView setCallbackTaget:@"Message"
+                                    message:@"This record has been exported!"
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    }
+    
+    
+    
+}
+
+- (IBAction)onSaveClicked:(id)sender {
+    if (!_products) return;
+    if ([searchDate isEqualToString:today]) {
+        [self showActivity];
+        NSMutableArray *updates = [[NSMutableArray alloc] init];
+        for (Product *product in _products) {
+            [updates addObject:@{kProductWareHouseID: product.productWhID,
+                                 kProductSTake: @(product.STake),
+                                 kWhInQuantity: @(product.inQty),
+                                 kWhOutQuantity: @(product.outQty),
+                                 kWhTotal: @(product.whTotal)}];
+        }
+        
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        [manager GET:API_UPDATE_WAREHOUSE_PRODUCTS
+          parameters:@{kParams: [Utils objectToJsonString:updates]}
+            progress:nil
+             success:^(NSURLSessionDataTask * task, id responseObject) {
+                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                     [CallbackAlertView setCallbackTaget:titleSuccess
+                                                 message:@"Saved"
+                                                  target:self
+                                                 okTitle:btnOK
+                                              okCallback:nil
+                                             cancelTitle:nil
+                                          cancelCallback:nil];
+                 } else {
+                     [CallbackAlertView setCallbackTaget:titleError
+                                                 message:msgSomethingWhenWrong
+                                                  target:self
+                                                 okTitle:@"OK"
+                                              okCallback:nil
+                                             cancelTitle:nil
+                                          cancelCallback:nil];
+                 }
+                 [self hideActivity];
+             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                 [self hideActivity];
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgConnectFailed
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+        }];
+    } else {
+        [CallbackAlertView setCallbackTaget:@"Message"
+                                    message:@"This record has been saved!"
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    }
 }
 
 #pragma mark - TABLE DATASOURCE
@@ -90,18 +227,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return productTableDataSource.count;
+    return _products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProduct];
-    [cell initWith: [productTableDataSource objectAtIndex:indexPath.row]];
+    SupplyProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseProduct];
+    [cell setProduct:_products[indexPath.row]];
     return cell;
 }
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:SegueProductDetail sender:self];
+//    [self performSegueWithIdentifier:SegueProductDetail sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

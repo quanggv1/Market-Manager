@@ -25,6 +25,10 @@
         self.crateQty = [[data objectForKey:kCrateQty] integerValue];
         self.crateType = [[data objectForKey:kCrateType] integerValue];
         self.productOrderID = [NSString stringWithFormat:@"%@", [data objectForKey:kProductOrderID]];
+        self.productWhID = [NSString stringWithFormat:@"%@", [data objectForKey:kProductWareHouseID]];
+        self.outQty = [[data objectForKey:kWhOutQuantity] integerValue];
+        self.inQty = [[data objectForKey:kWhInQuantity] integerValue];
+        self.whTotal = [[data objectForKey:kWhTotal] integerValue];
     }
     return self;
 }
