@@ -12,6 +12,7 @@
 
 @interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (strong, nonatomic) NSMutableArray *productOrderList;
 @end
 
@@ -26,6 +27,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if(_order.status == 2) {
+        _submitButton.enabled = NO;
+    }
     self.navigationItem.title = [NSString stringWithFormat:@"ID: %@ %@", _order.ID, _order.date];
 }
 
@@ -74,11 +78,14 @@
                              kWhTL: @(product.whTL),
                              kCrateQty: @(product.crateQty),
                              kCrateType: @(product.crateType),
-                             kProductOrderID: product.productOrderID}];
+                             kProductOrderID: product.productOrderID,
+                             kProductID: product.productId,
+                             kProductSTake: @(product.STake)}];
     }
     
     NSDictionary *params = @{kParams: [Utils objectToJsonString:orders],
-                             kOrderID: _order.ID};
+                             kOrderID: _order.ID,
+                             kShopID: _shop.ID};
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_UPDATE_ORDER_DETAIL

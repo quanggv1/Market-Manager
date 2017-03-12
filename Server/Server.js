@@ -166,7 +166,7 @@ app.get('/getOrderDetail', function (req, res) {
 
 app.get('/updateOrderDetail', function (req, res) {
   var productOrders = JSON.parse(req.query.params)
-  updateOrderDetail(productOrders, req.query.orderID, res)
+  updateOrderDetail(productOrders, req.query.orderID, req.query.shopID, res)
 })
 
 /** 
@@ -315,7 +315,7 @@ function today() {
   return date;
 }
 
-function updateOrderDetail(productOrders, orderID, res) {
+function updateOrderDetail(productOrders, orderID, shopID, res) {
   var req = { query: {} }
   if (productOrders.length > 0) {
     /** update order_each_day */
@@ -323,9 +323,13 @@ function updateOrderDetail(productOrders, orderID, res) {
     req.query.params = productOrders[0]
     req.query.idName = 'productOrderID';
     req.query.idValue = productOrders[0].productOrderID;
+    updateShopStock(shopID, productOrders[0].productID, (productOrders[0].stockTake + productOrders[0].wh1 + productOrders[0].wh2 + productOrders[0].wh3) );
+    updateWarehouseStock(1, productOrders[0].productID, productOrders[0].wh1 );
+    updateWarehouseStock(2, productOrders[0].productID, productOrders[0].wh2);
+    updateWarehouseStock(3, productOrders[0].productID, productOrders[0].wh3 );
     SQL.updateData(con, req, function (success) {
       productOrders = productOrders.splice(1, productOrders.length);
-      updateOrderDetail(productOrders, orderID, res);
+      updateOrderDetail(productOrders, orderID, shopID, res);
     }, function (error) {
       res.send(errorResp);
     })
@@ -342,4 +346,12 @@ function updateOrderDetail(productOrders, orderID, res) {
       res.send(errorResp);
     })
   }
+}
+
+function updateShopStock(shopID, productID, stockTake ) {
+  SQL.updateShopStock(con, shopID, productID, stockTake);
+}
+
+function updateWarehouseStock(whID, productID, outQuantity) {
+  SQL.updateWarehouseStock(con, whID, productID, outQuantity);
 }

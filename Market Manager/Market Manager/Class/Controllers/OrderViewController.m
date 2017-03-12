@@ -196,6 +196,7 @@
     if([segue.identifier isEqualToString:SegueOrderDetail]) {
         OrderDetailViewController *vc = segue.destinationViewController;
         vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
+        vc.shop = _shop;
     } else if([segue.identifier isEqualToString:SegueOrderForm]) {
         OrderFormViewController *vc = segue.destinationViewController;
         vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];

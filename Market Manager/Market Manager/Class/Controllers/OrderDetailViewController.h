@@ -7,9 +7,11 @@
 //
 
 #import "Order.h"
+#import "Shop.h"
 #import "BaseViewController.h"
 
 
 @interface OrderDetailViewController : BaseViewController
+@property (weak, nonatomic) Shop *shop;
 @property (weak, nonatomic) Order *order;
 @end
