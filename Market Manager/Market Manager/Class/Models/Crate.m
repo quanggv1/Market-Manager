@@ -14,6 +14,8 @@
     if(self) {
         self.ID = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateID]];
         self.name = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateName]];
+        self.receivedQty = [[data objectForKey:kCrateReceived] integerValue];
+        self.returnedQty = [[data objectForKey:kCrateReturned] integerValue];
     }
     return self;
 }

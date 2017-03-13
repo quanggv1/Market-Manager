@@ -11,6 +11,8 @@
 #import "ProductManager.h"
 #import "ShopManager.h"
 #import "SupplyManager.h"
+#import "CrateManager.h"
+#import "Crate.h"
 
 @interface MenuViewController ()
 @property (weak, nonatomic) IBOutlet UIView *groupContainerViews;
@@ -50,10 +52,12 @@
                   [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_exit_to_app_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"],
                   [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
+    
+    [self downloadCrate];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -64,6 +68,24 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+- (void)downloadCrate {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kTableName: kCrateTableName,
+                             kDate: [Utils stringTodayDateTime]};
+    [manager GET:API_GET_CRATES
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[CrateManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
+             } else {
+                 ShowMsgUnavaiableData;
+             }
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             ShowMsgConnectFailed;
+         }];
 }
 
 - (void)onShowHideMenu:(NSNotification*)notification {

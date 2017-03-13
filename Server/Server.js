@@ -45,11 +45,11 @@ app.get('/authen', function (req, res) {
   SQL.authen(con, req, res);
 });
 app.get('/checkTotalWarehouseProduct', function (req, res) {
-    SQL.checkTotalWarehouseProduct(con, req, function (success) {
-      res.send({ code: 200, data: success });
-    }, function (error) {
-      res.send(errorResp);
-    })
+  SQL.checkTotalWarehouseProduct(con, req, function (success) {
+    res.send({ code: 200, data: success });
+  }, function (error) {
+    res.send(errorResp);
+  })
 });
 /** 
  * 
@@ -92,31 +92,6 @@ app.get('/exportWarehouseProducts', function (req, res) {
   })
 })
 
-// function updateShopProduct(shopProductIDs, stockTakes, req, res) {
-//   if (shopProductIDs.length > 0) {
-//     /** update data to database */
-//     SQL.updateShopProduct(con, { shopProductID: shopProductIDs[0], stockTake: stockTakes[0] }, function (success) {
-//       shopProductIDs = shopProductIDs.splice(1, shopProductIDs.length);
-//       stockTakes = stockTakes.splice(1, stockTakes.length);
-//       updateShopProduct(shopProductIDs, stockTakes, req, res);
-//     }, function (error) {
-//       res.send(errorResp);
-//     })
-//   } else {
-//     /** export json to excel */
-//     SQL.getShopProductList(con, req, function onSuccess(result) {
-//       var targetFilePath = './uploads/shops/' + req.query.shopName + today() + '.csv';
-//       convertJson2CSV(result, targetFilePath, function onSuccess() {
-//         res.send({ code: 200 });
-//       }, function onError() {
-//         res.send(errorResp);
-//       })
-//     }, function onError(error) {
-//       res.send(errorResp);
-//     })
-//   }
-// }
-
 app.get('/updateWarehouseProducts', function (req, res) {
   var warehouseProducts = JSON.parse(req.query.params)
   updateWarehouseProducts(warehouseProducts, res)
@@ -140,7 +115,6 @@ function updateWarehouseProducts(warehouseProducts, res) {
     res.send({ code: 200 });
   }
 }
-
 
 /** 
  * 
@@ -183,7 +157,11 @@ app.get('/updateOrderDetail', function (req, res) {
  * 
  * */
 app.get('/getData', function (req, res) {
-  SQL.getData(con, req, res);
+  SQL.getData(con, req, function (success) {
+    res.send({ code: 200, data: success });
+  }, function (error) {
+    res.send(errorResp);
+  });
 });
 
 app.get('/insertData', function (req, res) {
@@ -329,10 +307,10 @@ function updateOrderDetail(productOrders, orderID, shopID, res) {
     req.query.params = productOrders[0]
     req.query.idName = 'productOrderID';
     req.query.idValue = productOrders[0].productOrderID;
-    updateShopStock(shopID, productOrders[0].productID, (productOrders[0].stockTake + productOrders[0].wh1 + productOrders[0].wh2 + productOrders[0].wh3) );
-    updateWarehouseStock(1, productOrders[0].productID, productOrders[0].wh1 );
+    updateShopStock(shopID, productOrders[0].productID, (productOrders[0].stockTake + productOrders[0].wh1 + productOrders[0].wh2 + productOrders[0].wh3));
+    updateWarehouseStock(1, productOrders[0].productID, productOrders[0].wh1);
     updateWarehouseStock(2, productOrders[0].productID, productOrders[0].wh2);
-    updateWarehouseStock(3, productOrders[0].productID, productOrders[0].wh3 );
+    updateWarehouseStock(3, productOrders[0].productID, productOrders[0].wh3);
     SQL.updateData(con, req, function (success) {
       productOrders = productOrders.splice(1, productOrders.length);
       updateOrderDetail(productOrders, orderID, shopID, res);
@@ -354,10 +332,74 @@ function updateOrderDetail(productOrders, orderID, shopID, res) {
   }
 }
 
-function updateShopStock(shopID, productID, stockTake ) {
+function updateShopStock(shopID, productID, stockTake) {
   SQL.updateShopStock(con, shopID, productID, stockTake);
 }
 
 function updateWarehouseStock(whID, productID, outQuantity) {
   SQL.updateWarehouseStock(con, whID, productID, outQuantity);
 }
+
+/**
+ * 
+ * 
+ *  Crate management
+ * 
+ * 
+ */
+app.get('/getCrates', function (req, res) {
+  if (today() === req.query.date) {
+    SQL.getData(con, req, function (success) {
+      res.send({ code: 200, data: success });
+    }, function (error) {
+      res.send(errorResp);
+    });
+  } else {
+    var targetFilePath = './uploads/crates/crate_record' + req.query.date + '.csv';
+    if (fs.existsSync(targetFilePath)) {
+      convertCSV2Json(targetFilePath, function onSuccess(result) {
+        res.send({ code: 200, data: result });
+      }, function onError(err) {
+        res.send(errorResp);
+      })
+    } else {
+      res.send(errorResp);
+    }
+  }
+})
+
+app.get('/updateCrates', function (req, res) {
+  var updates = JSON.parse(req.query.params);
+  updateCrate(updates, res);
+})
+
+function updateCrate(updates, res) {
+  var req = { query: {} };
+  if (updates.length > 0) {
+    req.query.tableName = 'crate';
+    req.query.params = updates[0];
+    req.query.idName = 'crateID';
+    req.query.idValue = updates[0].crateID;
+    SQL.updateData(con, req, function (success) {
+      updates = updates.splice(1, updates.length);
+      updateCrate(updates, res);
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    res.send({ code: 200 });
+  }
+}
+
+app.get('/exportCrates', function (req, res) {
+  SQL.getData(con, req, function (success) {
+    var targetFilePath = './uploads/crates/crate_record' + today() + '.csv';
+    convertJson2CSV(success, targetFilePath, function onSuccess() {
+      res.send({ code: 200 });
+    }, function onError() {
+      res.send(errorResp);
+    })
+  }, function (error) {
+    res.send(errorResp);
+  });
+})

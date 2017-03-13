@@ -25,6 +25,12 @@
     _shopTableView.delegate = self;
     _shopTableView.dataSource = self;
     [self download];
+    
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.shopTableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(download) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -43,15 +49,24 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kShopTableName};
-    [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [[ShopManager sharedInstance] setValueWith:responseObject];
-        _shopDataSource = [[NSMutableArray alloc] initWithArray:[[ShopManager sharedInstance] getShopList]];
-        [_shopTableView reloadData];
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    NSDictionary *params = @{kTableName:kShopTableName};
+    [manager GET:API_GETDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[ShopManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
+                 _shopDataSource = [[NSMutableArray alloc] initWithArray:[[ShopManager sharedInstance] getShopList]];
+                 [_shopTableView reloadData];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self.refreshControl endRefreshing];
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             [self.refreshControl endRefreshing];
+             ShowMsgConnectFailed;
     }];
 }
 

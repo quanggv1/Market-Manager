@@ -25,7 +25,14 @@
     [super viewDidLoad];
     _supplyTableView.delegate = self;
     _supplyTableView.dataSource = self;
+    
     [self download];
+    
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.supplyTableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(download) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,14 +58,23 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{@"tableName":kSupplyTableName};
-    [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [[SupplyManager sharedInstance] setValueWith:responseObject];
-        _supplyDataSource = [[NSMutableArray alloc] initWithArray:[[SupplyManager sharedInstance] getSupplyList]];
-        [_supplyTableView reloadData];
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    [manager GET:API_GETDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == 200) {
+                 [[SupplyManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
+                 _supplyDataSource = [[NSMutableArray alloc] initWithArray:[[SupplyManager sharedInstance] getSupplyList]];
+                 [_supplyTableView reloadData];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self.refreshControl endRefreshing];
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
+             [self.refreshControl endRefreshing];
     }];
     [_supplyTableView reloadData];
 }
@@ -70,20 +86,25 @@
     NSDictionary *params = @{@"tableName":kSupplyTableName,
                              @"params": @{@"idName":kSupplyID,
                                           @"idValue":supply.ID}};
-    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        [[SupplyManager sharedInstance] delete:supply];
-        [_supplyDataSource removeObjectAtIndex:indexPath.row];
-        [_supplyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [manager GET:API_DELETEDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             [self hideActivity];
+             [[SupplyManager sharedInstance] delete:supply];
+             [_supplyDataSource removeObjectAtIndex:indexPath.row];
+             [_supplyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
+        ShowMsgConnectFailed;
     }];
 }
 
 - (IBAction)onAddNewSupply:(id)sender {
     [AddNewSupplyViewController showViewAt:self onSave:^(Supply *supply) {
         [_supplyDataSource insertObject:supply atIndex:0];
-        [_supplyTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [_supplyTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                                withRowAnimation:UITableViewRowAnimationFade];
     }];
 }
 
@@ -104,11 +125,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self deleteItemAt:indexPath];
-    }
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        [self deleteItemAt:indexPath];
+//    }
+//}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueSupplyDetail]) {

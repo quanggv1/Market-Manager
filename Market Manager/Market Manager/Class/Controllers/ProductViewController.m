@@ -26,7 +26,18 @@
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
     [self download];
+    
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.productTableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
 }
+
+- (void)reload {
+    [self download];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -103,15 +114,25 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kProductTableName};
-    [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [[ProductManager sharedInstance] setValueWith:responseObject];
-        _productTableDataSource = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
-        [_productTableView reloadData];
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    NSDictionary *params = @{kTableName:kProductTableName};
+    [manager GET:API_GETDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[ProductManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
+                 _productTableDataSource = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
+             } else {
+                 _productTableDataSource = nil;
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self.refreshControl endRefreshing];
+             [_productTableView reloadData];
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             [self.refreshControl endRefreshing];
+             ShowMsgConnectFailed;
     }];
 }
 
