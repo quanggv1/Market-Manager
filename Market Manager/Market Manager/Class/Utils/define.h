@@ -70,7 +70,7 @@ static NSString *const SegueOrderDetail = @"showOrderDetail";
 static NSString *const SegueUserDetail = @"showUserDetail";
 static NSString *const SegueShowOrder = @"showOrder";
 static NSString *const SegueOrderForm = @"showOrderForm";
-
+static NSString *const SegueReportOrderForm = @"reportOrder";
 #pragma mark - Link
 #define SERVER @"http://localhost:5000/"
 //#define SERVER @"http://172.27.97.149:5000/"
@@ -91,6 +91,7 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 #define API_UPDATE_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"updateWarehouseProducts"]
 #define API_EXPORT_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"exportWarehouseProducts"]
 #define API_CHECK_TOTAL_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"checkTotalWarehouseProduct"]
+#define API_REPORT_ORDER_EACHDAY [SERVER stringByAppendingString:@"reportOrderEachday"]
 
 
 #pragma mark - Key

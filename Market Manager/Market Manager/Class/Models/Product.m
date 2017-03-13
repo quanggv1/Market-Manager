@@ -29,6 +29,10 @@
         self.outQty = [[data objectForKey:kWhOutQuantity] integerValue];
         self.inQty = [[data objectForKey:kWhInQuantity] integerValue];
         self.whTotal = [[data objectForKey:kWhTotal] integerValue];
+        self.reportQuantityNeed = [[data objectForKey:@"quantity_need"] integerValue];
+        self.reportTotal = [[data objectForKey:@"total"] integerValue];
+        self.reportReceived = [[data objectForKey:@"received"] integerValue];
+        self.reportOrderQuantity = [[data objectForKey:@"order_quantity"] integerValue];
     }
     return self;
 }

@@ -10,7 +10,7 @@
 
 @interface Product : NSObject
 @property (nonatomic, strong) NSString *productId, *name, *productDesc, *shopID, *shopProductID, *productOrderID, *productWhID, *whID;
-@property (nonatomic, assign) NSInteger STake, order, wh1, wh2, whTL, crateQty, crateType, outQty, inQty, whTotal;
+@property (nonatomic, assign) NSInteger STake, order, wh1, wh2, whTL, crateQty, crateType, outQty, inQty, whTotal, reportReceived, reportQuantityNeed, reportTotal, reportOrderQuantity;
 @property (nonatomic, assign) float price;
 - (instancetype)initWith:(NSDictionary *)data;
 @end

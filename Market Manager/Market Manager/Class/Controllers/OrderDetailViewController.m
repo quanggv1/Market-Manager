@@ -26,9 +26,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if(_order.status == 2) {
-        _submitButton.enabled = NO;
-    }
+//    if(_order.status == 2) {
+//        _submitButton.enabled = NO;
+//    }
     self.navigationItem.title = [NSString stringWithFormat:@"ID: %@ %@", _order.ID, _order.date];
 }
 

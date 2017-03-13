@@ -95,6 +95,8 @@
 		74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */; };
 		74FB615F1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */; };
 		74FB61621E75189100F65BF1 /* AddNewSupplyProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */; };
+		BC7E61AD1E76755900C057AD /* SummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E61AC1E76755900C057AD /* SummaryViewController.m */; };
+		BC7E61B01E7679A200C057AD /* SummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E61AF1E7679A200C057AD /* SummaryTableViewCell.m */; };
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
 		BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB4614C1E545EFA0090CBC3 /* SupplyViewController.m */; };
 /* End PBXBuildFile section */
@@ -280,6 +282,10 @@
 		74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyProductTableViewCell.m; sourceTree = "<group>"; };
 		74FB61601E75189100F65BF1 /* AddNewSupplyProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewSupplyProductViewController.h; sourceTree = "<group>"; };
 		74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewSupplyProductViewController.m; sourceTree = "<group>"; };
+		BC7E61AB1E76755900C057AD /* SummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryViewController.h; sourceTree = "<group>"; };
+		BC7E61AC1E76755900C057AD /* SummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryViewController.m; sourceTree = "<group>"; };
+		BC7E61AE1E7679A200C057AD /* SummaryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryTableViewCell.h; sourceTree = "<group>"; };
+		BC7E61AF1E7679A200C057AD /* SummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryTableViewCell.m; sourceTree = "<group>"; };
 		BCB461481E545EB90090CBC3 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductViewController.h; sourceTree = "<group>"; };
 		BCB461491E545EB90090CBC3 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductViewController.m; sourceTree = "<group>"; };
 		BCB4614B1E545EFA0090CBC3 /* SupplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyViewController.h; sourceTree = "<group>"; };
@@ -673,6 +679,7 @@
 		74ED222B1E59FC850079D3F0 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				BC7E61AA1E76753500C057AD /* OrderReport */,
 				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
 				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
@@ -701,6 +708,17 @@
 				748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */,
 			);
 			name = User;
+			sourceTree = "<group>";
+		};
+		BC7E61AA1E76753500C057AD /* OrderReport */ = {
+			isa = PBXGroup;
+			children = (
+				BC7E61AB1E76755900C057AD /* SummaryViewController.h */,
+				BC7E61AC1E76755900C057AD /* SummaryViewController.m */,
+				BC7E61AE1E7679A200C057AD /* SummaryTableViewCell.h */,
+				BC7E61AF1E7679A200C057AD /* SummaryTableViewCell.m */,
+			);
+			name = OrderReport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -815,6 +833,7 @@
 				3D41D79C1E55903800123A71 /* IQBarButtonItem.m in Sources */,
 				74ED222E1E59FF1E0079D3F0 /* OrderTableViewCell.m in Sources */,
 				74C5A73D1E7467A600BB5B40 /* CrateManager.m in Sources */,
+				BC7E61B01E7679A200C057AD /* SummaryTableViewCell.m in Sources */,
 				3D41D7981E55903800123A71 /* IQUIWindow+Hierarchy.m in Sources */,
 				74ED222A1E59FC660079D3F0 /* Order.m in Sources */,
 				74E904601E585785005D391D /* ShopTableViewCell.m in Sources */,
@@ -862,6 +881,7 @@
 				3D41D7C71E56E33A00123A71 /* AFHTTPSessionManager.m in Sources */,
 				3D41D7CE1E56E33A00123A71 /* AFImageDownloader.m in Sources */,
 				748B3A8A1E62C36300AA9AA6 /* ValidateService.m in Sources */,
+				BC7E61AD1E76755900C057AD /* SummaryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

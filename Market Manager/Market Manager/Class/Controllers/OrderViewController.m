@@ -12,6 +12,7 @@
 #import "OrderDetailViewController.h"
 #import "OrderManager.h"
 #import "OrderFormViewController.h"
+#import "SummaryViewController.h"
 
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderTableView;
@@ -180,8 +181,19 @@
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Order *order = _orderDataSource[indexPath.row];
-    [self performSegueWithIdentifier:(order.status == 0) ?
-                     SegueOrderForm : SegueOrderDetail sender:self];
+    switch (order.status) {
+        case 0:
+            [self performSegueWithIdentifier: SegueOrderForm sender:self];
+            break;
+        case 1:
+            [self performSegueWithIdentifier: SegueOrderDetail sender:self];
+            break;
+        case 2:
+            [self performSegueWithIdentifier: SegueReportOrderForm sender:self];
+            break;
+        default:
+            break;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
@@ -201,6 +213,9 @@
         OrderFormViewController *vc = segue.destinationViewController;
         vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
         vc.shop = _shop;
+    } else if([segue.identifier isEqualToString:SegueReportOrderForm]) {
+        SummaryViewController *vc = segue.destinationViewController;
+        vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
     }
 }
 
