@@ -143,9 +143,10 @@
 }
 
 #pragma mark - TABLE DELEGATE
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
+
 - (void)textFieldDidEndEditingFinish:(OrderProductTableViewCell *)cell textField:(UITextField *)textField :(completion)complete{
     NSString *whName;
     if(textField == cell.wh1TextField) {

@@ -14,5 +14,8 @@ typedef void(^completion)(BOOL);
 @end
 @interface OrderProductTableViewCell : UITableViewCell <UITextFieldDelegate>
 @property (nonatomic, retain) id<OrderProductDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UITextField *wh1TextField;
+@property (weak, nonatomic) IBOutlet UITextField *wh2TextField;
+@property (weak, nonatomic) IBOutlet UITextField *whTLTextField;
 - (void)setProduct:(Product *)product;
 @end

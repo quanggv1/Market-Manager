@@ -12,9 +12,7 @@
 @interface OrderProductTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *productOrderLabel;
-@property (weak, nonatomic) IBOutlet UITextField *wh1TextField;
-@property (weak, nonatomic) IBOutlet UITextField *wh2TextField;
-@property (weak, nonatomic) IBOutlet UITextField *whTLTextField;
+
 @property (weak, nonatomic) IBOutlet UITextField *crateQtyTextField;
 @property (weak, nonatomic) IBOutlet UITextField *crateTypeTextField;
 @property (weak, nonatomic) Product *product;
