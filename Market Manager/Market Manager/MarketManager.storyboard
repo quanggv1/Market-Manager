@@ -3153,17 +3153,20 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NtG-od-LXp">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JO-25-dwv">
-                                        <rect key="frame" x="10" y="0.0" width="354" height="55"/>
-                                        <state key="normal" image="ic_today_white"/>
-                                        <state key="highlighted" image="ic_today_white"/>
-                                    </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qBJ-SE-vN3">
                                         <rect key="frame" x="40" y="10" width="324" height="35"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9JO-25-dwv">
+                                        <rect key="frame" x="10" y="0.0" width="354" height="55"/>
+                                        <state key="normal" image="ic_today_white"/>
+                                        <state key="highlighted" image="ic_today_white"/>
+                                        <connections>
+                                            <action selector="onCalendarClicked:" destination="Tix-43-OjK" eventType="touchUpInside" id="xJv-Jk-CVs"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qg4-33-hS6">
                                         <rect key="frame" x="364" y="0.0" width="50" height="55"/>
                                         <constraints>
@@ -3171,6 +3174,9 @@
                                         </constraints>
                                         <state key="normal" image="ic_reply_all"/>
                                         <state key="highlighted" image="ic_refresh"/>
+                                        <connections>
+                                            <action selector="onExportClicked:" destination="Tix-43-OjK" eventType="touchUpInside" id="Co4-ah-aTc"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3293,6 +3299,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="crateTableView" destination="NXk-4C-wDK" id="bNm-wp-j85"/>
+                        <outlet property="searchField" destination="qBJ-SE-vN3" id="vkL-77-3Xl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Vi-IP-kQR" userLabel="First Responder" sceneMemberID="firstResponder"/>

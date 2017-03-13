@@ -98,15 +98,15 @@ module.exports = {
 
 
   /*select from table*/
-  getData: function (con, req, res) {
+  getData: function (con, req, onSuccess, onError) {
     var table = req.query.tableName;
     con.query('SELECT * FROM ' + table, function (err, rows) {
       if (err) {
         console.log(err);
-        res.send(errorResp);
+        onError(err);
       } else {
         console.log('Data received from Db:\n');
-        res.send(rows)
+        onSuccess(rows);
       }
     });
   },

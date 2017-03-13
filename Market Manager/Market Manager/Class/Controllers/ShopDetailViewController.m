@@ -62,12 +62,12 @@
             [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                      withRowAnimation:UITableViewRowAnimationFade];
         } else {
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+            ShowMsgSomethingWhenWrong;
         }
         [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        ShowMsgConnectFailed;
     }];
 }
 
@@ -84,33 +84,19 @@
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {
-             
-            if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+            if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                 _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
-                [_productTableView reloadData];
             } else {
                 _products = nil;
-                [_productTableView reloadData];
-                [CallbackAlertView setCallbackTaget:titleError
-                                            message:@"Unavaiable data for this day"
-                                             target:self
-                                            okTitle:btnOK
-                                         okCallback:nil
-                                        cancelTitle:nil
-                                     cancelCallback:nil];
+                ShowMsgUnavaiableData;
             }
+            [_productTableView reloadData];
             [self hideActivity];
          } failure:^(NSURLSessionDataTask * task, NSError * error) {
             [self hideActivity];
             _products = nil;
             [_productTableView reloadData];
-            [CallbackAlertView setCallbackTaget:titleError
-                                        message:@"Can't connect to server"
-                                         target:self
-                                        okTitle:btnOK
-                                     okCallback:nil
-                                    cancelTitle:nil
-                                 cancelCallback:nil];
+            ShowMsgConnectFailed;
         }];
 }
 

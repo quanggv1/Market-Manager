@@ -7,6 +7,7 @@
 //
 
 @interface BaseViewController : UIViewController
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 - (void)showActivity;
 - (void)hideActivity;
 @end

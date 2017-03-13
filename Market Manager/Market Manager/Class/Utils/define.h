@@ -72,8 +72,8 @@ static NSString *const SegueShowOrder = @"showOrder";
 static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
 #pragma mark - Link
-#define SERVER @"http://localhost:5000/"
-//#define SERVER @"http://172.27.97.149:5000/"
+//#define SERVER @"http://localhost:5000/"
+#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -92,6 +92,9 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 #define API_EXPORT_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"exportWarehouseProducts"]
 #define API_CHECK_TOTAL_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"checkTotalWarehouseProduct"]
 #define API_REPORT_ORDER_EACHDAY [SERVER stringByAppendingString:@"reportOrderEachday"]
+#define API_UPDATE_CRATES [SERVER stringByAppendingString:@"updateCrates"]
+#define API_GET_CRATES [SERVER stringByAppendingString:@"getCrates"]
+#define API_EXPORT_CRATES [SERVER stringByAppendingString:@"exportCrates"]
 
 
 #pragma mark - Key
@@ -131,6 +134,8 @@ static NSString *const kWhTotal = @"total";
 static NSString *const kCrateID = @"crateID";
 static NSString *const kCrateName = @"crateName";
 static NSString *const kCrateTableName = @"crate";
+static NSString *const kCrateReceived = @"receivedQty";
+static NSString *const kCrateReturned = @"returnedQty";
 
 static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";
@@ -156,6 +161,10 @@ static NSString *const kIdName = @"idName";
 static NSString *const kIdValue = @"idValue";
 static NSString *const kShopProductTableName = @"shop_product";
 static NSString *const kWarehouseProductTableName = @"warehouse_product";
+
+#define ShowMsgConnectFailed [CallbackAlertView setCallbackTaget:titleError message:msgConnectFailed target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
+#define ShowMsgSomethingWhenWrong [CallbackAlertView setCallbackTaget:titleError message:msgSomethingWhenWrong target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
+#define ShowMsgUnavaiableData [CallbackAlertView setCallbackTaget:titleError message:@"Unavaiable data for this day" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 
 #endif /* define_h */
 

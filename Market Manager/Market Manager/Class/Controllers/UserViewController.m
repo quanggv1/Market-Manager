@@ -25,7 +25,12 @@
     _userTableView.delegate = self;
     _userTableView.dataSource = self;
     [self download];
-
+    
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.userTableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(download) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -45,15 +50,24 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kUserTableName};
-    [manager GET:API_GETDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [[UserManager sharedInstance] setValueWith:responseObject];
-        _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
-        [_userTableView reloadData];
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    NSDictionary *params = @{kTableName:kUserTableName};
+    [manager GET:API_GETDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[UserManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
+                 _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self.refreshControl endRefreshing];
+             [_userTableView reloadData];
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             [self.refreshControl endRefreshing];
+             ShowMsgConnectFailed;
     }];
 }
 
@@ -64,20 +78,29 @@
     NSDictionary *params = @{@"tableName":kUserTableName,
                              @"params": @{@"idName":kUserID,
                                           @"idValue":userDeleted.ID}};
-    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        [[UserManager sharedInstance] delete:userDeleted];
-        [_userDataSource removeObjectAtIndex:indexPath.row];
-        [_userTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-    }];
+    [manager GET:API_DELETEDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[UserManager sharedInstance] delete:userDeleted];
+                 [_userDataSource removeObjectAtIndex:indexPath.row];
+                 [_userTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
+         }];
 }
 
 - (IBAction)onAddNewUser:(id)sender {
     [AddNewUserViewController showViewAt:self onSave:^(User *user) {
         [_userDataSource insertObject:user atIndex:0];
-        [_userTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [_userTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                              withRowAnimation:UITableViewRowAnimationFade];
     }];
 }
 

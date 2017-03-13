@@ -10,5 +10,6 @@
 
 @interface Crate : NSObject
 @property (nonatomic, strong) NSString *name, *ID;
+@property (nonatomic, assign) NSInteger returnedQty, receivedQty;
 - (instancetype)initWith:(NSDictionary *)data;
 @end
