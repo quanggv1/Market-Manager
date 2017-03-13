@@ -237,7 +237,16 @@ app.get('/exportShopProducts', function (req, res) {
   var stockTakes = req.query.params[0].stockTake;
   updateShopProduct(shopProductIDs, stockTakes, req, res);
 });
+app.get("/reportOrderEachday", function onSuccess(req, res) {
+  var orderID = req.query.orderID;
+  SQL.reportOrderEachday(con, orderID, function onError(success){
+    res.send({code:200, data: success});
+  }, function(error){
+    res.send(errorResp);
+  });
+})
 
+//private function
 function updateShopProduct(shopProductIDs, stockTakes, req, res) {
   if (shopProductIDs.length > 0) {
     /** update data to database */

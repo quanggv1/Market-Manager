@@ -215,6 +215,19 @@ module.exports = {
         }
       }
     );
+  },
+
+  reportOrderEachday: function(con, orderID, onSuccess, onError) {
+    var sql = 'SELECT product.productName, order_each_day.order_quantity, (order_each_day.wh1 + order_each_day.wh2 + order_each_day.wh3) as received,(order_each_day.wh1 + order_each_day.wh2 + order_each_day.wh3 - order_each_day.order_quantity) as quantity_need, (order_each_day.wh1 + order_each_day.wh2 + order_each_day.wh3 + order_each_day.stockTake) as total, order_each_day.crate_qty, order_each_day.crate_type FROM order_each_day JOIN product ON order_each_day.productID = product.productID WHERE order_each_day.orderID =?';
+    con.query(sql, orderID, function(err, result) {
+      if (err) {
+          console.log(err);
+          onError(err)  
+        } else {
+          console.log(result);
+          onSuccess(result);
+        }
+    });
   }
 
 };
