@@ -43,6 +43,7 @@
 		3D41D7D31E56E33A00123A71 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C21E56E33A00123A71 /* UIProgressView+AFNetworking.m */; };
 		3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */; };
 		3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */; };
+		3D4CCE2B1E77DA0600A000BE /* market.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4CCE2A1E77DA0600A000BE /* market.jpg */; };
 		3D6BF9051E6E9F8D00EA3ADB /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */; };
 		3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9041E6E9F8D00EA3ADB /* Info.plist */; };
 		3D6BF9091E6EA44400EA3ADB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9071E6EA44400EA3ADB /* background.png */; };
@@ -179,6 +180,7 @@
 		3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		3D41D7C51E56E33A00123A71 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		3D4CCE2A1E77DA0600A000BE /* market.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = market.jpg; sourceTree = "<group>"; };
 		3D6BF9021E6E9F8D00EA3ADB /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		3D6BF9041E6E9F8D00EA3ADB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -463,6 +465,22 @@
 			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
+		3D4CCE281E77DA0600A000BE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3D4CCE291E77DA0600A000BE /* image */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3D4CCE291E77DA0600A000BE /* image */ = {
+			isa = PBXGroup;
+			children = (
+				3D4CCE2A1E77DA0600A000BE /* market.jpg */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
 		3D6BF9011E6E9F8D00EA3ADB /* iCarousel */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,6 +510,7 @@
 		7466EAEA1E51E95E00A2C0F5 /* Market Manager */ = {
 			isa = PBXGroup;
 			children = (
+				3D4CCE281E77DA0600A000BE /* Resources */,
 				7466EB041E51F89D00A2C0F5 /* Class */,
 				7466EAEE1E51E95E00A2C0F5 /* AppDelegate.h */,
 				7466EAEF1E51E95E00A2C0F5 /* AppDelegate.m */,
@@ -785,6 +804,7 @@
 				7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */,
 				3D41D7A11E55903800123A71 /* IQKeyboardManager.bundle in Resources */,
 				3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */,
+				3D4CCE2B1E77DA0600A000BE /* market.jpg in Resources */,
 				3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */,
 				7466EB031E51F5DB00A2C0F5 /* MarketManager.storyboard in Resources */,
 			);

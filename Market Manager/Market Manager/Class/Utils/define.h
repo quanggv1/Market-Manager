@@ -30,6 +30,7 @@ static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewCont
 static NSString *const StoryboardAddNewSupplyProduct = @"AddNewSupplyProductViewControllerId";
 
 static NSString *const CellMenu = @"menuCell";
+static NSString *const CellMenuBanner = @"menuBannerCellID";
 static NSString *const CellProduct = @"productCellId";
 static NSString *const CellShop = @"shopCellId";
 static NSString *const CellSupply = @"supplyCellId";

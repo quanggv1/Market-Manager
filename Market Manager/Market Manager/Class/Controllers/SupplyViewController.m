@@ -50,10 +50,6 @@
     [_supplyTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (IBAction)onMenuClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
-}
-
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

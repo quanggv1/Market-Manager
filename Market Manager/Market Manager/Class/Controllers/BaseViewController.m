@@ -37,6 +37,10 @@
     [activityView_ hide];
 }
 
+- (IBAction)onMenuClicked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - POPOVER DELEGATE
 -(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;

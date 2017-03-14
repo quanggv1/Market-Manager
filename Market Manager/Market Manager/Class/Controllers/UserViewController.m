@@ -43,10 +43,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)onMenuClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
-}
-
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

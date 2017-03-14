@@ -23,13 +23,11 @@
 }
 
 - (void)setMenuWith:(MenuCellProp *)menuCell {
-    if(!_content) {
-        _content = menuCell;
-        _menuTitle.text = _content.cellTitle;
-        UIImage *image = [UIImage imageNamed:_content.imageName];
-        _menuImage.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [_menuImage setTintColor:[UIColor darkGrayColor]];
-    }
+    _content = menuCell;
+    _menuTitle.text = _content.cellTitle;
+    UIImage *image = [UIImage imageNamed:_content.imageName];
+    _menuImage.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [_menuImage setTintColor:[UIColor whiteColor]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

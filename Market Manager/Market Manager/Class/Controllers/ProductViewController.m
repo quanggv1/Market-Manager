@@ -93,10 +93,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)onMenuClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
-}
-
 - (IBAction)onSearch:(id)sender {
     [_productSearchTextField becomeFirstResponder];
 }

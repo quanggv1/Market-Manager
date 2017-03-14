@@ -31,6 +31,11 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(getConnections) forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
+    
+    today = [Utils stringTodayDateTime];
+    searchDate = today;
+    _searchField.text = today;
+    [self downloadWith:searchDate];
 }
 
 - (void)getConnections {
@@ -40,19 +45,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationItem.title = @"Crate Management";
     [super viewWillAppear:animated];
-    today = [Utils stringTodayDateTime];
-    searchDate = today;
-    _searchField.text = today;
-    [self downloadWith:searchDate];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)onMenuClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotifyShowHideMenu object:nil];
 }
 
 - (void)downloadWith:(NSString *)date {

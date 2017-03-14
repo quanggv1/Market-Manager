@@ -35,10 +35,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self showActivity];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onShowHideMenu:)
-                                                 name:NotifyShowHideMenu
-                                               object:nil];
     
     _productNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation];
     _shopNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation];
@@ -62,13 +58,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_groupContainerViews addSubview:_productNavigationController.view];
     [self hideActivity];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//    return UIStatusBarStyleLightContent;
+//}
 
 - (void)downloadCrate {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -88,88 +83,61 @@
          }];
 }
 
-- (void)onShowHideMenu:(NSNotification*)notification {
-    _isMenuShow = !_isMenuShow;
-    if(_isMenuShow) {
-        [UIView animateWithDuration:0.5f animations:^{
-            CGRect frame = _menuView.frame;
-            frame.origin.x = 0;
-            [_menuView setFrame:frame];
-            _menuView.hidden = NO;
-        }];
-    }
-    else {
-        [UIView animateWithDuration:0.5f animations:^{
-            CGRect frame = _menuView.frame;
-            frame.origin.x -= frame.size.width;
-            [_menuView setFrame:frame];
-        } completion:^(BOOL finished) {
-            _menuView.hidden = YES;
-        }];
-    }
-}
-
 #pragma mark - table
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0.1f;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        return 220;
+    }
+    return 70;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _menuData.count;
+    return _menuData.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
-    [cell setMenuWith:[_menuData objectAtIndex:indexPath.row]];
-    return cell;
+    if (indexPath.row == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenuBanner];
+        return cell;
+    } else {
+        MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
+        [cell setMenuWith:[_menuData objectAtIndex:(indexPath.row - 1)]];
+        return cell;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    [self hideContainerViews];
     switch (indexPath.row) {
-        case 0:
-            [_groupContainerViews addSubview:_productNavigationController.view];
-            break;
         case 1:
-            [_groupContainerViews addSubview:_supplyNavigationController.view];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
             break;
         case 2:
-            [_groupContainerViews addSubview:_shopNavigationController.view];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
             break;
         case 3:
-            [_groupContainerViews addSubview:_orderNavigationController.view];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
             break;
         case 4:
-            [_groupContainerViews addSubview:_userNavigationController.view];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];;
             break;
         case 5:
-            [_groupContainerViews addSubview:_crateNavigationController.view];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
             break;
         case 6:
-            [[ProductManager sharedInstance] deleteAll];
-            [[ShopManager sharedInstance] deleteAll];
-            [[SupplyManager sharedInstance] deleteAll];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
+            break;
+        case 7:
             [self dismissViewControllerAnimated:YES completion:nil];
         default:
             break;
     }
-    [self onShowHideMenu:nil];
 }
 
-- (void)hideContainerViews {
-    [_productNavigationController.view removeFromSuperview];
-    [_shopNavigationController.view removeFromSuperview];
-    [_supplyNavigationController.view removeFromSuperview];
-    [_orderNavigationController.view removeFromSuperview];
-    [_userNavigationController.view removeFromSuperview];
-    [_crateNavigationController.view removeFromSuperview];
-}
-
-
-- (IBAction)onOutsideMenuClicked:(id)sender {
-    [self onShowHideMenu:nil];
-}
 
 
 
