@@ -14,4 +14,5 @@
 @interface OrderDetailViewController : BaseViewController
 @property (weak, nonatomic) Shop *shop;
 @property (weak, nonatomic) Order *order;
+@property (strong, nonatomic) NSMutableArray *titleContents;
 @end

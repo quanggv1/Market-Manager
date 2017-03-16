@@ -84,16 +84,24 @@ module.exports = {
 
   getOrderDetail: function (con, req, onSuccess, onError) {
     var orderID = req.query.orderID;
-    var sql = 'SELECT order_each_day.*, product.productName FROM `order_each_day` JOIN product ON order_each_day.productID = product.productID WHERE `orderID` = ?';
-    con.query(sql, orderID, function (err, rows) {
-      if (err) {
-        console.log(err);
-        onError(err);
-      } else {
-        console.log('Data received from Db:\n');
-        onSuccess(rows);
-      }
-    });
+    getWarehouseNameList(con, function (success) {
+      var sql = 'SELECT productOrderID, product.productName, order_quantity, ';
+      success.forEach(function (item) {
+        sql = sql + '`' + item.whName + '`, '
+      })
+      sql = sql + 'crate_qty, crate_type FROM `order_each_day` JOIN product ON order_each_day.productID = product.productID WHERE `orderID` = ?';
+      con.query(sql, orderID, function (err, rows) {
+        if (err) {
+          console.log(err);
+          onError(err);
+        } else {
+          console.log('Data received from Db:\n');
+          onSuccess(rows);
+        }
+      });
+    }, function (error) {
+      onError(error);
+    })
   },
 
 
@@ -182,7 +190,7 @@ module.exports = {
     console.log(req.query)
     console.log(pd_ID)
     console.log(whName)
-    con.query('SELECT SUM(wh1) as total FROM order_each_day WHERE order_each_day.productID=24',[whName, pd_ID], function (err, rows) {
+    con.query('SELECT SUM(wh1) as total FROM order_each_day WHERE order_each_day.productID=24', [whName, pd_ID], function (err, rows) {
       if (err) {
         console.log(err);
         onError(err);
@@ -206,7 +214,7 @@ module.exports = {
   },
 
   updateWarehouseStock: function (con, whID, productID, outQuantity) {
-    con.query('UPDATE warehouse_product SET outQuantity = outQuantity + ?, total = total - ? WHERE whID = ? AND productID = ?', [outQuantity,outQuantity, whID, productID],
+    con.query('UPDATE warehouse_product SET outQuantity = outQuantity + ?, total = total - ? WHERE whID = ? AND productID = ?', [outQuantity, outQuantity, whID, productID],
       function (err, result) {
         if (err) {
           console.log(err);
@@ -217,18 +225,37 @@ module.exports = {
     );
   },
 
-  reportOrderEachday: function(con, orderID, onSuccess, onError) {
+  reportOrderEachday: function (con, orderID, onSuccess, onError) {
     var sql = 'SELECT product.productName, order_each_day.order_quantity, (order_each_day.wh1 + order_each_day.wh2 + order_each_day.wh3) as received,(order_each_day.wh1 + order_each_day.wh2 + order_each_day.wh3 - order_each_day.order_quantity) as quantity_need, (order_each_day.wh1 + order_each_day.wh2 + order_each_day.wh3 + order_each_day.stockTake) as total, order_each_day.crate_qty, order_each_day.crate_type FROM order_each_day JOIN product ON order_each_day.productID = product.productID WHERE order_each_day.orderID =?';
-    con.query(sql, orderID, function(err, result) {
+    con.query(sql, orderID, function (err, result) {
       if (err) {
-          console.log(err);
-          onError(err)  
-        } else {
-          console.log(result);
-          onSuccess(result);
-        }
+        console.log(err);
+        onError(err)
+      } else {
+        console.log(result);
+        onSuccess(result);
+      }
     });
-  }
+  },
+
+  getWarehouseNameList
+
+
+
+
+
 
 };
+
+var getWarehouseNameList = function (con, onSuccess, onError) {
+  con.query('SELECT whName FROM warehouse', function (err, rows) {
+    if (err) {
+      console.log(err);
+      onError(err);
+    } else {
+      console.log('Data received from Db:\n');
+      onSuccess(rows);
+    }
+  });
+}
 

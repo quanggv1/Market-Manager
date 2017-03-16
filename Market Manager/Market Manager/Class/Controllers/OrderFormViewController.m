@@ -10,7 +10,7 @@
 #import "ProductManager.h"
 #import "OrderFormTableViewCell.h"
 
-@interface OrderFormViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface OrderFormViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 @property (strong, nonatomic) NSMutableArray *products;
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
 @end
@@ -156,5 +156,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated:NO];
 }
+
+
+
 
 @end

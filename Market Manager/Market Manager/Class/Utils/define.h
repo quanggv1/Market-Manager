@@ -74,8 +74,8 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.149:5000/"
-//#define SERVER @"http://192.168.1.17:5000/"
+//#define SERVER @"http://172.27.97.149:5000/"
+#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
 #define API_UPDATEDATA [SERVER stringByAppendingString:@"updateData"]

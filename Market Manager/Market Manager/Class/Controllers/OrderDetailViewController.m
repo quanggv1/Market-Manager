@@ -9,11 +9,14 @@
 #import "OrderDetailViewController.h"
 #import "OrderProductTableViewCell.h"
 #import "ProductManager.h"
+#import "SupplyManager.h"
 
-@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, OrderProductDelegate>
+@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, OrderProductDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (strong, nonatomic) NSMutableArray *productOrderList;
+@property (weak, nonatomic) IBOutlet UITableView *productNameTableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @end
 
 @implementation OrderDetailViewController
@@ -21,8 +24,36 @@
     [super viewDidLoad];
     _orderFormTableView.dataSource = self;
     _orderFormTableView.delegate = self;
+    
+    _productNameTableView.delegate = self;
+    _productNameTableView.dataSource = self;
+    
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
     [self download];
+    [self titleContents];
+    [_collectionView reloadData];
 }
+
+- (void)viewWillLayoutSubviews {
+    CGRect frame = _orderFormTableView.frame;
+    frame.size.width = 70*self.titleContents.count;
+    _orderFormTableView.frame = frame;
+}
+
+- (NSArray *)titleContents {
+    if(!_titleContents) {
+        _titleContents = [[NSMutableArray alloc] init];
+        [_titleContents addObject:@"Order"];
+        for (NSString *item in [[SupplyManager sharedInstance] getSupplyNameList]) {
+            [_titleContents addObject:item];
+        }
+        [_titleContents addObject:@"Crate Q.ty"];
+        [_titleContents addObject:@"Crate Type"];
+    }
+    return _titleContents;
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -47,6 +78,7 @@
              if ([[responseObject objectForKey:kCode] integerValue] == 200) {
                  _productOrderList = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
                  [_orderFormTableView reloadData];
+                 [_productNameTableView reloadData];
              } else {
                  [CallbackAlertView setCallbackTaget:titleError
                                              message:msgSomethingWhenWrong
@@ -132,10 +164,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];
-    cell.product = _productOrderList[indexPath.row];
-    cell.delegate = self;
-    return cell;
+    if (tableView == self.productNameTableView) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderFormCell"];
+        ((UILabel *)[cell viewWithTag:202]).text = ((Product *)_productOrderList[indexPath.row]).name;
+        return cell;
+    } else {
+        OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];
+        cell.product = _productOrderList[indexPath.row];
+        cell.delegate = self;
+        return cell;
+    }
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -189,6 +228,28 @@
                                      cancelTitle:nil
                                   cancelCallback:nil];
          }];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if(scrollView == _collectionView) {
+        CGRect frame = _orderFormTableView.frame;
+        frame.origin.x = _productNameTableView.frame.size.width - _collectionView.contentOffset.x;
+        _orderFormTableView.frame = frame;
+    } else {
+        _orderFormTableView.contentOffset = scrollView.contentOffset;
+        _productNameTableView.contentOffset = scrollView.contentOffset;
+    }
+}
+
+#pragma mark - COLLECTION DATASOURCE
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _titleContents.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"orderDetailTitleCollectionViewCellID" forIndexPath:indexPath];
+    ((UILabel *)[cell viewWithTag:203]).text = _titleContents[indexPath.row];
+    return cell;
 }
 
 @end
