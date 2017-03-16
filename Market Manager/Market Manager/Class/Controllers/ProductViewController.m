@@ -139,6 +139,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProduct];
+    UILabel *index = [cell viewWithTag:201];
+    index.text = @(indexPath.row + 1).stringValue;
     [cell initWith: [_productTableDataSource objectAtIndex:indexPath.row]];
     return cell;
 }

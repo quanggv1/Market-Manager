@@ -198,9 +198,6 @@
 }
 
 #pragma mark - TABLE DATASOURCE
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.1f;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _products.count;
@@ -208,6 +205,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SupplyProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseProduct];
+    ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
     [cell setProduct:_products[indexPath.row]];
     return cell;
 }

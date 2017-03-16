@@ -73,6 +73,10 @@
          }];
 }
 #pragma mark - TABLE DATASOUCE
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _productOrderList.count;
 }

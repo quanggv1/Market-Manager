@@ -32,7 +32,7 @@
 - (void)initWith:(Product *)product {
     _product = product;
     _productName.text = _product.name;
-    _productPrice.text = [NSString stringWithFormat:@"Price: %.2f $", _product.price];
+    _productPrice.text = [NSString stringWithFormat:@"%.2f $", _product.price];
 }
 
 - (IBAction)onExtendClicked:(id)sender {
