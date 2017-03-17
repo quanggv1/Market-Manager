@@ -1053,7 +1053,7 @@
                     <connections>
                         <outlet property="orderTableView" destination="ZSw-Ff-N6X" id="fxp-sp-GA2"/>
                         <segue destination="1dk-RB-Ey5" kind="show" identifier="showOrderDetail" id="YFQ-Ca-z0R"/>
-                        <segue destination="Za7-r6-Feb" kind="show" identifier="" id="yQa-Ol-ZyO"/>
+                        <segue destination="Za7-r6-Feb" kind="show" identifier="showOrderForm" id="yQa-Ol-ZyO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q01-Kc-hT2" userLabel="First Responder" sceneMemberID="firstResponder"/>
