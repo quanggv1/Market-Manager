@@ -74,8 +74,8 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
-//#define SERVER @"http://172.27.97.149:5000/"
-#define SERVER @"http://192.168.1.17:5000/"
+#define SERVER @"http://172.27.97.149:5000/"
+//#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
 #define API_UPDATEDATA [SERVER stringByAppendingString:@"updateData"]
@@ -96,6 +96,7 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 #define API_UPDATE_CRATES [SERVER stringByAppendingString:@"updateCrates"]
 #define API_GET_CRATES [SERVER stringByAppendingString:@"getCrates"]
 #define API_EXPORT_CRATES [SERVER stringByAppendingString:@"exportCrates"]
+#define API_GET_DATA_DEFAULT [SERVER stringByAppendingString:@"getDataDefault"]
 
 
 #pragma mark - Key

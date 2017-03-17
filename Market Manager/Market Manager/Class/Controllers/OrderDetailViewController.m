@@ -10,13 +10,15 @@
 #import "OrderProductTableViewCell.h"
 #import "ProductManager.h"
 #import "SupplyManager.h"
+#import "SummaryViewController.h"
 
-@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, OrderProductDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (strong, nonatomic) NSMutableArray *productOrderList;
 @property (weak, nonatomic) IBOutlet UITableView *productNameTableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderTableConstraintWidth;
 @end
 
 @implementation OrderDetailViewController
@@ -36,9 +38,7 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    CGRect frame = _orderFormTableView.frame;
-    frame.size.width = 70*self.titleContents.count;
-    _orderFormTableView.frame = frame;
+    [_orderTableConstraintWidth setConstant: _collectionView.contentSize.width];
 }
 
 - (NSArray *)titleContents {
@@ -76,7 +76,11 @@
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 _productOrderList = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
+                 _productOrderList = [[NSMutableArray alloc] init];
+                 for (NSDictionary *item in [responseObject objectForKey:kData]) {
+                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
+                     [_productOrderList addObject:dict];
+                 }
                  [_orderFormTableView reloadData];
                  [_productNameTableView reloadData];
              } else {
@@ -102,21 +106,10 @@
 }
 
 - (IBAction)onSubmit:(id)sender {
-    NSMutableArray *orders = [[NSMutableArray alloc] init];
-    for (Product *product in _productOrderList) {
-        [orders addObject: @{kWh1: @(product.wh1),
-                             kWh2: @(product.wh2),
-                             kWhTL: @(product.whTL),
-                             kCrateQty: @(product.crateQty),
-                             kCrateType: @(product.crateType),
-                             kProductOrderID: product.productOrderID,
-                             kProductID: product.productId,
-                             kProductSTake: @(product.STake)}];
-    }
-    
-    NSDictionary *params = @{kParams: [Utils objectToJsonString:orders],
+    NSDictionary *params = @{kParams: [Utils objectToJsonString:_productOrderList],
                              kOrderID: _order.ID,
-                             kShopID: _shop.ID};
+                             kShopID: _shop.ID,
+                             @"whNameList": [[SupplyManager sharedInstance] getSupplyNameList]};
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_UPDATE_ORDER_DETAIL
@@ -132,29 +125,21 @@
                                          cancelTitle:nil
                                       cancelCallback:nil];
              } else {
-                 [CallbackAlertView setCallbackTaget:titleError
-                                             message:msgSomethingWhenWrong
-                                              target:self
-                                             okTitle:btnOK
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
+                 ShowMsgSomethingWhenWrong;
              }
              [self hideActivity];
          } failure:^(NSURLSessionDataTask * task, NSError * error) {
              [self hideActivity];
-             [CallbackAlertView setCallbackTaget:titleError
-                                         message:msgConnectFailed
-                                          target:self
-                                         okTitle:btnOK
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];
+             ShowMsgConnectFailed;
          }];
 }
 
 - (void)onSubmited {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)onShowReport:(id)sender {
+    [self performSegueWithIdentifier: SegueReportOrderForm sender:self];
 }
 
 
@@ -166,19 +151,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.productNameTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderFormCell"];
-        ((UILabel *)[cell viewWithTag:202]).text = ((Product *)_productOrderList[indexPath.row]).name;
+        ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
+        ((UILabel *)[cell viewWithTag:202]).text = [_productOrderList[indexPath.row] objectForKey:kProductName];
         return cell;
     } else {
         OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];
-        cell.product = _productOrderList[indexPath.row];
-        cell.delegate = self;
+        [cell setProductDic: _productOrderList[indexPath.row]];
         return cell;
     }
-    
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
 }
 
 #pragma mark - TABLE DELEGATE
@@ -186,50 +166,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (void)textFieldDidEndEditingFinish:(OrderProductTableViewCell *)cell textField:(UITextField *)textField :(completion)complete{
-    NSString *whName;
-    if(textField == cell.wh1TextField) {
-        whName = @"wh1";
-    } else if(textField == cell.wh2TextField) {
-        whName = @"wh2";
-        
-    } else if (textField == cell.whTLTextField) {
-        whName = @"wh3";
-    }
-    [self showActivity];
-    NSDictionary *params = @{kParams: @{kSupplyName: whName, kProductID:@"24"
-                                        }};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_CHECK_TOTAL_WAREHOUSE_PRODUCTS
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
-                 NSLog(@"response %@", responseObject);
-                 complete(YES);
-             } else {
-                 [CallbackAlertView setCallbackTaget:@"Error"
-                                             message:@"Quantity is smaller than total"
-                                              target:self
-                                             okTitle:@"OK"
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             complete(NO);
-             [CallbackAlertView setCallbackTaget:@"Error"
-                                         message:@"Can't connect to server"
-                                          target:self
-                                         okTitle:@"OK"
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];
-         }];
-}
-
+#pragma mark - SCROLLVIEW DELEGATE
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if(scrollView == _collectionView) {
         CGRect frame = _orderFormTableView.frame;
@@ -250,6 +187,12 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"orderDetailTitleCollectionViewCellID" forIndexPath:indexPath];
     ((UILabel *)[cell viewWithTag:203]).text = _titleContents[indexPath.row];
     return cell;
+}
+
+#pragma mark - SEGUE DELEGATE 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    SummaryViewController *vc = segue.destinationViewController;
+    vc.order = _order;
 }
 
 @end
