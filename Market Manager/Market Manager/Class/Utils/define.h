@@ -72,6 +72,7 @@ static NSString *const SegueUserDetail = @"showUserDetail";
 static NSString *const SegueShowOrder = @"showOrder";
 static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
+static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
 #define SERVER @"http://172.27.97.149:5000/"

@@ -12,6 +12,7 @@
 @interface SummaryViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableArray *productOrderList;
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
+- (IBAction)gotoInvoice:(id)sender;
 
 
 @end
@@ -31,7 +32,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -39,7 +40,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -94,5 +95,8 @@
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+- (IBAction)gotoInvoice:(id)sender {
+    [self performSegueWithIdentifier:SegueInvoiceOrderForm sender:self];
 }
 @end

@@ -15,4 +15,5 @@
 + (void)showDatePickerWith:(NSString *)date target:(id)target selector:(SEL)selector;
 + (void)hideDatePicker;
 + (NSString *)objectToJsonString:(id )object;
++ (NSString *) stringHTML:(NSDictionary *) products crates:(NSDictionary *)crates;
 @end

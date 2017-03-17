@@ -10,61 +10,90 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Market Manager/Class/Controllers/OrderDetailViewController.m"
-            timestampString = "511088911.412901"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-onSubmit:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Market Manager/Class/Controllers/OrderDetailViewController.m"
-            timestampString = "511090981.733549"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-download"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Market Manager/Class/Controllers/OrderDetailViewController.m"
-            timestampString = "511090988.38968"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "-download"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Market Manager/Class/Controllers/OrderDetailViewController.m"
             timestampString = "511091007.022364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"
             endingLineNumber = "131"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            landmarkName = "-onSubmit:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[OrderDetailViewController onSubmit:]"
+                  moduleName = "Market Manager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanhnn1/Documents/HanhNN1/Work/Projects/Market-Manager/Market%20Manager/Market%20Manager/Class/Controllers/OrderDetailViewController.m"
+                  timestampString = "511437139.005762"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "836">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__38-[OrderDetailViewController onSubmit:]_block_invoke"
+                  moduleName = "Market Manager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanhnn1/Documents/HanhNN1/Work/Projects/Market-Manager/Market%20Manager/Market%20Manager/Class/Controllers/OrderDetailViewController.m"
+                  timestampString = "511437139.006983"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "404">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.296"
+                  moduleName = "Market Manager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanhnn1/Documents/HanhNN1/Work/Projects/Market-Manager/Market%20Manager/Market%20Manager/Class/Controllers/OrderDetailViewController.m"
+                  timestampString = "511437139.008194"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.297"
+                  moduleName = "Market Manager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanhnn1/Documents/HanhNN1/Work/Projects/Market-Manager/Market%20Manager/Market%20Manager/Class/Controllers/OrderDetailViewController.m"
+                  timestampString = "511437139.009408"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__38-[OrderDetailViewController onSubmit:]_block_invoke.299"
+                  moduleName = "Market Manager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanhnn1/Documents/HanhNN1/Work/Projects/Market-Manager/Market%20Manager/Market%20Manager/Class/Controllers/OrderDetailViewController.m"
+                  timestampString = "511437139.011019"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -79,7 +108,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
             endingLineNumber = "135"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkName = "-onSubmit:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,23 +124,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "142"
             endingLineNumber = "142"
-            landmarkName = "-tableView:canEditRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Market Manager/Class/Controllers/OrderProductTableViewCell.m"
-            timestampString = "511091084.272785"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "-setProduct:"
+            landmarkName = "-onShowReport:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +140,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
             endingLineNumber = "49"
-            landmarkName = "-awakeFromNib"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -142,9 +155,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "-textFieldDidBeginEditing:"
-            landmarkType = "7">
+            endingLineNumber = "72">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -159,7 +170,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
             endingLineNumber = "62"
-            landmarkName = "-crateTypeTextFieldDidChange:"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

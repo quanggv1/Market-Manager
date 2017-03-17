@@ -97,6 +97,7 @@
 		74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */; };
 		74FB615F1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */; };
 		74FB61621E75189100F65BF1 /* AddNewSupplyProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */; };
+		BC220B081E7BE644002CAE91 /* InvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC220B071E7BE644002CAE91 /* InvoiceViewController.m */; };
 		BC7E61AD1E76755900C057AD /* SummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E61AC1E76755900C057AD /* SummaryViewController.m */; };
 		BC7E61B01E7679A200C057AD /* SummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E61AF1E7679A200C057AD /* SummaryTableViewCell.m */; };
 		BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB461491E545EB90090CBC3 /* ProductViewController.m */; };
@@ -287,6 +288,8 @@
 		74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyProductTableViewCell.m; sourceTree = "<group>"; };
 		74FB61601E75189100F65BF1 /* AddNewSupplyProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewSupplyProductViewController.h; sourceTree = "<group>"; };
 		74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewSupplyProductViewController.m; sourceTree = "<group>"; };
+		BC220B061E7BE644002CAE91 /* InvoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceViewController.h; sourceTree = "<group>"; };
+		BC220B071E7BE644002CAE91 /* InvoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceViewController.m; sourceTree = "<group>"; };
 		BC7E61AB1E76755900C057AD /* SummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryViewController.h; sourceTree = "<group>"; };
 		BC7E61AC1E76755900C057AD /* SummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SummaryViewController.m; sourceTree = "<group>"; };
 		BC7E61AE1E7679A200C057AD /* SummaryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryTableViewCell.h; sourceTree = "<group>"; };
@@ -703,6 +706,7 @@
 		74ED222B1E59FC850079D3F0 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				BC220B051E7BE611002CAE91 /* OrderInvoice */,
 				BC7E61AA1E76753500C057AD /* OrderReport */,
 				744424EC1E6B1BE900F0ECA8 /* ShopOrderViewController.h */,
 				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
@@ -732,6 +736,15 @@
 				748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */,
 			);
 			name = User;
+			sourceTree = "<group>";
+		};
+		BC220B051E7BE611002CAE91 /* OrderInvoice */ = {
+			isa = PBXGroup;
+			children = (
+				BC220B061E7BE644002CAE91 /* InvoiceViewController.h */,
+				BC220B071E7BE644002CAE91 /* InvoiceViewController.m */,
+			);
+			name = OrderInvoice;
 			sourceTree = "<group>";
 		};
 		BC7E61AA1E76753500C057AD /* OrderReport */ = {
@@ -866,6 +879,7 @@
 				74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */,
 				3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */,
 				3D41D7CC1E56E33A00123A71 /* AFURLSessionManager.m in Sources */,
+				BC220B081E7BE644002CAE91 /* InvoiceViewController.m in Sources */,
 				3D6BF9051E6E9F8D00EA3ADB /* iCarousel.m in Sources */,
 				748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */,
 				7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */,
