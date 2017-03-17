@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D0C18921E5A82C2008CA470 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C18911E5A82C2008CA470 /* ActivityView.m */; };
 		3D0C18951E5AB0E2008CA470 /* DateTimePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C18941E5AB0E2008CA470 /* DateTimePickerController.m */; };
+		3D228D881E7B898000BC7BD3 /* OrderDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D228D871E7B898000BC7BD3 /* OrderDetailCollectionViewCell.m */; };
 		3D2F4B041E6FB2A600030536 /* RecommendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */; };
 		3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7651E5583C400123A71 /* ShopViewController.m */; };
 		3D41D7691E5583D700123A71 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7681E5583D700123A71 /* UserViewController.m */; };
@@ -107,6 +108,8 @@
 		3D0C18911E5A82C2008CA470 /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
 		3D0C18931E5AB0E2008CA470 /* DateTimePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimePickerController.h; sourceTree = "<group>"; };
 		3D0C18941E5AB0E2008CA470 /* DateTimePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimePickerController.m; sourceTree = "<group>"; };
+		3D228D861E7B898000BC7BD3 /* OrderDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailCollectionViewCell.h; sourceTree = "<group>"; };
+		3D228D871E7B898000BC7BD3 /* OrderDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailCollectionViewCell.m; sourceTree = "<group>"; };
 		3D2F4B021E6FB2A600030536 /* RecommendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendListViewController.h; sourceTree = "<group>"; };
 		3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendListViewController.m; sourceTree = "<group>"; };
 		3D41D7641E5583C400123A71 /* ShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopViewController.h; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */,
 				3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */,
 				3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */,
+				3D228D861E7B898000BC7BD3 /* OrderDetailCollectionViewCell.h */,
+				3D228D871E7B898000BC7BD3 /* OrderDetailCollectionViewCell.m */,
 			);
 			name = OrderDetail;
 			sourceTree = "<group>";
@@ -839,6 +844,7 @@
 				748B3A871E62944E00AA9AA6 /* UserManager.m in Sources */,
 				3D0C18951E5AB0E2008CA470 /* DateTimePickerController.m in Sources */,
 				3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */,
+				3D228D881E7B898000BC7BD3 /* OrderDetailCollectionViewCell.m in Sources */,
 				3D41D7A01E55903800123A71 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				74E9046D1E58616F005D391D /* SupplyTableViewCell.m in Sources */,
 				3D41D7D21E56E33A00123A71 /* UIImageView+AFNetworking.m in Sources */,

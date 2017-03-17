@@ -8,19 +8,16 @@
 
 #import "OrderProductTableViewCell.h"
 #import "RecommendListViewController.h"
+#import "OrderDetailViewController.h"
+#import "OrderDetailCollectionViewCell.h"
 
-@interface OrderProductTableViewCell()
-@property (weak, nonatomic) IBOutlet UILabel *productNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *productOrderLabel;
-
-@property (weak, nonatomic) IBOutlet UITextField *crateQtyTextField;
-@property (weak, nonatomic) IBOutlet UITextField *crateTypeTextField;
-@property (weak, nonatomic) Product *product;
-@property (strong, nonatomic) NSArray *items;
+@interface OrderProductTableViewCell()<UICollectionViewDataSource, UICollectionViewDelegate>
+@property (weak, nonatomic) NSDictionary *productDic;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) id controller;
 @end
+
 @implementation OrderProductTableViewCell
-@synthesize delegate = _delegate;
 - (id)controller {
     if(!_controller) {
         UIView *view = self;
@@ -32,61 +29,36 @@
     return _controller;
 }
 
--(void)setProduct:(Product *)product {
-    _product = product;
-    _productNameLabel.text = _product.name;
-    _productOrderLabel.text = @(_product.order).stringValue;
-    _wh1TextField.text = @(_product.wh1).stringValue;
-    _wh2TextField.text = @(_product.wh2).stringValue;
-    _whTLTextField.text = @(_product.whTL).stringValue;
-    _crateQtyTextField.text = @(_product.crateQty).stringValue;
-    _crateTypeTextField.text = @(_product.crateType).stringValue;
+- (void)setProductDic:(NSDictionary *)productDic {
+    _productDic = productDic;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _wh1TextField.delegate = self;
-    _wh1TextField.tag = 1;
-    _wh2TextField.delegate = self;
-    _wh2TextField.tag = 2;
-    _whTLTextField.delegate = self;
-    _wh2TextField.tag = 3;
-    _crateQtyTextField.delegate = self;
-    _crateTypeTextField.delegate = self;
-    [_crateTypeTextField addTarget:self
-                              action:@selector(crateTypeTextFieldDidChange:)
-                    forControlEvents:UIControlEventEditingChanged];
-}
-
-- (void)crateTypeTextFieldDidChange:(UITextField *)textField {
-    [RecommendListViewController updateRecommedListWith:textField.text];
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField {
-    if(textField == _crateTypeTextField) {
-        [RecommendListViewController showRecommendListAt:self.controller viewSource:textField recommends:@[@"1", @"2", @"3"] onSelected:^(NSString *result) {
-            [textField setText:result];
-            [Utils hideKeyboard];
-        }];
-        
-    }
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return ((OrderDetailViewController *)self.controller).titleContents.count;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    [_delegate textFieldDidEndEditingFinish:self textField:textField :^(BOOL finish){
-        if(finish){
-            _product.wh1 = [_wh1TextField.text integerValue];
-            _product.wh2 = [_wh2TextField.text integerValue];
-            _product.whTL = [_whTLTextField.text integerValue];
-            _product.crateQty = [_crateQtyTextField.text integerValue];
-            _product.crateType = [_crateTypeTextField.text integerValue];
-        }
-    }];
-    
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    OrderDetailCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"orderDetailCollectionViewCellID" forIndexPath:indexPath];
+    NSString *key = (((OrderDetailViewController *)self.controller).titleContents[indexPath.row]);
+    if ([key isEqualToString:@"Order"]) {
+        key = kProductOrder;
+    } else if ([key isEqualToString:@"Crate Q.ty"]) {
+        key = kCrateQty;
+    } else if ([key isEqualToString:@"Crate Type"]) {
+        key = kCrateType;
+    }
+    [cell setValueAt:indexPath.row dict:_productDic key:key];
+    return cell;
 }
 
 @end

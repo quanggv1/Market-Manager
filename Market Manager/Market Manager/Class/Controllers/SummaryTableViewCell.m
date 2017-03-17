@@ -28,6 +28,7 @@
     _lbReceived.text = @(_product.reportReceived).stringValue;
     _lbQuantityNeeded.text = @(_product.reportQuantityNeed).stringValue;
     _lbCrateQty.text = @(_product.crateQty).stringValue;
+    _lbCrateType.text = @(_product.crateType).stringValue;
 }
 
 @end

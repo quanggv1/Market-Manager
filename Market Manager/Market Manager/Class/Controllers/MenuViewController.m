@@ -66,20 +66,22 @@
 //}
 
 - (void)downloadCrate {
+    [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName: kCrateTableName,
-                             kDate: [Utils stringTodayDateTime]};
-    [manager GET:API_GET_CRATES
-      parameters:params
+    [manager GET:API_GET_DATA_DEFAULT
+      parameters:nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[CrateManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
+                 [[CrateManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:@"crate"]];
+                 [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:@"warehouse"]];
              } else {
                  ShowMsgUnavaiableData;
              }
+             [self hideActivity];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              ShowMsgConnectFailed;
+             [self hideActivity];
          }];
 }
 

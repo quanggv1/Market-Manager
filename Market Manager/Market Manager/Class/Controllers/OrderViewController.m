@@ -188,9 +188,6 @@
         case 1:
             [self performSegueWithIdentifier: SegueOrderDetail sender:self];
             break;
-        case 2:
-            [self performSegueWithIdentifier: SegueReportOrderForm sender:self];
-            break;
         default:
             break;
     }
@@ -213,9 +210,6 @@
         OrderFormViewController *vc = segue.destinationViewController;
         vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
         vc.shop = _shop;
-    } else if([segue.identifier isEqualToString:SegueReportOrderForm]) {
-        SummaryViewController *vc = segue.destinationViewController;
-        vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
     }
 }
 

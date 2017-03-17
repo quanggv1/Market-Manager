@@ -96,6 +96,7 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 #define API_UPDATE_CRATES [SERVER stringByAppendingString:@"updateCrates"]
 #define API_GET_CRATES [SERVER stringByAppendingString:@"getCrates"]
 #define API_EXPORT_CRATES [SERVER stringByAppendingString:@"exportCrates"]
+#define API_GET_DATA_DEFAULT [SERVER stringByAppendingString:@"getDataDefault"]
 
 
 #pragma mark - Key

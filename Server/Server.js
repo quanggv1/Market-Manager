@@ -44,6 +44,7 @@ app.get('/authen', function (req, res) {
   // })
   SQL.authen(con, req, res);
 });
+
 app.get('/checkTotalWarehouseProduct', function (req, res) {
   SQL.checkTotalWarehouseProduct(con, req, function (success) {
     res.send({ code: 200, data: success });
@@ -146,7 +147,14 @@ app.get('/getOrderDetail', function (req, res) {
 
 app.get('/updateOrderDetail', function (req, res) {
   var productOrders = JSON.parse(req.query.params)
-  updateOrderDetail(productOrders, req.query.orderID, req.query.shopID, res)
+  SQL.getWarehouseNameList(con, function(success) {
+    var warehouseNameList = [];
+    success.forEach(function (item) {warehouseNameList.push(item.whName)});
+    updateOrderDetail(productOrders, req.query.shopID, req.query.orderID, warehouseNameList, res)
+  }, function(error) {
+    res.send(errorResp);
+  })
+  
 })
 
 /** 
@@ -217,9 +225,9 @@ app.get('/exportShopProducts', function (req, res) {
 });
 app.get("/reportOrderEachday", function onSuccess(req, res) {
   var orderID = req.query.orderID;
-  SQL.reportOrderEachday(con, orderID, function onError(success){
-    res.send({code:200, data: success});
-  }, function(error){
+  SQL.reportOrderEachday(con, orderID, function onError(success) {
+    res.send({ code: 200, data: success });
+  }, function (error) {
     res.send(errorResp);
   });
 })
@@ -308,21 +316,38 @@ function today() {
   return date;
 }
 
-function updateOrderDetail(productOrders, orderID, shopID, res) {
+function updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, res) {
   var req = { query: {} }
   if (productOrders.length > 0) {
     /** update order_each_day */
     req.query.tableName = 'order_each_day';
-    req.query.params = productOrders[0]
+    delete productOrders[0].productName;
+    req.query.params = productOrders[0];
     req.query.idName = 'productOrderID';
     req.query.idValue = productOrders[0].productOrderID;
-    updateShopStock(shopID, productOrders[0].productID, (productOrders[0].stockTake + productOrders[0].wh1 + productOrders[0].wh2 + productOrders[0].wh3));
-    updateWarehouseStock(1, productOrders[0].productID, productOrders[0].wh1);
-    updateWarehouseStock(2, productOrders[0].productID, productOrders[0].wh2);
-    updateWarehouseStock(3, productOrders[0].productID, productOrders[0].wh3);
-    SQL.updateData(con, req, function (success) {
-      productOrders = productOrders.splice(1, productOrders.length);
-      updateOrderDetail(productOrders, orderID, shopID, res);
+
+    SQL.getOrderDetailByID(con, productOrders[0].productOrderID, function (success) {
+      var data = success[0];
+      var totalReceived = 0;
+
+      /** update wh_product */
+      warehouseNameList.forEach(function (item) {
+        var thisWhReceived = req.query.params[item] - data[item];
+        console.log(thisWhReceived);
+        updateWarehouseStock(item, req.query.params.productID, thisWhReceived)
+        totalReceived += thisWhReceived; 
+      })
+
+      /** update shop_product */
+      updateShopStock(shopID, req.query.params.productID, totalReceived);
+
+      /** update order_each_day */
+      SQL.updateData(con, req, function (success) {
+        productOrders = productOrders.splice(1, productOrders.length);
+        updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, res);
+      }, function (error) {
+        res.send(errorResp);
+      })
     }, function (error) {
       res.send(errorResp);
     })
@@ -330,7 +355,7 @@ function updateOrderDetail(productOrders, orderID, shopID, res) {
     /** update order table after update order_each_day */
     req.query.tableName = 'orders';
     req.query.params = {};
-    req.query.params.status = 2;
+    req.query.params.status = 1;
     req.query.idName = 'orderID';
     req.query.idValue = orderID;
     SQL.updateData(con, req, function (success) {
@@ -341,12 +366,12 @@ function updateOrderDetail(productOrders, orderID, shopID, res) {
   }
 }
 
-function updateShopStock(shopID, productID, stockTake) {
-  SQL.updateShopStock(con, shopID, productID, stockTake);
+function updateShopStock(shopID, productID, receivedQty) {
+  SQL.updateShopStock(con, shopID, productID, receivedQty);
 }
 
-function updateWarehouseStock(whID, productID, outQuantity) {
-  SQL.updateWarehouseStock(con, whID, productID, outQuantity);
+function updateWarehouseStock(whName, productID, outQuantity) {
+  SQL.updateWarehouseStock(con, whName, productID, outQuantity);
 }
 
 /**
@@ -411,4 +436,12 @@ app.get('/exportCrates', function (req, res) {
   }, function (error) {
     res.send(errorResp);
   });
+})
+
+app.get('/getDataDefault', function (req, res) {
+  SQL.getDataDefault(con, function(success) {
+    res.send({code:200, data: success});
+  }, function(error) {
+    res.send(errorResp);
+  })
 })
