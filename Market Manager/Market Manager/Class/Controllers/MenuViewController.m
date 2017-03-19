@@ -28,6 +28,7 @@
 @property (strong, nonatomic) UINavigationController *orderNavigationController;
 @property (strong, nonatomic) UINavigationController *userNavigationController;
 @property (strong, nonatomic) UINavigationController *crateNavigationController;
+@property (assign, nonatomic) NSInteger numberOfFunction;
 @end
 
 @implementation MenuViewController
@@ -55,6 +56,12 @@
     _menuTable.rowHeight = UITableViewAutomaticDimension;
     _menuTable.estimatedRowHeight = 80;
     
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.menuTable;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(downloadCrate) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
+    
     [self downloadCrate];
 }
 
@@ -69,6 +76,7 @@
 
 - (void)downloadCrate {
     [self showActivity];
+    _numberOfFunction = 2;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_GET_DATA_DEFAULT
       parameters:nil
@@ -77,13 +85,17 @@
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                  [[CrateManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:@"crate"]];
                  [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:@"warehouse"]];
+                 _numberOfFunction = _menuData.count + 1;
+                 [_menuTable reloadData];
              } else {
                  ShowMsgUnavaiableData;
              }
              [self hideActivity];
+             [self.refreshControl endRefreshing];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              ShowMsgConnectFailed;
              [self hideActivity];
+             [self.refreshControl endRefreshing];
          }];
 }
 
@@ -93,7 +105,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _menuData.count + 1;
+    return _numberOfFunction;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -104,7 +116,8 @@
         return cell;
     } else {
         MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
-        [cell setMenuWith:[_menuData objectAtIndex:(indexPath.row - 1)]];
+        NSInteger index = (indexPath.row == _numberOfFunction - 1) ? (_menuData.count - 1) : (indexPath.row - 1);
+        [cell setMenuWith:[_menuData objectAtIndex:index]];
         cell.layer.shouldRasterize = YES;
         cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         return cell;
@@ -115,7 +128,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         case 1:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
+            if(_numberOfFunction == 2)
+                [self dismissViewControllerAnimated:YES completion:nil];
+            else
+                [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
             break;
         case 2:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
