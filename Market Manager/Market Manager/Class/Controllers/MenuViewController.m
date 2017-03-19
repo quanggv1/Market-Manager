@@ -52,6 +52,8 @@
                   [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
+    _menuTable.rowHeight = UITableViewAutomaticDimension;
+    _menuTable.estimatedRowHeight = 80;
     
     [self downloadCrate];
 }
@@ -90,13 +92,6 @@
     return 0.1f;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        return 220;
-    }
-    return 70;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _menuData.count + 1;
 }
@@ -104,10 +99,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenuBanner];
+        cell.layer.shouldRasterize = YES;
+        cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         return cell;
     } else {
         MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
         [cell setMenuWith:[_menuData objectAtIndex:(indexPath.row - 1)]];
+        cell.layer.shouldRasterize = YES;
+        cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         return cell;
     }
 }
