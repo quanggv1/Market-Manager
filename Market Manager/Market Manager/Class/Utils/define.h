@@ -139,6 +139,7 @@ static NSString *const kCrateType = @"crateType";
 static NSString *const kCrateTableName = @"crate";
 static NSString *const kCrateReceived = @"receivedQty";
 static NSString *const kCrateReturned = @"returnedQty";
+static NSString *const kCratePrice = @"price";
 
 static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";

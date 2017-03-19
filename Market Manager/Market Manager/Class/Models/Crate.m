@@ -16,6 +16,7 @@
         self.name = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateType]];
         self.receivedQty = [[data objectForKey:kCrateReceived] integerValue];
         self.returnedQty = [[data objectForKey:kCrateReturned] integerValue];
+        self.price = [[data objectForKey:@"price"] floatValue];
     }
     return self;
 }

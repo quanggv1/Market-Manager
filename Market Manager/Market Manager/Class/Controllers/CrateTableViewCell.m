@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *crateNameLable;
 @property (weak, nonatomic) IBOutlet UITextField *crateReceived;
 @property (weak, nonatomic) IBOutlet UITextField *crateReturned;
+@property (weak, nonatomic) IBOutlet UITextField *cratePrice;
 @property (weak, nonatomic) id controller;
 @end
 
@@ -34,6 +35,7 @@
     [super awakeFromNib];
     _crateReturned.delegate = self;
     _crateReceived.delegate = self;
+    _cratePrice.delegate = self;
     // Initialization code
 }
 
@@ -49,23 +51,30 @@
     _crateNameLable.text = crate.name;
     _crateReceived.text = @(crate.receivedQty).stringValue;
     _crateReturned.text = @(crate.returnedQty).stringValue;
+    _cratePrice.text = [NSString stringWithFormat:@"%.2f", _crate.price];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if([_crateReturned.text integerValue] > _crate.receivedQty) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:titleError
-                                                                       message:@"Number of crate had been returned incorrect!"
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:btnOK style:UIAlertActionStyleDefault
-                                                              handler:nil];
-        
-        [alert addAction:defaultAction];
-        [self.controller presentViewController:alert animated:YES completion:nil];
+    if(textField == _crateReturned) {
+        if([_crateReturned.text integerValue] > _crate.receivedQty) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:titleError
+                                                                           message:@"Number of crate had been returned incorrect!"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:btnOK style:UIAlertActionStyleDefault
+                                                                  handler:nil];
+            
+            [alert addAction:defaultAction];
+            [self.controller presentViewController:alert animated:YES completion:nil];
+        } else {
+            _crate.returnedQty = [_crateReturned.text integerValue];
+        }
+        _crateReturned.text = @(_crate.returnedQty).stringValue;
     } else {
-        _crate.returnedQty = [_crateReturned.text integerValue];
+        _crate.price = [_cratePrice.text floatValue];
+        _cratePrice.text = [NSString stringWithFormat:@"%.2f", _crate.price];
     }
-    _crateReturned.text = @(_crate.returnedQty).stringValue;
+    
     
 }
 

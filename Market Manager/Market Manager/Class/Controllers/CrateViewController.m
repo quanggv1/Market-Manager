@@ -163,7 +163,8 @@
     for (Crate *crate in _crateDataSource) {
         [updates addObject:@{kCrateID: crate.ID,
                              kCrateReturned: @(crate.returnedQty),
-                             kCrateReceived: @(crate.receivedQty)}];
+                             kCrateReceived: @(crate.receivedQty),
+                             kCratePrice: @(crate.price)}];
     }
     NSDictionary *params = @{kParams: [Utils objectToJsonString:updates]};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
