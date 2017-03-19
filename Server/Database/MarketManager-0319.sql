@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 19, 2017 at 10:10 AM
+-- Generation Time: Mar 19, 2017 at 11:22 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `crate` (
   `crateType` varchar(100) NOT NULL,
   `receivedQty` int(11) NOT NULL,
   `returnedQty` int(11) NOT NULL,
+  `price` float NOT NULL,
   PRIMARY KEY (`crateID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
@@ -41,10 +42,10 @@ CREATE TABLE IF NOT EXISTS `crate` (
 -- Dumping data for table `crate`
 --
 
-INSERT INTO `crate` (`crateID`, `crateType`, `receivedQty`, `returnedQty`) VALUES
-(1, 'XA2W2', 25, 0),
-(2, 'HG2A', 2, 0),
-(4, 'X245S', 4, 3);
+INSERT INTO `crate` (`crateID`, `crateType`, `receivedQty`, `returnedQty`, `price`) VALUES
+(1, 'XA2W2', 25, 0, 50.6),
+(2, 'HG2A', 2, 0, 0),
+(4, 'X245S', 4, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -161,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUES
-(25, 'Bitter melon', 1, ''),
+(25, 'Bitter melon', 1.6, ''),
 (27, 'Broccoli', 1, ''),
 (28, 'Broccolini', 1, ''),
 (29, 'Broccoli ice', 1, ''),
