@@ -79,17 +79,19 @@
     [self showActivity];
     Supply *supply = _supplyDataSource[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kSupplyTableName,
-                             @"params": @{@"idName":kSupplyID,
-                                          @"idValue":supply.ID}};
-    [manager GET:API_DELETEDATA
+    NSDictionary *params = @{kSupplyName:supply.name};
+    [manager GET:API_REMOVE_WAREHOUSE
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[SupplyManager sharedInstance] delete:supply];
+                 [_supplyDataSource removeObjectAtIndex:indexPath.row];
+                 [_supplyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
              [self hideActivity];
-             [[SupplyManager sharedInstance] delete:supply];
-             [_supplyDataSource removeObjectAtIndex:indexPath.row];
-             [_supplyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
         ShowMsgConnectFailed;
@@ -121,11 +123,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        [self deleteItemAt:indexPath];
-//    }
-//}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteItemAt:indexPath];
+    }
+}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueSupplyDetail]) {

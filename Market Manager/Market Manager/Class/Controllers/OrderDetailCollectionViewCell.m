@@ -8,6 +8,8 @@
 
 #import "OrderDetailCollectionViewCell.h"
 #import "SupplyManager.h"
+#import "RecommendListViewController.h"
+#import "CrateManager.h"
 
 @interface OrderDetailCollectionViewCell()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -15,9 +17,22 @@
 @property (weak, nonatomic) NSDictionary *productDic;
 @property (assign, nonatomic) NSInteger index;
 @property (weak, nonatomic) NSString *key;
+@property (weak, nonatomic) id controller;
 @end
 
 @implementation OrderDetailCollectionViewCell
+
+- (id)controller {
+    if(!_controller) {
+        UIView *view = self;
+        while (!(view == nil || [view isKindOfClass:[UITableView class]])) {
+            view = view.superview;
+        }
+        _controller = ((UITableView *)view).dataSource;
+    }
+    return _controller;
+}
+
 - (void)setValueAt:(NSInteger)index dict:(NSDictionary *)productDic key:(NSString *)key {
     _index = index;
     _productDic = productDic;
@@ -25,6 +40,14 @@
     _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
     _textField.enabled = ![key isEqualToString:kProductOrder];
     _textField.delegate = self;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if([_key isEqualToString:kCrateType]) {
+        [RecommendListViewController showRecommendListAt:self.controller viewSource:textField recommends:[[CrateManager sharedInstance] getCrateNameList] onSelected:^(NSString *result) {
+            textField.text = result;
+        }];
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -47,7 +70,14 @@
                  _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
                  ShowMsgConnectFailed;
              }];
-    } else {
+    } else if([_key isEqualToString:kCrateQty]) {
+        if(![[[CrateManager sharedInstance] getCrateNameList] containsObject:[NSString stringWithFormat:@"%@", [_productDic objectForKey:kCrateType]]]) {
+            _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
+            [CallbackAlertView setCallbackTaget:titleError message:@"Please input correct crate type" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil];
+        } else {
+            [_productDic setValue:_textField.text forKey:_key];
+        }
+    } else {   
         [_productDic setValue:_textField.text forKey:_key];
     }
 }

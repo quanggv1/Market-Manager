@@ -81,7 +81,6 @@
 		74D4EB111E7192DF0041FD72 /* AddNewShopProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D4EB101E7192DF0041FD72 /* AddNewShopProductViewController.m */; };
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
-		74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904581E58174A005D391D /* ProductPopOverViewController.m */; };
 		74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9045B1E5822AD005D391D /* ProductDetailViewController.m */; };
 		74E904601E585785005D391D /* ShopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9045F1E585785005D391D /* ShopTableViewCell.m */; };
 		74E904631E585834005D391D /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904621E585834005D391D /* Shop.m */; };
@@ -256,8 +255,6 @@
 		74E904441E57F54D005D391D /* ProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCell.m; sourceTree = "<group>"; };
 		74E904541E57F781005D391D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
 		74E904551E57F781005D391D /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
-		74E904571E58174A005D391D /* ProductPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPopOverViewController.h; sourceTree = "<group>"; };
-		74E904581E58174A005D391D /* ProductPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPopOverViewController.m; sourceTree = "<group>"; };
 		74E9045A1E5822AD005D391D /* ProductDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDetailViewController.h; sourceTree = "<group>"; };
 		74E9045B1E5822AD005D391D /* ProductDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDetailViewController.m; sourceTree = "<group>"; };
 		74E9045E1E585785005D391D /* ShopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopTableViewCell.h; sourceTree = "<group>"; };
@@ -615,8 +612,6 @@
 				BCB461491E545EB90090CBC3 /* ProductViewController.m */,
 				74E904431E57F54D005D391D /* ProductCell.h */,
 				74E904441E57F54D005D391D /* ProductCell.m */,
-				74E904571E58174A005D391D /* ProductPopOverViewController.h */,
-				74E904581E58174A005D391D /* ProductPopOverViewController.m */,
 				74E9045A1E5822AD005D391D /* ProductDetailViewController.h */,
 				74E9045B1E5822AD005D391D /* ProductDetailViewController.m */,
 			);
@@ -896,7 +891,6 @@
 				3D41D7971E55903800123A71 /* IQUIViewController+Additions.m in Sources */,
 				3D41D7CA1E56E33A00123A71 /* AFURLRequestSerialization.m in Sources */,
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,
-				74E904591E58174A005D391D /* ProductPopOverViewController.m in Sources */,
 				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				74C5A73A1E7466F100BB5B40 /* Crate.m in Sources */,

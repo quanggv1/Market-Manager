@@ -212,8 +212,7 @@ module.exports = {
         console.log(err);
         onError(err);
       } else {
-        console.log(result);
-        if (receivedQty > result[0].total) {
+        if (!result || result.length == 0 || receivedQty > result[0].total) {
           onError()
         } else {
           onSuccess()
@@ -247,7 +246,7 @@ module.exports = {
         receivedTotalQuery = receivedTotalQuery + ' order_each_day.`' + whName + '` +';
       })
       receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
-      sql = 'SELECT product.productName, order_each_day.order_quantity, (' + receivedTotalQuery + ') as received, (order_each_day.order_quantity - (' + receivedTotalQuery + ')) as quantity_need, (' + receivedTotalQuery + ' + order_each_day.stockTake) as total, order_each_day.crate_qty, order_each_day.crate_type FROM order_each_day JOIN product ON order_each_day.productID = product.productID WHERE order_each_day.orderID =?'
+      sql = 'SELECT product.productName, order_each_day.order_quantity, (' + receivedTotalQuery + ') as received, (order_each_day.order_quantity - (' + receivedTotalQuery + ')) as quantity_need, (' + receivedTotalQuery + ' + order_each_day.stockTake) as total, order_each_day.crate_qty, order_each_day.crateType FROM order_each_day JOIN product ON order_each_day.productID = product.productID WHERE order_each_day.orderID =?'
       console.log(sql);
       con.query(sql, orderID, function (err, result) {
         if (err) {
@@ -271,14 +270,12 @@ module.exports = {
         console.log(err);
         onError(err)
       } else {
-        console.log(result);
         data.crate = result;
         con.query('SELECT * FROM `warehouse`', function (err, result) {
           if (err) {
             console.log(err);
             onError(err)
           } else {
-            console.log(result);
             data.warehouse = result;
             onSuccess(data);
           }
@@ -286,6 +283,53 @@ module.exports = {
       }
     });
 
+  },
+
+  updateCrateReceivedQty: function (con, crateReceived, crateType) {
+    con.query('UPDATE crate SET receivedQty = receivedQty + ? WHERE crateType = ?', [crateReceived, crateType], function (err, result) {
+      if (err) { console.log(err) }
+    })
+  },
+
+  insertNewWarehouse: function (con, req, onSuccess, onError) {
+    var whName = req.query.whName;
+    var whDesc = req.query.description;
+    con.query('INSERT INTO warehouse SET whName = ?, description = ?', [whName, whDesc], function (err, result) {
+      if (err) {
+        onError(err);
+      } else {
+        var insertedID = result.insertId;
+        con.query('ALTER TABLE order_each_day ADD ' + whName + ' int NOT NULL', function (err, result) {
+          if (err) {
+            onError(err);
+            con.query('DELETE FROM warehouse WHERE whID = ?', insertedID, function (err) {
+              console.log(err);
+            });
+          } else {
+            onSuccess(insertedID);
+          }
+        })
+      }
+    })
+  },
+
+  removeWarehouse: function (con, req, onSuccess, onError) {
+    var whName = req.query.whName;
+    con.query('ALTER TABLE order_each_day DROP COLUMN ' + whName, function (err) {
+      if (err) {
+        console.log(err);
+        onError(err);
+      } else {
+        con.query('DELETE FROM warehouse WHERE whName = ?', whName, function (err) {
+          if (err) {
+            console.log(err);
+            onError(err);
+          } else {
+            onSuccess()
+          }
+        })
+      }
+    })
   },
 
   getWarehouseNameList

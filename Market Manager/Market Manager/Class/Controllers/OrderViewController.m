@@ -32,11 +32,11 @@
                                                object:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     [self download];
-    self.navigationItem.title = [_shop.name stringByAppendingString:@"Orders"];
+    self.navigationItem.title = [_shop.name stringByAppendingString:@" Orders"];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteItem:)
                                                  name:NotifyOrderDeletesItem
@@ -174,6 +174,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
+    ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
     [cell setOrder: [_orderDataSource objectAtIndex:indexPath.row]];
     return cell;
 }

@@ -57,4 +57,12 @@
     }
 }
 
+- (NSArray *)getCrateNameList {
+    NSMutableArray *crateNames = [[NSMutableArray alloc] init];
+    for (Crate *item in crateList) {
+        [crateNames addObject:item.name];
+    }
+    return crateNames;
+}
+
 @end

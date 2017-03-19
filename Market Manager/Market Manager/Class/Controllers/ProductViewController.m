@@ -43,10 +43,6 @@
     [super viewWillAppear:animated];
     self.navigationItem.title = @"Product Management";
     [self reloadProductTableView];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifyProductDeletesItem
-                                               object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -54,8 +50,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)deleteItem:(NSNotification *)notificaion {
-    NSIndexPath *indexPath = [notificaion object];
+- (void)deleteItemAt:(NSIndexPath *)indexPath {
     Product *productDeleted = _productTableDataSource[indexPath.row];
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -161,6 +156,12 @@
         if(_productTableView.indexPathForSelectedRow) {
             vc.product = _productTableDataSource[_productTableView.indexPathForSelectedRow.row];
         }
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self deleteItemAt:indexPath];
     }
 }
 

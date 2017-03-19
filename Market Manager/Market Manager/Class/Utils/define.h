@@ -98,7 +98,8 @@ static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 #define API_GET_CRATES [SERVER stringByAppendingString:@"getCrates"]
 #define API_EXPORT_CRATES [SERVER stringByAppendingString:@"exportCrates"]
 #define API_GET_DATA_DEFAULT [SERVER stringByAppendingString:@"getDataDefault"]
-
+#define API_ADD_NEW_WAREHOUSE [SERVER stringByAppendingString:@"addNewWarehouse"]
+#define API_REMOVE_WAREHOUSE [SERVER stringByAppendingString:@"removeWarehouse"]
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";
@@ -132,10 +133,9 @@ static NSString *const kWhName = @"whName";
 static NSString *const kWhOutQuantity = @"outQuantity";
 static NSString *const kWhInQuantity = @"inQuantity";
 static NSString *const kWhTotal = @"total";
-//outQty, inQty, whTotal
 
 static NSString *const kCrateID = @"crateID";
-static NSString *const kCrateName = @"crateName";
+static NSString *const kCrateType = @"crateType";
 static NSString *const kCrateTableName = @"crate";
 static NSString *const kCrateReceived = @"receivedQty";
 static NSString *const kCrateReturned = @"returnedQty";
@@ -153,7 +153,6 @@ static NSString *const kDate = @"date";
 static NSString *const kInsertID = @"insertId";
 
 static NSString *const kCrateQty = @"crate_qty";
-static NSString *const kCrateType = @"crate_type";
 static NSString *const kWh1 = @"wh1";
 static NSString *const kWh2 = @"wh2";
 static NSString *const kWhTL = @"wh3";

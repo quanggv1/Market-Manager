@@ -60,28 +60,30 @@ static AddNewSupplyViewController *addNewSupplyViewController;
     newSupply.name = _SupplyNameTextField.text;
     newSupply.supplyDesc = _SupplyDescTextView.text;
     if(newSupply.name.length == 0) {
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input Supply name" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input warehouse name" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         return;
     }
     
     [self showActivity];
-    NSDictionary *params = @{@"tableName":kSupplyTableName,
-                             @"params": @{kSupplyName:newSupply.name,
-                                          kSupplyDesc: newSupply.supplyDesc}};
+    NSDictionary *params =  @{kSupplyName:newSupply.name,
+                              kSupplyDesc: newSupply.supplyDesc};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        if([[responseObject objectForKey:kCode] intValue] == 200) {
-            newSupply.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:@"insertId"]];
-            [[SupplyManager sharedInstance] insert:newSupply];
-            self.saveCallback(newSupply);
-            [self dismiss];
-        } else {
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    [manager GET:API_ADD_NEW_WAREHOUSE
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] intValue] == 200) {
+                 newSupply.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:@"insertId"]];
+                 [[SupplyManager sharedInstance] insert:newSupply];
+                 self.saveCallback(newSupply);
+                 [self dismiss];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
     }];
 }
 

@@ -117,6 +117,22 @@ function updateWarehouseProducts(warehouseProducts, res) {
   }
 }
 
+app.get('/addNewWarehouse', function(req, res) {
+  SQL.insertNewWarehouse(con, req, function(success) {
+    res.send({code:200, data:{insertId: success}});
+  }, function(error) {  
+    res.send(errorResp);
+  })
+})
+
+app.get('/removeWarehouse', function(req, res) {
+  SQL.removeWarehouse(con, req, function(success) {
+    res.send({code:200});
+  }, function(error) {
+    res.send(errorResp);
+  })
+})
+
 /** 
  * 
  * 
@@ -154,7 +170,6 @@ app.get('/updateOrderDetail', function (req, res) {
   }, function(error) {
     res.send(errorResp);
   })
-  
 })
 
 /** 
@@ -340,6 +355,10 @@ function updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, re
 
       /** update shop_product */
       updateShopStock(shopID, req.query.params.productID, totalReceived);
+
+      /** update crate */
+      var crateReceived = req.query.params.crate_qty - data.crate_qty;
+      SQL.updateCrateReceivedQty(con, crateReceived, req.query.params.crateType);
 
       /** update order_each_day */
       SQL.updateData(con, req, function (success) {

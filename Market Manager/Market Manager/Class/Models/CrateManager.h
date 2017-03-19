@@ -15,4 +15,5 @@
 - (void)delete:(Crate *)crate;
 - (void)insert:(Crate *)crate;
 - (void)update:(Crate *)crate;
+- (NSArray *)getCrateNameList;
 @end

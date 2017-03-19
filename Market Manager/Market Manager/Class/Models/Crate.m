@@ -13,7 +13,7 @@
     self = [super init];
     if(self) {
         self.ID = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateID]];
-        self.name = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateName]];
+        self.name = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateType]];
         self.receivedQty = [[data objectForKey:kCrateReceived] integerValue];
         self.returnedQty = [[data objectForKey:kCrateReturned] integerValue];
     }

@@ -135,7 +135,7 @@
     Crate *crate = [[Crate alloc] init];
     crate.name = name;
     NSDictionary *params = @{kTableName:kCrateTableName,
-                             kParams: @{kCrateName:crate.name}};
+                             kParams: @{kCrateType:crate.name}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA
       parameters:params
