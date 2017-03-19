@@ -74,8 +74,8 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 #pragma mark - Link
-//#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.149:5000/"
+#define SERVER @"http://localhost:5000/"
+//#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -100,6 +100,9 @@ static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 #define API_GET_DATA_DEFAULT [SERVER stringByAppendingString:@"getDataDefault"]
 #define API_ADD_NEW_WAREHOUSE [SERVER stringByAppendingString:@"addNewWarehouse"]
 #define API_REMOVE_WAREHOUSE [SERVER stringByAppendingString:@"removeWarehouse"]
+#define API_INVOICE_PRODUCT [SERVER stringByAppendingString:@"invoiceProductByOrderID"]
+#define API_INVOICE_CRATES [SERVER stringByAppendingString:@"invoiceCratesByOrderID"]
+
 
 #pragma mark - Key
 static NSString *const kProductName = @"productName";

@@ -9,6 +9,7 @@
 #import "SummaryViewController.h"
 #import "ProductManager.h"
 #import "SummaryTableViewCell.h"
+#import "InvoiceViewController.h"
 @interface SummaryViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableArray *productOrderList;
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
@@ -43,8 +44,10 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:SegueInvoiceOrderForm]) {
+        InvoiceViewController *invoice = segue.destinationViewController;
+        invoice.order = self.order;
+    }
 }
 
 - (void)download {

@@ -8,7 +8,9 @@
 
 #import "InvoiceViewController.h"
 
-@interface InvoiceViewController ()
+@interface InvoiceViewController () {
+    NSMutableArray *productsInvoice, *cratesInvoice;
+}
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 
 @end
@@ -17,19 +19,80 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createPDF];
+    [self download:API_INVOICE_PRODUCT];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)download:(NSString *)apiName {
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{kOrderID:_order.ID};
+    [manager GET:apiName
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
+                 if([apiName isEqualToString:API_INVOICE_PRODUCT]){
+                     productsInvoice = [NSMutableArray arrayWithArray:[responseObject objectForKey:kData]];
+                     [self download:API_INVOICE_CRATES];
+                 } else {
+                     cratesInvoice = [NSMutableArray arrayWithArray:[responseObject objectForKey:kData]];
+                     [self createPDF];
+                 }
+             } else {
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgSomethingWhenWrong
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
+             [self hideActivity];
+             [CallbackAlertView setCallbackTaget:titleError
+                                         message:msgConnectFailed
+                                          target:self
+                                         okTitle:btnOK
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+         }];
+}
+
 - (void)createPDF {
+    NSMutableArray *pdName, *pdPrice, *pdQuantity, *pdTotal;
+    NSMutableArray *crName, *crPrice, *crQuantity, *crTotal;
+    pdName = [NSMutableArray new];
+    pdPrice = [NSMutableArray new];
+    pdQuantity = [NSMutableArray new];
+    pdTotal = [NSMutableArray new];
+    crName = [NSMutableArray new];
+    crPrice = [NSMutableArray new];
+    crQuantity = [NSMutableArray new];
+    crTotal = [NSMutableArray new];
+    for (NSDictionary *item in productsInvoice) {
+        [pdName addObject:item[@"name"]];
+        [pdQuantity addObject:item[@"quantity"]];
+        [pdPrice addObject:item[@"price"]];
+        [pdTotal addObject:item[@"total"]];
+    }
+    for (NSDictionary *item in cratesInvoice) {
+        [crName addObject:item[@"name"]];
+        [crQuantity addObject:item[@"quantity"]];
+        [crPrice addObject:item[@"price"]];
+        [crTotal addObject:item[@"total"]];
+    }
+
     
+    NSDictionary *products = @{@"name":pdName,@"quantity":pdQuantity, @"price":pdPrice, @"total":pdTotal};
     
-    
-    NSDictionary *products = @{@"name":@[@"AAAA", @"BBBB", @"CCC"],@"quantity":@[@10, @12, @13], @"price":@[@10,@12,@5], @"total":@[@100, @144, @65]};
-    NSDictionary *crates = @{@"name":@[@"KKK", @"EEE", @"TT"],@"quantity":@[@10, @1, @2], @"price":@[@10,@12,@5], @"total":@[@100, @12, @10]};
+    NSDictionary *crates = @{@"name":crName,@"quantity":crQuantity, @"price":crPrice, @"total":crTotal};
     
     NSString *html = [Utils stringHTML:products crates:crates];
     UIMarkupTextPrintFormatter *fmt = [[UIMarkupTextPrintFormatter alloc]

@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "Order.h"
 @interface InvoiceViewController : BaseViewController
-
+@property (weak, nonatomic) Order *order;
 @end

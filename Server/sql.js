@@ -332,6 +332,32 @@ module.exports = {
     })
   },
 
-  getWarehouseNameList
+  getWarehouseNameList,
+  invoiceProductByOrderID: function (con, req, onSuccess, onError) {
+    var orderID = req.query.orderID;
+    sql = "SELECT product.productName as name, product.price, order_each_day.order_quantity as quantity, Round((product.price * order_each_day.order_quantity),2) as total from order_each_day JOIN product ON product.productID = order_each_day.productID and order_each_day.orderID=?";
+    con.query(sql, orderID, function (err, rows) {
+      if (err) {
+        console.log(err);
+        onError(err);
+      } else {
+        console.log('Data received from Db:\n');
+        onSuccess(rows);
+      }
+    });
+  },
+  invoiceCratesByOrderID: function (con, req, onSuccess, onError) {
+    var orderID = req.query.orderID;
+    sql = "SELECT crate.crateType as name, crate.price, sum(order_each_day.crate_qty) as quantity, Round((crate.price * sum(order_each_day.crate_qty)),2) as total from order_each_day JOIN crate ON crate.crateType = order_each_day.crateType and order_each_day.orderID=? GROUP BY crate.crateType";
+    con.query(sql, orderID, function (err, rows) {
+      if (err) {
+        console.log(err);
+        onError(err);
+      } else {
+        console.log('Data received from Db:\n');
+        onSuccess(rows);
+      }
+    });
+  },
 };
 

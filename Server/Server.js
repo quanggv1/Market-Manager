@@ -464,3 +464,17 @@ app.get('/getDataDefault', function (req, res) {
     res.send(errorResp);
   })
 })
+app.get('/invoiceProductByOrderID', function(req, res){
+  SQL.invoiceProductByOrderID(con, req, function(success) {
+    res.send({ code: 200, data: success });
+  }, function(error){
+    res.send(errorResp);
+  });
+})
+app.get('/invoiceCratesByOrderID', function(req, res){
+  SQL.invoiceCratesByOrderID(con, req, function(success) {
+    res.send({ code: 200, data: success });
+  }, function(error){
+    res.send(errorResp);
+  });
+})
