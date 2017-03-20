@@ -8,8 +8,9 @@
 
 #import "InvoiceViewController.h"
 
-@interface InvoiceViewController () {
+@interface InvoiceViewController () <UIWebViewDelegate> {
     NSMutableArray *productsInvoice, *cratesInvoice;
+    NSString *pdfFileName;
 }
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 
@@ -52,7 +53,6 @@
                                          cancelTitle:nil
                                       cancelCallback:nil];
              }
-             [self hideActivity];
          } failure:^(NSURLSessionDataTask * task, NSError * error) {
              [self hideActivity];
              [CallbackAlertView setCallbackTaget:titleError
@@ -88,13 +88,21 @@
         [crPrice addObject:item[@"price"]];
         [crTotal addObject:item[@"total"]];
     }
-
+    
+    float productSum;
+    for (NSNumber * n in pdTotal) {
+        productSum += [n doubleValue];
+    }
+    float crateSum;
+    for (NSNumber * n in crTotal) {
+        crateSum += [n doubleValue];
+    }
     
     NSDictionary *products = @{@"name":pdName,@"quantity":pdQuantity, @"price":pdPrice, @"total":pdTotal};
     
     NSDictionary *crates = @{@"name":crName,@"quantity":crQuantity, @"price":crPrice, @"total":crTotal};
     
-    NSString *html = [Utils stringHTML:products crates:crates];
+    NSString *html = [Utils stringHTML:products crates:crates productSum:productSum crateSum:crateSum];
     UIMarkupTextPrintFormatter *fmt = [[UIMarkupTextPrintFormatter alloc]
                                        initWithMarkupText:html];
     UIPrintPageRenderer *render = [[UIPrintPageRenderer alloc] init];
@@ -126,22 +134,99 @@
     UIGraphicsEndPDFContext();
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,     NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString * pdfFile = [documentsDirectory stringByAppendingPathComponent:@"test.pdf"];
+    NSString * pdfFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"invoice_%@.pdf",[Utils stringTodayDateTime]]];
+    
+    pdfFileName = [NSString stringWithFormat:@"invoice_%@.pdf",[Utils stringTodayDateTime]];
     [pdfData writeToFile:pdfFile atomically:YES];
     NSURL * url=[NSURL fileURLWithPath:pdfFile];
     NSURLRequest * request=[[NSURLRequest alloc] initWithURL:url];
+    [_webview setDelegate:self];
     [_webview loadRequest:request];
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - webview delegate
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+     [self hideActivity];
 }
-*/
+
+- (IBAction)shareInvoice:(id)sender {
+    NSString *string = @"invoice";
+    NSURL *URL = [[_webview request] URL];
+    UIActivityViewController *activityViewController =
+    [[UIActivityViewController alloc] initWithActivityItems:@[string, URL]
+                                      applicationActivities:nil];
+    [self presentActivityController:activityViewController];
+}
+- (void)presentActivityController:(UIActivityViewController *)controller {
+    
+    // for iPad: make the presentation a Popover
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+    UIPopoverPresentationController *popController = [controller popoverPresentationController];
+    popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    popController.barButtonItem = self.navigationItem.leftBarButtonItem;
+    
+    // access the completion handler
+    controller.completionWithItemsHandler = ^(NSString *activityType,
+                                              BOOL completed,
+                                              NSArray *returnedItems,
+                                              NSError *error){
+        // react to the completion
+        if (completed) {
+            // user shared an item
+            NSLog(@"We used activity type%@", activityType);
+        } else {
+            // user cancelled
+            NSLog(@"We didn't want to share anything after all.");
+        }
+        
+        if (error) {
+            NSLog(@"An Error occured: %@, %@", error.localizedDescription, error.localizedFailureReason);
+        }
+    };
+}
+- (IBAction)printInvoice:(id)sender {
+    [self uploadPDF];
+}
+- (void)uploadPDF {
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+
+    NSData *data = [NSData dataWithContentsOfURL:[[_webview request] URL]];
+    
+    
+    [manager POST:API_INVOICE_UPLOAD  parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:data
+                                    name:@"files"
+                                fileName:pdfFileName mimeType:@"application/pdf"];
+        
+        // etc.
+    } progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        if([[responseObject objectForKey:kData] isEqualToString:@"success"]) {
+            [CallbackAlertView setCallbackTaget:titleError
+                                    message:titleSuccess
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+            
+        }
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [CallbackAlertView setCallbackTaget:titleError
+                                    message:msgSomethingWhenWrong
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+
+         [self hideActivity];
+    }];}
 
 @end

@@ -15,6 +15,7 @@
         self.name = [NSString stringWithFormat:@"%@",[data objectForKey:kUserName]];
         self.ID = [NSString stringWithFormat:@"%@",[data objectForKey:kUserID]];
         self.password = [NSString stringWithFormat:@"%@",[data objectForKey:kUserPassword]];
+        self.permission = [NSString stringWithFormat:@"%@", [data objectForKey:kUserPermission]];
     }
     return self;
 }

@@ -8,8 +8,11 @@
 
 #import "LoginViewController.h"
 #import "ValidateService.h"
+#import "MenuViewController.h"
 
-@interface LoginViewController ()<UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate> {
+    User *tempUser;
+}
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *labelPhoneValidation;
@@ -39,44 +42,47 @@
 
 - (IBAction)onLoginClicked:(id)sender {
 
-    [self pushToMain];
+   // [self pushToMain];
 
-//    if(![self isNameValid]) return;
-//    if(![self isPasswordValid]) return;
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    NSString *userName = _userNameTextField.text;
-//    NSString *password = _passwordTextField.text;
-//    NSDictionary *params = @{kUserName: userName,
-//                             kUserPassword: password};
-//    [manager GET:API_AUTHEN parameters:params
-//        progress:nil
-//         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//             if([[responseObject objectForKey:@"code"] intValue] == 200 &&
-//                [[responseObject objectForKey:@"status"] isEqualToString:@"OK"]){
-//                 [self pushToMain];
-//             } else {
-//                 [CallbackAlertView setCallbackTaget:titleError
-//                                             message:msgAuthenFailed
-//                                              target:self okTitle:@"OK"
-//                                          okCallback:nil
-//                                         cancelTitle:nil
-//                                      cancelCallback:nil];
-//             }
-//             [self hideActivity];
-//         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//             [CallbackAlertView setCallbackTaget:titleError
-//                                         message:msgConnectFailed
-//                                          target:self
-//                                         okTitle:@"OK"
-//                                      okCallback:nil
-//                                     cancelTitle:nil
-//                                  cancelCallback:nil];
-//             [self hideActivity];
-//         }];
+    if(![self isNameValid]) return;
+    if(![self isPasswordValid]) return;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSString *userName = _userNameTextField.text;
+    NSString *password = _passwordTextField.text;
+    NSDictionary *params = @{kUserName: userName,
+                             kUserPassword: password};
+    [manager GET:API_AUTHEN parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:@"code"] intValue] == 200 ){
+                tempUser = [[User alloc] initWith:[responseObject objectForKey:kData]];
+
+                 [self pushToMain];
+             } else {
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgAuthenFailed
+                                              target:self okTitle:@"OK"
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [CallbackAlertView setCallbackTaget:titleError
+                                         message:msgConnectFailed
+                                          target:self
+                                         okTitle:@"OK"
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+             [self hideActivity];
+         }];
 }
 
 - (void)pushToMain {
-    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardMenuView];
+    MenuViewController *vc = (MenuViewController *)[self.storyboard instantiateViewControllerWithIdentifier:StoryboardMenuView];
+    vc.user = tempUser;
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 

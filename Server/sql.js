@@ -25,7 +25,7 @@ module.exports = {
       } else {
         if (rows.length > 0) {
           console.log('OK');
-          res.send({ 'code': '200', 'status': 'OK' });
+          res.send({ 'code': '200', 'data': rows[0] });
         } else {
           res.send(errorResp);
         }

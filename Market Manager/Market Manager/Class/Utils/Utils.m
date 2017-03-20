@@ -53,16 +53,17 @@ static DateTimePickerController *dateTimePickerController;
     return  [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
 }
 
-+ (NSString *) stringHTML:(NSDictionary *) products crates:(NSDictionary *)crates {
++ (NSString *) stringHTML:(NSDictionary *) products crates:(NSDictionary *)crates productSum:(float)pdSum crateSum:(float)crSum {
+    float invoiceSum = pdSum + crSum;
     NSMutableString *str = [NSMutableString new];
     
-    [str appendString:@"<style> table, th, td {border: 1px solid black;}</style>"];
+    [str appendString:@"<style> table, th, td {border: 0px solid black;}</style>"];
     [str appendString:@"<div>"];
     
     NSString *strName = [NSString stringWithFormat:@"<h2<b>INVOINCE</b></h2><P><h3>COMPANY NAME: %@</h3></P>", @"Cong ty co phan FPT"];
     [str appendString:strName];
     [str appendString:@"<br>"];
-    NSString *str0 = [NSString stringWithFormat:@"<div><p style='text-align: left; padding-left: 10px;'>Ngày %@. tháng %@. năm %@</p></div>", @"13", @"3", @"2017"];
+    NSString *str0 = [NSString stringWithFormat:@"<div><p style='text-align: left; padding-left: 10px;'>Date: %@</p></div>", [self stringTodayDateTime]];
     [str appendString:str0];
     
     
@@ -76,7 +77,7 @@ static DateTimePickerController *dateTimePickerController;
         [str appendString:str2];
     }
     
-    NSString *str3 = [NSString stringWithFormat:@"<td colspan=3>Total</td><td><b>%d</b></td></tr></table></div><br><br>", 100];
+    NSString *str3 = [NSString stringWithFormat:@"<td colspan=3>Total</td><td><b>%.2f</b></td></tr></table></div><br><br>", pdSum];
     [str appendString:str3];
     
     [str appendString:@"</div>"];
@@ -93,10 +94,10 @@ static DateTimePickerController *dateTimePickerController;
         [str appendString:strB];
     }
     
-    NSString *strC = [NSString stringWithFormat:@"<td colspan=3>Container charge</td><td><b>%d</b></td></tr></table></div><br><br>", 100];
+    NSString *strC = [NSString stringWithFormat:@"<td colspan=3>Container charge</td><td><b>%.2f</b></td></tr></table></div><br><br>", crSum];
     [str appendString:strC];
     
-    NSString *strD = [NSString stringWithFormat:@"<div style='text-align: left; padding-left: 10px;'>Invoice Total charge:         <b>%d</b></div>", 470];
+    NSString *strD = [NSString stringWithFormat:@"<div style='text-align: left; padding-left: 10px;'>Invoice Total charge:         <b>%.2f</b></div>", invoiceSum];
     [str appendString:strD];
     [str appendString:@"</div>"];
     

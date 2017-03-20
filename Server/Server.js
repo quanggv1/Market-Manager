@@ -1,6 +1,9 @@
 var express = require('express');
 var mysql = require("mysql");
 var app = express();
+var bodyParser = require('body-parser');
+var multiparty = require('multiparty');
+
 var SQL = require('./sql');
 var errorResp = { 'code': '400', 'status': 'error' };
 var json2csv = require('json2csv');
@@ -25,6 +28,9 @@ con.connect(function (err) {
   console.log('Connect DB success');
 });
 app.listen(5000);
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.get('/authen', function (req, res) {
 
@@ -117,18 +123,18 @@ function updateWarehouseProducts(warehouseProducts, res) {
   }
 }
 
-app.get('/addNewWarehouse', function(req, res) {
-  SQL.insertNewWarehouse(con, req, function(success) {
-    res.send({code:200, data:{insertId: success}});
-  }, function(error) {  
+app.get('/addNewWarehouse', function (req, res) {
+  SQL.insertNewWarehouse(con, req, function (success) {
+    res.send({ code: 200, data: { insertId: success } });
+  }, function (error) {
     res.send(errorResp);
   })
 })
 
-app.get('/removeWarehouse', function(req, res) {
-  SQL.removeWarehouse(con, req, function(success) {
-    res.send({code:200});
-  }, function(error) {
+app.get('/removeWarehouse', function (req, res) {
+  SQL.removeWarehouse(con, req, function (success) {
+    res.send({ code: 200 });
+  }, function (error) {
     res.send(errorResp);
   })
 })
@@ -163,11 +169,11 @@ app.get('/getOrderDetail', function (req, res) {
 
 app.get('/updateOrderDetail', function (req, res) {
   var productOrders = JSON.parse(req.query.params)
-  SQL.getWarehouseNameList(con, function(success) {
+  SQL.getWarehouseNameList(con, function (success) {
     var warehouseNameList = [];
-    success.forEach(function (item) {warehouseNameList.push(item.whName)});
+    success.forEach(function (item) { warehouseNameList.push(item.whName) });
     updateOrderDetail(productOrders, req.query.shopID, req.query.orderID, warehouseNameList, res)
-  }, function(error) {
+  }, function (error) {
     res.send(errorResp);
   })
 })
@@ -350,7 +356,7 @@ function updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, re
         var thisWhReceived = req.query.params[item] - data[item];
         console.log(thisWhReceived);
         updateWarehouseStock(item, req.query.params.productID, thisWhReceived)
-        totalReceived += thisWhReceived; 
+        totalReceived += thisWhReceived;
       })
 
       /** update shop_product */
@@ -458,23 +464,42 @@ app.get('/exportCrates', function (req, res) {
 })
 
 app.get('/getDataDefault', function (req, res) {
-  SQL.getDataDefault(con, function(success) {
-    res.send({code:200, data: success});
-  }, function(error) {
+  SQL.getDataDefault(con, function (success) {
+    res.send({ code: 200, data: success });
+  }, function (error) {
     res.send(errorResp);
   })
 })
-app.get('/invoiceProductByOrderID', function(req, res){
-  SQL.invoiceProductByOrderID(con, req, function(success) {
+app.get('/invoiceProductByOrderID', function (req, res) {
+  SQL.invoiceProductByOrderID(con, req, function (success) {
     res.send({ code: 200, data: success });
-  }, function(error){
+  }, function (error) {
     res.send(errorResp);
   });
 })
-app.get('/invoiceCratesByOrderID', function(req, res){
-  SQL.invoiceCratesByOrderID(con, req, function(success) {
+app.get('/invoiceCratesByOrderID', function (req, res) {
+  SQL.invoiceCratesByOrderID(con, req, function (success) {
     res.send({ code: 200, data: success });
-  }, function(error){
+  }, function (error) {
     res.send(errorResp);
   });
+
+  var urlencodedParser = bodyParser.urlencoded({ extended: false })
+  app.post("/uploadInvoice", urlencodedParser, function (req, res) {
+    var form = new multiparty.Form();
+    
+    form.parse(req, function (err, fields, files) {
+      var targetFilePath = './uploads/invoices/' +  files.files[0].originalFilename;
+      fs.writeFile(targetFilePath, fs.readFileSync(files.files[0].path), "binary", function (err) {
+        if (err) {
+          console.log(errorResp)
+          res.send(errorResp);
+        } else {
+          console.log("success")
+          res.send({ code: 200, data: "success" });
+        }
+      });
+    });
+  });
+
 })

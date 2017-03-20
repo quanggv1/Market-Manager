@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "User.h"
 @interface MenuViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource>
-
+@property (nonatomic, retain) User *user;
 @end

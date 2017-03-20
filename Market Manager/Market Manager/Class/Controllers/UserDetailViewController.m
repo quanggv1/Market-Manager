@@ -10,6 +10,8 @@
 
 @interface UserDetailViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *userNameLbl;
+@property (weak, nonatomic) IBOutlet UITableView *tableUser;
+
 @end
 
 @implementation UserDetailViewController

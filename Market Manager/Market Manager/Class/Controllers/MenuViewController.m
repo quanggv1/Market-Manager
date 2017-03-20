@@ -36,7 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self showActivity];
-    
+    NSLog(@"user %@", _user.name);
     _productNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation];
     _shopNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation];
     _supplyNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation];
@@ -143,7 +143,18 @@
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];;
             break;
         case 5:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
+            if([_user.permission intValue] == kPermissionFull) {
+                [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
+
+            } else {
+                [CallbackAlertView setCallbackTaget:titleError
+                                            message:msgPermissionFailed
+                                             target:self
+                                            okTitle:btnOK
+                                         okCallback:nil
+                                        cancelTitle:nil
+                                     cancelCallback:nil];
+            }
             break;
         case 6:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];

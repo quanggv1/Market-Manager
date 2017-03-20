@@ -7,7 +7,6 @@
 //
 
 #import "BaseViewController.h"
-
+#import "User.h"
 @interface LoginViewController : BaseViewController
-
 @end

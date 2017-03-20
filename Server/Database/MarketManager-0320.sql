@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 19, 2017 at 07:16 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.5.38
+-- Generation Time: Mar 20, 2017 at 11:12 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -77,6 +77,28 @@ CREATE TABLE IF NOT EXISTS `crate_sellers` (
   `description` varchar(200) NOT NULL,
   PRIMARY KEY (`crate_deli_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE IF NOT EXISTS `order` (
+  `order_ID` int(10) NOT NULL AUTO_INCREMENT,
+  `shop_ID` int(10) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`order_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`order_ID`, `shop_ID`, `date`) VALUES
+(1, 1, '2017-03-01'),
+(2, 1, '2017-03-01');
 
 -- --------------------------------------------------------
 
@@ -2870,6 +2892,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userID` int(10) NOT NULL AUTO_INCREMENT,
   `userName` varchar(100) NOT NULL,
   `password` varchar(20) NOT NULL,
+  `permission` int(3) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -2877,9 +2900,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `userName`, `password`) VALUES
-(1, 'admin', 'admin'),
-(3, 'peter', '11111');
+INSERT INTO `user` (`userID`, `userName`, `password`, `permission`) VALUES
+(1, 'admin', 'admin', 0),
+(3, 'peter', '12345', 1);
 
 -- --------------------------------------------------------
 
