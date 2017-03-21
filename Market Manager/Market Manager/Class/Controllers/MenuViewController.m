@@ -48,8 +48,8 @@
                   [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
-                  [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
                   [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"],
+                  [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
                   [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
@@ -83,8 +83,9 @@
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[CrateManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:@"crate"]];
-                 [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:@"warehouse"]];
+                 [[CrateManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kCrateTableName]];
+                 [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kSupplyTableName]];
+                 [[ShopManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kShopTableName]];
                  _numberOfFunction = _menuData.count + 1;
                  [_menuTable reloadData];
              } else {
@@ -128,10 +129,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         case 1:
-            if(_numberOfFunction == 2)
+            if(_numberOfFunction == 2) {
                 [self dismissViewControllerAnimated:YES completion:nil];
-            else
+            } else {
+                if(![Utils hasReadPermission:kProductTableName]) return;
                 [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
+            }
+            
             break;
         case 2:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
@@ -143,21 +147,12 @@
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];;
             break;
         case 5:
-            if([_user.permission intValue] == kPermissionFull) {
-                [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
-
-            } else {
-                [CallbackAlertView setCallbackTaget:titleError
-                                            message:msgPermissionFailed
-                                             target:self
-                                            okTitle:btnOK
-                                         okCallback:nil
-                                        cancelTitle:nil
-                                     cancelCallback:nil];
-            }
+            if(![Utils hasReadPermission:kCrateTableName]) return;
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
             break;
         case 6:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
+            if(![Utils hasReadPermission:kUserTableName]) return;
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
             break;
         case 7:
             [self dismissViewControllerAnimated:YES completion:nil];

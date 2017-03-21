@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "ValidateService.h"
 #import "MenuViewController.h"
+#import "UserManager.h"
 
 @interface LoginViewController ()<UITextFieldDelegate> {
     User *tempUser;
@@ -41,9 +42,6 @@
 }
 
 - (IBAction)onLoginClicked:(id)sender {
-
-   // [self pushToMain];
-
     if(![self isNameValid]) return;
     if(![self isPasswordValid]) return;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -51,13 +49,20 @@
     NSString *password = _passwordTextField.text;
     NSDictionary *params = @{kUserName: userName,
                              kUserPassword: password};
+    [self showActivity];
     [manager GET:API_AUTHEN parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if([[responseObject objectForKey:@"code"] intValue] == 200 ){
-                tempUser = [[User alloc] initWith:[responseObject objectForKey:kData]];
-
-                 [self pushToMain];
+                 tempUser = [[User alloc] initWith:[responseObject objectForKey:kData]];
+                 [[UserManager sharedInstance] setTempUser:tempUser];
+                 [CallbackAlertView setCallbackTaget:@"Login successfully!"
+                                             message:nil
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:@selector(pushToMain)
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
              } else {
                  [CallbackAlertView setCallbackTaget:titleError
                                              message:msgAuthenFailed
@@ -68,21 +73,13 @@
              }
              [self hideActivity];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [CallbackAlertView setCallbackTaget:titleError
-                                         message:msgConnectFailed
-                                          target:self
-                                         okTitle:@"OK"
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];
+             ShowMsgConnectFailed;
              [self hideActivity];
          }];
 }
 
 - (void)pushToMain {
     MenuViewController *vc = (MenuViewController *)[self.storyboard instantiateViewControllerWithIdentifier:StoryboardMenuView];
-    vc.user = tempUser;
-    
     [self presentViewController:vc animated:YES completion:nil];
 }
 

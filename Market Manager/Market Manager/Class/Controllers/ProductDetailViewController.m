@@ -115,6 +115,7 @@
 }
 
 - (void)onRightBarButtonClicked {
+    if(![Utils hasWritePermission:kProductTableName]) return;
     if ([rightBarButton.title isEqualToString:@"Edit"]) {
         [self setEditing:YES];
         [rightBarButton setTitle:@"Cancel"];

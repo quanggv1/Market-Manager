@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface User : NSObject
-@property (nonatomic, strong) NSString *name, *ID, *password, *permission;
+@property (nonatomic, strong) NSString *name, *ID, *password, *readPermission, *writePermission;
+@property (nonatomic, assign) NSUInteger isAdmin;
 - (instancetype)initWith:(NSDictionary *)data;
 @end

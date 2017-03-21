@@ -96,6 +96,7 @@
 }
 
 - (IBAction)addNewProduct:(id)sender {
+    if(![Utils hasWritePermission:_supply.name]) return;
     [AddNewSupplyProductViewController showViewAt:self onSave:^(Product *product) {
         [_products insertObject:product atIndex:0];
         [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
@@ -103,6 +104,7 @@
 }
 
 - (IBAction)onExportClicked:(id)sender {
+    if(![Utils hasWritePermission:_supply.name]) return;
     [CallbackAlertView setCallbackTaget:@"Message"
                                 message:@"After export, your data will be refreshed. Are you sure to continue?"
                                  target:self
@@ -153,6 +155,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
+    if(![Utils hasWritePermission:_supply.name]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
         [self showActivity];
@@ -197,6 +200,28 @@
     }
 }
 
+- (void)deleteItemAt:(NSIndexPath *)indexPath {
+    [self showActivity];
+    Product *product = _products[indexPath.row];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSDictionary *params = @{@"tableName":kWarehouseProductTableName,
+                             @"params": @{@"idName":kProductWareHouseID,
+                                          @"idValue":product.productWhID}};
+    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if([[responseObject objectForKey:kCode] integerValue] == 200) {
+            [_products removeObjectAtIndex:indexPath.row];
+            [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                     withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+        [self hideActivity];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self hideActivity];
+        ShowMsgConnectFailed;
+    }];
+}
+
 #pragma mark - TABLE DATASOURCE
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -212,14 +237,13 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [self performSegueWithIdentifier:SegueProductDetail sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:SegueProductDetail]) {
-        ProductDetailViewController *vc = segue.destinationViewController;
-        vc.product = _products[_productTableView.indexPathForSelectedRow.row];
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(![Utils hasWritePermission:_supply.name]) return;
+        [self deleteItemAt:indexPath];
     }
 }
 

@@ -49,6 +49,7 @@
 		3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9041E6E9F8D00EA3ADB /* Info.plist */; };
 		3D6BF9091E6EA44400EA3ADB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9071E6EA44400EA3ADB /* background.png */; };
 		3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9081E6EA44400EA3ADB /* page.png */; };
+		3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */; };
 		3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */; };
 		3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B61E5EE4AC00069D7D /* ProductManager.m */; };
 		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
@@ -189,6 +190,8 @@
 		3D6BF9041E6E9F8D00EA3ADB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D6BF9071E6EA44400EA3ADB /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		3D6BF9081E6EA44400EA3ADB /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
+		3DB505941E80F95300B81FD5 /* UserDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailTableViewCell.h; sourceTree = "<group>"; };
+		3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductTableViewCell.h; sourceTree = "<group>"; };
 		3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B51E5EE4AC00069D7D /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
@@ -727,6 +730,8 @@
 				74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */,
 				74ED223C1E5A05B40079D3F0 /* UserDetailViewController.h */,
 				74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */,
+				3DB505941E80F95300B81FD5 /* UserDetailTableViewCell.h */,
+				3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */,
 				748B3A821E62914800AA9AA6 /* AddNewUserViewController.h */,
 				748B3A831E62914800AA9AA6 /* AddNewUserViewController.m */,
 			);
@@ -888,6 +893,7 @@
 				74E904451E57F54D005D391D /* ProductCell.m in Sources */,
 				3D41D79D1E55903800123A71 /* IQPreviousNextView.m in Sources */,
 				3D41D7941E55903800123A71 /* IQUIScrollView+Additions.m in Sources */,
+				3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */,
 				3D41D7971E55903800123A71 /* IQUIViewController+Additions.m in Sources */,
 				3D41D7CA1E56E33A00123A71 /* AFURLRequestSerialization.m in Sources */,
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,

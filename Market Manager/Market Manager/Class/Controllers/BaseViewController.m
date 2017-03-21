@@ -20,6 +20,7 @@
     [super viewDidLoad];
     activityView_ = [[ActivityView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:activityView_];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -45,5 +46,6 @@
 -(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
 }
+
 
 @end

@@ -78,7 +78,10 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:SegueShowOrder sender:self];
+    NSString *shopName = ((Shop *)_shopDataSource[_shopTableView.indexPathForSelectedRow.row]).name;
+    if([Utils hasReadPermission:shopName]) {
+        [self performSegueWithIdentifier:SegueShowOrder sender:self];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

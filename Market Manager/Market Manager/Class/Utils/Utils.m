@@ -8,6 +8,8 @@
 
 #import "Utils.h"
 #import "DateTimePickerController.h"
+#import "UserManager.h"
+#import "User.h"
 
 static DateTimePickerController *dateTimePickerController;
 
@@ -102,6 +104,23 @@ static DateTimePickerController *dateTimePickerController;
     [str appendString:@"</div>"];
     
     return str;
+}
+
++ (BOOL)hasReadPermission:(NSString *)side {
+    User *tempUser = [[UserManager sharedInstance] getTempUser];
+    if (tempUser.isAdmin || [tempUser.readPermission containsString:side]) {
+        return YES;
+    }
+    [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
+    return NO;}
+
++ (BOOL)hasWritePermission:(NSString *)side {
+    User *tempUser = [[UserManager sharedInstance] getTempUser];
+    if (tempUser.isAdmin || [tempUser.writePermission containsString:side]) {
+        return YES;
+    }
+    [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
+    return NO;
 }
 
 

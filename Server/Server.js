@@ -477,6 +477,7 @@ app.get('/invoiceProductByOrderID', function (req, res) {
     res.send(errorResp);
   });
 })
+
 app.get('/invoiceCratesByOrderID', function (req, res) {
   SQL.invoiceCratesByOrderID(con, req, function (success) {
     res.send({ code: 200, data: success });
@@ -501,5 +502,12 @@ app.get('/invoiceCratesByOrderID', function (req, res) {
       });
     });
   });
+})
 
+app.get('/updateUserInfo', function (req, res) {
+  SQL.updateUserInfo(con, req, function(success) {
+    res.send({ code: 200});
+  }, function (error) {
+    res.send(errorResp);
+  })
 })
