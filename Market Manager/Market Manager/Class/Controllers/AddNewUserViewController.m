@@ -70,13 +70,16 @@ static AddNewUserViewController *addNewUserViewController;
                                           kUserPassword: userPassword}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [self hideActivity];
         if([[responseObject objectForKey:kCode] intValue] == 200) {
             NSDictionary *data = [responseObject objectForKey:@"data"];
             NSString *userID = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
             [self addNewUser:userID name:userName password:userPassword];
-            [self hideActivity];
             [self dismiss];
+        } else {
+           [CallbackAlertView setCallbackTaget:@"Error" message:@"This user is exist. Please input other" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
         }
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];

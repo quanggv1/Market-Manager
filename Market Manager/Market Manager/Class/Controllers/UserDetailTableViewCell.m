@@ -37,6 +37,10 @@
     _userNameField.text = user.name;
     _passwordField.text = user.password;
     [_adminstrationSwitch setOn:(user.isAdmin) ? YES : NO];
+    if([_userNameField.text isEqualToString:@"admin"]) {
+        [_adminstrationSwitch setOn:YES];
+        [_adminstrationSwitch setUserInteractionEnabled:NO];
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
