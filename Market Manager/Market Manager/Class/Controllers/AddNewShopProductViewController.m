@@ -31,6 +31,11 @@ static AddNewShopProductViewController *addNewShopProductViewController;
     productNameList = [[ProductManager sharedInstance] getProductNameList];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self dismiss];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

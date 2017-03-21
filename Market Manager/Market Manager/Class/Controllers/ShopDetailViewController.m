@@ -46,7 +46,9 @@
     if(![Utils hasWritePermission:_shop.name]) return;
     [AddNewShopProductViewController showViewAt:self onSave:^(Product *product) {
         [_products insertObject:product atIndex:0];
-        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_products.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        CGPoint bottomOffset = CGPointMake(0, _productTableView.contentSize.height - _productTableView.bounds.size.height);
+        [_productTableView setContentOffset:bottomOffset animated:YES];
     }];
 }
 

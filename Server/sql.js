@@ -295,7 +295,15 @@ module.exports = {
                 onError(err)
               } else {
                 data.shop = result;
-                onSuccess(data);
+                con.query('SELECT * FROM `product`', function (err, result) {
+                  if (err) {
+                    console.log(err);
+                    onError(err)
+                  } else {
+                    data.product = result;
+                    onSuccess(data);
+                  }
+                });
               }
             });
           }
@@ -382,7 +390,7 @@ module.exports = {
     });
   },
 
-  updateUserInfo: function(con, req, onSuccess, onError) {
+  updateUserInfo: function (con, req, onSuccess, onError) {
     var query = req.query.params;
     con.query('UPDATE user SET ? Where userID = ' + query.userID, query,
       function (err, result) {

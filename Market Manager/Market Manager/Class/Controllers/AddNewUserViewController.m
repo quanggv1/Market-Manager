@@ -28,6 +28,11 @@ static AddNewUserViewController *addNewUserViewController;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self dismiss];
+}
+
 + (void)showViewAt:(UIViewController *)controller onSave:(SaveCallback)saveCallback {
     if(!addNewUserViewController) {
         addNewUserViewController = [[UIStoryboard storyboardWithName:StoryboardMain bundle:nil] instantiateViewControllerWithIdentifier:StoryboardAddNewUser];

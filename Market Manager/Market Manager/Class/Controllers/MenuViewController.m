@@ -86,6 +86,7 @@
                  [[CrateManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kCrateTableName]];
                  [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kSupplyTableName]];
                  [[ShopManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kShopTableName]];
+                 [[ProductManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kProductTableName]];
                  _numberOfFunction = _menuData.count + 1;
                  [_menuTable reloadData];
              } else {

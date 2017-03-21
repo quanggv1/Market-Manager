@@ -28,6 +28,11 @@ static AddNewShopViewController *addNewShopViewController;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self dismiss];
+}
+
 + (void)showViewAt:(UIViewController *)controller onSave:(SaveCallback)saveCallback {
     if(!addNewShopViewController) {
         addNewShopViewController = [[UIStoryboard storyboardWithName:StoryboardMain bundle:nil] instantiateViewControllerWithIdentifier:StoryboardAddNewShop];
