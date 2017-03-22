@@ -66,6 +66,7 @@ static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
 static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 static NSString *const NotifyShopProductUpdate = @"NotifyShopProductUpdate";
 static NSString *const NotifyNewOrderUpdate = @"NotifyNewOrderUpdate";
+static NSString *const NotifyUpdateProfile = @"NotifyUpdateProfile";
 
 #pragma mark - Segue
 static NSString *const SegueMain = @"segueMain";
@@ -80,7 +81,7 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.165:5000/"
+#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -108,6 +109,7 @@ static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 #define API_INVOICE_PRODUCT [SERVER stringByAppendingString:@"invoiceProductByOrderID"]
 #define API_INVOICE_CRATES [SERVER stringByAppendingString:@"invoiceCratesByOrderID"]
 #define API_INVOICE_UPLOAD [SERVER stringByAppendingString:@"uploadInvoice"]
+#define API_UPDATE_USERINFO [SERVER stringByAppendingString:@"updateUserInfo"]
 
 
 #pragma mark - Key
@@ -136,7 +138,9 @@ static NSString *const kUserTableName = @"user";
 static NSString *const kUserName = @"userName";
 static NSString *const kUserPassword = @"password";
 static NSString *const kUserID = @"userID";
-static NSString *const kUserPermission = @"permission";
+static NSString *const kUserAdmin = @"admin";
+static NSString *const kReadPermission = @"readonly";
+static NSString *const kWritePermission = @"writable";
 
 static NSString *const kWarehouseID = @"whID";
 static NSString *const kWhName = @"whName";

@@ -24,18 +24,20 @@
     [super viewDidLoad];
     _userTableView.delegate = self;
     _userTableView.dataSource = self;
-    [self download];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationItem.title = @"User Management";
+    [self download];
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
     tableViewController.tableView = self.userTableView;
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(download) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self
+                            action:@selector(download)
+                  forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = @"User Management";
-    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,7 +115,6 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [self performSegueWithIdentifier:SegueUserDetail sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     

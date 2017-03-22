@@ -43,9 +43,12 @@
 }
 
 - (IBAction)addNewProduct:(id)sender {
+    if(![Utils hasWritePermission:_shop.name]) return;
     [AddNewShopProductViewController showViewAt:self onSave:^(Product *product) {
         [_products insertObject:product atIndex:0];
-        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_products.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        CGPoint bottomOffset = CGPointMake(0, _productTableView.contentSize.height - _productTableView.bounds.size.height);
+        [_productTableView setContentOffset:bottomOffset animated:YES];
     }];
 }
 
@@ -76,7 +79,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)downloadWith:(NSString *) stringDate{
+- (void)downloadWith:(NSString *)stringDate{
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopID:_shop.ID, kDate: stringDate, kShopName: _shop.name};
@@ -121,6 +124,7 @@
 }
 
 - (IBAction)onExport:(id)sender {
+    if(![Utils hasWritePermission:_shop.name]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
         [self showActivity];
@@ -161,20 +165,13 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [self performSegueWithIdentifier:SegueProductDetail sender:self];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(![Utils hasWritePermission:_shop.name]) return;
         [self deleteItemAt:indexPath];
-    }
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:SegueProductDetail]) {
-        ProductDetailViewController *vc = segue.destinationViewController;
-        vc.product = _products[_productTableView.indexPathForSelectedRow.row];
     }
 }
 

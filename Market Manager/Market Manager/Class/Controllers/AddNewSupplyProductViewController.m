@@ -29,8 +29,11 @@ static AddNewSupplyProductViewController *addNewSupplyProductViewController;
                               action:@selector(textFieldDidChange:)
                     forControlEvents:UIControlEventEditingChanged];
     productNameList = [[ProductManager sharedInstance] getProductNameList];
-    
-    
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self dismiss];
 }
 
 - (void)didReceiveMemoryWarning {

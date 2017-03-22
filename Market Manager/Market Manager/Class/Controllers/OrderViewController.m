@@ -94,6 +94,7 @@
 }
 
 - (IBAction)addNewOrder:(id)sender {
+    if(![Utils hasWritePermission:_shop.name]) return;
     [self showActivity];
     Order *order = [[Order alloc] init];
     order.shopID = _shop.ID;
@@ -181,23 +182,25 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Order *order = _orderDataSource[indexPath.row];
-    switch (order.status) {
-        case 0:
-            [self performSegueWithIdentifier: SegueOrderForm sender:self];
-            break;
-        case 1:
-            [self performSegueWithIdentifier: SegueOrderDetail sender:self];
-            break;
-        default:
-            break;
+    if([Utils hasWritePermission:_shop.name]) {
+        Order *order = _orderDataSource[indexPath.row];
+        switch (order.status) {
+            case 0:
+                [self performSegueWithIdentifier: SegueOrderForm sender:self];
+                break;
+            case 1:
+                [self performSegueWithIdentifier: SegueOrderDetail sender:self];
+                break;
+            default:
+                break;
+        }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(![Utils hasWritePermission:_shop.name]) return;
         [self deleteItemAt:indexPath];
     }
 }

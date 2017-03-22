@@ -84,12 +84,12 @@
 }
 
 - (IBAction)onAddNewShop:(id)sender {
+    if(![Utils hasWritePermission:kShopTableName]) return;
     [AddNewShopViewController showViewAt:self onSave:^(Shop *shop) {
         [_shopDataSource insertObject:shop atIndex:0];
         [_shopTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     }];
 }
-
 
 #pragma mark - TABLE DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -104,7 +104,10 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:SegueShopDetail sender:self];
+    NSString *shopName = ((Shop *)_shopDataSource[_shopTableView.indexPathForSelectedRow.row]).name;
+    if([Utils hasReadPermission:shopName]) {
+        [self performSegueWithIdentifier:SegueShopDetail sender:self];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

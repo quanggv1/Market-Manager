@@ -16,4 +16,6 @@
 - (void)insert:(User *)User;
 - (void)update:(User *)user;
 - (void)deleteAll;
+- (void)setTempUser:(User *)user;
+- (User *)getTempUser;
 @end

@@ -10,6 +10,7 @@
 
 @implementation UserManager {
     NSMutableArray *userList;
+    User *tempUser;
 }
 
 + (instancetype)sharedInstance {
@@ -59,6 +60,14 @@
 
 - (void)deleteAll {
     [userList removeAllObjects];
+}
+
+- (void)setTempUser:(User *)user {
+    tempUser = user;
+}
+
+- (User *)getTempUser {
+    return tempUser;
 }
 
 @end

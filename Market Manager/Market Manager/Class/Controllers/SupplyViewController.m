@@ -99,6 +99,7 @@
 }
 
 - (IBAction)onAddNewSupply:(id)sender {
+    if(![Utils hasWritePermission:kSupplyTableName]) return;
     [AddNewSupplyViewController showViewAt:self onSave:^(Supply *supply) {
         [_supplyDataSource insertObject:supply atIndex:0];
         [_supplyTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
@@ -119,7 +120,10 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:SegueSupplyDetail sender:self];
+    NSString *whName = ((Supply *)_supplyDataSource[_supplyTableView.indexPathForSelectedRow.row]).name;
+    if([Utils hasReadPermission:whName]) {
+        [self performSegueWithIdentifier:SegueSupplyDetail sender:self];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

@@ -131,6 +131,7 @@
 }
 
 - (void)addNewCrate:(NSString *)name {
+    if(![Utils hasWritePermission:kCrateTableName]) return;
     [self showActivity];
     Crate *crate = [[Crate alloc] init];
     crate.name = name;
@@ -158,6 +159,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
+    if(![Utils hasWritePermission:kCrateTableName]) return;
     if([_crateDataSource count] == 0 || ![searchDate isEqualToString:today]) return;
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Crate *crate in _crateDataSource) {
@@ -206,6 +208,7 @@
 }
 
 - (IBAction)onExportClicked:(id)sender {
+    if(![Utils hasWritePermission:kCrateTableName]) return;
     [CallbackAlertView setCallbackTaget:@"Message"
                                 message:@"Please save data first, your data will be refreshed. Are you sure to continue?"
                                  target:self
@@ -274,6 +277,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(![Utils hasWritePermission:kCrateTableName]) return;
         [self deleteItemAt:indexPath];
     }
 }

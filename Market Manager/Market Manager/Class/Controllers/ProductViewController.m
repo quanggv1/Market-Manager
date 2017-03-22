@@ -38,7 +38,6 @@
     [self download];
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationItem.title = @"Product Management";
@@ -99,6 +98,7 @@
 }
 
 - (IBAction)onAddNewProduct:(id)sender {
+    if(![Utils hasWritePermission:kProductTableName]) return;
     [self performSegueWithIdentifier:SegueProductDetail sender:self];
 }
 
@@ -161,6 +161,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(![Utils hasWritePermission:kProductTableName]) return;
         [self deleteItemAt:indexPath];
     }
 }

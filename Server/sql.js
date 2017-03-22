@@ -14,6 +14,18 @@ var getWarehouseNameList = function (con, onSuccess, onError) {
   });
 }
 
+var getShopNameList = function (con, onSuccess, onError) {
+  con.query('SELECT shopName FROM shop', function (err, rows) {
+    if (err) {
+      console.log(err);
+      onError(err);
+    } else {
+      console.log('Data received from Db:\n');
+      onSuccess(rows);
+    }
+  })
+}
+
 /*============SQL Query==============*/
 module.exports = {
   /*Authentication*/
@@ -277,7 +289,23 @@ module.exports = {
             onError(err)
           } else {
             data.warehouse = result;
-            onSuccess(data);
+            con.query('SELECT * FROM `shop`', function (err, result) {
+              if (err) {
+                console.log(err);
+                onError(err)
+              } else {
+                data.shop = result;
+                con.query('SELECT * FROM `product`', function (err, result) {
+                  if (err) {
+                    console.log(err);
+                    onError(err)
+                  } else {
+                    data.product = result;
+                    onSuccess(data);
+                  }
+                });
+              }
+            });
           }
         });
       }
@@ -333,6 +361,7 @@ module.exports = {
   },
 
   getWarehouseNameList,
+
   invoiceProductByOrderID: function (con, req, onSuccess, onError) {
     var orderID = req.query.orderID;
     sql = "SELECT product.productName as name, product.price, order_each_day.order_quantity as quantity, Round((product.price * order_each_day.order_quantity),2) as total from order_each_day JOIN product ON product.productID = order_each_day.productID and order_each_day.orderID=?";
@@ -346,6 +375,7 @@ module.exports = {
       }
     });
   },
+
   invoiceCratesByOrderID: function (con, req, onSuccess, onError) {
     var orderID = req.query.orderID;
     sql = "SELECT crate.crateType as name, crate.price, sum(order_each_day.crate_qty) as quantity, Round((crate.price * sum(order_each_day.crate_qty)),2) as total from order_each_day JOIN crate ON crate.crateType = order_each_day.crateType and order_each_day.orderID=? GROUP BY crate.crateType";
@@ -359,5 +389,19 @@ module.exports = {
       }
     });
   },
+
+  updateUserInfo: function (con, req, onSuccess, onError) {
+    var query = req.query.params;
+    con.query('UPDATE user SET ? Where userID = ' + query.userID, query,
+      function (err, result) {
+        if (err) {
+          console.log(err);
+          onError(err);
+        } else {
+          onSuccess(result)
+        }
+      }
+    );
+  }
 };
 
