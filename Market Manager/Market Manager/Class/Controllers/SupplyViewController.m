@@ -98,6 +98,7 @@
     }];
 }
 
+
 - (IBAction)onAddNewSupply:(id)sender {
     if(![Utils hasWritePermission:kSupplyTableName]) return;
     [AddNewSupplyViewController showViewAt:self onSave:^(Supply *supply) {
