@@ -23,8 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.functionsNavigationBar setBackgroundImage:[UIImage imageNamed:@"market.jpg"] forBarMetrics:UIBarMetricsDefault];
+//    
+//    [self.functionsNavigationBar setBackgroundImage:[UIImage imageNamed:@"market.jpg"] forBarMetrics:UIBarMetricsDefault];
     
     if([[ProductManager sharedInstance] getProductType] == kVegatables)
         self.navBarTitle.title = @"Vegatables";
@@ -40,6 +40,8 @@
     _functionsTableView.dataSource = self;
     _functionsTableView.rowHeight = UITableViewAutomaticDimension;
     _functionsTableView.estimatedRowHeight = 80;
+    
+    [_functionsTableView setContentInset:UIEdgeInsetsMake(220, 0, 0, 0)];
 }
 
 - (void)didReceiveMemoryWarning {

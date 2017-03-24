@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sYx-3M-FYo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yqN-ni-gig">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -1712,10 +1712,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzM-4p-5KC">
-                                <rect key="frame" x="0.0" y="20" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="JkT-EG-jt7"/>
+                                    <constraint firstAttribute="height" constant="44" id="JkT-EG-jt7"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="barTintColor" red="0.0" green="0.56985812059999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1725,6 +1725,7 @@
                                 <items>
                                     <navigationItem title="Title" id="kSW-Iz-Jnm">
                                         <barButtonItem key="leftBarButtonItem" systemItem="stop" id="14M-j3-baV">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
                                                 <action selector="onBackClicked:" destination="Qay-mB-jcn" id="tfh-Wz-3Zm"/>
                                             </connections>
@@ -1732,9 +1733,15 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="iVW-2m-y7a">
-                                <rect key="frame" x="0.0" y="120" width="414" height="616"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="market.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="9f2-mM-S7r">
+                                <rect key="frame" x="0.0" y="64" width="414" height="220"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="220" id="QTI-vw-vfd"/>
+                                </constraints>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="iVW-2m-y7a">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuCell" id="xGk-wb-J6x" customClass="MenuCell">
                                         <rect key="frame" x="0.0" y="56" width="414" height="80"/>
@@ -1776,6 +1783,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="zqj-yh-NkH" secondAttribute="bottom" constant="3" id="EAZ-gp-PTF"/>
                                                 <constraint firstAttribute="trailing" secondItem="zqj-yh-NkH" secondAttribute="trailing" constant="5" id="P7V-sc-3GY"/>
@@ -1791,6 +1799,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="menuImage" destination="awI-Bi-KHt" id="L2n-Ra-dIM"/>
                                             <outlet property="menuTitle" destination="as6-lz-Nwf" id="NVt-jo-ZBJ"/>
@@ -1803,11 +1812,14 @@
                         <constraints>
                             <constraint firstItem="uzM-4p-5KC" firstAttribute="leading" secondItem="zRW-0l-Gc8" secondAttribute="leading" id="13y-3i-7F2"/>
                             <constraint firstItem="iVW-2m-y7a" firstAttribute="top" secondItem="uzM-4p-5KC" secondAttribute="bottom" id="5sk-mF-q2Q"/>
+                            <constraint firstItem="9f2-mM-S7r" firstAttribute="top" secondItem="uzM-4p-5KC" secondAttribute="bottom" id="XCB-Nc-tmM"/>
                             <constraint firstItem="laJ-81-4PJ" firstAttribute="top" secondItem="iVW-2m-y7a" secondAttribute="bottom" id="XZW-H8-KAj"/>
+                            <constraint firstAttribute="trailing" secondItem="9f2-mM-S7r" secondAttribute="trailing" id="iFx-Kx-TJd"/>
                             <constraint firstAttribute="trailing" secondItem="uzM-4p-5KC" secondAttribute="trailing" id="nuT-ak-pmc"/>
                             <constraint firstItem="uzM-4p-5KC" firstAttribute="top" secondItem="UHN-d4-CHC" secondAttribute="bottom" id="oC0-FU-xJf"/>
                             <constraint firstAttribute="trailing" secondItem="iVW-2m-y7a" secondAttribute="trailing" id="qsK-la-2ie"/>
                             <constraint firstItem="iVW-2m-y7a" firstAttribute="leading" secondItem="zRW-0l-Gc8" secondAttribute="leading" id="siT-Yk-Uez"/>
+                            <constraint firstItem="9f2-mM-S7r" firstAttribute="leading" secondItem="zRW-0l-Gc8" secondAttribute="leading" id="vCH-DX-2Ao"/>
                         </constraints>
                     </view>
                     <connections>
