@@ -19,4 +19,6 @@
 - (NSArray *)getProductNameList;
 - (NSArray *)getProductListWith:(NSArray *)data;
 - (NSString *)getProductIdBy:(NSString *)productName;
+- (void)setProductType:(kProductType *)productType;
+- (kProductType *)getProductType;
 @end

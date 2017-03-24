@@ -10,6 +10,7 @@
 
 @implementation ProductManager {
     NSMutableArray *productList;
+    kProductType *_productType;
 }
 
 + (instancetype)sharedInstance {
@@ -81,5 +82,13 @@
         }
     }
     return nil;
+}
+
+- (void)setProductType:(kProductType *)productType {
+    _productType = productType;
+}
+
+- (kProductType *)getProductType {
+    return _productType;
 }
 @end

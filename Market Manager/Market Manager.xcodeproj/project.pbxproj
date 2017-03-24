@@ -50,6 +50,7 @@
 		3D6BF9091E6EA44400EA3ADB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9071E6EA44400EA3ADB /* background.png */; };
 		3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9081E6EA44400EA3ADB /* page.png */; };
 		3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */; };
+		3DD12EBA1E84DE3E0017FED2 /* FunctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */; };
 		3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */; };
 		3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B61E5EE4AC00069D7D /* ProductManager.m */; };
 		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
@@ -192,6 +193,8 @@
 		3D6BF9081E6EA44400EA3ADB /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
 		3DB505941E80F95300B81FD5 /* UserDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailTableViewCell.h; sourceTree = "<group>"; };
 		3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailTableViewCell.m; sourceTree = "<group>"; };
+		3DD12EB81E84DE3E0017FED2 /* FunctionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionListViewController.h; sourceTree = "<group>"; };
+		3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionListViewController.m; sourceTree = "<group>"; };
 		3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductTableViewCell.h; sourceTree = "<group>"; };
 		3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B51E5EE4AC00069D7D /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
@@ -626,6 +629,8 @@
 			children = (
 				7466EB0A1E51F8C900A2C0F5 /* MenuViewController.h */,
 				7466EB0B1E51F8C900A2C0F5 /* MenuViewController.m */,
+				3DD12EB81E84DE3E0017FED2 /* FunctionListViewController.h */,
+				3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */,
 				7466EB0C1E51F8C900A2C0F5 /* MenuCell.h */,
 				7466EB0D1E51F8C900A2C0F5 /* MenuCell.m */,
 			);
@@ -875,6 +880,7 @@
 				BC7E61B01E7679A200C057AD /* SummaryTableViewCell.m in Sources */,
 				3D41D7981E55903800123A71 /* IQUIWindow+Hierarchy.m in Sources */,
 				74ED222A1E59FC660079D3F0 /* Order.m in Sources */,
+				3DD12EBA1E84DE3E0017FED2 /* FunctionListViewController.m in Sources */,
 				74E904601E585785005D391D /* ShopTableViewCell.m in Sources */,
 				74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */,
 				3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */,

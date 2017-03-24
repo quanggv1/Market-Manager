@@ -15,19 +15,8 @@
 #import "Crate.h"
 
 @interface MenuViewController ()
-@property (weak, nonatomic) IBOutlet UIView *groupContainerViews;
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
-@property (weak, nonatomic) IBOutlet UIView *menuView;
-@property (nonatomic) BOOL isMenuShow;
 @property (nonatomic, strong) NSArray *menuData;
-
-@property (weak, nonatomic) IBOutlet UILabel *labelUsername;
-@property (strong, nonatomic) UINavigationController *productNavigationController;
-@property (strong, nonatomic) UINavigationController *shopNavigationController;
-@property (strong, nonatomic) UINavigationController *supplyNavigationController;
-@property (strong, nonatomic) UINavigationController *orderNavigationController;
-@property (strong, nonatomic) UINavigationController *userNavigationController;
-@property (strong, nonatomic) UINavigationController *crateNavigationController;
 @property (assign, nonatomic) NSInteger numberOfFunction;
 @end
 
@@ -36,19 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self showActivity];
-    NSLog(@"user %@", _user.name);
-    _productNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation];
-    _shopNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation];
-    _supplyNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation];
-    _orderNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation];
-    _userNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation];
-    _crateNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation];
-
-    _menuData = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
-                  [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"],
+    _menuData = @[[[MenuCellProp alloc] initWith:@"Vegatables & others" image:@"ic_shopping_cart_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Meats" image:@"ic_swap_vertical_circle_36pt"],
+                  [[MenuCellProp alloc] initWith:@"Food Service" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
                   [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
     _menuTable.delegate = self;
@@ -69,10 +48,6 @@
     [super viewDidAppear:animated];
     [self hideActivity];
 }
-
-//- (UIStatusBarStyle)preferredStatusBarStyle {
-//    return UIStatusBarStyleLightContent;
-//}
 
 - (void)downloadCrate {
     [self showActivity];
@@ -133,37 +108,25 @@
             if(_numberOfFunction == 2) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
-                if(![Utils hasReadPermission:kProductTableName]) return;
-                [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
+                [[ProductManager sharedInstance] setProductType:kVegatables];
+                [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             }
-            
             break;
         case 2:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
+            [[ProductManager sharedInstance] setProductType:kMeats];
+            [self performSegueWithIdentifier:SegueShowFunctionList sender:self];;
             break;
         case 3:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
             break;
         case 4:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];;
-            break;
-        case 5:
-            if(![Utils hasReadPermission:kCrateTableName]) return;
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
-            break;
-        case 6:
             if(![Utils hasReadPermission:kUserTableName]) return;
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
             break;
-        case 7:
+        case 5:
             [self dismissViewControllerAnimated:YES completion:nil];
         default:
             break;
     }
 }
-
-
-
-
 
 @end

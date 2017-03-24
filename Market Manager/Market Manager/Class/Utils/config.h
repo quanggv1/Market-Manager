@@ -25,6 +25,11 @@ typedef NS_ENUM(NSInteger, kOrderStatus){
     kOrderDone,
 };
 
+typedef NS_ENUM(NSInteger, kProductType){
+    kVegatables = 0,
+    kMeats,
+};
+
 
 #endif /* config_h */
 

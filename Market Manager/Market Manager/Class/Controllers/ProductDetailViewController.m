@@ -78,9 +78,10 @@
             [self insertNewProduct:productId name:productName price:price description:description];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+            [CallbackAlertView setCallbackTaget:@"Error" message:@"This product is exits " target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
             [self hideActivity];
         }
+        [self hideActivity];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
         [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
