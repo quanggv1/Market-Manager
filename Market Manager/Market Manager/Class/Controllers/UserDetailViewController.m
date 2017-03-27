@@ -128,12 +128,12 @@
                                        }};
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_UPDATE_USERINFO
+    [manager GET:API_UPDATE_USER
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [CallbackAlertView setBlock:titleSuccess
+                 [CallbackAlertView setBlock:@""
                                      message:@"This profile has been saved"
                                      okTitle:btnOK
                                      okBlock:^{

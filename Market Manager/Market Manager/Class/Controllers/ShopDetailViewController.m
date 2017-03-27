@@ -78,8 +78,10 @@
 - (void)downloadWith:(NSString *)stringDate{
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kShopID:_shop.ID, kDate: stringDate, kShopName: _shop.name};
-    [manager GET:API_GETSHOP_PRODUCT_LIST
+    NSDictionary *params = @{kShopID:_shop.ID,
+                             kDate: stringDate,
+                             kShopName: _shop.name};
+    [manager GET:API_GETSHOP_PRODUCTS
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {

@@ -45,9 +45,8 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kShopTableName};
-    [manager GET:API_GETDATA
-      parameters:params
+    [manager GET:API_GET_SHOPS
+      parameters:nil
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
@@ -68,19 +67,25 @@
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath{
     [self showActivity];
-    Shop *shopDeleted = _shopDataSource[indexPath.row];
+    Shop *deletedShop = _shopDataSource[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kShopTableName,
-                             @"params": @{@"idName":kShopID,
-                                          @"idValue":shopDeleted.ID}};
-    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        [[ShopManager sharedInstance] delete:shopDeleted];
-        [_shopDataSource removeObjectAtIndex:indexPath.row];
-        [_shopTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-    }];
+    [manager GET:API_REMOVE_SHOP
+      parameters:@{kShopID: deletedShop.ID}
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[ShopManager sharedInstance] delete:deletedShop];
+                 [_shopDataSource removeObjectAtIndex:indexPath.row];
+                 [_shopTableView deleteRowsAtIndexPaths:@[indexPath]
+                                       withRowAnimation:UITableViewRowAnimationFade];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             ShowMsgConnectFailed;
+             [self hideActivity];
+         }];
 }
 
 - (IBAction)onAddNewShop:(id)sender {

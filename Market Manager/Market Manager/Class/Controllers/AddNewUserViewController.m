@@ -11,7 +11,7 @@
 #import "User.h"
 
 static AddNewUserViewController *addNewUserViewController;
-@interface AddNewUserViewController ()
+@interface AddNewUserViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *userPasswordTextField;
 @end
@@ -20,13 +20,20 @@ static AddNewUserViewController *addNewUserViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _userNameTextField.delegate = self;
+    _userPasswordTextField.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == _userNameTextField) {
+        [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+}
+
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
@@ -57,41 +64,47 @@ static AddNewUserViewController *addNewUserViewController;
 
 - (IBAction)onSaveClicked:(id)sender {
     [Utils hideKeyboard];
-    NSString *userName = [_userNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSString *userPassword = [_userPasswordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if(!userName || userName.length == 0 ) {
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input username & password" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    User *newUser = [[User alloc] init];
+    newUser.name = _userNameTextField.text;
+    newUser.password = _userPasswordTextField.text;
+    if(newUser.name.length < 5 || newUser.password.length < 5 ) {
+        [CallbackAlertView setCallbackTaget:@""
+                                    message:@"Please input username & password at least 5 letters!"
+                                     target:self
+                                    okTitle:@"OK"
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
         return;
     }
     
     [self showActivity];
-    NSDictionary *params = @{@"tableName":kUserTableName,
-                             @"params": @{kUserName:userName,
-                                          kUserPassword: userPassword}};
+    NSDictionary *params = @{kParams: @{kUserName: newUser.name,
+                                        kUserPassword: newUser.password}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        if([[responseObject objectForKey:kCode] intValue] == 200) {
-            NSDictionary *data = [responseObject objectForKey:@"data"];
-            NSString *userID = [NSString stringWithFormat:@"%@", [data objectForKey:@"insertId"]];
-            [self addNewUser:userID name:userName password:userPassword];
-            [self dismiss];
-        } else {
-           [CallbackAlertView setCallbackTaget:@"Error" message:@"This user is exist. Please input other" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    [manager GET:API_ADD_NEW_USER
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             [self hideActivity];
+             if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
+                 newUser.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:kInsertID]];
+                 self.saveCallback(newUser);
+                 [self dismiss];
+             } else {
+                 [CallbackAlertView setCallbackTaget:@""
+                                             message:@"Username has been used!"
+                                              target:self
+                                             okTitle:@"OK"
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        ShowMsgConnectFailed;
     }];
-}
-
-- (void)addNewUser:(NSString *)UserID name:(NSString *)UserName password:(NSString *)password {
-    User *newUser = [[User alloc] initWith:@{kUserID:UserID,
-                                             kUserName:UserName,
-                                             kUserPassword: password}];
-    [[UserManager sharedInstance] insert:newUser];
-    self.saveCallback(newUser);
 }
 
 @end

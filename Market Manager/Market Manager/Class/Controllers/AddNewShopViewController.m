@@ -62,7 +62,13 @@ static AddNewShopViewController *addNewShopViewController;
 - (IBAction)onSaveClicked:(id)sender {
     [Utils hideKeyboard];
     if(_shopNameTextField.text.length == 0) {
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input shop name" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        [CallbackAlertView setCallbackTaget:@"Error"
+                                    message:@"Please input shop name"
+                                     target:self
+                                    okTitle:@"OK"
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
         return;
     }
     
@@ -71,23 +77,26 @@ static AddNewShopViewController *addNewShopViewController;
     newShop.shopDesc = _shopDescTextView.text;
 
     [self showActivity];
-    NSDictionary *params = @{@"tableName":kShopTableName,
-                             @"params": @{kShopName:newShop.name,
-                                          kShopDesc: newShop.shopDesc}};
+    NSDictionary *params = @{kParams: @{kShopName: newShop.name,
+                                        kShopDesc: newShop.shopDesc}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if ([[responseObject objectForKey:kCode] intValue] == 200) {
-            newShop.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:kInsertID]];
-            [[ShopManager sharedInstance] insert:newShop];
-            [self dismiss];
-        } else {
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-        }
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-    }];
+    [manager GET:API_ADD_NEW_SHOP
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] intValue] == 200) {
+                 newShop.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:kInsertID]];
+                 [[ShopManager sharedInstance] insert:newShop];
+                 _saveCallback(newShop);
+                 [self dismiss];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
+         }];
 }
 
 @end

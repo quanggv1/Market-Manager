@@ -40,7 +40,7 @@
     NSDictionary *params = @{kShopID:_shop.ID,
                              kDate: [Utils stringTodayDateTime],
                              kShopName: _shop.name};
-    [manager GET:API_GETSHOP_PRODUCT_LIST
+    [manager GET:API_GETSHOP_PRODUCTS
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {

@@ -116,14 +116,6 @@
                                  okCallback:@selector(export)
                                 cancelTitle:@"Cancel"
                              cancelCallback:nil];
-    } else {
-        [CallbackAlertView setCallbackTaget:@""
-                                    message:@"This record has been exported!"
-                                     target:self
-                                    okTitle:btnOK
-                                 okCallback:nil
-                                cancelTitle:nil
-                             cancelCallback:nil];
     }
 }
 
@@ -191,14 +183,6 @@
                  [self hideActivity];
                  ShowMsgConnectFailed;
         }];
-    } else {
-        [CallbackAlertView setCallbackTaget:@""
-                                    message:@"This record has been saved!"
-                                     target:self
-                                    okTitle:btnOK
-                                 okCallback:nil
-                                cancelTitle:nil
-                             cancelCallback:nil];
     }
 }
 

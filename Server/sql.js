@@ -1,6 +1,5 @@
-var errorResp = { 'code': '400', 'status': 'error' };
 
-
+var Utils = require('./utils');
 
 var getWarehouseNameList = function (con, onSuccess, onError) {
   con.query('SELECT whName FROM warehouse', function (err, rows) {
@@ -69,19 +68,7 @@ module.exports = {
     })
   },
   /*select shop's products*/
-  getShopProductList: function (con, req, onSuccess, onError) {
-    var shopID = req.query.shopID;
-    var sql = "SELECT shop_product.*, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.shopID=?";
-    con.query(sql, shopID, function (err, rows) {
-      if (err) {
-        console.log(err);
-        onError(err);
-      } else {
-        console.log('Data received from Db:\n');
-        onSuccess(rows);
-      }
-    });
-  },
+
 
   updateShopProduct: function (con, params, onSuccess, onError) {
     con.query('UPDATE shop_product SET stockTake = ? WHERE shopProductID = ?', [params.stockTake, params.shopProductID], function (err, result) {
@@ -135,7 +122,6 @@ module.exports = {
       }
     });
   },
-
 
   /*select from table*/
   getData: function (con, req, onSuccess, onError) {
@@ -344,46 +330,9 @@ module.exports = {
     })
   },
 
-  insertNewWarehouse: function (con, req, onSuccess, onError) {
-    var whName = req.query.whName;
-    var whDesc = req.query.description;
-    con.query('INSERT INTO warehouse SET whName = ?, description = ?', [whName, whDesc], function (err, result) {
-      if (err) {
-        onError(err);
-      } else {
-        var insertedID = result.insertId;
-        con.query('ALTER TABLE order_each_day ADD ' + whName + ' int NOT NULL', function (err, result) {
-          if (err) {
-            onError(err);
-            con.query('DELETE FROM warehouse WHERE whID = ?', insertedID, function (err) {
-              console.log(err);
-            });
-          } else {
-            onSuccess(insertedID);
-          }
-        })
-      }
-    })
-  },
 
-  removeWarehouse: function (con, req, onSuccess, onError) {
-    var whName = req.query.whName;
-    con.query('ALTER TABLE order_each_day DROP COLUMN ' + whName, function (err) {
-      if (err) {
-        console.log(err);
-        onError(err);
-      } else {
-        con.query('DELETE FROM warehouse WHERE whName = ?', whName, function (err) {
-          if (err) {
-            console.log(err);
-            onError(err);
-          } else {
-            onSuccess()
-          }
-        })
-      }
-    })
-  },
+
+
 
   getWarehouseNameList,
 
@@ -415,18 +364,6 @@ module.exports = {
     });
   },
 
-  updateUserInfo: function (con, req, onSuccess, onError) {
-    var query = req.query.params;
-    con.query('UPDATE user SET ? Where userID = ' + query.userID, query,
-      function (err, result) {
-        if (err) {
-          console.log(err);
-          onError(err);
-        } else {
-          onSuccess(result)
-        }
-      }
-    );
-  }
+  
 };
 

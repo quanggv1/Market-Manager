@@ -40,19 +40,13 @@
     tableViewController.refreshControl = self.refreshControl;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kUserTableName};
-    [manager GET:API_GETDATA
-      parameters:params
+    [manager GET:API_GET_USERS
+      parameters:nil
         progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+         success:^(NSURLSessionDataTask * task, id  responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                  [[UserManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
                  _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
@@ -73,17 +67,15 @@
     [self showActivity];
     User *userDeleted = _userDataSource[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kUserTableName,
-                             @"params": @{@"idName":kUserID,
-                                          @"idValue":userDeleted.ID}};
-    [manager GET:API_DELETEDATA
-      parameters:params
+    [manager GET:API_REMOVE_USER
+      parameters:@{kUserID: userDeleted.ID}
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                  [[UserManager sharedInstance] delete:userDeleted];
                  [_userDataSource removeObjectAtIndex:indexPath.row];
-                 [_userTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                 [_userTableView deleteRowsAtIndexPaths:@[indexPath]
+                                       withRowAnimation:UITableViewRowAnimationFade];
              } else {
                  ShowMsgSomethingWhenWrong;
              }

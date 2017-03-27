@@ -81,8 +81,8 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
 #pragma mark - Link
-//#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.165:5000/"
+#define SERVER @"http://localhost:5000/"
+//#define SERVER @"http://172.27.97.165:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -91,7 +91,7 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_INSERTDATA [SERVER stringByAppendingString:@"insertData"]
 #define API_AUTHEN [SERVER stringByAppendingString:@"authen"]
 #define API_GET_ORDERS [SERVER stringByAppendingString:@"getOrderList"]
-#define API_GETSHOP_PRODUCT_LIST [SERVER stringByAppendingString:@"getShopProductList"]
+#define API_GETSHOP_PRODUCTS [SERVER stringByAppendingString:@"getShopProducts"]
 #define API_EXPORT_SHOP_PRODUCTS [SERVER stringByAppendingString:@"exportShopProducts"]
 #define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
 #define API_GET_ORDER_DETAIL [SERVER stringByAppendingString:@"getOrderDetail"]
@@ -111,8 +111,18 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_INVOICE_PRODUCT [SERVER stringByAppendingString:@"invoiceProductByOrderID"]
 #define API_INVOICE_CRATES [SERVER stringByAppendingString:@"invoiceCratesByOrderID"]
 #define API_INVOICE_UPLOAD [SERVER stringByAppendingString:@"uploadInvoice"]
-#define API_UPDATE_USERINFO [SERVER stringByAppendingString:@"updateUserInfo"]
+#define API_UPDATE_USER [SERVER stringByAppendingString:@"updateUser"]
 #define API_UPDATE_SHOP_PRODUCTS [SERVER stringByAppendingString:@"updateShopProducts"]
+
+#define API_GET_SHOPS [SERVER stringByAppendingString:@"getShops"]
+#define API_ADD_NEW_SHOP [SERVER stringByAppendingString:@"addNewShop"]
+#define API_REMOVE_SHOP [SERVER stringByAppendingString:@"removeShop"]
+
+#define API_GET_USERS [SERVER stringByAppendingString:@"getUsers"]
+#define API_ADD_NEW_USER [SERVER stringByAppendingString:@"addNewUser"]
+#define API_REMOVE_USER [SERVER stringByAppendingString:@"removeUser"]
+
+
 
 
 #pragma mark - Key

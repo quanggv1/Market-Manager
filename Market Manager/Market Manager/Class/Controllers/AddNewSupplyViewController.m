@@ -65,7 +65,13 @@ static AddNewSupplyViewController *addNewSupplyViewController;
     newSupply.name = _SupplyNameTextField.text;
     newSupply.supplyDesc = _SupplyDescTextView.text;
     if(newSupply.name.length == 0) {
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input warehouse name" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        [CallbackAlertView setCallbackTaget:@""
+                                    message:@"Please input warehouse name"
+                                     target:self
+                                    okTitle:@"OK"
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
         return;
     }
     
