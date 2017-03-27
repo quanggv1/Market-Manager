@@ -53,6 +53,10 @@
 }
 
 #pragma mark - table
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1f;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _functionList.count;
 }
@@ -79,7 +83,7 @@
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
             break;
         case 3:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];;
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];
             break;
         case 4:
             if(![Utils hasReadPermission:kCrateTableName]) return;
@@ -89,4 +93,5 @@
             break;
     }
 }
+
 @end

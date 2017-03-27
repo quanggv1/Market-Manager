@@ -32,6 +32,13 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
+    
+    [_productSearchTextField addTarget:self action:@selector(searchByName) forControlEvents:UIControlEventEditingChanged];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)reload {
@@ -67,9 +74,10 @@
     }];
 }
 
-- (void)searchByName:(NSString* )name {
-    if(name && name.length > 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains %@", name];
+- (void)searchByName{
+    NSString *searchString = _productSearchTextField.text;
+    if(searchString && searchString.length > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[cd] %@", searchString];
         _productTableDataSource = [NSMutableArray arrayWithArray:[[[ProductManager sharedInstance] getProductList] filteredArrayUsingPredicate:predicate]];
         [_productTableView reloadData];
     } else {
@@ -82,11 +90,6 @@
     [_productTableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)onSearch:(id)sender {
     [_productSearchTextField becomeFirstResponder];
 }
@@ -94,7 +97,7 @@
 - (IBAction)onRefreshClicked:(id)sender {
     [Utils hideKeyboard];
     _productSearchTextField.text = @"";
-    [self searchByName:@""];
+    [self reloadProductTableView];
 }
 
 - (IBAction)onAddNewProduct:(id)sender {
@@ -166,9 +169,5 @@
     }
 }
 
-#pragma mark - TEXTFIELD DELEGATE
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self searchByName:[_productSearchTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-}
 
 @end
