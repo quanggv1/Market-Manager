@@ -33,6 +33,8 @@ static NSString *const StoryboardMenuView = @"menuViewController";
 static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
 static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewControllerId";
 static NSString *const StoryboardAddNewSupplyProduct = @"AddNewSupplyProductViewControllerId";
+static NSString *const StoryboardReportSummaryQtyNeed = @"SummaryNavigationQtyNeedID";
+
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellMenuBanner = @"menuBannerCellID";
@@ -48,6 +50,7 @@ static NSString *const CellShopProduct = @"ShopProductTableViewCellId";
 static NSString *const CellNewOrder = @"OrderFormTableViewCellId";
 static NSString *const CellCrateManager = @"CrateTableViewCellID";
 static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
+static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 
 
 #pragma mark - Color
