@@ -260,7 +260,15 @@ app.get("/reportOrderEachday", function onSuccess(req, res) {
     res.send(errorResp);
   });
 })
-
+app.get("/reportSumOrderEachday", function onSuccess(req, res) {
+  console.log(req.query)
+  var tempDate = req.query.date;
+  SQL.reportSumOrderEachday(con,tempDate, function onError(success) {
+    res.send({ code: 200, data: success });
+  }, function (error) {
+    res.send(errorResp);
+  });
+})
 /** 
  * 
  * 

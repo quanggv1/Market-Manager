@@ -62,8 +62,9 @@ static DateTimePickerController *dateTimePickerController;
     [str appendString:@"<style> table, th, td {border: 0px solid black;}</style>"];
     [str appendString:@"<div>"];
     
-    NSString *strName = [NSString stringWithFormat:@"<h2<b>INVOINCE</b></h2><P><h3>COMPANY NAME: %@</h3></P>", @"Cong ty co phan FPT"];
+    NSString *strName = [NSString stringWithFormat:@"<h2<b>INVOINCE</b></h2><P><h3>SELL COMPANY'S NAME: %@</h3></P>", @"Cong ty co phan FPT"];
     [str appendString:strName];
+    [str appendString:@"<p><h3>BUY COMPANY'S NAME:</h3></p>"];
     [str appendString:@"<br>"];
     NSString *str0 = [NSString stringWithFormat:@"<div><p style='text-align: left; padding-left: 10px;'>Date: %@</p></div>", [self stringTodayDateTime]];
     [str appendString:str0];

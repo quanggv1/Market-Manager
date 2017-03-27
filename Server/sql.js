@@ -275,6 +275,30 @@ module.exports = {
     })
 
   },
+  reportSumOrderEachday: function (con, tmpDate, onSuccess, onError) {
+    var receivedTotalQuery = '';
+    getWarehouseNameList(con, function (success) {
+      success.forEach(function (item) {
+        var whName = item.whName;
+        receivedTotalQuery = receivedTotalQuery + ' order_each_day.`' + whName + '` +';
+      })
+      receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
+      sql = 'SELECT product.productName, order_each_day.order_quantity,  sum(order_each_day.order_quantity - (' + receivedTotalQuery + ')) as quantity_need FROM order_each_day JOIN product ON order_each_day.productID = product.productID JOIN orders ON order_each_day.orderID = orders.orderID WHERE orders.date=?  GROUP BY product.productName'
+      console.log(sql);
+      con.query(sql,tmpDate, function (err, result) {
+        if (err) {
+          console.log(err);
+          onError(err)
+        } else {
+          console.log(result);
+          onSuccess(result);
+        }
+      });
+    }, function (error) {
+      onError(error);
+    })
+
+  },
 
   getDataDefault: function (con, onSuccess, onError) {
     var data = {};

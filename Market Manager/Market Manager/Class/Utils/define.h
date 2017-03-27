@@ -82,7 +82,7 @@ static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.149:5000/"
+#define SERVER @"http://172.27.97.165:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -101,6 +101,7 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_EXPORT_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"exportWarehouseProducts"]
 #define API_CHECK_TOTAL_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"checkTotalWarehouseProduct"]
 #define API_REPORT_ORDER_EACHDAY [SERVER stringByAppendingString:@"reportOrderEachday"]
+#define API_REPORT_SUM_ORDER_EACHDAY [SERVER stringByAppendingString:@"reportSumOrderEachday"]
 #define API_UPDATE_CRATES [SERVER stringByAppendingString:@"updateCrates"]
 #define API_GET_CRATES [SERVER stringByAppendingString:@"getCrates"]
 #define API_EXPORT_CRATES [SERVER stringByAppendingString:@"exportCrates"]
