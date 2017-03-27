@@ -34,6 +34,7 @@
     _functionList = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
+                      [[MenuCellProp alloc] initWith:@"Market Need" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
                   [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"]];
     _functionsTableView.delegate = self;
@@ -83,9 +84,13 @@
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
             break;
         case 3:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardReportSummaryQtyNeed] animated:YES completion:nil];
             break;
         case 4:
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];
+            break;
+
+        case 5:
             if(![Utils hasReadPermission:kCrateTableName]) return;
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
             break;

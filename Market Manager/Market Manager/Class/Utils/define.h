@@ -33,6 +33,8 @@ static NSString *const StoryboardMenuView = @"menuViewController";
 static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
 static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewControllerId";
 static NSString *const StoryboardAddNewSupplyProduct = @"AddNewSupplyProductViewControllerId";
+static NSString *const StoryboardReportSummaryQtyNeed = @"SummaryNavigationQtyNeedID";
+
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellMenuBanner = @"menuBannerCellID";
@@ -48,6 +50,7 @@ static NSString *const CellShopProduct = @"ShopProductTableViewCellId";
 static NSString *const CellNewOrder = @"OrderFormTableViewCellId";
 static NSString *const CellCrateManager = @"CrateTableViewCellID";
 static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
+static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 
 
 #pragma mark - Color
@@ -81,8 +84,8 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
 #pragma mark - Link
-//#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.165:5000/"
+#define SERVER @"http://localhost:5000/"
+//#define SERVER @"http://172.27.97.165:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
