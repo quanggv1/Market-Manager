@@ -58,6 +58,7 @@ module.exports = {
       }
     });
   },
+
   updateWareHouseProduct: function (con, params, onSuccess, onError) {
     con.query('UPDATE warehouse_product SET sockTake =?, outQuantity=?, inQuantity=?, total=sockTake+inQuantity-outQuantity WHERE wh_pd_ID=?', [params.stockTake, params.outQuantity, params.outQuantity, params.inQuantity, params.wh_pd_ID], function (err, result) {
       if (err) {
@@ -70,7 +71,7 @@ module.exports = {
   /*select shop's products*/
   getShopProductList: function (con, req, onSuccess, onError) {
     var shopID = req.query.shopID;
-    var sql = "SELECT shop_product.shopProductID, shop_product.productID, shop_product.shopID, shop_product.stockTake, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.shopID=?";
+    var sql = "SELECT shop_product.*, product.productName, product.price FROM shop_product JOIN product ON shop_product.productID = product.productID WHERE shop_product.shopID=?";
     con.query(sql, shopID, function (err, rows) {
       if (err) {
         console.log(err);

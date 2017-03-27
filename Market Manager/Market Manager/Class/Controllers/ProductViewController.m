@@ -30,15 +30,18 @@
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
     tableViewController.tableView = self.productTableView;
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reload) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self
+                            action:@selector(reload)
+                  forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
     
-    [_productSearchTextField addTarget:self action:@selector(searchByName) forControlEvents:UIControlEventEditingChanged];
+    [_productSearchTextField addTarget:self
+                                action:@selector(searchByName)
+                      forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)reload {
@@ -47,7 +50,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationItem.title = @"Product Management";
+    self.navigationItem.title = kTitleProductManagement;
     [self reloadProductTableView];
 }
 
@@ -60,17 +63,20 @@
     Product *productDeleted = _productTableDataSource[indexPath.row];
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kProductTableName,
-                             @"params": @{@"idName":kProductID,
-                                          @"idValue":productDeleted.productId}};
-    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        [[ProductManager sharedInstance] delete:productDeleted];
-        [_productTableDataSource removeObjectAtIndex:indexPath.row];
-        [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                 withRowAnimation:UITableViewRowAnimationFade];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
+    NSDictionary *params = @{kTableName:kProductTableName,
+                                kParams: @{kIdName:kProductID,
+                                          kIdValue:productDeleted.productId}};
+    [manager GET:API_DELETEDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             [self hideActivity];
+             [[ProductManager sharedInstance] delete:productDeleted];
+             [_productTableDataSource removeObjectAtIndex:indexPath.row];
+             [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                      withRowAnimation:UITableViewRowAnimationFade];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
     }];
 }
 
@@ -168,6 +174,5 @@
         [self deleteItemAt:indexPath];
     }
 }
-
 
 @end

@@ -37,7 +37,12 @@
 }
 
 - (NSArray *)getProductList {
-    return productList;
+    NSSortDescriptor *sortDescriptor =
+    [NSSortDescriptor sortDescriptorWithKey:@"name"
+                                  ascending:YES
+                                   selector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortedArray = [productList sortedArrayUsingDescriptors:@[sortDescriptor]];
+    return sortedArray;
 }
 
 - (void)delete:(Product *)product {

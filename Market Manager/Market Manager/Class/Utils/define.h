@@ -111,6 +111,7 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_INVOICE_CRATES [SERVER stringByAppendingString:@"invoiceCratesByOrderID"]
 #define API_INVOICE_UPLOAD [SERVER stringByAppendingString:@"uploadInvoice"]
 #define API_UPDATE_USERINFO [SERVER stringByAppendingString:@"updateUserInfo"]
+#define API_UPDATE_SHOP_PRODUCTS [SERVER stringByAppendingString:@"updateShopProducts"]
 
 
 #pragma mark - Key
@@ -161,6 +162,7 @@ static NSString *const kOrderID = @"orderID";
 static NSString *const kOrderQty = @"order_quantity";
 
 static NSString *const kTitleOrderManagement = @"Order Management";
+static NSString *const kTitleProductManagement = @"Product Management";
 
 static NSString *const kCode = @"code";
 static NSString *const kStatus = @"status";

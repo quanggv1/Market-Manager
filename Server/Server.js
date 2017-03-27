@@ -33,21 +33,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/authen', function (req, res) {
-
-  // var targetFilePath = './uploads/products/Workbook1.csv';
-  // convertCSV2Json(targetFilePath, function onSuccess(result) {
-  //   req.query.tableName = 'warehouse_product';
-  //   result.forEach(function (item) {
-  //     req.query.params = item
-  //     SQL.insertData(con, req, function (success) {
-  //       console.log(result)
-  //     }, function (error) {
-  //       res.send(errorResp);
-  //     })
-  //   })
-  // }, function onError(err) {
-  //   res.send(errorResp);
-  // })
   SQL.authen(con, req, res);
 });
 
@@ -159,6 +144,33 @@ app.get('/addNewOrder', function (req, res) {
   addNewOrder(productOrders, req.query.orderID, res);
 })
 
+function addNewOrder(productOrders, orderID, res) {
+  var req = { query: {} };
+  if (productOrders.length > 0) {
+    /** insert product order into order_each_day */
+    req.query.tableName = 'order_each_day';
+    req.query.params = productOrders[0];
+    SQL.insertData(con, req, function (success) {
+      productOrders = productOrders.splice(1, productOrders.length);
+      addNewOrder(productOrders, orderID, res);
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    /** update order table after insert into order_each_day */
+    req.query.tableName = 'orders';
+    req.query.params = {};
+    req.query.params.status = 1;
+    req.query.idName = 'orderID';
+    req.query.idValue = orderID;
+    SQL.updateData(con, req, function (success) {
+      res.send({ code: 200 });
+    }, function (error) {
+      res.send(errorResp);
+    })
+  }
+}
+
 app.get('/getOrderDetail', function (req, res) {
   SQL.getOrderDetail(con, req, function (success) {
     res.send({ code: '200', data: success })
@@ -176,6 +188,77 @@ app.get('/updateOrderDetail', function (req, res) {
   }, function (error) {
     res.send(errorResp);
   })
+})
+
+function updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, res) {
+  var req = { query: {} }
+  if (productOrders.length > 0) {
+    /** update order_each_day */
+    req.query.tableName = 'order_each_day';
+    delete productOrders[0].productName;
+    req.query.params = productOrders[0];
+    req.query.idName = 'productOrderID';
+    req.query.idValue = productOrders[0].productOrderID;
+
+    SQL.getOrderDetailByID(con, productOrders[0].productOrderID, function (success) {
+      var data = success[0];
+      var totalReceived = 0;
+
+      /** update wh_product */
+      warehouseNameList.forEach(function (item) {
+        var thisWhReceived = req.query.params[item] - data[item];
+        console.log(thisWhReceived);
+        updateWarehouseStock(item, req.query.params.productID, thisWhReceived)
+        totalReceived += thisWhReceived;
+      })
+
+      /** update shop_product */
+      updateShopStock(shopID, req.query.params.productID, totalReceived);
+
+      /** update crate */
+      var crateReceived = req.query.params.crate_qty - data.crate_qty;
+      SQL.updateCrateReceivedQty(con, crateReceived, req.query.params.crateType);
+
+      /** update order_each_day */
+      SQL.updateData(con, req, function (success) {
+        productOrders = productOrders.splice(1, productOrders.length);
+        updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, res);
+      }, function (error) {
+        res.send(errorResp);
+      })
+    }, function (error) {
+      res.send(errorResp);
+    })
+  } else {
+    /** update order table after update order_each_day */
+    req.query.tableName = 'orders';
+    req.query.params = {};
+    req.query.params.status = 1;
+    req.query.idName = 'orderID';
+    req.query.idValue = orderID;
+    SQL.updateData(con, req, function (success) {
+      res.send({ code: 200 });
+    }, function (error) {
+      res.send(errorResp);
+    })
+  }
+}
+
+function updateShopStock(shopID, productID, receivedQty) {
+  SQL.updateShopStock(con, shopID, productID, receivedQty);
+}
+
+function updateWarehouseStock(whName, productID, outQuantity) {
+  SQL.updateWarehouseStock(con, whName, productID, outQuantity);
+}
+
+app.get("/reportOrderEachday", function onSuccess(req, res) {
+  var orderID = req.query.orderID;
+  SQL.reportOrderEachday(con, orderID, function onError(success) {
+    res.send({ code: 200, data: success });
+  }, function (error) {
+    res.send(errorResp);
+  });
 })
 
 /** 
@@ -240,34 +323,9 @@ app.get('/getShopProductList', function (req, res) {
 });
 
 app.get('/exportShopProducts', function (req, res) {
-  var shopProductIDs = req.query.params[0].shopProductID;
-  var stockTakes = req.query.params[0].stockTake;
-  updateShopProduct(shopProductIDs, stockTakes, req, res);
-});
-app.get("/reportOrderEachday", function onSuccess(req, res) {
-  var orderID = req.query.orderID;
-  SQL.reportOrderEachday(con, orderID, function onError(success) {
-    res.send({ code: 200, data: success });
-  }, function (error) {
-    res.send(errorResp);
-  });
-})
-
-//private function
-function updateShopProduct(shopProductIDs, stockTakes, req, res) {
-  if (shopProductIDs.length > 0) {
-    /** update data to database */
-    SQL.updateShopProduct(con, { shopProductID: shopProductIDs[0], stockTake: stockTakes[0] }, function (success) {
-      shopProductIDs = shopProductIDs.splice(1, shopProductIDs.length);
-      stockTakes = stockTakes.splice(1, stockTakes.length);
-      updateShopProduct(shopProductIDs, stockTakes, req, res);
-    }, function (error) {
-      res.send(errorResp);
-    })
-  } else {
-    /** export json to excel */
-    SQL.getShopProductList(con, req, function onSuccess(result) {
-      var targetFilePath = './uploads/shops/' + req.query.shopName + today() + '.csv';
+  var shopName = req.query.shopName;
+  SQL.getShopProductList(con, req, function onSuccess(result) {
+      var targetFilePath = './uploads/shops/' + shopName + today() + '.csv';
       convertJson2CSV(result, targetFilePath, function onSuccess() {
         res.send({ code: 200 });
       }, function onError() {
@@ -276,33 +334,24 @@ function updateShopProduct(shopProductIDs, stockTakes, req, res) {
     }, function onError(error) {
       res.send(errorResp);
     })
-  }
-}
+});
 
-function addNewOrder(productOrders, orderID, res) {
-  var req = { query: {} };
-  if (productOrders.length > 0) {
-    /** insert product order into order_each_day */
-    req.query.tableName = 'order_each_day';
-    req.query.params = productOrders[0];
-    SQL.insertData(con, req, function (success) {
-      productOrders = productOrders.splice(1, productOrders.length);
-      addNewOrder(productOrders, orderID, res);
+app.get('/updateShopProducts', function(req, res) {
+  var updatedProducts = JSON.parse(req.query.params);
+  updateShopProduct(updatedProducts, req, res);
+})
+
+function updateShopProduct(updatedProducts, req, res) {
+  if (updatedProducts.length > 0) {
+    /** update data to database */
+    SQL.updateShopProduct(con, updatedProducts[0], function (success) {
+      updatedProducts = updatedProducts.splice(1, updatedProducts.length);
+      updateShopProduct(updatedProducts, req, res);
     }, function (error) {
       res.send(errorResp);
     })
   } else {
-    /** update order table after insert into order_each_day */
-    req.query.tableName = 'orders';
-    req.query.params = {};
-    req.query.params.status = 1;
-    req.query.idName = 'orderID';
-    req.query.idValue = orderID;
-    SQL.updateData(con, req, function (success) {
-      res.send({ code: 200 });
-    }, function (error) {
-      res.send(errorResp);
-    })
+    res.send({ code: 200 });
   }
 }
 
@@ -335,68 +384,6 @@ function today() {
   day = (day < 10 ? "0" : "") + day;
   date = year + '-' + month + '-' + day;
   return date;
-}
-
-function updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, res) {
-  var req = { query: {} }
-  if (productOrders.length > 0) {
-    /** update order_each_day */
-    req.query.tableName = 'order_each_day';
-    delete productOrders[0].productName;
-    req.query.params = productOrders[0];
-    req.query.idName = 'productOrderID';
-    req.query.idValue = productOrders[0].productOrderID;
-
-    SQL.getOrderDetailByID(con, productOrders[0].productOrderID, function (success) {
-      var data = success[0];
-      var totalReceived = 0;
-
-      /** update wh_product */
-      warehouseNameList.forEach(function (item) {
-        var thisWhReceived = req.query.params[item] - data[item];
-        console.log(thisWhReceived);
-        updateWarehouseStock(item, req.query.params.productID, thisWhReceived)
-        totalReceived += thisWhReceived;
-      })
-
-      /** update shop_product */
-      updateShopStock(shopID, req.query.params.productID, totalReceived);
-
-      /** update crate */
-      var crateReceived = req.query.params.crate_qty - data.crate_qty;
-      SQL.updateCrateReceivedQty(con, crateReceived, req.query.params.crateType);
-
-      /** update order_each_day */
-      SQL.updateData(con, req, function (success) {
-        productOrders = productOrders.splice(1, productOrders.length);
-        updateOrderDetail(productOrders, shopID, orderID, warehouseNameList, res);
-      }, function (error) {
-        res.send(errorResp);
-      })
-    }, function (error) {
-      res.send(errorResp);
-    })
-  } else {
-    /** update order table after update order_each_day */
-    req.query.tableName = 'orders';
-    req.query.params = {};
-    req.query.params.status = 1;
-    req.query.idName = 'orderID';
-    req.query.idValue = orderID;
-    SQL.updateData(con, req, function (success) {
-      res.send({ code: 200 });
-    }, function (error) {
-      res.send(errorResp);
-    })
-  }
-}
-
-function updateShopStock(shopID, productID, receivedQty) {
-  SQL.updateShopStock(con, shopID, productID, receivedQty);
-}
-
-function updateWarehouseStock(whName, productID, outQuantity) {
-  SQL.updateWarehouseStock(con, whName, productID, outQuantity);
 }
 
 /**
@@ -470,6 +457,7 @@ app.get('/getDataDefault', function (req, res) {
     res.send(errorResp);
   })
 })
+
 app.get('/invoiceProductByOrderID', function (req, res) {
   SQL.invoiceProductByOrderID(con, req, function (success) {
     res.send({ code: 200, data: success });

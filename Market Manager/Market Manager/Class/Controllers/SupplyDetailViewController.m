@@ -107,37 +107,17 @@
 
 - (IBAction)onExportClicked:(id)sender {
     if(![Utils hasWritePermission:_supply.name]) return;
-    [CallbackAlertView setCallbackTaget:@"Message"
-                                message:@"After export, your data will be refreshed. Are you sure to continue?"
-                                 target:self
-                                okTitle:@"OK"
-                             okCallback:@selector(export)
-                            cancelTitle:@"Cancel"
-                         cancelCallback:nil];
-}
-
-- (void)export {
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
-        [self showActivity];
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        [manager GET:API_EXPORT_WAREHOUSE_PRODUCTS
-          parameters:@{kWarehouseID:_supply.ID, kWhName: _supply.name}
-            progress:nil
-             success:^(NSURLSessionDataTask * task, id responseObject) {
-                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                     [self refreshData];
-                     [self onSaveClicked:nil];
-                 } else {
-                     [self hideActivity];
-                     ShowMsgSomethingWhenWrong;
-                 }
-             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                 [self hideActivity];
-                 ShowMsgConnectFailed;
-             }];
+        [CallbackAlertView setCallbackTaget:@""
+                                    message:@"After export, your data will be refreshed. Are you sure to continue?"
+                                     target:self
+                                    okTitle:@"OK"
+                                 okCallback:@selector(export)
+                                cancelTitle:@"Cancel"
+                             cancelCallback:nil];
     } else {
-        [CallbackAlertView setCallbackTaget:@"Message"
+        [CallbackAlertView setCallbackTaget:@""
                                     message:@"This record has been exported!"
                                      target:self
                                     okTitle:btnOK
@@ -145,6 +125,26 @@
                                 cancelTitle:nil
                              cancelCallback:nil];
     }
+}
+
+- (void)export {
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_EXPORT_WAREHOUSE_PRODUCTS
+      parameters:@{kWarehouseID:_supply.ID, kWhName: _supply.name}
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [self refreshData];
+                 [self onSaveClicked:nil];
+             } else {
+                 [self hideActivity];
+                 ShowMsgSomethingWhenWrong;
+             }
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
+         }];
 }
 
 - (void)refreshData {
@@ -176,8 +176,8 @@
             progress:nil
              success:^(NSURLSessionDataTask * task, id responseObject) {
                  if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                     [CallbackAlertView setCallbackTaget:titleSuccess
-                                                 message:@"Saved"
+                     [CallbackAlertView setCallbackTaget:@""
+                                                 message:@"Data has been saved"
                                                   target:self
                                                  okTitle:btnOK
                                               okCallback:nil
@@ -192,7 +192,7 @@
                  ShowMsgConnectFailed;
         }];
     } else {
-        [CallbackAlertView setCallbackTaget:@"Message"
+        [CallbackAlertView setCallbackTaget:@""
                                     message:@"This record has been saved!"
                                      target:self
                                     okTitle:btnOK
@@ -206,22 +206,26 @@
     [self showActivity];
     Product *product = _products[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kWarehouseProductTableName,
-                             @"params": @{@"idName":kProductWareHouseID,
-                                          @"idValue":product.productWhID}};
-    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:kCode] integerValue] == 200) {
-            [_products removeObjectAtIndex:indexPath.row];
-            [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                     withRowAnimation:UITableViewRowAnimationFade];
-        } else {
-            ShowMsgSomethingWhenWrong;
-        }
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        ShowMsgConnectFailed;
-    }];
+    NSDictionary *params = @{kTableName:kWarehouseProductTableName,
+                             kParams: @{kIdName:kProductWareHouseID,
+                                          kIdValue:product.productWhID}};
+    [manager GET:API_DELETEDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == 200) {
+                 [_products removeObjectAtIndex:indexPath.row];
+                 [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                                          withRowAnimation:UITableViewRowAnimationFade];
+             }
+             else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
+         }];
 }
 
 #pragma mark - TABLE DATASOURCE
@@ -248,8 +252,5 @@
         [self deleteItemAt:indexPath];
     }
 }
-
-
-
 
 @end

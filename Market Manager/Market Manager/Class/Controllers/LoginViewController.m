@@ -38,7 +38,6 @@
     _passwordTextField.text = @"";
     _labelPhoneValidation.text = @"";
     _labelPasswordValidation.text = @"";
-
 }
 
 - (IBAction)onLoginClicked:(id)sender {
@@ -53,20 +52,15 @@
     [manager GET:API_AUTHEN parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:@"code"] intValue] == 200 ){
+             if([[responseObject objectForKey:@"code"] intValue] == kResSuccess ){
                  tempUser = [[User alloc] initWith:[responseObject objectForKey:kData]];
                  [[UserManager sharedInstance] setTempUser:tempUser];
-                 [CallbackAlertView setCallbackTaget:@"Login successfully!"
-                                             message:nil
+                 [self pushToMain];
+             } else {
+                 [CallbackAlertView setCallbackTaget:@""
+                                             message:msgAuthenFailed
                                               target:self
                                              okTitle:btnOK
-                                          okCallback:@selector(pushToMain)
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             } else {
-                 [CallbackAlertView setCallbackTaget:titleError
-                                             message:msgAuthenFailed
-                                              target:self okTitle:@"OK"
                                           okCallback:nil
                                          cancelTitle:nil
                                       cancelCallback:nil];
