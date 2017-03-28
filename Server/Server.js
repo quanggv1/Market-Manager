@@ -34,23 +34,7 @@ app.listen(5000);
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-/** 
- * 
- * 
- * 
- * 
- * 
- * */
 
-app.get("/reportSumOrderEachday", function onSuccess(req, res) {
-  console.log(req.query)
-  var tempDate = req.query.date;
-  SQL.reportSumOrderEachday(con, tempDate, function onError(success) {
-    res.send({ code: 200, data: success });
-  }, function (error) {
-    res.send(errorResp);
-  });
-})
 /** 
  * 
  * 
@@ -93,35 +77,6 @@ app.get('/getDataDefault', function (req, res) {
     res.send(errorResp);
   })
 })
-
-
-app.get('/invoiceCratesByOrderID', function (req, res) {
-  SQL.invoiceCratesByOrderID(con, req, function (success) {
-    res.send({ code: 200, data: success });
-  }, function (error) {
-    res.send(errorResp);
-  });
-
-  var urlencodedParser = bodyParser.urlencoded({ extended: false })
-  app.post("/uploadInvoice", urlencodedParser, function (req, res) {
-    var form = new multiparty.Form();
-
-    form.parse(req, function (err, fields, files) {
-      var targetFilePath = './uploads/invoices/' + files.files[0].originalFilename;
-      fs.writeFile(targetFilePath, fs.readFileSync(files.files[0].path), "binary", function (err) {
-        if (err) {
-          console.log(errorResp)
-          res.send(errorResp);
-        } else {
-          console.log("success")
-          res.send({ code: 200, data: "success" });
-        }
-      });
-    });
-  });
-})
-
-
 
 /**
  *  SHOP 
@@ -242,6 +197,31 @@ app.get('/invoiceProductByOrderID', function (req, res) {
   ORDER.invoiceProductByOrderID(con, req, res);
 })
 
+app.get("/reportSumOrderEachday", function onSuccess(req, res) {
+  ORDER.reportSumOrderEachday(con, req, res);
+})
+
+app.get('/invoiceCratesByOrderID', function (req, res) {
+  ORDER.invoiceCratesByOrderID(con, req, res);
+
+  var urlencodedParser = bodyParser.urlencoded({ extended: false })
+  app.post("/uploadInvoice", urlencodedParser, function (req, res) {
+    var form = new multiparty.Form();
+
+    form.parse(req, function (err, fields, files) {
+      var targetFilePath = './uploads/invoices/' + files.files[0].originalFilename;
+      fs.writeFile(targetFilePath, fs.readFileSync(files.files[0].path), "binary", function (err) {
+        if (err) {
+          console.log(errorResp)
+          res.send(errorResp);
+        } else {
+          console.log("success")
+          res.send({ code: 200, data: "success" });
+        }
+      });
+    });
+  });
+})
 
 
 

@@ -16,6 +16,7 @@ var getShops = function (con, req, res) {
 
 var addNewShop = function (con, req, res) {
     var params = req.query.params;
+    console.log(params);
     con.query('INSERT INTO shop SET ?', params, function (err, result) {
         if (err) {
             console.log(err);

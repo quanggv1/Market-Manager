@@ -168,8 +168,45 @@ var invoiceProductByOrderID = function (con, req, res) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
-            console.log('Data received from Db:\n');
-            res.send({ code: 200, data: success });
+            res.send({ code: 200, data: rows });
+        }
+    });
+}
+
+var reportSumOrderEachday = function (con, req, res) {
+    var tempDate = req.query.date;
+    var receivedTotalQuery = '';
+    WH.getWarehouseNameList(con, function (success) {
+        success.forEach(function (item) {
+            var whName = item.whName;
+            receivedTotalQuery = receivedTotalQuery + ' order_each_day.`' + whName + '` +';
+        })
+        receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
+        sql = 'SELECT product.productName, order_each_day.order_quantity,  sum(order_each_day.order_quantity - (' + receivedTotalQuery + ')) as quantity_need FROM order_each_day JOIN product ON order_each_day.productID = product.productID JOIN orders ON order_each_day.orderID = orders.orderID WHERE orders.date=?  GROUP BY product.productName';
+        con.query(sql, tempDate, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(Utils.errorResp);
+            } else {
+                res.send({ code: 200, data: result });
+            }
+        });
+    }, function (error) {
+        console.log(error);
+        res.send(Utils.errorResp);
+    })
+}
+
+
+var invoiceCratesByOrderID = function (con, req, res) {
+    var orderID = req.query.orderID;
+    sql = "SELECT crate.crateType as name, crate.price, sum(order_each_day.crate_qty) as quantity, Round((crate.price * sum(order_each_day.crate_qty)),2) as total from order_each_day JOIN crate ON crate.crateType = order_each_day.crateType and order_each_day.orderID=? GROUP BY crate.crateType";
+    con.query(sql, orderID, function (err, rows) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            res.send({ code: 200, data: rows });
         }
     });
 }
@@ -180,5 +217,8 @@ module.exports = {
     addNewOrder,
     updateNewOrder,
     getOrderDetail,
-    updateOrderDetail
+    updateOrderDetail,
+    reportSumOrderEachday,
+    invoiceProductByOrderID,
+    invoiceCratesByOrderID
 }
