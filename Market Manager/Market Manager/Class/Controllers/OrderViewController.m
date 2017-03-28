@@ -100,12 +100,11 @@
     order.shopID = _shop.ID;
     order.date = [Utils stringTodayDateTime];
     order.status = kOrderNew;
-    NSDictionary *params = @{kTableName:kOrderTableName,
-                             kParams: @{kShopID: order.shopID,
+    NSDictionary *params = @{kParams: @{kShopID: order.shopID,
                                           kDate: order.date,
                                         kStatus: @(order.status)}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA parameters:params
+    [manager GET:API_ADD_NEW_ORDER parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {

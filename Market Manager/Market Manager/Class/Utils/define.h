@@ -84,9 +84,10 @@ static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
 #pragma mark - Link
-#define SERVER @"http://localhost:5000/"
-//#define SERVER @"http://172.27.97.165:5000/"
+//#define SERVER @"http://localhost:5000/"
+#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
+//#define SERVER @"http://172.27.97.165:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
 #define API_UPDATEDATA [SERVER stringByAppendingString:@"updateData"]
@@ -96,7 +97,6 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_GET_ORDERS [SERVER stringByAppendingString:@"getOrderList"]
 #define API_GETSHOP_PRODUCTS [SERVER stringByAppendingString:@"getShopProducts"]
 #define API_EXPORT_SHOP_PRODUCTS [SERVER stringByAppendingString:@"exportShopProducts"]
-#define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
 #define API_GET_ORDER_DETAIL [SERVER stringByAppendingString:@"getOrderDetail"]
 #define API_UPDATE_ORDER_DETAIL [SERVER stringByAppendingString:@"updateOrderDetail"]
 #define API_GET_WAREHOUSE_PRODUCTS [SERVER stringByAppendingString:@"getWarehouseProducts"]
@@ -124,6 +124,9 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_GET_USERS [SERVER stringByAppendingString:@"getUsers"]
 #define API_ADD_NEW_USER [SERVER stringByAppendingString:@"addNewUser"]
 #define API_REMOVE_USER [SERVER stringByAppendingString:@"removeUser"]
+
+#define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
+#define API_UPDATE_NEW_ORDER [SERVER stringByAppendingString:@"updateNewOrder"]
 
 
 

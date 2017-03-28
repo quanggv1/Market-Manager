@@ -113,6 +113,14 @@ var updateShopProducts = function (con, req, res) {
     executeUpdateShopProduct(updatedProducts, con, req, res);
 }
 
+var updateShopStock = function (con, shopID, productID, receivedQty) {
+    con.query('UPDATE shop_product SET stockTake = stockTake + ? WHERE shopID = ? AND productID = ?', [receivedQty, shopID, productID],
+        function (err, result) {
+            if (err) { console.log(err) }
+        }
+    );
+}
+
 
 module.exports = {
     getShops,
@@ -121,4 +129,5 @@ module.exports = {
     getShopProducts,
     exportShopProducts,
     updateShopProducts,
+    updateShopStock
 }

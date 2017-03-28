@@ -98,7 +98,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kParams:[self objectToJson:orders],
                              kOrderID: _order.ID};
-    [manager GET:API_ADD_NEW_ORDER
+    [manager GET:API_UPDATE_NEW_ORDER
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {

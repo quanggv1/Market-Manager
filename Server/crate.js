@@ -65,8 +65,15 @@ var exportCrates = function (con, req, res) {
     });
 }
 
+var updateCrateReceivedQty = function (con, crateReceived, crateType) {
+    con.query('UPDATE crate SET receivedQty = receivedQty + ? WHERE crateType = ?', [crateReceived, crateType], function (err, result) {
+        if (err) { console.log(err) }
+    })
+}
+
 module.exports = {
     getCrates,
     updateCrates,
-    exportCrates
+    exportCrates,
+    updateCrateReceivedQty
 }

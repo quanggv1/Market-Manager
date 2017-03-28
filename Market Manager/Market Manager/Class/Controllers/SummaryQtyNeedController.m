@@ -34,15 +34,6 @@
     [self downloadWith:today];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationItem.title = _supply.name;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -104,8 +95,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SummaryQtyNeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellSummaryQtyNeed];
     ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
-    cell.productName.text = [_products[indexPath.row] objectForKey:@"productName"];
-    cell.quantityNeed.text = [NSString stringWithFormat:@"%d",[_products[indexPath.row] objectForKey:@"quantity_need"]];
+    cell.productName.text = [NSString stringWithFormat:@"%@",[_products[indexPath.row] objectForKey:@"productName"]];
+    cell.quantityNeed.text = [NSString stringWithFormat:@"%@",[_products[indexPath.row] objectForKey:@"quantity_need"]];
     return cell;
 }
 

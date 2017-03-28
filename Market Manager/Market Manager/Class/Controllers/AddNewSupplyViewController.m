@@ -76,8 +76,8 @@ static AddNewSupplyViewController *addNewSupplyViewController;
     }
     
     [self showActivity];
-    NSDictionary *params =  @{kSupplyName:newSupply.name,
-                              kSupplyDesc: newSupply.supplyDesc};
+    NSDictionary *params =  @{kParams:@{kSupplyName:newSupply.name,
+                                        kSupplyDesc: newSupply.supplyDesc}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_ADD_NEW_WAREHOUSE
       parameters:params

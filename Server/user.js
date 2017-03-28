@@ -53,9 +53,26 @@ var updateUser = function (con, req, res) {
     );
 }
 
+var authen = function (con, req, res) {
+    con.query('SELECT * FROM user WHERE userName = ? AND password = ?', [req.query.userName, req.query.password], function (error, rows) {
+      if (error) {
+        console.log(error);
+        res.send(Utils.errorResp);
+      } else {
+        if (rows.length > 0) {
+          console.log('OK');
+          res.send({ 'code': '200', 'data': rows[0] });
+        } else {
+          res.send(Utils.errorResp);
+        }
+      }
+    });
+  }
+
 module.exports = {
     getUsers,
     addNewUser,
     removeUser,
-    updateUser
+    updateUser,
+    authen
 }

@@ -38,9 +38,9 @@ var getWarehouseProducts = function (con, req, res) {
 }
 
 var addNewWarehouse = function (con, req, res) {
-    var whName = req.query.whName;
-    var whDesc = req.query.description;
-    con.query('INSERT INTO warehouse SET whName = ?, description = ?', [whName, whDesc], function (err, result) {
+    var whName = req.query.params.whName;
+    var whDesc = req.query.params.description;
+    con.query('INSERT INTO warehouse SET ?', req.query.params, function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -116,10 +116,52 @@ var updateWarehouseProducts = function (con, req, res) {
     executeUpdateWarehouseProducts(updatedProducts, con, req, res);
 }
 
+var getWarehouseNameList = function (con, onSuccess, onError) {
+    con.query('SELECT whName FROM warehouse', function (err, rows) {
+        if (err) {
+            console.log(err);
+            onError(err);
+        } else {
+            console.log('Data received from Db:\n');
+            onSuccess(rows);
+        }
+    });
+}
+
+var updateWarehouseStock = function (con, whName, productID, outQuantity) {
+    var sql = 'UPDATE warehouse_product SET outQuantity = outQuantity + ?, total = total - ? WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?';
+    con.query(sql, [outQuantity, outQuantity, whName, productID],
+        function (err, result) {
+            if (err) { console.log(err) }
+        }
+    );
+}
+
+var checkTotalWarehouseProduct = function (con, req, res) {
+    var pd_ID = req.query.productID;
+    var whName = req.query.whName;
+    var receivedQty = req.query.receivedQty;
+    con.query('SELECT total FROM warehouse_product WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?', [whName, pd_ID], function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            if (!result || result.length == 0 || receivedQty > result[0].total) {
+                res.send(Utils.errorResp);
+            } else {
+                res.send({code: 200});
+            }
+        }
+    });
+}
+
 module.exports = {
     getWarehouseProducts,
     addNewWarehouse,
     removeWarehouse,
     exportWarehouseProducts,
     updateWarehouseProducts,
+    getWarehouseNameList,
+    updateWarehouseStock,
+    checkTotalWarehouseProduct
 }

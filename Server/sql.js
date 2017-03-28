@@ -27,22 +27,6 @@ var getShopNameList = function (con, onSuccess, onError) {
 
 /*============SQL Query==============*/
 module.exports = {
-  /*Authentication*/
-  authen: function (con, req, res) {
-    con.query('SELECT * FROM user WHERE userName = ? AND password = ?', [req.query.userName, req.query.password], function (error, rows) {
-      if (error) {
-        console.log(error);
-        res.send(errorResp);
-      } else {
-        if (rows.length > 0) {
-          console.log('OK');
-          res.send({ 'code': '200', 'data': rows[0] });
-        } else {
-          res.send(errorResp);
-        }
-      }
-    });
-  },
   /*select warehouse's products*/
   getWareHouseProductList: function (con, req, onSuccess, onError) {
     var whID = req.query.whID;
@@ -81,34 +65,8 @@ module.exports = {
   },
 
   /*select order list*/
-  getOrderList: function (con, req, onSuccess, onError) {
-    var shopID = req.query.shopID;
-    console.log(shopID)
-    var sql = 'SELECT * FROM orders  WHERE `shopID` = ?';
-    con.query(sql, shopID, function (err, rows) {
-      if (err) {
-        console.log(err);
-        onError(err);
-      } else {
-        console.log('Data received from Db:\n');
-        onSuccess(rows);
-      }
-    });
-  },
 
-  getOrderDetail: function (con, req, onSuccess, onError) {
-    var orderID = req.query.orderID;
-    sql = 'SELECT order_each_day.*, product.productName FROM `order_each_day` JOIN product ON order_each_day.productID = product.productID WHERE `orderID` = ?';
-    con.query(sql, orderID, function (err, rows) {
-      if (err) {
-        console.log(err);
-        onError(err);
-      } else {
-        console.log('Data received from Db:\n');
-        onSuccess(rows);
-      }
-    });
-  },
+ 
 
   getOrderDetailByID: function (con, productOrderID, onSuccess, onError) {
     sql = 'SELECT * FROM `order_each_day` WHERE `productOrderID` = ?';
@@ -237,30 +195,7 @@ module.exports = {
     );
   },
 
-  reportOrderEachday: function (con, orderID, onSuccess, onError) {
-    var receivedTotalQuery = '';
-    getWarehouseNameList(con, function (success) {
-      success.forEach(function (item) {
-        var whName = item.whName;
-        receivedTotalQuery = receivedTotalQuery + ' order_each_day.`' + whName + '` +';
-      })
-      receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
-      sql = 'SELECT product.productName, order_each_day.order_quantity, (' + receivedTotalQuery + ') as received, (order_each_day.order_quantity - (' + receivedTotalQuery + ')) as quantity_need, (' + receivedTotalQuery + ' + order_each_day.stockTake) as total, order_each_day.crate_qty, order_each_day.crateType FROM order_each_day JOIN product ON order_each_day.productID = product.productID WHERE order_each_day.orderID =?'
-      console.log(sql);
-      con.query(sql, orderID, function (err, result) {
-        if (err) {
-          console.log(err);
-          onError(err)
-        } else {
-          console.log(result);
-          onSuccess(result);
-        }
-      });
-    }, function (error) {
-      onError(error);
-    })
-
-  },
+  
   reportSumOrderEachday: function (con, tmpDate, onSuccess, onError) {
     var receivedTotalQuery = '';
     getWarehouseNameList(con, function (success) {
@@ -324,31 +259,9 @@ module.exports = {
 
   },
 
-  updateCrateReceivedQty: function (con, crateReceived, crateType) {
-    con.query('UPDATE crate SET receivedQty = receivedQty + ? WHERE crateType = ?', [crateReceived, crateType], function (err, result) {
-      if (err) { console.log(err) }
-    })
-  },
-
-
-
-
-
   getWarehouseNameList,
 
-  invoiceProductByOrderID: function (con, req, onSuccess, onError) {
-    var orderID = req.query.orderID;
-    sql = "SELECT product.productName as name, product.price, order_each_day.order_quantity as quantity, Round((product.price * order_each_day.order_quantity),2) as total from order_each_day JOIN product ON product.productID = order_each_day.productID and order_each_day.orderID=?";
-    con.query(sql, orderID, function (err, rows) {
-      if (err) {
-        console.log(err);
-        onError(err);
-      } else {
-        console.log('Data received from Db:\n');
-        onSuccess(rows);
-      }
-    });
-  },
+  
 
   invoiceCratesByOrderID: function (con, req, onSuccess, onError) {
     var orderID = req.query.orderID;
