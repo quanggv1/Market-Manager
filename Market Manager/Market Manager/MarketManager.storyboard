@@ -3273,7 +3273,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Tix-43-OjK" kind="relationship" relationship="rootViewController" id="bzd-aq-pFu"/>
+                        <segue destination="tFX-cZ-9sR" kind="relationship" relationship="rootViewController" id="CqB-go-saJ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JMM-cq-htK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3293,12 +3293,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="NXk-4C-wDK">
-                                <rect key="frame" x="0.0" y="105" width="414" height="522"/>
+                                <rect key="frame" x="0.0" y="105" width="414" height="518"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CrateTableViewCellID" id="e59-O9-45e" customClass="CrateTableViewCell">
-                                        <rect key="frame" x="0.0" y="55" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e59-O9-45e" id="ylu-dP-1D8">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -3447,16 +3447,22 @@
                                     <constraint firstItem="qBJ-SE-vN3" firstAttribute="top" secondItem="NtG-od-LXp" secondAttribute="top" constant="10" id="v2E-Bt-DBJ"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pum-A5-dFF">
-                                <rect key="frame" x="0.0" y="627" width="414" height="45"/>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pum-A5-dFF">
+                                <rect key="frame" x="354" y="523" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.71869579530000005" green="0.1733022259" blue="0.18070280620000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="WZh-Vl-gT1"/>
+                                    <constraint firstAttribute="width" constant="50" id="VhE-cz-sww"/>
+                                    <constraint firstAttribute="height" constant="50" id="eMn-3H-uBS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="onSaveClicked:" destination="Tix-43-OjK" eventType="touchUpInside" id="DNG-HH-Lwf"/>
                                 </connections>
@@ -3532,26 +3538,21 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="pDU-1o-TqH" firstAttribute="top" secondItem="NtG-od-LXp" secondAttribute="bottom" id="1hB-Sx-Z1X"/>
-                            <constraint firstAttribute="trailing" secondItem="NXk-4C-wDK" secondAttribute="trailing" id="BFO-dm-Ns0"/>
-                            <constraint firstItem="NXk-4C-wDK" firstAttribute="leading" secondItem="7yr-fR-vYQ" secondAttribute="leading" id="GbQ-a0-v7c"/>
-                            <constraint firstItem="Pum-A5-dFF" firstAttribute="leading" secondItem="7yr-fR-vYQ" secondAttribute="leading" id="N3Z-yn-Iye"/>
+                            <constraint firstAttribute="trailing" secondItem="NXk-4C-wDK" secondAttribute="trailing" id="5ak-2Q-MGc"/>
+                            <constraint firstItem="NXk-4C-wDK" firstAttribute="leading" secondItem="7yr-fR-vYQ" secondAttribute="leading" id="90s-4p-oyG"/>
+                            <constraint firstItem="gHR-Qz-SyV" firstAttribute="top" secondItem="Pum-A5-dFF" secondAttribute="bottom" constant="50" id="D35-ba-e6u"/>
                             <constraint firstItem="pDU-1o-TqH" firstAttribute="leading" secondItem="7yr-fR-vYQ" secondAttribute="leading" id="UQV-K7-CVz"/>
                             <constraint firstItem="NtG-od-LXp" firstAttribute="leading" secondItem="7yr-fR-vYQ" secondAttribute="leading" id="VoS-mv-vst"/>
                             <constraint firstAttribute="trailing" secondItem="NtG-od-LXp" secondAttribute="trailing" id="Xr4-24-YaZ"/>
-                            <constraint firstItem="Pum-A5-dFF" firstAttribute="top" secondItem="NXk-4C-wDK" secondAttribute="bottom" id="eHu-kv-ezA"/>
-                            <constraint firstItem="NXk-4C-wDK" firstAttribute="top" secondItem="pDU-1o-TqH" secondAttribute="bottom" id="hJ1-AU-Qdd"/>
-                            <constraint firstItem="gHR-Qz-SyV" firstAttribute="top" secondItem="Pum-A5-dFF" secondAttribute="bottom" id="hXj-wa-t3o"/>
+                            <constraint firstItem="gHR-Qz-SyV" firstAttribute="top" secondItem="NXk-4C-wDK" secondAttribute="bottom" id="bxL-be-9Is"/>
+                            <constraint firstItem="NXk-4C-wDK" firstAttribute="top" secondItem="pDU-1o-TqH" secondAttribute="bottom" id="cjx-qa-abs"/>
                             <constraint firstAttribute="trailing" secondItem="pDU-1o-TqH" secondAttribute="trailing" id="sJl-E0-xlo"/>
+                            <constraint firstAttribute="trailing" secondItem="Pum-A5-dFF" secondAttribute="trailing" constant="10" id="sYU-t8-Fo1"/>
                             <constraint firstItem="NtG-od-LXp" firstAttribute="top" secondItem="fX7-Ov-VC7" secondAttribute="bottom" id="tfc-Sv-B1O"/>
-                            <constraint firstAttribute="trailing" secondItem="Pum-A5-dFF" secondAttribute="trailing" id="u9P-2q-TV2"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" systemItem="bookmarks" id="XxH-M5-MJl"/>
                     <navigationItem key="navigationItem" title="Crate Manager" id="kQP-8I-XRE">
-                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="yyh-0b-pen">
-                            <connections>
-                                <action selector="onMenuClicked:" destination="Tix-43-OjK" id="nNh-bv-nqN"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="CUR-lZ-fod">
                             <connections>
                                 <action selector="onAddNewCrate:" destination="Tix-43-OjK" id="wtd-Hi-3YM"/>
@@ -3565,7 +3566,51 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Vi-IP-kQR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2438" y="4021"/>
+            <point key="canvasLocation" x="3161" y="4021"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="MMP-f3-NQt">
+            <objects>
+                <viewController id="CLU-b2-Kh8" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eZx-Tv-iNs"/>
+                        <viewControllerLayoutGuide type="bottom" id="hvt-wd-aSC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="V7a-bn-RF4">
+                        <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="WJp-wT-8e0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Ri-O2-px9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3149" y="4766"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="w4l-RN-GKN">
+            <objects>
+                <tabBarController id="tFX-cZ-9sR" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="qhk-eo-zQx">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="yyh-0b-pen">
+                            <connections>
+                                <action selector="onMenuClicked:" destination="Tix-43-OjK" id="nNh-bv-nqN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Sgk-U6-Hsw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Tix-43-OjK" kind="relationship" relationship="viewControllers" id="0NT-Xy-8bk"/>
+                        <segue destination="CLU-b2-Kh8" kind="relationship" relationship="viewControllers" id="tKp-fh-Qnm"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n64-zb-sEG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2423" y="4021"/>
         </scene>
         <!--Add New Supply Product View Controller-->
         <scene sceneID="XNg-Wr-LsJ">
