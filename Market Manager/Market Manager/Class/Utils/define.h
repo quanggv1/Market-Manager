@@ -116,15 +116,12 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_INVOICE_UPLOAD [SERVER stringByAppendingString:@"uploadInvoice"]
 #define API_UPDATE_USER [SERVER stringByAppendingString:@"updateUser"]
 #define API_UPDATE_SHOP_PRODUCTS [SERVER stringByAppendingString:@"updateShopProducts"]
-
 #define API_GET_SHOPS [SERVER stringByAppendingString:@"getShops"]
 #define API_ADD_NEW_SHOP [SERVER stringByAppendingString:@"addNewShop"]
 #define API_REMOVE_SHOP [SERVER stringByAppendingString:@"removeShop"]
-
 #define API_GET_USERS [SERVER stringByAppendingString:@"getUsers"]
 #define API_ADD_NEW_USER [SERVER stringByAppendingString:@"addNewUser"]
 #define API_REMOVE_USER [SERVER stringByAppendingString:@"removeUser"]
-
 #define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
 #define API_UPDATE_NEW_ORDER [SERVER stringByAppendingString:@"updateNewOrder"]
 

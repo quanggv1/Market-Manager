@@ -51,6 +51,7 @@
 		3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9081E6EA44400EA3ADB /* page.png */; };
 		3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */; };
 		3DD12EBA1E84DE3E0017FED2 /* FunctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */; };
+		3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */; };
 		3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */; };
 		3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B61E5EE4AC00069D7D /* ProductManager.m */; };
 		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
@@ -197,6 +198,8 @@
 		3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailTableViewCell.m; sourceTree = "<group>"; };
 		3DD12EB81E84DE3E0017FED2 /* FunctionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionListViewController.h; sourceTree = "<group>"; };
 		3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionListViewController.m; sourceTree = "<group>"; };
+		3DE0F1481E8B669300433F90 /* CrateTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrateTabbarViewController.h; sourceTree = "<group>"; };
+		3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrateTabbarViewController.m; sourceTree = "<group>"; };
 		3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductTableViewCell.h; sourceTree = "<group>"; };
 		3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B51E5EE4AC00069D7D /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
@@ -613,6 +616,8 @@
 				74C5A73F1E7468CA00BB5B40 /* CrateViewController.m */,
 				74C5A7411E74693D00BB5B40 /* CrateTableViewCell.h */,
 				74C5A7421E74693E00BB5B40 /* CrateTableViewCell.m */,
+				3DE0F1481E8B669300433F90 /* CrateTabbarViewController.h */,
+				3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */,
 			);
 			name = Crate;
 			sourceTree = "<group>";
@@ -920,6 +925,7 @@
 				74C5A73A1E7466F100BB5B40 /* Crate.m in Sources */,
 				744424EB1E6B089100F0ECA8 /* ShopProductTableViewCell.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
+				3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */,
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
 				74C5A7331E73F94200BB5B40 /* OrderFormViewController.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
