@@ -11,6 +11,7 @@ var USER = require('./user');
 var WH = require('./warehouse');
 var CRATE = require('./crate');
 var ORDER = require('./order');
+var PRODUCT = require('./product');
 var errorResp = { 'code': '400', 'status': 'error' };
 
 
@@ -33,7 +34,6 @@ app.listen(5000);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
 
 /** 
  * 
@@ -78,6 +78,22 @@ app.get('/getDataDefault', function (req, res) {
   })
 })
 
+/** Product */ 
+app.get('/getProducts', function (req, res) {
+  PRODUCT.getProducts(con, req, res);
+})
+
+app.get('/removeProduct', function (req, res) {
+  PRODUCT.removeProduct(con, req, res);
+})
+
+app.get('/addNewProduct', function (req, res) {
+  PRODUCT.addNewProduct(con, req, res);
+})
+
+app.get('/updateProduct', function (req, res) {
+  PRODUCT.updateProduct(con, req, res);
+})
 /**
  *  SHOP 
  * */
@@ -103,6 +119,14 @@ app.get('/exportShopProducts', function (req, res) {
 
 app.get('/updateShopProducts', function (req, res) {
   SHOP.updateShopProducts(con, req, res);
+})
+
+app.get('/removeShopProduct', function (req, res) {
+  SHOP.removeShopProduct(con, req, res);
+})
+
+app.get('/addNewShopProduct', function (req, res) {
+  SHOP.addNewShopProduct(con, req, res);
 })
 
 /** USER */
@@ -152,6 +176,14 @@ app.get('/updateWarehouseProducts', function (req, res) {
 app.get('/checkTotalWarehouseProduct', function (req, res) {
   WH.checkTotalWarehouseProduct(con, req, res);
 });
+
+app.get('/addNewWarehouseProduct', function (req, res) {
+  WH.addNewWarehouseProduct(con, req, res);
+})
+
+app.get('/removeWarehouseProduct', function (req, res) {
+  WH.removeWarehouseProduct(con, req, res);
+})
 
 /** CRATES */
 

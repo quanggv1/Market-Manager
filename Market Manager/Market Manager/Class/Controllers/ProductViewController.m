@@ -63,18 +63,16 @@
     Product *productDeleted = _productTableDataSource[indexPath.row];
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kProductTableName,
-                                kParams: @{kIdName:kProductID,
-                                          kIdValue:productDeleted.productId}};
-    [manager GET:API_DELETEDATA
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
+                             kProductID:productDeleted.productId};
+    [manager GET:API_REMOVE_PRODUCT
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              [self hideActivity];
              [[ProductManager sharedInstance] delete:productDeleted];
              [_productTableDataSource removeObjectAtIndex:indexPath.row];
-             [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                      withRowAnimation:UITableViewRowAnimationFade];
+             [_productTableView reloadData];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [self hideActivity];
     }];
@@ -113,9 +111,9 @@
 
 - (void)download {
     [self showActivity];
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kProductTableName};
-    [manager GET:API_GETDATA
+    [manager GET:API_GET_PRODUCTS
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

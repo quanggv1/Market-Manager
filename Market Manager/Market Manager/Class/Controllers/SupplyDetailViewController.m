@@ -60,13 +60,15 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kWarehouseID:_supply.ID,
                              kDate: date,
-                             kWhName: _supply.name};
+                             kWhName: _supply.name,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_GET_WAREHOUSE_PRODUCTS
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == 200) {
                  _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
+                 
                  [_productTableView reloadData];
              } else {
                  _products = nil;
@@ -123,7 +125,9 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_EXPORT_WAREHOUSE_PRODUCTS
-      parameters:@{kWarehouseID:_supply.ID, kWhName: _supply.name}
+      parameters:@{kWarehouseID:_supply.ID,
+                   kWhName: _supply.name,
+                   kProduct: @([[ProductManager sharedInstance] getProductType])}
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
@@ -164,7 +168,8 @@
         
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         [manager GET:API_UPDATE_WAREHOUSE_PRODUCTS
-          parameters:@{kParams: [Utils objectToJsonString:updates]}
+          parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType]),
+                       kParams: [Utils objectToJsonString:updates]}
             progress:nil
              success:^(NSURLSessionDataTask * task, id responseObject) {
                  if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
@@ -190,23 +195,21 @@
     [self showActivity];
     Product *product = _products[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kWarehouseProductTableName,
-                             kParams: @{kIdName:kProductWareHouseID,
-                                          kIdValue:product.productWhID}};
-    [manager GET:API_DELETEDATA
+    NSDictionary *params = @{kProduct:@([[ProductManager sharedInstance] getProductType]),
+                             kProductWareHouseID:product.productWhID};
+    [manager GET:API_REMOVE_WAREHOUSE_PRODUCT
       parameters:params
         progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:kCode] integerValue] == 200) {
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                  [_products removeObjectAtIndex:indexPath.row];
-                 [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                          withRowAnimation:UITableViewRowAnimationFade];
+                 [_productTableView reloadData];
              }
              else {
                  ShowMsgSomethingWhenWrong;
              }
              [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
              [self hideActivity];
              ShowMsgConnectFailed;
          }];
