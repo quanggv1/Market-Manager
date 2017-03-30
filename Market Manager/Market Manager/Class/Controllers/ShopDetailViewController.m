@@ -43,10 +43,7 @@
     if(![Utils hasWritePermission:_shop.name]) return;
     [AddNewShopProductViewController showViewAt:self onSave:^(Product *product) {
         [_products insertObject:product atIndex:0];
-        [_productTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_products.count-1 inSection:0]]
-                                 withRowAnimation:UITableViewRowAnimationFade];
-        CGPoint bottomOffset = CGPointMake(0, _productTableView.contentSize.height - _productTableView.bounds.size.height);
-        [_productTableView setContentOffset:bottomOffset animated:YES];
+        [_productTableView reloadData];
     }];
 }
 
@@ -54,17 +51,15 @@
     [self showActivity];
     Product *product = _products[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kShopProductTableName,
-                                kParams: @{kIdName:kShopProductID,
-                                          kIdValue:product.shopProductID}};
-    [manager GET:API_DELETEDATA
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
+                             kShopProductID: product.shopProductID};
+    [manager GET:API_REMOVE_SHOP_PRODUCT
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                  [_products removeObjectAtIndex:indexPath.row];
-                 [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                                          withRowAnimation:UITableViewRowAnimationFade];
+                 [_productTableView reloadData];
              } else {
                  ShowMsgSomethingWhenWrong;
              }
@@ -80,7 +75,8 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopID:_shop.ID,
                              kDate: stringDate,
-                             kShopName: _shop.name};
+                             kShopName: _shop.name,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_GETSHOP_PRODUCTS
       parameters:params
         progress:nil
@@ -143,7 +139,8 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopName:_shop.name,
-                             kShopID:_shop.ID};
+                             kShopID:_shop.ID,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_EXPORT_SHOP_PRODUCTS
       parameters:params
         progress:nil
@@ -168,7 +165,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
-    if(![Utils hasWritePermission:_shop.name]) return;
+    if (![Utils hasWritePermission:_shop.name]) return;
     if (![searchDate isEqualToString:today]) return;
     [self showActivity];
     NSMutableArray *updates = [[NSMutableArray alloc] init];
@@ -178,7 +175,8 @@
     }
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_UPDATE_SHOP_PRODUCTS
-      parameters:@{kParams: [Utils objectToJsonString:updates]}
+      parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType]),
+                   kParams: [Utils objectToJsonString:updates]}
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == 200) {

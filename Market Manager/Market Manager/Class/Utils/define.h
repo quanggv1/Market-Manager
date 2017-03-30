@@ -124,7 +124,14 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_REMOVE_USER [SERVER stringByAppendingString:@"removeUser"]
 #define API_ADD_NEW_ORDER [SERVER stringByAppendingString:@"addNewOrder"]
 #define API_UPDATE_NEW_ORDER [SERVER stringByAppendingString:@"updateNewOrder"]
-
+#define API_GET_PRODUCTS [SERVER stringByAppendingString:@"getProducts"]
+#define API_REMOVE_PRODUCT [SERVER stringByAppendingString:@"removeProduct"]
+#define API_ADD_NEW_PRODUCT [SERVER stringByAppendingString:@"addNewProduct"]
+#define API_UPDATE_PRODUCT [SERVER stringByAppendingString:@"updateProduct"]
+#define API_REMOVE_SHOP_PRODUCT [SERVER stringByAppendingString:@"removeShopProduct"]
+#define API_ADD_NEW_SHOP_PRODUCT [SERVER stringByAppendingString:@"addNewShopProduct"]
+#define API_ADD_NEW_WAREHOUSE_PRODUCT [SERVER stringByAppendingString:@"addNewWarehouseProduct"]
+#define API_REMOVE_WAREHOUSE_PRODUCT [SERVER stringByAppendingString:@"removeWarehouseProduct"]
 
 
 
@@ -139,6 +146,7 @@ static NSString *const kProductOrder = @"order_quantity";
 static NSString *const kShopProductID = @"shopProductID";
 static NSString *const kProductOrderID = @"productOrderID";
 static NSString *const kProductWareHouseID = @"wh_pd_ID";
+static NSString *const kProduct = @"productType";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";

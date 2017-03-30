@@ -39,7 +39,7 @@ static RecommendListViewController *recommendListViewCtrl;
     if(!keySearch || keySearch.length == 0) {
         orderDropdownDatasource = _recommendList;
     } else {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains %@", keySearch];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@", keySearch];
         orderDropdownDatasource = [NSMutableArray arrayWithArray:[_recommendList filteredArrayUsingPredicate:predicate]];
     }
     [self reloadData];

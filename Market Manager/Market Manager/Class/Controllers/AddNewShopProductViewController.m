@@ -103,12 +103,12 @@ static AddNewShopProductViewController *addNewShopProductViewController;
     }
     
     [self showActivity];
-    NSDictionary *params = @{kTableName:kShopProductTableName,
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
                              kParams: @{kShopID: newProduct.shopID,
-                                          kShopDesc: newProduct.productDesc,
-                                          kProductID: newProduct.productId}};
+                                        kShopDesc: newProduct.productDesc,
+                                        kProductID: newProduct.productId}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA
+    [manager GET:API_ADD_NEW_SHOP_PRODUCT
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

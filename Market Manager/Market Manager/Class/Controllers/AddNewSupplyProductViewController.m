@@ -104,12 +104,12 @@ static AddNewSupplyProductViewController *addNewSupplyProductViewController;
     }
     
     [self showActivity];
-    NSDictionary *params = @{kTableName:kWarehouseProductTableName,
-                                kParams: @{kSupplyID: newProduct.whID,
-                                           kProductDesc: newProduct.productDesc,
-                                           kProductID: newProduct.productId}};
+    NSDictionary *params = @{kProduct:@([[ProductManager sharedInstance] getProductType]),
+                             kParams: @{kSupplyID: newProduct.whID,
+                                        kProductDesc: newProduct.productDesc,
+                                        kProductID: newProduct.productId}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA
+    [manager GET:API_ADD_NEW_WAREHOUSE_PRODUCT
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {
@@ -118,24 +118,13 @@ static AddNewSupplyProductViewController *addNewSupplyProductViewController;
                  _saveCallback(newProduct);
                  [self dismiss];
              } else {
-                 [CallbackAlertView setCallbackTaget:@"Error"
-                                             message:@"Can't connect to server"
-                                              target:self
-                                             okTitle:@"OK"
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
+                 ShowMsgSomethingWhenWrong;
              }
              [self hideActivity];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [self hideActivity];
-             [CallbackAlertView setCallbackTaget:@"Error"
-                                         message:@"Can't connect to server"
-                                          target:self
-                                         okTitle:@"OK"
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];    }];
+             ShowMsgConnectFailed;
+         }];
 }
 
 - (BOOL)isNewProductSatisfiedReq {

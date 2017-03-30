@@ -2,29 +2,59 @@ var Utils = require('./utils');
 var csvjson = require('csvjson');
 var json2csv = require('json2csv');
 var fs = require('fs');
+var PRODUCT = require('./product');
+
+function getWarehouseProductTableName(productType) {
+    switch (productType) {
+        case Utils.ProductType.VEGETABLES:
+            return Utils.Table.WAREHOUSE_VEGETABLES;
+        case Utils.ProductType.MEAT:
+            return Utils.Table.WAREHOUSE_MEATS;
+        case Utils.ProductType.FOOD:
+            return Utils.Table.WAREHOUSE_FOODS;
+        default:
+            return;
+    }
+}
+
+function getWarehouseName(productType, whName) {
+    switch (productType) {
+        case Utils.ProductType.VEGETABLES:
+            return whName + '_Vegetables_';
+        case Utils.ProductType.MEAT:
+            return whName + '_meat_';
+        case Utils.ProductType.FOOD:
+            return whName + '_food_';
+        default:
+            return;
+    }
+}
 
 function executeSelectWarehouseProducts(con, req, onSuccess, onError) {
+    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
+    var productTable = PRODUCT.getProductTableName(req.query.productType);
     var whID = req.query.whID;
-    var sql = "SELECT warehouse_product.*, product.productName FROM warehouse_product JOIN product ON warehouse_product.productID = product.productID WHERE whID = ?";
-    con.query(sql, whID, function (err, rows) {
-        if (err) {
-            console.log(err);
-            onError(err);
-        } else {
-            onSuccess(rows);
-        }
-    });
+    con.query('SELECT  ' + warehouseProductTable + '.*, ' + productTable + '.productName FROM ' + warehouseProductTable + ' JOIN ' + productTable + ' ON ' + warehouseProductTable + '.productID = ' + productTable + '.productID WHERE ' + warehouseProductTable + '.whID = ?', whID,
+        function (err, rows) {
+            if (err) {
+                console.log(err);
+                onError(err);
+            } else {
+                onSuccess(rows);
+            }
+        });
 }
 
 var getWarehouseProducts = function (con, req, res) {
     if (Utils.today() === req.query.date) {
-        executeSelectWarehouseProducts(con, req, function (success) {
-            res.send({ code: 200, data: success });
-        }, function (error) {
+        executeSelectWarehouseProducts(con, req, function onSuccess(result) {
+            res.send({ code: 200, data: result });
+        }, function onError(error) {
             res.send(Utils.errorResp);
         })
     } else {
-        var targetFilePath = './uploads/warehouses/' + req.query.whName + req.query.date + '.csv';
+        var whName = getWarehouseName(req.query.productType, req.query.whName);
+        var targetFilePath = './uploads/warehouses/' + whName + req.query.date + '.csv';
         if (fs.existsSync(targetFilePath)) {
             Utils.convertCSV2Json(targetFilePath, function onSuccess(result) {
                 res.send({ code: 200, data: result });
@@ -78,9 +108,40 @@ var removeWarehouse = function (con, req, res) {
     })
 }
 
+var addNewWarehouseProduct = function (con, req, res) {
+    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
+    var params = req.query.params;
+    con.query('INSERT INTO ' + warehouseProductTable + ' SET ?', params, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            res.send({ code: 200, status: 'OK', data: { insertId: result.insertId } });
+        }
+    });
+}
+
+var removeWarehouseProduct = function (con, req, res) {
+    var wh_pd_ID = req.query.wh_pd_ID;
+    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
+    con.query('DELETE FROM ' + warehouseProductTable + ' WHERE wh_pd_ID = ?', [wh_pd_ID], function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            if (result.affectedRows > 0) {
+                res.send({ code: 200 });
+            } else {
+                res.send(Utils.errorResp);
+            }
+        }
+    });
+}
+
 var exportWarehouseProducts = function (con, req, res) {
     executeSelectWarehouseProducts(con, req, function onSuccess(result) {
-        var targetFilePath = './uploads/warehouses/' + req.query.whName + Utils.today() + '.csv';
+        var whName = getWarehouseName(req.query.productType, req.query.whName);
+        var targetFilePath = './uploads/warehouses/' + whName + Utils.today() + '.csv';
         Utils.convertJson2CSV(result, targetFilePath, function onSuccess() {
             res.send({ code: 200 });
         }, function onError() {
@@ -96,7 +157,8 @@ var exportWarehouseProducts = function (con, req, res) {
 function executeUpdateWarehouseProducts(updatedProducts, con, req, res) {
     if (updatedProducts.length > 0) {
         var params = updatedProducts[0];
-        con.query('UPDATE warehouse_product SET ? WHERE wh_pd_ID = ' + params.wh_pd_ID, params, function (err, result) {
+        var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
+        con.query('UPDATE ' + warehouseProductTable + ' SET ? WHERE wh_pd_ID = ' + params.wh_pd_ID, params, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);
@@ -149,7 +211,7 @@ var checkTotalWarehouseProduct = function (con, req, res) {
             if (!result || result.length == 0 || receivedQty > result[0].total) {
                 res.send(Utils.errorResp);
             } else {
-                res.send({code: 200});
+                res.send({ code: 200 });
             }
         }
     });
@@ -163,5 +225,7 @@ module.exports = {
     updateWarehouseProducts,
     getWarehouseNameList,
     updateWarehouseStock,
-    checkTotalWarehouseProduct
+    checkTotalWarehouseProduct,
+    addNewWarehouseProduct,
+    removeWarehouseProduct
 }

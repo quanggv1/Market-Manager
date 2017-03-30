@@ -24,17 +24,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if(_product) {
-        _productNameTextField.text = _product.name;
-        _productPriceTextField.text = [NSString stringWithFormat:@"%.2f", _product.price];
-        _descriptionTextView.text = _product.productDesc;
-        _descriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        
+        [self fillData];
         rightBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(onRightBarButtonClicked)];
         self.navigationItem.rightBarButtonItem = rightBarButton;
         [self setEditing:NO];
     } else {
         [self setEditing:YES];
     }
+}
+
+- (void)fillData {
+    _productNameTextField.text = _product.name;
+    _productPriceTextField.text = [NSString stringWithFormat:@"%.2f", _product.price];
+    _descriptionTextView.text = _product.productDesc;
+    _descriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -66,52 +69,66 @@
 
 - (void)addNewProductWith:(NSString *)productName price:(NSString *)price description:(NSString *)description {
     [self showActivity];
-    NSDictionary *params = @{kTableName:kProductTableName,
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
                              kParams: @{kProductName: productName,
-                                          kProductPrice: price,
-                                          kProductDesc: description}};
+                                        kProductPrice: price,
+                                        kProductDesc: description}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if([[responseObject objectForKey:kCode] intValue] == 200) {
-            NSDictionary *data = [responseObject objectForKey:kData];
-            NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
-            [self insertNewProduct:productId name:productName price:price description:description];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [CallbackAlertView setCallbackTaget:@"Error" message:@"This product is exits " target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-            [self hideActivity];
-        }
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
-    }];
+    [manager GET:API_ADD_NEW_PRODUCT
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if([[responseObject objectForKey:kCode] intValue] == 200) {
+                 NSDictionary *data = [responseObject objectForKey:kData];
+                 NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
+                 [self insertNewProduct:productId name:productName price:price description:description];
+                 [self.navigationController popViewControllerAnimated:YES];
+             } else {
+                 [CallbackAlertView setCallbackTaget:@"Error"
+                                             message:@"This product is exits"
+                                              target:self
+                                             okTitle:@"OK"
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
+         }];
 }
 
 - (void)insertNewProduct:(NSString *)productId name:(NSString *)productName price:(NSString *)price description:(NSString *)description {
-    Product *newProduct = [[Product alloc] initWith:@{@"productID":productId,
-                                                      @"productName":productName,
-                                                      @"price":price,
-                                                      @"description": description}];
+    Product *newProduct = [[Product alloc] initWith:@{kProductID:productId,
+                                                      kProductName:productName,
+                                                      kProductPrice:price,
+                                                      kProductDesc: description}];
     [[ProductManager sharedInstance] insert:newProduct];
 }
 
 - (void)updateProduct {
     [self showActivity];
-    NSDictionary *params = @{@"tableName":@"product",
-                             @"idName":@"productID",
-                             @"idValue":_product.productId,
-                             @"params":@{@"price": [NSString stringWithFormat:@"%f", _product.price],
-                                         @"description": _product.productDesc,
-                                         @"productName": _product.name}};
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
+                             kParams: @{kProductID: _product.productId,
+                                        kProductName: _product.name,
+                                        kProductPrice: @(_product.price),
+                                        kProductDesc: _product.productDesc}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_UPDATEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [[ProductManager sharedInstance] update:_product];
-        [self.navigationController popViewControllerAnimated:YES];
-        [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Can't connect to server" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+    [manager GET:API_UPDATE_PRODUCT
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * task, id responseObject) {
+             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[ProductManager sharedInstance] update:_product];
+                 [self.navigationController popViewControllerAnimated:YES];
+             } else {
+                 ShowMsgSomethingWhenWrong;
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * task, NSError * error) {
+             [self hideActivity];
+             ShowMsgConnectFailed;
     }];
 }
 
@@ -121,6 +138,7 @@
         [self setEditing:YES];
         [rightBarButton setTitle:@"Cancel"];
     } else {
+        [self fillData];
         [rightBarButton setTitle:@"Edit"];
         [self setEditing:NO];
     }

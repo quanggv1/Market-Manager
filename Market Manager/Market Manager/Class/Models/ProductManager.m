@@ -10,7 +10,7 @@
 
 @implementation ProductManager {
     NSMutableArray *productList;
-    kProductType *_productType;
+    kProductType _productType;
 }
 
 + (instancetype)sharedInstance {
@@ -33,7 +33,11 @@
         Product *product = [[Product alloc] initWith:dictionary];
         [products addObject:product];
     }
-    return products;
+    NSSortDescriptor *sortDescriptor =
+    [NSSortDescriptor sortDescriptorWithKey:@"name"
+                                  ascending:YES
+                                   selector:@selector(caseInsensitiveCompare:)];
+    return [NSMutableArray arrayWithArray:[products sortedArrayUsingDescriptors:@[sortDescriptor]]];
 }
 
 - (NSArray *)getProductList {
@@ -89,11 +93,11 @@
     return nil;
 }
 
-- (void)setProductType:(kProductType *)productType {
+- (void)setProductType:(kProductType)productType {
     _productType = productType;
 }
 
-- (kProductType *)getProductType {
+- (kProductType)getProductType {
     return _productType;
 }
 @end
