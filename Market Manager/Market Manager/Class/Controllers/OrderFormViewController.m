@@ -39,7 +39,8 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopID:_shop.ID,
                              kDate: [Utils stringTodayDateTime],
-                             kShopName: _shop.name};
+                             kShopName: _shop.name,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_GETSHOP_PRODUCTS
       parameters:params
         progress:nil
@@ -97,7 +98,8 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kParams:[self objectToJson:orders],
-                             kOrderID: _order.ID};
+                             kOrderID: _order.ID,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_UPDATE_NEW_ORDER
       parameters:params
         progress:nil

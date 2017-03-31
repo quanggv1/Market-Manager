@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2017 at 03:47 AM
+-- Generation Time: Mar 31, 2017 at 10:52 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `crate` (
 
 INSERT INTO `crate` (`crateID`, `crateType`, `receivedQty`, `returnedQty`, `price`) VALUES
 (1, 'XA2W2', 25, 0, 10),
-(2, 'HG2A', 2, 0, 3),
+(2, 'HG2A', 4, 0, 3),
 (4, 'X245S', 4, 3, 5);
 
 -- --------------------------------------------------------
@@ -442,6 +442,42 @@ INSERT INTO `food` (`productID`, `productName`, `price`, `description`) VALUES
 (401, 'rf', 55, ''),
 (402, 'ye', 2, ''),
 (403, 'tf', 5, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `food_individual_order`
+--
+
+DROP TABLE IF EXISTS `food_individual_order`;
+CREATE TABLE IF NOT EXISTS `food_individual_order` (
+  `productOrderID` int(11) NOT NULL AUTO_INCREMENT,
+  `orderID` int(10) NOT NULL,
+  `productID` int(10) NOT NULL,
+  `stockTake` int(10) NOT NULL COMMENT 'So du tu hom truoc',
+  `order_quantity` int(10) NOT NULL COMMENT 'So luong order',
+  `crateType` varchar(100) NOT NULL COMMENT 'Mã thùng',
+  `crate_qty` int(10) NOT NULL COMMENT 'Số lượng thùng',
+  `WH1` int(11) NOT NULL,
+  `WH2` int(11) NOT NULL,
+  `WH T&L` int(11) NOT NULL,
+  PRIMARY KEY (`productOrderID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `food_orders`
+--
+
+DROP TABLE IF EXISTS `food_orders`;
+CREATE TABLE IF NOT EXISTS `food_orders` (
+  `orderID` int(10) NOT NULL AUTO_INCREMENT,
+  `shopID` int(10) NOT NULL,
+  `date` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`orderID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -4242,6 +4278,61 @@ INSERT INTO `meat` (`productID`, `productName`, `price`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `meat_individual_order`
+--
+
+DROP TABLE IF EXISTS `meat_individual_order`;
+CREATE TABLE IF NOT EXISTS `meat_individual_order` (
+  `productOrderID` int(11) NOT NULL AUTO_INCREMENT,
+  `orderID` int(10) NOT NULL,
+  `productID` int(10) NOT NULL,
+  `stockTake` int(10) NOT NULL COMMENT 'So du tu hom truoc',
+  `order_quantity` int(10) NOT NULL COMMENT 'So luong order',
+  `crateType` varchar(100) NOT NULL COMMENT 'Mã thùng',
+  `crate_qty` int(10) NOT NULL COMMENT 'Số lượng thùng',
+  `WH1` int(11) NOT NULL,
+  `WH2` int(11) NOT NULL,
+  `WH T&L` int(11) NOT NULL,
+  PRIMARY KEY (`productOrderID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `meat_individual_order`
+--
+
+INSERT INTO `meat_individual_order` (`productOrderID`, `orderID`, `productID`, `stockTake`, `order_quantity`, `crateType`, `crate_qty`, `WH1`, `WH2`, `WH T&L`) VALUES
+(1, 1, 255, 1, 245, 'HG2A', 2, 0, 0, 0),
+(2, 1, 256, 1, 54, '', 0, 0, 0, 0),
+(3, 1, 255, 1, 2, '', 0, 0, 0, 0),
+(4, 2, 255, 1, 2, '', 0, 2, 2, 0),
+(5, 2, 256, 1, 2, '', 0, 2, 2, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meat_orders`
+--
+
+DROP TABLE IF EXISTS `meat_orders`;
+CREATE TABLE IF NOT EXISTS `meat_orders` (
+  `orderID` int(10) NOT NULL AUTO_INCREMENT,
+  `shopID` int(10) NOT NULL,
+  `date` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL,
+  PRIMARY KEY (`orderID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `meat_orders`
+--
+
+INSERT INTO `meat_orders` (`orderID`, `shopID`, `date`, `status`) VALUES
+(1, 1, '2017-03-31', 1),
+(2, 2, '2017-03-31', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `meat_shop_product`
 --
 
@@ -4860,8 +4951,8 @@ INSERT INTO `meat_shop_product` (`shopProductID`, `shopID`, `productID`, `stockT
 (601, 2, 252, 1, ''),
 (602, 2, 253, 1, ''),
 (603, 2, 254, 1, ''),
-(604, 2, 255, 1, ''),
-(605, 2, 256, 1, ''),
+(604, 2, 255, 5, ''),
+(605, 2, 256, 5, ''),
 (606, 2, 257, 1, ''),
 (607, 2, 258, 1, ''),
 (608, 2, 259, 1, ''),
@@ -6511,7 +6602,7 @@ CREATE TABLE IF NOT EXISTS `meat_warehouse` (
   `date` date NOT NULL,
   `description` varchar(200) NOT NULL,
   PRIMARY KEY (`wh_pd_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1118 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1122 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `meat_warehouse`
@@ -6747,8 +6838,8 @@ INSERT INTO `meat_warehouse` (`wh_pd_ID`, `whID`, `productID`, `stockTake`, `out
 (229, 1, 252, 200, 0, 0, 200, '0000-00-00', ''),
 (230, 1, 253, 200, 0, 0, 200, '0000-00-00', ''),
 (231, 1, 254, 200, 0, 0, 200, '0000-00-00', ''),
-(232, 1, 255, 200, 0, 0, 200, '0000-00-00', ''),
-(233, 1, 256, 200, 0, 0, 200, '0000-00-00', ''),
+(232, 1, 255, 200, 2, 0, 198, '0000-00-00', ''),
+(233, 1, 256, 200, 2, 0, 198, '0000-00-00', ''),
 (234, 1, 257, 200, 0, 0, 200, '0000-00-00', ''),
 (235, 1, 258, 200, 0, 0, 200, '0000-00-00', ''),
 (236, 1, 259, 200, 0, 0, 200, '0000-00-00', ''),
@@ -7119,8 +7210,8 @@ INSERT INTO `meat_warehouse` (`wh_pd_ID`, `whID`, `productID`, `stockTake`, `out
 (601, 2, 252, 200, 0, 0, 200, '0000-00-00', ''),
 (602, 2, 253, 200, 0, 0, 200, '0000-00-00', ''),
 (603, 2, 254, 200, 0, 0, 200, '0000-00-00', ''),
-(604, 2, 255, 200, 0, 0, 200, '0000-00-00', ''),
-(605, 2, 256, 200, 0, 0, 200, '0000-00-00', ''),
+(604, 2, 255, 200, 2, 0, 198, '0000-00-00', ''),
+(605, 2, 256, 200, 2, 0, 198, '0000-00-00', ''),
 (606, 2, 257, 200, 0, 0, 200, '0000-00-00', ''),
 (607, 2, 258, 200, 0, 0, 200, '0000-00-00', ''),
 (608, 2, 259, 200, 0, 0, 200, '0000-00-00', ''),
@@ -7632,7 +7723,11 @@ INSERT INTO `meat_warehouse` (`wh_pd_ID`, `whID`, `productID`, `stockTake`, `out
 (1113, 3, 392, 200, 0, 0, 200, '0000-00-00', ''),
 (1114, 3, 393, 200, 0, 0, 200, '0000-00-00', ''),
 (1115, 3, 394, 200, 0, 0, 200, '0000-00-00', ''),
-(1117, 1, 396, 0, 0, 0, 0, '0000-00-00', '');
+(1117, 1, 396, 0, 0, 0, 0, '0000-00-00', ''),
+(1118, 6, 407, 0, 0, 88, 88, '0000-00-00', 'He'),
+(1119, 6, 255, 0, 0, 885, 885, '0000-00-00', ''),
+(1120, 6, 256, 0, 0, 88, 88, '0000-00-00', ''),
+(1121, 6, 397, 0, 0, 88, 88, '0000-00-00', '');
 
 -- --------------------------------------------------------
 
@@ -7647,7 +7742,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `date` varchar(100) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`orderID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `orders`
@@ -7657,7 +7752,9 @@ INSERT INTO `orders` (`orderID`, `shopID`, `date`, `status`) VALUES
 (4, 1, '2017-03-19', 1),
 (5, 1, '2017-03-19', 0),
 (6, 1, '2017-03-19', 0),
-(7, 1, '2017-03-28', 1);
+(7, 1, '2017-03-28', 1),
+(8, 1, '2017-03-31', 0),
+(9, 1, '2017-03-31', 0);
 
 -- --------------------------------------------------------
 
@@ -8095,8 +8192,7 @@ INSERT INTO `product` (`productID`, `productName`, `price`, `description`) VALUE
 (402, 'ye', 2, ''),
 (403, 'tf', 5, ''),
 (405, '1211', 56, '277383'),
-(407, '11113', 2, ''),
-(408, '111111', 25, 'Y');
+(407, '11113', 2, '');
 
 -- --------------------------------------------------------
 
@@ -10445,7 +10541,7 @@ CREATE TABLE IF NOT EXISTS `warehouse` (
   `description` varchar(200) NOT NULL,
   PRIMARY KEY (`whID`),
   UNIQUE KEY `whName` (`whName`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf16le COMMENT='Table kho hàng' ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf16le COMMENT='Table kho hàng' ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `warehouse`

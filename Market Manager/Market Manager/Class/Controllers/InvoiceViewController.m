@@ -7,6 +7,7 @@
 //
 
 #import "InvoiceViewController.h"
+#import "ProductManager.h"
 
 @interface InvoiceViewController () <UIWebViewDelegate> {
     NSMutableArray *productsInvoice, *cratesInvoice;
@@ -31,7 +32,8 @@
 - (void)download:(NSString *)apiName {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kOrderID:_order.ID};
+    NSDictionary *params = @{kOrderID:_order.ID,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:apiName
       parameters:params
         progress:nil
@@ -132,7 +134,7 @@
     }
     
     UIGraphicsEndPDFContext();
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,     NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString * pdfFile = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"invoice_%@.pdf",[Utils stringTodayDateTime]]];
     

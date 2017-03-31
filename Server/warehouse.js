@@ -75,37 +75,27 @@ var addNewWarehouse = function (con, req, res) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
-            var insertID = result.insertId;
-            con.query('ALTER TABLE order_each_day ADD `' + whName + '` int NOT NULL', function (err, result) {
-                if (err) {
-                    console.log(err);
-                    con.query('DELETE FROM warehouse WHERE whID = ?', insertID);
-                    res.send(Utils.errorResp);
-                } else {
-                    res.send({ code: 200, data: { insertId: insertID } });
-                }
-            })
+            res.send({ code: 200, data: { insertId: result.insertId } });
         }
     })
+    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_VEGETABLE + ' ADD `' + whName + '` int NOT NULL')
+    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_MEAT + ' ADD `' + whName + '` int NOT NULL')
+    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_FOOD + ' ADD `' + whName + '` int NOT NULL')
 }
 
 var removeWarehouse = function (con, req, res) {
     var whName = req.query.whName;
-    con.query('ALTER TABLE order_each_day DROP COLUMN `' + whName + '`', function (err) {
+    con.query('DELETE FROM warehouse WHERE whName = ?', whName, function (err) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
-            con.query('DELETE FROM warehouse WHERE whName = ?', whName, function (err) {
-                if (err) {
-                    console.log(err);
-                    res.send(Utils.errorResp);
-                } else {
-                    res.send({ code: 200 });
-                }
-            })
+            res.send({ code: 200 });
         }
     })
+    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_VEGETABLE + ' DROP COLUMN `' + whName + '`')
+    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_MEAT + ' DROP COLUMN `' + whName + '`')
+    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_FOOD + ' DROP COLUMN `' + whName + '`')
 }
 
 var addNewWarehouseProduct = function (con, req, res) {
@@ -190,8 +180,9 @@ var getWarehouseNameList = function (con, onSuccess, onError) {
     });
 }
 
-var updateWarehouseStock = function (con, whName, productID, outQuantity) {
-    var sql = 'UPDATE warehouse_product SET outQuantity = outQuantity + ?, total = total - ? WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?';
+var updateWarehouseStock = function (con, whName, productID, outQuantity, productType) {
+    var whProductTable = getWarehouseProductTableName(productType);
+    var sql = 'UPDATE ' + whProductTable + ' SET outQuantity = outQuantity + ?, total = total - ? WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?';
     con.query(sql, [outQuantity, outQuantity, whName, productID],
         function (err, result) {
             if (err) { console.log(err) }
@@ -203,7 +194,8 @@ var checkTotalWarehouseProduct = function (con, req, res) {
     var pd_ID = req.query.productID;
     var whName = req.query.whName;
     var receivedQty = req.query.receivedQty;
-    con.query('SELECT total FROM warehouse_product WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?', [whName, pd_ID], function (err, result) {
+    var whProductTable = getWarehouseProductTableName(req.query.productType);
+    con.query('SELECT total FROM ' + whProductTable + ' WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?', [whName, pd_ID], function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sYx-3M-FYo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sYx-3M-FYo">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1546,17 +1546,17 @@
                                 <rect key="frame" x="0.0" y="20" width="414" height="716"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuBannerCellID" rowHeight="250" id="kJh-xp-44w">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="250"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuBannerCellID" rowHeight="252" id="kJh-xp-44w">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="252"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kJh-xp-44w" id="Zpl-iR-6Tw">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="252"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_chuan" translatesAutoresizingMaskIntoConstraints="NO" id="aVf-xk-SSP">
-                                                    <rect key="frame" x="5" y="5" width="404" height="202"/>
+                                                    <rect key="frame" x="-1860.3333333333333" y="5" width="4134.666666666667" height="886.33333333333326"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="aVf-xk-SSP" secondAttribute="height" multiplier="2:1" id="a10-ei-DGM"/>
+                                                        <constraint firstAttribute="width" secondItem="aVf-xk-SSP" secondAttribute="height" multiplier="14:3" id="6FV-Fm-Vo8"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1565,9 +1565,9 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Market Manager" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzk-eW-eJM">
-                                                    <rect key="frame" x="5" y="212" width="404" height="20"/>
+                                                    <rect key="frame" x="5" y="901.33333333333326" width="404" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="ebn-Hd-Hb2"/>
+                                                        <constraint firstAttribute="height" constant="20" id="gtM-p7-fHa"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
@@ -1575,18 +1575,18 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Kzk-eW-eJM" firstAttribute="leading" secondItem="Zpl-iR-6Tw" secondAttribute="leading" constant="5" id="05B-ay-n4O"/>
-                                                <constraint firstItem="aVf-xk-SSP" firstAttribute="leading" secondItem="Zpl-iR-6Tw" secondAttribute="leading" constant="5" id="D7b-CS-A94"/>
-                                                <constraint firstItem="aVf-xk-SSP" firstAttribute="top" secondItem="Zpl-iR-6Tw" secondAttribute="top" constant="5" id="Nb7-ws-oft"/>
-                                                <constraint firstAttribute="bottom" secondItem="Kzk-eW-eJM" secondAttribute="bottom" constant="18" id="WBr-F9-vHt"/>
-                                                <constraint firstAttribute="trailing" secondItem="Kzk-eW-eJM" secondAttribute="trailing" constant="5" id="pGO-da-Iox"/>
-                                                <constraint firstAttribute="trailing" secondItem="aVf-xk-SSP" secondAttribute="trailing" constant="5" id="uIn-O1-U4L"/>
-                                                <constraint firstItem="Kzk-eW-eJM" firstAttribute="top" secondItem="aVf-xk-SSP" secondAttribute="bottom" constant="5" id="zjL-mY-hh4"/>
+                                                <constraint firstItem="Kzk-eW-eJM" firstAttribute="top" secondItem="aVf-xk-SSP" secondAttribute="bottom" constant="10" id="0F7-cx-J1e"/>
+                                                <constraint firstItem="aVf-xk-SSP" firstAttribute="top" secondItem="Zpl-iR-6Tw" secondAttribute="top" constant="5" id="1cc-9r-zMF"/>
+                                                <constraint firstAttribute="trailing" secondItem="Kzk-eW-eJM" secondAttribute="trailing" constant="5" id="8D2-BF-kj5"/>
+                                                <constraint firstAttribute="bottom" secondItem="Kzk-eW-eJM" secondAttribute="bottom" constant="20" id="gfO-Sb-m3w"/>
+                                                <constraint firstItem="aVf-xk-SSP" firstAttribute="centerX" secondItem="Zpl-iR-6Tw" secondAttribute="centerX" id="isy-6h-KjP"/>
+                                                <constraint firstItem="aVf-xk-SSP" firstAttribute="width" secondItem="Zpl-iR-6Tw" secondAttribute="width" multiplier="96:100" id="lgb-zv-oU4"/>
+                                                <constraint firstItem="Kzk-eW-eJM" firstAttribute="leading" secondItem="Zpl-iR-6Tw" secondAttribute="leading" constant="5" id="slw-RQ-qwQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuCell" id="5he-Ay-GqG" customClass="MenuCell">
-                                        <rect key="frame" x="0.0" y="278" width="414" height="80"/>
+                                        <rect key="frame" x="0.0" y="280" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5he-Ay-GqG" id="nb0-ji-mSU">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -3438,7 +3438,7 @@
                                         <rect key="frame" x="0.0" y="55" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e59-O9-45e" id="ylu-dP-1D8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gw-uX-TaM">

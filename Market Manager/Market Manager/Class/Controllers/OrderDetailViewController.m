@@ -70,7 +70,8 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kOrderID:_order.ID};
+    NSDictionary *params = @{kOrderID:_order.ID,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_GET_ORDER_DETAIL
       parameters:params
         progress:nil
@@ -106,7 +107,8 @@
 }
 
 - (IBAction)onSubmit:(id)sender {
-    NSDictionary *params = @{kParams: [Utils objectToJsonString:_productOrderList],
+    NSDictionary *params = @{kProduct:@([[ProductManager sharedInstance] getProductType]),
+                             kParams: [Utils objectToJsonString:_productOrderList],
                              kOrderID: _order.ID,
                              kShopID: _shop.ID,
                              @"whNameList": [[SupplyManager sharedInstance] getSupplyNameList]};
@@ -151,8 +153,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.productNameTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderFormCell"];
-        ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
-        ((UILabel *)[cell viewWithTag:202]).text = [_productOrderList[indexPath.row] objectForKey:kProductName];
+        NSString *strIndex = @(indexPath.row + 1).stringValue;
+        NSString *strProductName = [_productOrderList[indexPath.row] objectForKey:kProductName];
+        ((UILabel *)[cell viewWithTag:201]).text = strIndex;
+        ((UILabel *)[cell viewWithTag:202]).text = strProductName;
         return cell;
     } else {
         OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];

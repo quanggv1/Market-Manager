@@ -49,9 +49,8 @@
 - (void)downloadWith:(NSString *)date{
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{
-                             kDate: date
-                             };
+    NSDictionary *params = @{kDate: date,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_REPORT_SUM_ORDER_EACHDAY
       parameters:params
         progress:nil

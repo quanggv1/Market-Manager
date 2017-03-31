@@ -10,6 +10,7 @@
 #import "SupplyManager.h"
 #import "Supply.h"
 
+
 static AddNewSupplyViewController *addNewSupplyViewController;
 @interface AddNewSupplyViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *SupplyNameTextField;

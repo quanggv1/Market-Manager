@@ -53,7 +53,8 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kOrderID:_order.ID};
+    NSDictionary *params = @{kOrderID: _order.ID,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_REPORT_ORDER_EACHDAY
       parameters:params
         progress:nil

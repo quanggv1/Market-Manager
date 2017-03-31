@@ -175,8 +175,9 @@ var updateShopProducts = function (con, req, res) {
     executeUpdateShopProduct(updatedProducts, con, req, res);
 }
 
-var updateShopStock = function (con, shopID, productID, receivedQty) {
-    con.query('UPDATE shop_product SET stockTake = stockTake + ? WHERE shopID = ? AND productID = ?', [receivedQty, shopID, productID],
+var updateShopStock = function (con, shopID, productID, receivedQty, productType) {
+    var shopProductTable = getShopProductTableName(productType);
+    con.query('UPDATE '+shopProductTable+' SET stockTake = stockTake + ? WHERE shopID = ? AND productID = ?', [receivedQty, shopID, productID],
         function (err, result) {
             if (err) { console.log(err) }
         }

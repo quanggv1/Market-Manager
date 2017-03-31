@@ -13,6 +13,7 @@
 #import "OrderManager.h"
 #import "OrderFormViewController.h"
 #import "SummaryViewController.h"
+#import "ProductManager.h"
 
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderTableView;
@@ -63,7 +64,8 @@
 - (void)download {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kShopID:_shop.ID};
+    NSDictionary *params = @{kShopID:_shop.ID,
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     [manager GET:API_GET_ORDERS
       parameters:params
         progress:nil
@@ -102,7 +104,8 @@
     order.status = kOrderNew;
     NSDictionary *params = @{kParams: @{kShopID: order.shopID,
                                           kDate: order.date,
-                                        kStatus: @(order.status)}};
+                                        kStatus: @(order.status)},
+                             kProduct: @([[ProductManager sharedInstance] getProductType])};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_ADD_NEW_ORDER parameters:params
         progress:nil

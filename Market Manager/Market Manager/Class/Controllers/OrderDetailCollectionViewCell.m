@@ -10,6 +10,7 @@
 #import "SupplyManager.h"
 #import "RecommendListViewController.h"
 #import "CrateManager.h"
+#import "ProductManager.h"
 
 @interface OrderDetailCollectionViewCell()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
@@ -44,9 +45,12 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if([_key isEqualToString:kCrateType]) {
-        [RecommendListViewController showRecommendListAt:self.controller viewSource:textField recommends:[[CrateManager sharedInstance] getCrateNameList] onSelected:^(NSString *result) {
-            textField.text = result;
-        }];
+        [RecommendListViewController showRecommendListAt:self.controller
+                                              viewSource:textField
+                                              recommends:[[CrateManager sharedInstance] getCrateNameList]
+                                              onSelected:^(NSString *result) {
+                                                  textField.text = result;
+                                              }];
     }
 }
 
@@ -55,7 +59,8 @@
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         NSDictionary *params = @{kProductID:[_productDic objectForKey:kProductID],
                                  @"receivedQty": _textField.text,
-                                 kWhName: _key};
+                                 kWhName: _key,
+                                 kProduct:@([[ProductManager sharedInstance] getProductType])};
         [manager GET:API_CHECK_TOTAL_WAREHOUSE_PRODUCTS
           parameters:params
             progress:nil
@@ -64,7 +69,13 @@
                      [_productDic setValue:_textField.text forKey:_key];
                  } else {
                      _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
-                     [CallbackAlertView setCallbackTaget:titleError message:@"Please input number no more than number of warehouse's product" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil];
+                     [CallbackAlertView setCallbackTaget:titleError
+                                                 message:@"Please input number no more than number of warehouse's product"
+                                                  target:self
+                                                 okTitle:btnOK
+                                              okCallback:nil
+                                             cancelTitle:nil
+                                          cancelCallback:nil];
                  }
              } failure:^(NSURLSessionDataTask * task, NSError * error) {
                  _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
@@ -73,7 +84,13 @@
     } else if([_key isEqualToString:kCrateQty]) {
         if(![[[CrateManager sharedInstance] getCrateNameList] containsObject:[NSString stringWithFormat:@"%@", [_productDic objectForKey:kCrateType]]]) {
             _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
-            [CallbackAlertView setCallbackTaget:titleError message:@"Please input correct crate type" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil];
+            [CallbackAlertView setCallbackTaget:titleError
+                                        message:@"Please input correct crate type"
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
         } else {
             [_productDic setValue:_textField.text forKey:_key];
         }

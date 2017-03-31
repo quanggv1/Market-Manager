@@ -30,6 +30,7 @@ con.connect(function (err) {
   }
   console.log('Connect DB success');
 });
+
 app.listen(5000);
 
 app.use(bodyParser.urlencoded({ extended: false }))

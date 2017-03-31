@@ -21,6 +21,12 @@ var Table = {
   WAREHOUSE_VEGETABLES: "warehouse_product",
   WAREHOUSE_MEATS: "meat_warehouse",
   WAREHOUSE_FOODS: "food_warehouse",
+  ORDERS_VEGETABLE: "orders",
+  ORDERS_MEAT: "meat_orders",
+  ORDERS_FOOD:"food_orders",
+  ORDER_INDIVIDUAL_VEGETABLE: "order_each_day",
+  ORDER_INDIVIDUAL_MEAT: "meat_individual_order",
+  ORDER_INDIVIDUAL_FOOD: "food_individual_order",
 }
 
 function convertJson2CSV(json, targetFilePath, onSuccess, onError) {
