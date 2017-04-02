@@ -16,4 +16,5 @@
 - (void)insert:(Crate *)crate;
 - (void)update:(Crate *)crate;
 - (NSArray *)getCrateNameList;
+- (NSArray *)getCrateListForm:(NSArray *)data;
 @end

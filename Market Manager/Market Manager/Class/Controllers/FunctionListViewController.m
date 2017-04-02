@@ -9,6 +9,10 @@
 #import "FunctionListViewController.h"
 #import "MenuCell.h"
 #import "ProductManager.h"
+#import "ShopManager.h"
+#import "SupplyManager.h"
+#import "CrateManager.h"
+#import "Crate.h"
 
 @interface FunctionListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *functionsTableView;
@@ -23,13 +27,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    
-//    [self.functionsNavigationBar setBackgroundImage:[UIImage imageNamed:@"market.jpg"] forBarMetrics:UIBarMetricsDefault];
+    [self getData];
     
     if([[ProductManager sharedInstance] getProductType] == kVegatables)
         self.navBarTitle.title = @"Vegatables";
-    else
+    else if([[ProductManager sharedInstance] getProductType] == kMeats)
         self.navBarTitle.title = @"Meats";
+    else
+        self.navBarTitle.title = @"Foods";
     
     _functionList = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
@@ -97,6 +102,29 @@
         default:
             break;
     }
+}
+
+- (void)getData {
+    [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_GET_DATA_DEFAULT
+      parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType])}
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 NSDictionary *data = [responseObject objectForKey:kData];
+                 [[CrateManager sharedInstance] setValueWith:[data objectForKey:kCrateTableName]];
+                 [[SupplyManager sharedInstance] setValueWith:[data objectForKey:kSupplyTableName]];
+                 [[ShopManager sharedInstance] setValueWith:[data objectForKey:kShopTableName]];
+                 [[ProductManager sharedInstance] setValueWith:[data objectForKey:kProductTableName]];
+             } else {
+                 [self showConfirmToBack];
+             }
+             [self hideActivity];
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self showConfirmToBack];
+             [self hideActivity];
+         }];
 }
 
 @end

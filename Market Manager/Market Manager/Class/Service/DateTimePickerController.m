@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [Utils hideKeyboard];
+    [self.datePicker setMaximumDate: [NSDate date]];
     NSDate *dateSetting = [[Utils dateFormatter] dateFromString:_date];
     if(dateSetting) {
         [_datePicker setDate: dateSetting];

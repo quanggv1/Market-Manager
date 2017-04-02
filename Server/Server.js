@@ -72,11 +72,7 @@ app.get('/deleteData', function (req, res) {
 });
 
 app.get('/getDataDefault', function (req, res) {
-  SQL.getDataDefault(con, function (success) {
-    res.send({ code: 200, data: success });
-  }, function (error) {
-    res.send(errorResp);
-  })
+  SQL.getDataDefault(con, req, res);
 })
 
 /** Product */ 
@@ -198,6 +194,14 @@ app.get('/updateCrates', function (req, res) {
 
 app.get('/exportCrates', function (req, res) {
   CRATE.exportCrates(con, req, res);
+})
+
+app.get('/getCratesDetail', function (req, res) {
+  CRATE.getCratesDetail(con, req, res);
+})
+
+app.get('/updateCratesDetail', function (req, res) {
+  CRATE.updateCratesDetail(con, req, res);
 })
 
 /** ORDER */

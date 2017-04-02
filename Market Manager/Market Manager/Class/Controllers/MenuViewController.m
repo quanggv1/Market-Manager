@@ -17,7 +17,6 @@
 @interface MenuViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
 @property (nonatomic, strong) NSArray *menuData;
-@property (assign, nonatomic) NSInteger numberOfFunction;
 @end
 
 @implementation MenuViewController
@@ -34,14 +33,6 @@
     _menuTable.dataSource = self;
     _menuTable.rowHeight = UITableViewAutomaticDimension;
     _menuTable.estimatedRowHeight = 80;
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.menuTable;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(downloadCrate) forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
-    
-    [self downloadCrate];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -49,32 +40,7 @@
     [self hideActivity];
 }
 
-- (void)downloadCrate {
-    [self showActivity];
-    _numberOfFunction = 2;
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_GET_DATA_DEFAULT
-      parameters:nil
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[CrateManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kCrateTableName]];
-                 [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kSupplyTableName]];
-                 [[ShopManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kShopTableName]];
-                 [[ProductManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kProductTableName]];
-                 _numberOfFunction = _menuData.count + 1;
-                 [_menuTable reloadData];
-             } else {
-                 ShowMsgUnavaiableData;
-             }
-             [self hideActivity];
-             [self.refreshControl endRefreshing];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             ShowMsgConnectFailed;
-             [self hideActivity];
-             [self.refreshControl endRefreshing];
-         }];
-}
+
 
 #pragma mark - table
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -82,7 +48,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _numberOfFunction;
+    return _menuData.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,8 +59,7 @@
         return cell;
     } else {
         MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
-        NSInteger index = (indexPath.row == _numberOfFunction - 1) ? (_menuData.count - 1) : (indexPath.row - 1);
-        [cell setMenuWith:[_menuData objectAtIndex:index]];
+        [cell setMenuWith:[_menuData objectAtIndex:indexPath.row - 1]];
         cell.layer.shouldRasterize = YES;
         cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         return cell;
@@ -105,18 +70,16 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         case 1:
-            if(_numberOfFunction == 2) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            } else {
-                [[ProductManager sharedInstance] setProductType:kVegatables];
-                [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
-            }
+            [[ProductManager sharedInstance] setProductType:kVegatables];
+            [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             break;
         case 2:
             [[ProductManager sharedInstance] setProductType:kMeats];
-            [self performSegueWithIdentifier:SegueShowFunctionList sender:self];;
+            [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             break;
         case 3:
+            [[ProductManager sharedInstance] setProductType:kFoods];
+            [self performSegueWithIdentifier:SegueShowFunctionList sender:self];;
             break;
         case 4:
             if(![Utils hasReadPermission:kUserTableName]) return;

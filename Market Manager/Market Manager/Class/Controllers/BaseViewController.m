@@ -51,5 +51,16 @@
     return UIModalPresentationNone;
 }
 
+- (void)showConfirmToBack {
+    [CallbackAlertView setBlock:@"Error"
+                        message:@"Couldn't download data, please try later"
+                        okTitle:btnOK
+                        okBlock:^{
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                        }
+                    cancelTitle:nil
+                    cancelBlock:nil];
+}
+
 
 @end

@@ -10,11 +10,10 @@
 
 @interface CrateTableViewCell()<UITextFieldDelegate>
 @property (weak, nonatomic) Crate *crate;
-@property (weak, nonatomic) IBOutlet UILabel *crateIdLable;
 @property (weak, nonatomic) IBOutlet UILabel *crateNameLable;
-@property (weak, nonatomic) IBOutlet UITextField *crateReceived;
-@property (weak, nonatomic) IBOutlet UITextField *crateReturned;
-@property (weak, nonatomic) IBOutlet UITextField *cratePrice;
+@property (weak, nonatomic) IBOutlet UITextField *qtyInField;
+@property (weak, nonatomic) IBOutlet UITextField *qtyOutField;
+@property (weak, nonatomic) IBOutlet UITextField *totalField;
 @property (weak, nonatomic) id controller;
 @end
 
@@ -33,9 +32,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _crateReturned.delegate = self;
-    _crateReceived.delegate = self;
-    _cratePrice.delegate = self;
+    _qtyInField.delegate = self;
+    _qtyOutField.delegate = self;
+    _totalField.delegate = self;
     // Initialization code
 }
 
@@ -47,35 +46,29 @@
 
 - (void)setCrate:(Crate *)crate {
     _crate = crate;
-    _crateIdLable.text = crate.ID;
-    _crateNameLable.text = crate.name;
-    _crateReceived.text = @(crate.receivedQty).stringValue;
-    _crateReturned.text = @(crate.returnedQty).stringValue;
-    _cratePrice.text = [NSString stringWithFormat:@"%.2f", _crate.price];
+    _crateNameLable.text = crate.provider;
+    _qtyInField.text = @(_crate.qtyIn).stringValue;
+    _qtyOutField.text = @(_crate.qtyOut).stringValue;
+    _totalField.text = @(_crate.total).stringValue;;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if(textField == _crateReturned) {
-        if([_crateReturned.text integerValue] > _crate.receivedQty) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:titleError
-                                                                           message:@"Number of crate had been returned incorrect!"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:btnOK style:UIAlertActionStyleDefault
-                                                                  handler:nil];
-            
-            [alert addAction:defaultAction];
-            [self.controller presentViewController:alert animated:YES completion:nil];
-        } else {
-            _crate.returnedQty = [_crateReturned.text integerValue];
-        }
-        _crateReturned.text = @(_crate.returnedQty).stringValue;
+    NSInteger qtyIn = [_qtyInField.text integerValue];
+    NSInteger qtyOut = [_qtyOutField.text integerValue];
+    NSInteger total = qtyIn - qtyOut + _crate.total;
+    if (total >= 0) {
+        _crate.qtyIn = qtyIn;
+        _crate.qtyOut = qtyOut;
+        _crate.total = total;
     } else {
-        _crate.price = [_cratePrice.text floatValue];
-        _cratePrice.text = [NSString stringWithFormat:@"%.2f", _crate.price];
+        [CallbackAlertView setBlock:@""
+                            message:@"Please input correct!"
+                            okTitle:btnOK
+                            okBlock:nil
+                        cancelTitle:nil
+                        cancelBlock:nil];
     }
-    
-    
+    [self setCrate:_crate];
 }
 
 @end

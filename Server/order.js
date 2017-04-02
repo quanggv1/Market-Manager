@@ -164,8 +164,8 @@ function executeUpdateOrderDetail(productOrders, shopID, orderID, warehouseNameL
                 SHOP.updateShopStock(con, shopID, productOrder.productID, totalReceived, req.query.productType);
 
                 /** update crate */
-                var crateReceived = productOrder.crate_qty - data.crate_qty;
-                CRATE.updateCrateReceivedQty(con, crateReceived, productOrder.crateType);
+                // var crateReceived = productOrder.crate_qty - data.crate_qty;
+                // CRATE.updateCrateReceivedQty(con, crateReceived, productOrder.crateType);
 
                 /** update order_each_day */
                 con.query('UPDATE '+individualOrderTable+' SET ? WHERE productOrderID = ' + productOrder.productOrderID, productOrder, function (err, result) {
@@ -243,7 +243,7 @@ var reportSumOrderEachday = function (con, req, res) {
 var invoiceCratesByOrderID = function (con, req, res) {
     var orderID = req.query.orderID;
     var individualOrderTable = getIndividualOrderTableName(req.query.productType);
-    sql = "SELECT crate.crateType as name, crate.price, sum("+individualOrderTable+".crate_qty) as quantity, Round((crate.price * sum("+individualOrderTable+".crate_qty)),2) as total from "+individualOrderTable+" JOIN crate ON crate.crateType = "+individualOrderTable+".crateType and "+individualOrderTable+".orderID=? GROUP BY crate.crateType";
+    sql = "SELECT crate_detail.crateType as name, crate_detail.price, sum("+individualOrderTable+".crate_qty) as quantity, Round((crate_detail.price * sum("+individualOrderTable+".crate_qty)),2) as total from "+individualOrderTable+" JOIN crate_detail ON crate_detail.crateType = "+individualOrderTable+".crateType and "+individualOrderTable+".orderID=? GROUP BY crate_detail.crateType";
     con.query(sql, orderID, function (err, rows) {
         if (err) {
             console.log(err);

@@ -65,4 +65,13 @@
     return crateNames;
 }
 
+- (NSArray *)getCrateListForm:(NSArray *)data {
+    NSMutableArray *crates = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in data) {
+        Crate *crate = [[Crate alloc] initWith:dictionary];
+        [crates addObject:crate];
+    }
+    return crates;
+}
+
 @end

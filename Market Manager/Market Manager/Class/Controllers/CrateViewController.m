@@ -23,48 +23,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addRefreshControl];
     _crateTableView.delegate = self;
     _crateTableView.dataSource = self;
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.crateTableView;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(getConnections) forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
     
     today = [Utils stringTodayDateTime];
     searchDate = today;
     _searchField.text = today;
-    [self downloadWith:searchDate];
+    [self getData];
 }
 
-- (void)getConnections {
+- (void)addRefreshControl {
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.crateTableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(getData) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
+}
+
+- (void)getData {
     [self downloadWith:searchDate];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = @"Crate Management";
     [super viewWillAppear:animated];
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.navigationItem.title = @"Crate Management";
 }
 
 - (void)downloadWith:(NSString *)date {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName: kCrateTableName,
-                             kDate: date};
     [manager GET:API_GET_CRATES
-      parameters:params
+      parameters:@{kDate: date}
         progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+         success:^(NSURLSessionDataTask *  task, id   responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[CrateManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
-                 _crateDataSource = [[NSMutableArray alloc] initWithArray:[[CrateManager sharedInstance] getCrateList]];
+                 NSArray *crates = [responseObject objectForKey:kData];
+                 crates = [[CrateManager sharedInstance] getCrateListForm:crates];
+                 _crateDataSource = [[NSMutableArray alloc] initWithArray:crates];
              } else {
                  _crateDataSource = nil;
                  ShowMsgUnavaiableData;
@@ -93,17 +89,18 @@
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              [self hideActivity];
-             [[CrateManager sharedInstance] delete:CrateDeleted];
              [_crateDataSource removeObjectAtIndex:indexPath.row];
-             [_crateTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+             [_crateTableView reloadData];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [self hideActivity];
          }];
 }
 
 - (IBAction)onAddNewCrate:(id)sender {
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Add New Crate"
-                                                                              message: @"Input Crate Name"
+    if(![Utils hasWritePermission:kCrateTableName]) return;
+    if (![today isEqualToString:searchDate]) return;
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Add New Provider"
+                                                                              message: @""
                                                                        preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"Crate Name";
@@ -124,30 +121,47 @@
                                  cancelCallback:nil];
 
         } else {
-            [self addNewCrate: crateField.text];
+            if([self isNewProviderExisted:crateField.text]) {
+                [self addNewCrate: crateField.text];
+            }
         }
     }]];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)addNewCrate:(NSString *)name {
-    if(![Utils hasWritePermission:kCrateTableName]) return;
+- (BOOL)isNewProviderExisted:(NSString *)newProviderName {
+    for (Crate *crate in _crateDataSource) {
+        if ([crate.provider isEqualToString:newProviderName]) {
+            [CallbackAlertView setCallbackTaget:titleError
+                                        message:@"This provider is existed!"
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)addNewCrate:(NSString *)provider {
     [self showActivity];
     Crate *crate = [[Crate alloc] init];
-    crate.name = name;
+    crate.provider = provider;
     NSDictionary *params = @{kTableName:kCrateTableName,
-                             kParams: @{kCrateType:crate.name}};
+                             kParams: @{kCrateProvider:crate.provider,
+                                        kCrateDate: today}};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_INSERTDATA
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {
             if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
-                crate.ID = [NSString stringWithFormat:@"%@", [[responseObject objectForKey:kData] objectForKey:kInsertID]];
-                [[CrateManager sharedInstance] insert:crate];
+                NSDictionary *data = [responseObject objectForKey:kData];
+                crate.ID = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
                 [_crateDataSource insertObject:crate atIndex:0];
-                [_crateTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                                       withRowAnimation:UITableViewRowAnimationFade];
+                [_crateTableView reloadData];
             } else {
                 ShowMsgSomethingWhenWrong;
             }
@@ -164,9 +178,9 @@
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Crate *crate in _crateDataSource) {
         [updates addObject:@{kCrateID: crate.ID,
-                             kCrateReturned: @(crate.returnedQty),
-                             kCrateReceived: @(crate.receivedQty),
-                             kCratePrice: @(crate.price)}];
+                             kCrateIn: @(crate.qtyIn),
+                             kCrateOut: @(crate.qtyOut),
+                             kCrateTotal: @(crate.total)}];
     }
     NSDictionary *params = @{kParams: [Utils objectToJsonString:updates]};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -208,55 +222,46 @@
 }
 
 - (IBAction)onExportClicked:(id)sender {
-    if(![Utils hasWritePermission:kCrateTableName]) return;
-    [CallbackAlertView setCallbackTaget:@"Message"
-                                message:@"Please save data first, your data will be refreshed. Are you sure to continue?"
-                                 target:self
-                                okTitle:@"OK"
-                             okCallback:@selector(export)
-                            cancelTitle:@"Cancel"
-                         cancelCallback:nil];
+//    if(![Utils hasWritePermission:kCrateTableName]) return;
+//    [CallbackAlertView setCallbackTaget:@"Message"
+//                                message:@"Please save data first, your data will be refreshed. Are you sure to continue?"
+//                                 target:self
+//                                okTitle:@"OK"
+//                             okCallback:@selector(export)
+//                            cancelTitle:@"Cancel"
+//                         cancelCallback:nil];
 }
 
-- (void)export {
-    if (!_crateDataSource) return;
-    if ([searchDate isEqualToString:today]) {
-        [self showActivity];
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        [manager GET:API_EXPORT_CRATES
-          parameters:@{kTableName:kCrateTableName}
-            progress:nil
-             success:^(NSURLSessionDataTask * task, id responseObject) {
-                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                     [self refreshData];
-                     [self onSaveClicked:nil];
-                 } else {
-                     [self hideActivity];
-                     ShowMsgSomethingWhenWrong;
-                 }
-             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                 [self hideActivity];
-                 ShowMsgConnectFailed;
-             }];
-    } else {
-        [CallbackAlertView setCallbackTaget:@"Message"
-                                    message:@"This record has been exported!"
-                                     target:self
-                                    okTitle:btnOK
-                                 okCallback:nil
-                                cancelTitle:nil
-                             cancelCallback:nil];
-    }
-}
-
-- (void)refreshData {
-    for (Crate *crate in _crateDataSource) {
-        crate.receivedQty -= crate.returnedQty;
-        crate.returnedQty = 0;
-    }
-    [_crateTableView reloadData];
-}
-
+//- (void)export {
+//    if (!_crateDataSource) return;
+//    if ([searchDate isEqualToString:today]) {
+//        [self showActivity];
+//        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//        [manager GET:API_EXPORT_CRATES
+//          parameters:@{kTableName:kCrateTableName}
+//            progress:nil
+//             success:^(NSURLSessionDataTask * task, id responseObject) {
+//                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+//                     [self refreshData];
+//                     [self onSaveClicked:nil];
+//                 } else {
+//                     [self hideActivity];
+//                     ShowMsgSomethingWhenWrong;
+//                 }
+//             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//                 [self hideActivity];
+//                 ShowMsgConnectFailed;
+//             }];
+//    } else {
+//        [CallbackAlertView setCallbackTaget:@"Message"
+//                                    message:@"This record has been exported!"
+//                                     target:self
+//                                    okTitle:btnOK
+//                                 okCallback:nil
+//                                cancelTitle:nil
+//                             cancelCallback:nil];
+//    }
+//}
 
 
 #pragma mark - TABLE DATASOURCE
@@ -280,5 +285,9 @@
         if(![Utils hasWritePermission:kCrateTableName]) return;
         [self deleteItemAt:indexPath];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [today isEqualToString:searchDate];
 }
 @end

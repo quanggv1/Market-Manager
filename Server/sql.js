@@ -1,6 +1,6 @@
 
 var Utils = require('./utils');
-
+var PD = require('./product');
 
 /*============SQL Query==============*/
 module.exports = {
@@ -69,33 +69,34 @@ module.exports = {
       });
   },
 
-  getDataDefault: function (con, onSuccess, onError) {
+  getDataDefault: function (con, req, res) {
     var data = {};
-    con.query('SELECT * FROM `crate`', function (err, result) {
+    con.query('SELECT * FROM `crate_detail`', function (err, result) {
       if (err) {
         console.log(err);
-        onError(err)
+        res.send(Utils.errorResp);
       } else {
         data.crate = result;
         con.query('SELECT * FROM `warehouse`', function (err, result) {
           if (err) {
             console.log(err);
-            onError(err)
+            res.send(Utils.errorResp);
           } else {
             data.warehouse = result;
             con.query('SELECT * FROM `shop`', function (err, result) {
               if (err) {
                 console.log(err);
-                onError(err)
+                res.send(Utils.errorResp);
               } else {
                 data.shop = result;
-                con.query('SELECT * FROM `product`', function (err, result) {
+                var productTable = PD.getProductTableName(req.query.productType);
+                con.query('SELECT * FROM ' + productTable, function (err, result) {
                   if (err) {
                     console.log(err);
-                    onError(err)
+                    res.send(Utils.errorResp);
                   } else {
                     data.product = result;
-                    onSuccess(data);
+                    res.send({ code: 200, data: data });
                   }
                 });
               }

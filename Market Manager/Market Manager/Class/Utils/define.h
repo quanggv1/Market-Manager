@@ -51,6 +51,7 @@ static NSString *const CellNewOrder = @"OrderFormTableViewCellId";
 static NSString *const CellCrateManager = @"CrateTableViewCellID";
 static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
+static NSString *const CellCrateDetail = @"CrateDetailTableViewCellID";
 
 
 #pragma mark - Color
@@ -85,8 +86,8 @@ static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
-#define SERVER @"http://172.27.97.149:5000/"
-//#define SERVER @"http://192.168.1.17:5000/"
+//#define SERVER @"http://172.27.97.149:5000/"
+#define SERVER @"http://192.168.1.17:5000/"
 //#define SERVER @"http://172.27.97.165:5000/"
 
 #define API_GETDATA [SERVER stringByAppendingString:@"getData"]
@@ -132,6 +133,8 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_ADD_NEW_SHOP_PRODUCT [SERVER stringByAppendingString:@"addNewShopProduct"]
 #define API_ADD_NEW_WAREHOUSE_PRODUCT [SERVER stringByAppendingString:@"addNewWarehouseProduct"]
 #define API_REMOVE_WAREHOUSE_PRODUCT [SERVER stringByAppendingString:@"removeWarehouseProduct"]
+#define API_GET_CRATES_DETAIL [SERVER stringByAppendingString:@"getCratesDetail"]
+#define API_UPDATE_CRATES_DETAIL [SERVER stringByAppendingString:@"updateCratesDetail"]
 
 
 
@@ -175,9 +178,13 @@ static NSString *const kWhTotal = @"total";
 static NSString *const kCrateID = @"crateID";
 static NSString *const kCrateType = @"crateType";
 static NSString *const kCrateTableName = @"crate";
-static NSString *const kCrateReceived = @"receivedQty";
-static NSString *const kCrateReturned = @"returnedQty";
+static NSString *const kCrateIn = @"qty_in";
+static NSString *const kCrateOut = @"qty_out";
+static NSString *const kCrateTotal = @"total";
 static NSString *const kCratePrice = @"price";
+static NSString *const kCrateDesc = @"description";
+static NSString *const kCrateDate = @"date";
+static NSString *const kCrateProvider = @"provider";
 
 static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";

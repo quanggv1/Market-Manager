@@ -12,6 +12,12 @@
 #import "UserDetailViewController.h"
 #import "UserManager.h"
 #import "AddNewUserViewController.h"
+#import "ProductManager.h"
+#import "ShopManager.h"
+#import "SupplyManager.h"
+#import "CrateManager.h"
+#import "Crate.h"
+
 
 @interface UserViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) NSMutableArray *userDataSource;
@@ -30,18 +36,31 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationItem.title = @"User Management";
-    [self download];
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.userTableView;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self
-                            action:@selector(download)
-                  forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
+    [self getData];
 }
 
-- (void)download {
+- (void)getData {
     [self showActivity];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:API_GET_DATA_DEFAULT
+      parameters:nil
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kSupplyTableName]];
+                 [[ShopManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kShopTableName]];
+                 [self getUserData];
+             } else {
+                 [self hideActivity];
+                 [self showConfirmToBack];
+             }
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [self showConfirmToBack];
+             [self hideActivity];
+         }];
+}
+
+- (void)getUserData {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_GET_USERS
       parameters:nil
@@ -50,16 +69,14 @@
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
                  [[UserManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
                  _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
+                 [_userTableView reloadData];
              } else {
-                 ShowMsgSomethingWhenWrong;
+                 [self showConfirmToBack];;
              }
-             [self.refreshControl endRefreshing];
-             [_userTableView reloadData];
              [self hideActivity];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [self hideActivity];
-             [self.refreshControl endRefreshing];
-             ShowMsgConnectFailed;
+             [self showConfirmToBack];
     }];
 }
 
@@ -89,8 +106,7 @@
 - (IBAction)onAddNewUser:(id)sender {
     [AddNewUserViewController showViewAt:self onSave:^(User *user) {
         [_userDataSource insertObject:user atIndex:0];
-        [_userTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                              withRowAnimation:UITableViewRowAnimationFade];
+        [_userTableView reloadData];
     }];
 }
 

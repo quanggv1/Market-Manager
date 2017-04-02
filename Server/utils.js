@@ -60,11 +60,23 @@ function today() {
   return date;
 }
 
+function yesterday() {
+  var date = new Date( (new Date).getTime() - 1000*60*60*24);
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  month = (month < 10 ? "0" : "") + month;
+  var day = date.getDate();
+  day = (day < 10 ? "0" : "") + day;
+  date = year + '-' + month + '-' + day;
+  return date;
+}
+
 module.exports = {
     errorResp,
     convertJson2CSV,
     convertCSV2Json,
     today,
     ProductType,
-    Table
+    Table,
+    yesterday
 }

@@ -10,4 +10,5 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 - (void)showActivity;
 - (void)hideActivity;
+- (void)showConfirmToBack;
 @end
