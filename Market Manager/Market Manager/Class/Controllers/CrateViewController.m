@@ -271,6 +271,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CrateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellCrateManager];
+    UILabel *indexLabel = [cell viewWithTag:201];
+    indexLabel.text = @(indexPath.row + 1).stringValue;
     [cell setCrate:_crateDataSource[indexPath.row]];
     return cell;
 }

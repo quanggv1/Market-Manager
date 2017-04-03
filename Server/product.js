@@ -12,7 +12,7 @@ function getProductTableName(productType) {
         case Utils.ProductType.FOOD:
             return Utils.Table.FOODS;
         default:
-            return;
+            return Utils.Table.VEGETABLES;
     }
 }
 
