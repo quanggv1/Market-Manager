@@ -11,6 +11,7 @@
 #import "ProductManager.h"
 #import "SupplyManager.h"
 #import "SummaryViewController.h"
+#import "InvoiceViewController.h"
 
 @interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
@@ -57,9 +58,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    if(_order.status == 2) {
-//        _submitButton.enabled = NO;
-//    }
+    [_submitButton setUserInteractionEnabled:([[ProductManager sharedInstance] getProductType] != kFoods)];
     self.navigationItem.title = [NSString stringWithFormat:@"ID: %@ %@", _order.ID, _order.date];
 }
 
@@ -123,7 +122,7 @@
                                              message:@""
                                               target:self
                                              okTitle:btnOK
-                                          okCallback:@selector(onSubmited)
+                                          okCallback:nil
                                          cancelTitle:nil
                                       cancelCallback:nil];
              } else {
@@ -136,12 +135,12 @@
          }];
 }
 
-- (void)onSubmited {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (IBAction)onShowReport:(id)sender {
-    [self performSegueWithIdentifier: SegueReportOrderForm sender:self];
+    if ([[ProductManager sharedInstance] getProductType] == kFoods) {
+        [self performSegueWithIdentifier:SegueInvoiceOrderForm sender:self];
+    } else {
+        [self performSegueWithIdentifier:SegueReportOrderForm sender:self];
+    }
 }
 
 
@@ -184,6 +183,7 @@
 
 #pragma mark - COLLECTION DATASOURCE
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if ([[ProductManager sharedInstance] getProductType] == kFoods) return 1;
     return _titleContents.count;
 }
 
@@ -195,8 +195,13 @@
 
 #pragma mark - SEGUE DELEGATE 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    SummaryViewController *vc = segue.destinationViewController;
-    vc.order = _order;
+    if([segue.identifier isEqualToString:SegueInvoiceOrderForm]) {
+        InvoiceViewController *invoice = segue.destinationViewController;
+        invoice.order = self.order;
+    } else {
+        SummaryViewController *vc = segue.destinationViewController;
+        vc.order = _order;
+    }
 }
 
 @end

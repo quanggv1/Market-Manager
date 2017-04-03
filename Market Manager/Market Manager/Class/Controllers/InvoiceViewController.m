@@ -208,7 +208,7 @@
         // etc.
     } progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if([[responseObject objectForKey:kData] isEqualToString:@"success"]) {
-            [CallbackAlertView setCallbackTaget:titleError
+            [CallbackAlertView setCallbackTaget:@""
                                     message:titleSuccess
                                      target:self
                                     okTitle:btnOK

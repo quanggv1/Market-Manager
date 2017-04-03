@@ -3,6 +3,7 @@ var mysql = require("mysql");
 var app = express();
 var bodyParser = require('body-parser');
 var multiparty = require('multiparty');
+var fs = require('fs');
 
 var Utils = require('./utils');
 var SQL = require('./sql');
