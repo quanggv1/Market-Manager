@@ -17,5 +17,5 @@
 + (NSString *)objectToJsonString:(id )object;
 + (NSString *) stringHTML:(NSDictionary *) products crates:(NSDictionary *)crates productSum:(float)pdSum crateSum:(float)crSum;
 + (BOOL)hasReadPermission:(NSString *)side;
-+ (BOOL)hasWritePermission:(NSString *)side;
++ (BOOL)hasWritePermission:(NSString *)side notify:(BOOL)isShow;
 @end

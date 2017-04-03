@@ -99,7 +99,7 @@
 }
 
 - (IBAction)onAddNewSupply:(id)sender {
-    if(![Utils hasWritePermission:kSupplyTableName]) return;
+    if(![Utils hasWritePermission:kSupplyTableName notify:YES]) return;
     [AddNewSupplyViewController showViewAt:self onSave:^(Supply *supply) {
         [_supplyDataSource insertObject:supply atIndex:0];
         [_supplyTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
@@ -131,6 +131,10 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteItemAt:indexPath];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [Utils hasWritePermission:kSupplyTableName notify:NO];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -40,7 +40,7 @@
 }
 
 - (IBAction)addNewProduct:(id)sender {
-    if(![Utils hasWritePermission:_shop.name]) return;
+    if(![Utils hasWritePermission:_shop.name notify:YES]) return;
     [AddNewShopProductViewController showViewAt:self onSave:^(Product *product) {
         [_products insertObject:product atIndex:0];
         [_productTableView reloadData];
@@ -113,7 +113,7 @@
 }
 
 - (IBAction)onExportClicked:(id)sender {
-    if(![Utils hasWritePermission:_shop.name]) return;
+    if(![Utils hasWritePermission:_shop.name notify:YES]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
         [CallbackAlertView setBlock:@""
@@ -165,7 +165,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
-    if (![Utils hasWritePermission:_shop.name]) return;
+    if (![Utils hasWritePermission:_shop.name notify:YES]) return;
     if (![searchDate isEqualToString:today]) return;
     [self showActivity];
     NSMutableArray *updates = [[NSMutableArray alloc] init];
@@ -217,9 +217,12 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if(![Utils hasWritePermission:_shop.name]) return;
         [self deleteItemAt:indexPath];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [Utils hasWritePermission:_shop.name notify:NO];
 }
 
 

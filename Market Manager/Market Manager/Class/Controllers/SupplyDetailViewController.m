@@ -98,7 +98,7 @@
 }
 
 - (IBAction)addNewProduct:(id)sender {
-    if(![Utils hasWritePermission:_supply.name]) return;
+    if(![Utils hasWritePermission:_supply.name notify:YES]) return;
     [AddNewSupplyProductViewController showViewAt:self onSave:^(Product *product) {
         [_products addObject:product];
         [_productTableView reloadData];
@@ -106,7 +106,7 @@
 }
 
 - (IBAction)onExportClicked:(id)sender {
-    if(![Utils hasWritePermission:_supply.name]) return;
+    if(![Utils hasWritePermission:_supply.name notify:YES]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
         [CallbackAlertView setCallbackTaget:@""
@@ -151,7 +151,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
-    if(![Utils hasWritePermission:_supply.name]) return;
+    if(![Utils hasWritePermission:_supply.name notify:YES]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
         [self showActivity];
@@ -233,9 +233,12 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if(![Utils hasWritePermission:_supply.name]) return;
         [self deleteItemAt:indexPath];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [Utils hasWritePermission:_supply.name notify:NO];
 }
 
 @end

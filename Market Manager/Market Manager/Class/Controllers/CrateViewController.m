@@ -97,7 +97,7 @@
 }
 
 - (IBAction)onAddNewCrate:(id)sender {
-    if(![Utils hasWritePermission:kCrateTableName]) return;
+    if(![Utils hasWritePermission:kCrateTableName notify:YES]) return;
     if (![today isEqualToString:searchDate]) return;
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Add New Provider"
                                                                               message: @""
@@ -173,7 +173,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
-    if(![Utils hasWritePermission:kCrateTableName]) return;
+    if(![Utils hasWritePermission:kCrateTableName notify:YES]) return;
     if([_crateDataSource count] == 0 || ![searchDate isEqualToString:today]) return;
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Crate *crate in _crateDataSource) {
@@ -284,7 +284,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if(![Utils hasWritePermission:kCrateTableName]) return;
+        if(![Utils hasWritePermission:kCrateTableName notify:NO]) return;
         [self deleteItemAt:indexPath];
     }
 }

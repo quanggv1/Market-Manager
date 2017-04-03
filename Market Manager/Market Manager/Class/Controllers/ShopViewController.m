@@ -89,7 +89,7 @@
 }
 
 - (IBAction)onAddNewShop:(id)sender {
-    if(![Utils hasWritePermission:kShopTableName]) return;
+    if(![Utils hasWritePermission:kShopTableName notify:YES]) return;
     [AddNewShopViewController showViewAt:self onSave:^(Shop *shop) {
         [_shopDataSource insertObject:shop atIndex:0];
         [_shopTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
@@ -120,6 +120,10 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteItemAt:indexPath];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [Utils hasWritePermission:kShopTableName notify:NO];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

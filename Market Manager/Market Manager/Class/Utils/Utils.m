@@ -115,12 +115,15 @@ static DateTimePickerController *dateTimePickerController;
     [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
     return NO;}
 
-+ (BOOL)hasWritePermission:(NSString *)side {
++ (BOOL)hasWritePermission:(NSString *)side notify:(BOOL)isShow {
     User *tempUser = [[UserManager sharedInstance] getTempUser];
     if (tempUser.isAdmin || [tempUser.writePermission containsString:side]) {
         return YES;
     }
-    [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
+    if (isShow) {
+        [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
+
+    }
     return NO;
 }
 
