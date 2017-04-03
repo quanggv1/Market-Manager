@@ -49,6 +49,8 @@
 		3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9041E6E9F8D00EA3ADB /* Info.plist */; };
 		3D6BF9091E6EA44400EA3ADB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9071E6EA44400EA3ADB /* background.png */; };
 		3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9081E6EA44400EA3ADB /* page.png */; };
+		3D72E1C51E923FF400DC017F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72E1C31E923FF400DC017F /* icon.png */; };
+		3D72E1C61E923FF400DC017F /* logo_chuan.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72E1C41E923FF400DC017F /* logo_chuan.png */; };
 		3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */; };
 		3DD12EBA1E84DE3E0017FED2 /* FunctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */; };
 		3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */; };
@@ -196,6 +198,8 @@
 		3D6BF9041E6E9F8D00EA3ADB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D6BF9071E6EA44400EA3ADB /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		3D6BF9081E6EA44400EA3ADB /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
+		3D72E1C31E923FF400DC017F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		3D72E1C41E923FF400DC017F /* logo_chuan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_chuan.png; sourceTree = "<group>"; };
 		3DB505941E80F95300B81FD5 /* UserDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailTableViewCell.h; sourceTree = "<group>"; };
 		3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailTableViewCell.m; sourceTree = "<group>"; };
 		3DD12EB81E84DE3E0017FED2 /* FunctionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionListViewController.h; sourceTree = "<group>"; };
@@ -501,6 +505,8 @@
 			isa = PBXGroup;
 			children = (
 				3D4CCE2A1E77DA0600A000BE /* market.jpg */,
+				3D72E1C31E923FF400DC017F /* icon.png */,
+				3D72E1C41E923FF400DC017F /* logo_chuan.png */,
 			);
 			path = image;
 			sourceTree = "<group>";
@@ -849,6 +855,8 @@
 			files = (
 				7466EAFB1E51E95F00A2C0F5 /* LaunchScreen.storyboard in Resources */,
 				3D6BF9091E6EA44400EA3ADB /* background.png in Resources */,
+				3D72E1C61E923FF400DC017F /* logo_chuan.png in Resources */,
+				3D72E1C51E923FF400DC017F /* icon.png in Resources */,
 				7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */,
 				3D41D7A11E55903800123A71 /* IQKeyboardManager.bundle in Resources */,
 				3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */,
