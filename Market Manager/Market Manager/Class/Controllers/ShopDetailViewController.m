@@ -112,58 +112,6 @@
     }
 }
 
-- (IBAction)onExportClicked:(id)sender {
-    if(![Utils hasWritePermission:_shop.name notify:YES]) return;
-    if (!_products) return;
-    if ([searchDate isEqualToString:today]) {
-        [CallbackAlertView setBlock:@""
-                            message:@"Data has been saved, has not?"
-                            okTitle:@"Export" okBlock:^{
-                                [self export];
-                            }
-                        cancelTitle:@"Cancel"
-                        cancelBlock:nil];
-    }
-    else {
-        [CallbackAlertView setCallbackTaget:nil
-                                    message:@"This record has been exported!"
-                                     target:self
-                                    okTitle:@"OK"
-                                 okCallback:nil
-                                cancelTitle:nil
-                             cancelCallback:nil];
-    }
-}
-
-- (void)export {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kShopName:_shop.name,
-                             kShopID:_shop.ID,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [manager GET:API_EXPORT_SHOP_PRODUCTS
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 [CallbackAlertView setCallbackTaget:@""
-                                             message:@"Data has been exported!"
-                                              target:self
-                                             okTitle:btnOK
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-         }];
-
-}
-
 - (IBAction)onSaveClicked:(id)sender {
     if (![Utils hasWritePermission:_shop.name notify:YES]) return;
     if (![searchDate isEqualToString:today]) return;
@@ -171,11 +119,13 @@
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Product *product in _products) {
         [updates addObject:@{kShopProductID: product.shopProductID,
+                             kProductName: product.name,
                              kProductSTake: @(product.STake)}];
     }
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_UPDATE_SHOP_PRODUCTS
-      parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType]),
+      parameters:@{kShopName:_shop.name,
+                   kProduct: @([[ProductManager sharedInstance] getProductType]),
                    kParams: [Utils objectToJsonString:updates]}
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

@@ -111,10 +111,6 @@ app.get('/getShopProducts', function (req, res) {
   SHOP.getShopProducts(con, req, res);
 })
 
-app.get('/exportShopProducts', function (req, res) {
-  SHOP.exportShopProducts(con, req, res);
-})
-
 app.get('/updateShopProducts', function (req, res) {
   SHOP.updateShopProducts(con, req, res);
 })
@@ -161,10 +157,6 @@ app.get('/addNewWarehouse', function (req, res) {
 
 app.get('/removeWarehouse', function (req, res) {
   WH.removeWarehouse(con, req, res);
-})
-
-app.get('/exportWarehouseProducts', function (req, res) {
-  WH.exportWarehouseProducts(con, req, res);
 })
 
 app.get('/updateWarehouseProducts', function (req, res) {

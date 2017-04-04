@@ -52,6 +52,7 @@ static NSString *const CellCrateManager = @"CrateTableViewCellID";
 static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 static NSString *const CellCrateDetail = @"CrateDetailTableViewCellID";
+static NSString *const CellFunctionList = @"cellFunctionListBannerID";
 
 
 #pragma mark - Color

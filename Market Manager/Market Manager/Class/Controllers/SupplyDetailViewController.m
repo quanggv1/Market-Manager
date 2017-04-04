@@ -106,49 +106,10 @@
 }
 
 - (IBAction)onExportClicked:(id)sender {
-    if(![Utils hasWritePermission:_supply.name notify:YES]) return;
-    if (!_products) return;
-    if ([searchDate isEqualToString:today]) {
-        [CallbackAlertView setCallbackTaget:@""
-                                    message:@"After export, your data will be refreshed. Are you sure to continue?"
-                                     target:self
-                                    okTitle:@"OK"
-                                 okCallback:@selector(export)
-                                cancelTitle:@"Cancel"
-                             cancelCallback:nil];
-    }
+
 }
 
-- (void)export {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_EXPORT_WAREHOUSE_PRODUCTS
-      parameters:@{kWarehouseID:_supply.ID,
-                   kWhName: _supply.name,
-                   kProduct: @([[ProductManager sharedInstance] getProductType])}
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [self refreshData];
-                 [self onSaveClicked:nil];
-             } else {
-                 [self hideActivity];
-                 ShowMsgSomethingWhenWrong;
-             }
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-         }];
-}
 
-- (void)refreshData {
-    for (Product *product in _products) {
-        product.STake = product.whTotal;
-        product.inQty = 0;
-        product.outQty = 0;
-    }
-    [_productTableView reloadData];
-}
 
 - (IBAction)onSaveClicked:(id)sender {
     if(![Utils hasWritePermission:_supply.name notify:YES]) return;
@@ -158,6 +119,7 @@
         NSMutableArray *updates = [[NSMutableArray alloc] init];
         for (Product *product in _products) {
             [updates addObject:@{kProductWareHouseID: product.productWhID,
+                                 kProductName: product.name,
                                  kProductSTake: @(product.STake),
                                  kWhInQuantity: @(product.inQty),
                                  kWhOutQuantity: @(product.outQty),
@@ -166,7 +128,8 @@
         
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         [manager GET:API_UPDATE_WAREHOUSE_PRODUCTS
-          parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType]),
+          parameters:@{kWhName: _supply.name,
+                       kProduct: @([[ProductManager sharedInstance] getProductType]),
                        kParams: [Utils objectToJsonString:updates]}
             progress:nil
              success:^(NSURLSessionDataTask * task, id responseObject) {

@@ -13,6 +13,7 @@
     NSMutableArray *productsInvoice, *cratesInvoice;
     NSString *pdfFileName;
 }
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareBarButton;
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 
 @end
@@ -144,7 +145,6 @@
     NSURLRequest * request=[[NSURLRequest alloc] initWithURL:url];
     [_webview setDelegate:self];
     [_webview loadRequest:request];
-    
 }
 
 #pragma mark - webview delegate
@@ -158,40 +158,20 @@
     UIActivityViewController *activityViewController =
     [[UIActivityViewController alloc] initWithActivityItems:@[string, URL]
                                       applicationActivities:nil];
-    [self presentActivityController:activityViewController];
-}
-- (void)presentActivityController:(UIActivityViewController *)controller {
     
-    // for iPad: make the presentation a Popover
-    controller.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:controller animated:YES completion:nil];
+    activityViewController.modalPresentationStyle = UIModalPresentationPopover;
     
-    UIPopoverPresentationController *popController = [controller popoverPresentationController];
+    UIPopoverPresentationController *popController = [activityViewController popoverPresentationController];
     popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    popController.barButtonItem = self.navigationItem.leftBarButtonItem;
-    
-    // access the completion handler
-    controller.completionWithItemsHandler = ^(NSString *activityType,
-                                              BOOL completed,
-                                              NSArray *returnedItems,
-                                              NSError *error){
-        // react to the completion
-        if (completed) {
-            // user shared an item
-            NSLog(@"We used activity type%@", activityType);
-        } else {
-            // user cancelled
-            NSLog(@"We didn't want to share anything after all.");
-        }
-        
-        if (error) {
-            NSLog(@"An Error occured: %@, %@", error.localizedDescription, error.localizedFailureReason);
-        }
-    };
+    popController.barButtonItem = (UIBarButtonItem *)sender;
+    popController.sourceView = (UIView *)sender;
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
+
 - (IBAction)printInvoice:(id)sender {
     [self uploadPDF];
 }
+
 - (void)uploadPDF {
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
