@@ -31,6 +31,10 @@ typedef NS_ENUM(NSInteger, kProductType){
     kFoods
 };
 
+typedef NS_ENUM(NSInteger, kInternalStorage){
+    kStorageIPAdress = 0,
+};
+
 
 #endif /* config_h */
 

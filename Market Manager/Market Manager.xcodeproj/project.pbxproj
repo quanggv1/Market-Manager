@@ -51,6 +51,8 @@
 		3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9081E6EA44400EA3ADB /* page.png */; };
 		3D72E1C51E923FF400DC017F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72E1C31E923FF400DC017F /* icon.png */; };
 		3D72E1C61E923FF400DC017F /* logo_chuan.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72E1C41E923FF400DC017F /* logo_chuan.png */; };
+		3DA93D481E948E2300B72F70 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA93D471E948E2300B72F70 /* SettingViewController.m */; };
+		3DA93D4B1E949C6800B72F70 /* StorageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA93D4A1E949C6800B72F70 /* StorageService.m */; };
 		3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */; };
 		3DD12EBA1E84DE3E0017FED2 /* FunctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */; };
 		3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */; };
@@ -200,6 +202,10 @@
 		3D6BF9081E6EA44400EA3ADB /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
 		3D72E1C31E923FF400DC017F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		3D72E1C41E923FF400DC017F /* logo_chuan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_chuan.png; sourceTree = "<group>"; };
+		3DA93D461E948E2300B72F70 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		3DA93D471E948E2300B72F70 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		3DA93D491E949C6800B72F70 /* StorageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageService.h; sourceTree = "<group>"; };
+		3DA93D4A1E949C6800B72F70 /* StorageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageService.m; sourceTree = "<group>"; };
 		3DB505941E80F95300B81FD5 /* UserDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailTableViewCell.h; sourceTree = "<group>"; };
 		3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailTableViewCell.m; sourceTree = "<group>"; };
 		3DD12EB81E84DE3E0017FED2 /* FunctionListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionListViewController.h; sourceTree = "<group>"; };
@@ -336,6 +342,8 @@
 		3D0C188F1E5A8297008CA470 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				3DA93D491E949C6800B72F70 /* StorageService.h */,
+				3DA93D4A1E949C6800B72F70 /* StorageService.m */,
 				743242161E614EA6006ABCA0 /* CallbackAlertView.h */,
 				743242171E614EA6006ABCA0 /* CallbackAlertView.m */,
 				3D0C18931E5AB0E2008CA470 /* DateTimePickerController.h */,
@@ -585,6 +593,8 @@
 				3D41D76B1E558C9100123A71 /* LoginViewController.m */,
 				3D2F4B021E6FB2A600030536 /* RecommendListViewController.h */,
 				3D2F4B031E6FB2A600030536 /* RecommendListViewController.m */,
+				3DA93D461E948E2300B72F70 /* SettingViewController.h */,
+				3DA93D471E948E2300B72F70 /* SettingViewController.m */,
 				74E9044A1E57F701005D391D /* Menu */,
 				74ED222B1E59FC850079D3F0 /* Order */,
 				74E904421E57F513005D391D /* Product */,
@@ -825,8 +835,8 @@
 				TargetAttributes = {
 					7466EAE71E51E95E00A2C0F5 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 4G537R57N3;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 966G4393N4;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -932,6 +942,7 @@
 				7466EAED1E51E95E00A2C0F5 /* main.m in Sources */,
 				74ED22271E59F7160079D3F0 /* SupplyDetailViewController.m in Sources */,
 				3D41D79E1E55903800123A71 /* IQTitleBarButtonItem.m in Sources */,
+				3DA93D481E948E2300B72F70 /* SettingViewController.m in Sources */,
 				74E904451E57F54D005D391D /* ProductCell.m in Sources */,
 				3D41D79D1E55903800123A71 /* IQPreviousNextView.m in Sources */,
 				3D41D7941E55903800123A71 /* IQUIScrollView+Additions.m in Sources */,
@@ -944,6 +955,7 @@
 				74C5A73A1E7466F100BB5B40 /* Crate.m in Sources */,
 				744424EB1E6B089100F0ECA8 /* ShopProductTableViewCell.m in Sources */,
 				3D41D7C81E56E33A00123A71 /* AFNetworkReachabilityManager.m in Sources */,
+				3DA93D4B1E949C6800B72F70 /* StorageService.m in Sources */,
 				3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */,
 				7496AB6F1E9107D9005D8364 /* CrateDetailViewController.m in Sources */,
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
@@ -1078,7 +1090,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 4G537R57N3;
+				DEVELOPMENT_TEAM = 966G4393N4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
@@ -1086,8 +1098,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "91abf010-eb20-4042-89ee-532c22692835";
+				PROVISIONING_PROFILE_SPECIFIER = "All App Development 2016";
 			};
 			name = Debug;
 		};
@@ -1096,7 +1108,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 4G537R57N3;
+				DEVELOPMENT_TEAM = 966G4393N4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
@@ -1104,8 +1116,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "91abf010-eb20-4042-89ee-532c22692835";
+				PROVISIONING_PROFILE_SPECIFIER = "All App Development 2016";
 			};
 			name = Release;
 		};
