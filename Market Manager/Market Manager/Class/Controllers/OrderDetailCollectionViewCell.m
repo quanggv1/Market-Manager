@@ -39,7 +39,6 @@
     _productDic = productDic;
     _key = key;
     _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
-    _textField.enabled = ![key isEqualToString:kProductOrder];
     _textField.delegate = self;
 }
 
@@ -65,10 +64,10 @@
           parameters:params
             progress:nil
              success:^(NSURLSessionDataTask * task, id responseObject) {
-                 if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                     [_productDic setValue:_textField.text forKey:_key];
+                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                     NSInteger numberOfProduct = [_textField.text integerValue];
+                     [_productDic setValue:@(numberOfProduct) forKey:_key];
                  } else {
-                     _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
                      [CallbackAlertView setCallbackTaget:titleError
                                                  message:@"Please input number no more than number of warehouse's product"
                                                   target:self
@@ -77,13 +76,18 @@
                                              cancelTitle:nil
                                           cancelCallback:nil];
                  }
-             } failure:^(NSURLSessionDataTask * task, NSError * error) {
                  _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
+             } failure:^(NSURLSessionDataTask * task, NSError * error) {
                  ShowMsgConnectFailed;
+                 _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
              }];
     } else if([_key isEqualToString:kCrateQty]) {
-        if(![[[CrateManager sharedInstance] getCrateNameList] containsObject:[NSString stringWithFormat:@"%@", [_productDic objectForKey:kCrateType]]]) {
-            _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
+        NSArray *crateTypeList = [[CrateManager sharedInstance] getCrateNameList];
+        NSString *crateType = [NSString stringWithFormat:@"%@", [_productDic objectForKey:kCrateType]];
+        if([crateTypeList containsObject:crateType]) {
+            NSInteger crateQty = [_textField.text integerValue];
+            [_productDic setValue:@(crateQty) forKey:_key];
+        } else {
             [CallbackAlertView setCallbackTaget:titleError
                                         message:@"Please input correct crate type"
                                          target:self
@@ -91,11 +95,16 @@
                                      okCallback:nil
                                     cancelTitle:nil
                                  cancelCallback:nil];
-        } else {
-            [_productDic setValue:_textField.text forKey:_key];
         }
-    } else {   
+        _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
+    } else if([_key isEqualToString:kProductOrder]) {
+        NSInteger numberOfProduct = [_textField.text integerValue];
+        [_productDic setValue:@(numberOfProduct) forKey:_key];
+        _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
+    } else {
         [_productDic setValue:_textField.text forKey:_key];
     }
 }
+
+
 @end
