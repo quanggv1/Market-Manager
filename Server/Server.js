@@ -185,10 +185,6 @@ app.get('/updateCrates', function (req, res) {
   CRATE.updateCrates(con, req, res);
 })
 
-app.get('/exportCrates', function (req, res) {
-  CRATE.exportCrates(con, req, res);
-})
-
 app.get('/getCratesDetail', function (req, res) {
   CRATE.getCratesDetail(con, req, res);
 })
