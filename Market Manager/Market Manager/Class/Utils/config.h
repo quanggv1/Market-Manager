@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, kOrderStatus){
 };
 
 typedef NS_ENUM(NSInteger, kProductType){
-    kVegatables = 1,
+    kVegetables = 1,
     kMeats,
     kFoods
 };

@@ -216,6 +216,10 @@ static NSString *const kIdValue = @"idValue";
 static NSString *const kShopProductTableName = @"shop_product";
 static NSString *const kWarehouseProductTableName = @"warehouse_product";
 
+static NSString *const kVegePermission = @"Vegetable Permission";
+static NSString *const kMeatPermission = @"Meat Permission";
+static NSString *const kFoodPermission = @"Food Permission";
+
 #define ShowMsgConnectFailed [CallbackAlertView setCallbackTaget:titleError message:msgConnectFailed target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 #define ShowMsgSomethingWhenWrong [CallbackAlertView setCallbackTaget:titleError message:msgSomethingWhenWrong target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 #define ShowMsgUnavaiableData [CallbackAlertView setCallbackTaget:titleError message:@"Unavaiable data for this day" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]

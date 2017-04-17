@@ -835,8 +835,8 @@
 				TargetAttributes = {
 					7466EAE71E51E95E00A2C0F5 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 966G4393N4;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = MPHGXRS63U;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1090,16 +1090,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 966G4393N4;
+				DEVELOPMENT_TEAM = MPHGXRS63U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert;
+				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "91abf010-eb20-4042-89ee-532c22692835";
-				PROVISIONING_PROFILE_SPECIFIER = "All App Development 2016";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1108,16 +1108,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 966G4393N4;
+				DEVELOPMENT_TEAM = MPHGXRS63U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert;
+				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "91abf010-eb20-4042-89ee-532c22692835";
-				PROVISIONING_PROFILE_SPECIFIER = "All App Development 2016";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

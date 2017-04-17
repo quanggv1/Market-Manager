@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *userInfoTableView;
 @property (assign, nonatomic) NSInteger numberOfSection;
 @property (strong, nonatomic) NSMutableArray *shops, *warehouses;
-@property (strong, nonatomic) NSMutableDictionary *cratePermision, *productPermission;
+@property (strong, nonatomic) NSMutableDictionary *cratePermision, *productPermission, *vegePermission, *meatPermission, *foodPermission;
 @end
 
 @implementation UserDetailViewController
@@ -25,7 +25,6 @@
     [super viewDidLoad];
     _userInfoTableView.dataSource = self;
     _userInfoTableView.delegate = self;
-//    _userNameLbl.text = _user.name;
     _shops = [[NSMutableArray alloc] init];
     _warehouses = [[NSMutableArray alloc] init];
 
@@ -57,8 +56,19 @@
     NSString *isCrateWritable = [writePermission containsObject:kCrateTableName] ? @"1" : @"0";
     _cratePermision = [NSMutableDictionary dictionaryWithObjectsAndKeys:isCrateReadOnly, kReadPermission, isCrateWritable, kWritePermission, kCrateTableName, @"name", nil];
     
+    NSString *isVegeReadOnly = [readPermission containsObject:kVegePermission] ? @"1" : @"0";
+    NSString *isVegeWritable = [writePermission containsObject:kVegePermission] ? @"1" : @"0";
+    _vegePermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:isVegeReadOnly, kReadPermission, isVegeWritable, kWritePermission, kVegePermission, @"name", nil];
     
-    _numberOfSection = _user.isAdmin ? 1 : 6;
+    NSString *isMeatReadOnly = [readPermission containsObject:kMeatPermission] ? @"1" : @"0";
+    NSString *isMeatWritable = [writePermission containsObject:kMeatPermission] ? @"1" : @"0";
+    _meatPermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:isMeatReadOnly, kReadPermission, isMeatWritable, kWritePermission, kMeatPermission, @"name", nil];
+    
+    NSString *isFoodReadOnly = [readPermission containsObject:kFoodPermission] ? @"1" : @"0";
+    NSString *isFoodWritable = [writePermission containsObject:kFoodPermission] ? @"1" : @"0";
+    _foodPermission = [NSMutableDictionary dictionaryWithObjectsAndKeys:isFoodReadOnly, kReadPermission, isFoodWritable, kWritePermission, kFoodPermission, @"name", nil];
+    
+    _numberOfSection = _user.isAdmin ? 1 : 9;
     [_userInfoTableView reloadData];
 }
 
@@ -73,7 +83,7 @@
 }
 
 - (void)updateTableDatasource {
-    _numberOfSection = _user.isAdmin ? 1 : 6;
+    _numberOfSection = _user.isAdmin ? 1 : 9;
     [_userInfoTableView reloadData];
 }
 
@@ -94,6 +104,7 @@
             [writePermission addObject:[dict objectForKey:@"name"]];
         }
     }
+    
     for (NSDictionary *dict in _warehouses) {
         if([[dict objectForKey:kReadPermission] isEqualToString:@"1"]) {
             [readPermission addObject:[dict objectForKey:@"name"]];
@@ -103,6 +114,7 @@
         }
     }
     
+    //update product permission
     if([[_productPermission objectForKey:kReadPermission] isEqualToString:@"1"]) {
         [readPermission addObject:[_productPermission objectForKey:@"name"]];
     }
@@ -111,12 +123,40 @@
         [writePermission addObject:[_productPermission objectForKey:@"name"]];
     }
     
+    //update crate permission
     if([[_cratePermision objectForKey:kReadPermission] isEqualToString:@"1"]) {
         [readPermission addObject:[_cratePermision objectForKey:@"name"]];
     }
     
     if([[_cratePermision objectForKey:kWritePermission] isEqualToString:@"1"]) {
         [writePermission addObject:[_cratePermision objectForKey:@"name"]];
+    }
+    
+    //update vegetable permission
+    if([[_vegePermission objectForKey:kReadPermission] isEqualToString:@"1"]) {
+        [readPermission addObject:[_vegePermission objectForKey:@"name"]];
+    }
+    
+    if([[_vegePermission objectForKey:kWritePermission] isEqualToString:@"1"]) {
+        [writePermission addObject:[_vegePermission objectForKey:@"name"]];
+    }
+    
+    //update meat permission
+    if([[_meatPermission objectForKey:kReadPermission] isEqualToString:@"1"]) {
+        [readPermission addObject:[_meatPermission objectForKey:@"name"]];
+    }
+    
+    if([[_meatPermission objectForKey:kWritePermission] isEqualToString:@"1"]) {
+        [writePermission addObject:[_meatPermission objectForKey:@"name"]];
+    }
+    
+    //update food permission
+    if([[_foodPermission objectForKey:kReadPermission] isEqualToString:@"1"]) {
+        [readPermission addObject:[_foodPermission objectForKey:@"name"]];
+    }
+    
+    if([[_foodPermission objectForKey:kWritePermission] isEqualToString:@"1"]) {
+        [writePermission addObject:[_foodPermission objectForKey:@"name"]];
     }
     
     
@@ -162,9 +202,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
-        case 4:
+        case 7:
             return _shops.count;
-        case 5:
+        case 8:
             return _warehouses.count;
         default:
             return 1;
@@ -174,12 +214,18 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     switch (section) {
         case 2:
-            return @"Products";
+            return @"Vegetable";
         case 3:
-            return @"Crates";
+            return @"Meat";
         case 4:
-            return @"Shops";
+            return @"Food";
         case 5:
+            return @"Products";
+        case 6:
+            return @"Crates";
+        case 7:
+            return @"Shops";
+        case 8:
             return @"Ware Houses";
         default:
             return @"";
@@ -199,17 +245,29 @@
             break;
         case 2:
             cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
-            [((UserDetailTableViewCell *)cell) setPermissionDict:_productPermission];
+            [((UserDetailTableViewCell *)cell) setPermissionDict:_vegePermission];
             break;
         case 3:
             cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
-            [((UserDetailTableViewCell *)cell) setPermissionDict:_cratePermision];
+            [((UserDetailTableViewCell *)cell) setPermissionDict:_meatPermission];
             break;
         case 4:
             cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
-            [((UserDetailTableViewCell *)cell) setPermissionDict:_shops[indexPath.row]];
+            [((UserDetailTableViewCell *)cell) setPermissionDict:_foodPermission];
             break;
         case 5:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
+            [((UserDetailTableViewCell *)cell) setPermissionDict:_productPermission];
+            break;
+        case 6:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
+            [((UserDetailTableViewCell *)cell) setPermissionDict:_cratePermision];
+            break;
+        case 7:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
+            [((UserDetailTableViewCell *)cell) setPermissionDict:_shops[indexPath.row]];
+            break;
+        case 8:
             cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
             [((UserDetailTableViewCell *)cell) setPermissionDict:_warehouses[indexPath.row]];
             break;

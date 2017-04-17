@@ -29,8 +29,8 @@
     [super viewDidLoad];
     [self getData];
     
-    if([[ProductManager sharedInstance] getProductType] == kVegatables)
-        self.navBarTitle.title = @"Vegatables";
+    if([[ProductManager sharedInstance] getProductType] == kVegetables)
+        self.navBarTitle.title = @"Vegetables";
     else if([[ProductManager sharedInstance] getProductType] == kMeats)
         self.navBarTitle.title = @"Meats";
     else
