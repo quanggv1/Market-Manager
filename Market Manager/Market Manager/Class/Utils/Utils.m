@@ -124,5 +124,30 @@ static DateTimePickerController *dateTimePickerController;
     return NO;
 }
 
+//* Get title with key */
+
++ (NSString *)getTitle {
+    if([[ProductManager sharedInstance] getProductType] == kVegatables)
+        return @"Vegatables";
+    else if([[ProductManager sharedInstance] getProductType] == kMeats)
+        return @"Meats";
+    else
+        return @"Foods";
+}
+
++ (NSArray *)getFunctionList {
+    if([[ProductManager sharedInstance] getProductType] == kMeats)
+        return @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
+                 [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"]];
+    else
+        return @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
+                 [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
+                 [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
+                 [[MenuCellProp alloc] initWith:@"Market Need" image:@"ic_store_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
+                 [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"]];
+}
+
 
 @end

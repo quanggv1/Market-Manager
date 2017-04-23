@@ -29,19 +29,9 @@
     [super viewDidLoad];
     [self getData];
     
-    if([[ProductManager sharedInstance] getProductType] == kVegatables)
-        self.navBarTitle.title = @"Vegatables";
-    else if([[ProductManager sharedInstance] getProductType] == kMeats)
-        self.navBarTitle.title = @"Meats";
-    else
-        self.navBarTitle.title = @"Foods";
+    self.navBarTitle.title = [Utils getTitle];
     
-    _functionList = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
-                      [[MenuCellProp alloc] initWith:@"Market Need" image:@"ic_store_36pt"],
-                  [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"]];
+    _functionList = [Utils getFunctionList];
     _functionsTableView.delegate = self;
     _functionsTableView.dataSource = self;
     _functionsTableView.rowHeight = UITableViewAutomaticDimension;

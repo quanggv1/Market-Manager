@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ProductManager.h"
+#import "MenuCell.h"
 
 @interface Utils : NSObject
 + (void)hideKeyboard;
@@ -18,4 +20,6 @@
 + (NSString *) stringHTML:(NSDictionary *) products crates:(NSDictionary *)crates productSum:(float)pdSum crateSum:(float)crSum;
 + (BOOL)hasReadPermission:(NSString *)side;
 + (BOOL)hasWritePermission:(NSString *)side;
++ (NSString *)getTitle;
++ (NSArray *)getFunctionList;
 @end
