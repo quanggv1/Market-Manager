@@ -47,6 +47,8 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *userName = _userNameTextField.text;
     NSString *password = _passwordTextField.text;
+//    NSString *userName = @"admin";
+//    NSString *password = @"admin";
     NSDictionary *params = @{kUserName: userName,
                              kUserPassword: password};
     [self showActivity];

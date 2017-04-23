@@ -50,7 +50,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationItem.title = kTitleProductManagement;
+    self.navigationItem.title = kTitleProduct;
     [self reloadProductTableView];
 }
 

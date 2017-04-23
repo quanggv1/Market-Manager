@@ -33,8 +33,9 @@ static NSString *const StoryboardMenuView = @"menuViewController";
 static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
 static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewControllerId";
 static NSString *const StoryboardAddNewSupplyProduct = @"AddNewSupplyProductViewControllerId";
-static NSString *const StoryboardReportSummaryQtyNeed = @"SummaryNavigationQtyNeedID";
+static NSString *const SBReportSummaryQtyNeed = @"SummaryNavigationQtyNeedID";
 static NSString *const StoryboardSettingView = @"settingViewID";
+static NSString *const SBCustomerNavID = @"CustomerNavigationId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellMenuBanner = @"menuBannerCellID";
@@ -194,8 +195,13 @@ static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";
 static NSString *const kOrderQty = @"order_quantity";
 
-static NSString *const kTitleOrderManagement = @"Order Management";
-static NSString *const kTitleProductManagement = @"Product Management";
+static NSString *const kTitleOrder = @"Order Management";
+static NSString *const kTitleProduct = @"Product Management";
+static NSString *const kTitleWH = @"Ware House";
+static NSString *const kTitleShop = @"Shop";
+static NSString *const kTitleCrate = @"Crate Management";
+static NSString *const kTitleCustomer = @"Customer";
+static NSString *const kTitleMarketNeed = @"Market Need";
 
 static NSString *const kCode = @"code";
 static NSString *const kStatus = @"status";

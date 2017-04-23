@@ -72,29 +72,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    switch (indexPath.row) {
-        case 1:
-            if(![Utils hasReadPermission:kProductTableName]) return;
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
-            break;
-        case 2:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
-            break;
-        case 3:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
-            break;
-        case 4:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardReportSummaryQtyNeed] animated:YES completion:nil];
-            break;
-        case 5:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];
-            break;
-        case 6:
-            if(![Utils hasReadPermission:kCrateTableName]) return;
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
-            break;
-        default:
-            break;
+    if (indexPath.row != 0) {
+        MenuCell *cellSelected = [tableView cellForRowAtIndexPath:indexPath];
+        NSString *title = cellSelected.menuTitle.text;
+        [Utils showDetailBy:title at:self];
     }
 }
 

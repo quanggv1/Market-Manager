@@ -8,12 +8,6 @@
 
 #import "MenuCell.h"
 
-@interface MenuCell()
-@property (weak, nonatomic) IBOutlet UIImageView *menuImage;
-@property (weak, nonatomic) IBOutlet UILabel *menuTitle;
-
-@end
-
 @implementation MenuCell {
     MenuCellProp *_content;
 }

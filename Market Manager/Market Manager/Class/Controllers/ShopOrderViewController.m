@@ -13,7 +13,7 @@
 
 @interface ShopOrderViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *shopTableView;
-@property (strong, nonatomic) NSMutableArray *shopDataSource;
+@property (strong, nonatomic) NSArray *shopDataSource;
 @end
 
 @implementation ShopOrderViewController
@@ -22,42 +22,12 @@
     [super viewDidLoad];
     _shopTableView.delegate = self;
     _shopTableView.dataSource = self;
-    [self download];
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.shopTableView;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(download) forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
+    _shopDataSource = [[ShopManager sharedInstance] getShopList];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationItem.title = kTitleOrderManagement;
-}
-
-- (void)download {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kShopTableName};
-    [manager GET:API_GETDATA
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[ShopManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
-                 _shopDataSource = [[NSMutableArray alloc] initWithArray:[[ShopManager sharedInstance] getShopList]];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self.refreshControl endRefreshing];
-             [_shopTableView reloadData];
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             [self.refreshControl endRefreshing];
-             ShowMsgConnectFailed;
-         }];
+    self.navigationItem.title = kTitleOrder;
 }
 
 - (void)didReceiveMemoryWarning {

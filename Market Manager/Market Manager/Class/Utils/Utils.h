@@ -22,4 +22,5 @@
 + (BOOL)hasWritePermission:(NSString *)side notify:(BOOL)isShow;
 + (NSString *)getTitle;
 + (NSArray *)getFunctionList;
++ (void)showDetailBy:(NSString *)name at:(UIViewController *)view;
 @end
