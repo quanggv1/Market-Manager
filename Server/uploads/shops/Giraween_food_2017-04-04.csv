@@ -1,0 +1,369 @@
+"shopProductID","shopID","productID","stockTake","description","productName","price"
+2,1,25,150,"","Bitter melon",1.6
+4,1,27,32,"","Broccoli",1
+5,1,28,22,"","Broccolini",1
+6,1,29,1,"","Broccoli ice",1
+7,1,30,1,"","Bean sprouts",1
+8,1,31,1,"","Baby eggplant",1
+9,1,32,1,"","Baby eggplant strip",1
+10,1,33,1,"","Beetroots",1
+11,1,34,1,"","Beetroots Gourmet",1
+12,1,35,1,"","Brusell sprouts",1
+13,1,36,1,"","Cabbage",1
+14,1,37,1,"","Cab Chinese",1
+15,1,38,1,"","Cabbage bin",1
+16,1,39,1,"","Cabbage savoy",1
+17,1,40,1,"","Cab red",1
+18,1,41,1,"","Cauliflower",1
+19,1,42,1,"","Celeriac",1
+20,1,43,1,"","Celery",1
+21,1,44,1,"","Silver beet",1
+22,1,45,1,"","Spring onion",1
+23,1,46,1,"","Capsicum Red No1",1
+24,1,47,1,"","Capsicum red",1
+25,1,48,1,"","Caps yellow",1
+26,1,49,1,"","Caps green",1
+27,1,50,1,"","Caps green sale",1
+28,1,51,1,"","Caps Mix",1
+29,1,52,1,"","Carrot 1kg",1
+30,1,53,1,"","Carrot 1kg sale",1
+31,1,54,1,"","Carrot 5kg",1
+32,1,55,1,"","Carrot 20kg",1
+33,1,56,1,"","Carrot loose",1
+34,1,57,1,"","Carrot baby",1
+35,1,58,1,"","Chestnuts 1 kg",1
+36,1,59,1,"","Chestnuts box",1
+37,1,60,1,"","Chestnuts 10 kg",1
+38,1,61,1,"","Chilli green big",1
+39,1,62,1,"","Chilli red big",1
+40,1,63,1,"","Chilli hot small",1
+41,1,64,1,"","Yellow Chilli",1
+42,1,65,1,"","Chinese melon",1
+43,1,66,1,"","ChoKo",1
+44,1,67,1,"","Cucumber burp",1
+45,1,68,1,"","Cucumber burp sale",1
+46,1,69,1,"","Cucumber Leb",1
+47,1,70,1,"","Cucum Leb sale",1
+48,1,71,1,"","Cucumber green",1
+49,1,72,1,"","Cucumber pickle",1
+50,1,73,1,"","Corn sweet",1
+51,1,74,1,"","Corn baby",1
+52,1,75,1,"","Courgette",1
+53,1,76,1,"","Dill",1
+54,1,77,1,"","Egg fruit",1
+55,1,78,1,"","Thai eggplant",1
+56,1,79,1,"","Fennel leek",1
+57,1,80,1,"","Galanga",1
+58,1,81,1,"","Lotus Root",1
+59,1,82,1,"","Ginger old",1
+60,1,83,1,"","Ginger young",1
+61,1,84,1,"","Snake beans",1
+62,1,85,1,"","Stringless beans",1
+63,1,86,1,"","Luffa (India)",1
+64,1,87,1,"","Asian Luffa (Muop)",1
+65,1,88,1,"","Snakekoil",1
+66,1,89,1,"","Jackfruit",1
+67,1,90,1,"","Curry Leaf",1
+68,1,91,1,"","Leek",1
+69,1,92,1,"","Lemon good",1
+70,1,93,1,"","Lemon pre-pack",1
+71,1,94,1,"","Lemon 2nd",1
+72,1,95,1,"","Lime pkt",1
+73,1,96,1,"","Lime",1
+74,1,97,1,"","Lime Kaffir",1
+75,1,98,1,"","Festival green",1
+76,1,99,1,"","Festival red",1
+77,1,100,1,"","Coral red",1
+78,1,101,1,"","Coral green",1
+79,1,102,1,"","Radichio",1
+80,1,103,1,"","Chicory",1
+81,1,104,1,"","Cos lettuce",1
+82,1,105,1,"","Lettuce",1
+83,1,106,1,"","Butter Lectuce",1
+84,1,107,1,"","Lettuce trio",1
+85,1,108,1,"","Lettuce mix 250g",1
+86,1,109,1,"","Squash",1
+87,1,110,1,"","Baby cos",1
+88,1,111,1,"","Baby spinach",1
+89,1,112,1,"","Rocket",1
+90,1,113,1,"","Italian basil",1
+91,1,114,1,"","Thai basil",1
+92,1,115,1,"","Mushrooms",1
+93,1,116,1,"","Mushrooms punnet",1
+94,1,117,1,"","Mushrooms field",1
+95,1,118,1,"","Paprika green",1
+96,1,119,1,"","Paprika red",1
+97,1,120,1,"","Paprika yellow",1
+98,1,121,1,"","Parsley Italian",1
+99,1,122,1,"","Parsley",1
+100,1,123,1,"","Parsnips",1
+101,1,124,1,"","Rhubarb",1
+102,1,125,1,"","Runner bean",1
+103,1,126,1,"","Snow pea",1
+104,1,127,1,"","Snow pea sprouts",1
+105,1,128,1,"","Soup pack",1
+106,1,129,1,"","Swedes",1
+107,1,130,1,"","Red radish",1
+108,1,131,1,"","Tomatoes pkt",1
+109,1,132,1,"","Tomatoes  No1",1
+110,1,133,1,"","Tomato No2",1
+111,1,134,1,"","Tomato Roma",1
+112,1,135,1,"","Tomato Roma PKT",1
+113,1,136,1,"","Tomatoes Cherry",1
+114,1,137,1,"","Tomatoes Grape",1
+115,1,138,1,"","Tomato Cherry box",1
+116,1,139,1,"","Tomatoes Truss",1
+117,1,140,1,"","Turmeric bag",1
+118,1,141,1,"","Turnip",1
+119,1,142,1,"","White radish",1
+120,1,143,1,"","Winters melon",1
+121,1,144,1,"","Winter melon cut",1
+122,1,145,1,"","Zucchini",1
+123,1,146,1,"","Apricot No1",1
+124,1,147,1,"","Apricot Med",1
+125,1,148,1,"","Apricot in box",1
+126,1,149,1,"","Avocado tray",1
+127,1,150,1,"","Avocado box",1
+128,1,151,1,"","Custard Apple",1
+129,1,152,1,"","Fresh coconut",1
+130,1,153,1,"","Dried coconut",1
+131,1,154,1,"","Cusan",1
+132,1,155,1,"","Cherry 5kg",1
+133,1,156,1,"","Cherry 2kg",1
+134,1,157,1,"","Cherry U.S 10 Lb",1
+135,1,158,1,"","Cherry U.S 20 Lb",1
+136,1,159,1,"","Durian",1
+137,1,160,1,"","Longan",1
+138,1,161,1,"","Lychees",1
+139,1,162,1,"","Fuju persimmon",1
+140,1,163,1,"","Fuju persimmon loose",1
+141,1,164,1,"","Mango green",1
+142,1,165,1,"","Mango Mexico",1
+143,1,166,1,"","Mango Mexico Yellow",1
+144,1,167,1,"","Mango Ken",1
+145,1,168,1,"","Mango Ken 23",1
+146,1,169,1,"","Mango Ken 25",1
+148,1,171,1,"","Mango R2E2",1
+149,1,172,1,"","Mango bulk",1
+150,1,173,1,"","Mangosteen",1
+151,1,174,1,"","Passion fruit",1
+152,1,175,1,"","Pomelo",1
+153,1,176,1,"","Rambutan",1
+154,1,177,1,"","Honey dew",1
+155,1,178,1,"","Honey dew gold",1
+156,1,179,1,"","Mandarin Egypt",1
+157,1,180,1,"","Mandarin Daisy",1
+158,1,181,1,"","Mandarin Imperial",1
+159,1,182,1,"","Imperial Pkt",1
+160,1,183,1,"","Mandarin Clementine",1
+161,1,184,1,"","Murcott mandarin",1
+162,1,185,1,"","Tangelo",1
+163,1,186,1,"","Mandarin Afourer",1
+164,1,187,1,"","Mandarin Afourer Pkt",1
+165,1,188,1,"","Mandarin Hickson",1
+166,1,189,1,"","Mandarin Amigo",1
+167,1,190,1,"","Mandarin Pre-pack",1
+168,1,191,1,"","Nectarines sale",1
+169,1,192,1,"","Nectarines white",1
+170,1,193,1,"","Nectarines white pkt",1
+171,1,194,1,"","Nectarines yellow",1
+172,1,195,1,"","Nectarines yellow pkt",1
+173,1,196,1,"","Peaches white NO1",1
+174,1,197,1,"","Peaches white",1
+175,1,198,1,"","Peaches yellow",1
+176,1,199,1,"","Peaches Gold",1
+177,1,200,1,"","Peaches Donut",1
+178,1,201,1,"","Blueberry",1
+179,1,202,1,"","Papaya",1
+180,1,203,1,"","Paw paw green",1
+181,1,204,1,"","Pineapples leaf",1
+182,1,205,1,"","Pineapples sugar",1
+183,1,206,1,"","Pomegranates",1
+184,1,207,1,"","Prune",1
+185,1,208,1,"","Rock melon",1
+186,1,209,1,"","Strawberry 250g",1
+187,1,210,1,"","Strawberry 500g",1
+188,1,211,1,"","Fuji good",1
+189,1,212,1,"","Fuji sale",1
+190,1,213,1,"","Kanzi",1
+191,1,214,1,"","Gala good",1
+192,1,215,1,"","Gala Sale",1
+193,1,216,1,"","Gala sale bin",1
+194,1,217,1,"","Gala 6 pkt",1
+195,1,218,1,"","Gala lunchbox 1kg",1
+196,1,219,1,"","Golden delicious",1
+197,1,220,1,"","Granny Smith",1
+198,1,221,1,"","Granny Smith pkt",1
+199,1,222,1,"","Early Gold Apple",1
+200,1,223,1,"","Hi Early",1
+201,1,224,1,"","Hi Early pkt",1
+202,1,225,1,"","Firm gold apple",1
+203,1,226,1,"","Lady William",1
+204,1,227,1,"","Sundowners",1
+205,1,228,1,"","Sundowners sales",1
+206,1,229,1,"","Pink lady good",1
+207,1,230,1,"","Pink lady PKT",1
+208,1,231,1,"","Jazz Apple",1
+209,1,232,1,"","Robi gold Apple",1
+210,1,233,1,"","Kiwi",1
+211,1,234,1,"","Kiwi Tray",1
+212,1,235,1,"","Kiwi gold",1
+213,1,236,1,"","Pear packham",1
+214,1,237,1,"","Pear Packham Pkt",1
+215,1,238,1,"","Pear Yaly",1
+216,1,239,1,"","Pear kosui",1
+217,1,240,1,"","Pear barlet",1
+218,1,241,1,"","Pear bosc",1
+219,1,242,1,"","Pear cocktail",1
+220,1,243,1,"","Pear josephine",1
+221,1,244,1,"","Pear Precose",1
+222,1,245,1,"","Precose lunch box",1
+223,1,246,1,"","Pear Corella",1
+224,1,247,1,"","Pear Red",1
+225,1,248,1,"","Nashi pear",1
+226,1,249,1,"","Nashi pear No2",1
+227,1,250,1,"","Nashi pear pkt",1
+228,1,251,1,"","Plum Seria",1
+229,1,252,1,"","Plum Black Amber",1
+230,1,253,1,"","Plum Bella",1
+232,1,255,125,"","Amber jewel No1",1
+233,1,256,1,"","Amber Jewel pkt",1
+234,1,257,1,"","Plum Tegan Blue",1
+235,1,258,1,"","Plum tegan blue pkt",1
+236,1,259,1,"","Plum October",1
+237,1,260,1,"","Plum Primetime",1
+238,1,261,1,"","Plum Kelsey",1
+239,1,262,1,"","Plum Sunrise",1
+240,1,263,1,"","Plum Dappe Danny",1
+241,1,264,1,"","Plum Fortune",1
+242,1,265,1,"","Plum Midnight",1
+243,1,266,1,"","Plum Mid Red",1
+244,1,267,1,"","Plum Flavour fall",1
+245,1,268,1,"","Plum August Candy",1
+246,1,269,1,"","Guava",1
+247,1,270,1,"","Grape Black",1
+248,1,271,1,"","Grape red seedless",1
+249,1,272,1,"","Grape red globe",1
+250,1,273,1,"","Grape white seedless",1
+251,1,274,1,"","White Dome",1
+252,1,275,1,"","Red Grapefruit",1
+253,1,276,1,"","Yellow Grapefruit",1
+254,1,277,1,"","Grapefruit Pomelo",1
+255,1,278,1,"","Banana",1
+256,1,279,1,"","Banana Green",1
+257,1,280,1,"","Banana carnarvon",1
+258,1,281,1,"","Banana Pack",1
+259,1,282,1,"","Banana l/finger",1
+260,1,283,1,"","Banana Monkey",1
+261,1,284,1,"","Banana  Sticky",1
+262,1,285,1,"","Garlic 500g",1
+263,1,286,1,"","Garlic peel 500g",1
+264,1,287,1,"","Garlic local",1
+265,1,288,1,"","Garlic Chives",1
+266,1,289,1,"","Shallots 5kg",1
+267,1,290,1,"","Shallots 10 kg",1
+268,1,291,1,"","Brown onion 10kg",1
+269,1,292,1,"","Brown onion 20kg",1
+270,1,293,1,"","Brown onion 2kg",1
+271,1,294,1,"","Brown onion loose",1
+272,1,295,1,"","Onion red 2 kg",1
+273,1,296,1,"","Onion red 10 kg",1
+274,1,297,1,"","onion red 1kg",1
+275,1,298,1,"","Onion pickle",1
+276,1,299,1,"","Onion white 20 kg",1
+277,1,300,1,"","Onion white 10 kg",1
+278,1,301,1,"","Onion white 5 kg",1
+279,1,302,1,"","Onion salad white",1
+280,1,303,1,"","Onion salad red",1
+281,1,304,1,"","Okra baby",1
+282,1,305,1,"","Orange Navel",1
+283,1,306,1,"","Orange box",1
+284,1,307,1,"","Orange Sales",1
+285,1,308,1,"","Orange 2 kg",1
+286,1,309,1,"","Orange 3kg",1
+287,1,310,1,"","Orange cara box",1
+288,1,311,1,"","Orange Cara Bins",1
+289,1,312,1,"","Potatoes 16kg",1
+290,1,313,1,"","Potato 15kg",1
+291,1,314,1,"","Potatoes 10kg gourmet",1
+292,1,315,1,"","Potatoes 10kg select",1
+293,1,316,1,"","Potatoes 4kg Blue",1
+294,1,317,1,"","Potatoes 4kg Purple",1
+295,1,318,1,"","Potatoes 4kg Red",1
+296,1,319,1,"","Potatoes 4kg Yellow",1
+297,1,320,1,"","Potatoes 20kg GM",1
+298,1,321,1,"","Potatoes 20kg RB",1
+299,1,322,1,"","Potatoes 20kg SL",1
+300,1,323,1,"","Sweet potato purple",1
+301,1,324,1,"","Sweet potato red",1
+302,1,325,1,"","Sweet potato white",1
+303,1,326,1,"","Yam (Khoai Mo)",1
+304,1,327,1,"","Pumpkin butter",1
+305,1,328,1,"","Pumpkin japanese",1
+306,1,329,1,"","Pumpkin gold",1
+307,1,330,1,"","Watermelons seedless",1
+308,1,331,1,"","Watermelons seeded",1
+309,1,332,1,"","Eggs 600g",1
+310,1,333,1,"","Eggs 700g",1
+311,1,334,1,"","Eggs 850g",1
+312,1,335,1,"","Eggs WR 600g",1
+313,1,336,1,"","Eggs WR 700g",1
+314,1,337,1,"","Eggs GE 500g",1
+315,1,338,1,"","Eggs GE 600g",1
+316,1,339,1,"","Eggs GE 700g",1
+317,1,340,1,"","Eggs Loose",1
+318,1,341,1,"","Free range 600g",1
+319,1,342,1,"","Free range 700g",1
+320,1,343,1,"","Free range 800g",1
+321,1,344,1,"","Kale",1
+322,1,345,1,"","English spinach",1
+323,1,346,1,"","Choysum big",1
+324,1,347,1,"","Choysum small",1
+325,1,348,1,"","Kailan",1
+326,1,349,1,"","Kai choy",1
+327,1,350,1,"","Pok choy",1
+328,1,351,1,"","White Pok choy",1
+329,1,352,1,"","Coriander",1
+330,1,353,1,"","Mint",1
+331,1,354,1,"","Water Spinach",1
+332,1,355,1,"","Rau den",1
+333,1,356,1,"","Lemongrass",1
+334,1,357,1,"","Kohlrabi",1
+335,1,358,1,"","Ngo gai",1
+336,1,359,1,"","Ngo om",1
+337,1,360,1,"","Rau ram",1
+338,1,361,1,"","Dap ca",1
+339,1,362,1,"","Tia to",1
+340,1,363,1,"","Mong toi",1
+341,1,364,1,"","Lime Leaf",1
+342,1,365,1,"","Sapoche",1
+343,1,366,1,"","Enoki 200g",1
+344,1,367,1,"","Enoki 330g",1
+345,1,368,1,"","King Oyster",1
+346,1,369,1,"","oyster 100g",1
+347,1,370,1,"","shiitake",1
+348,1,371,1,"","mixed goumet",1
+349,1,372,1,"","Dragon Fruit",1
+350,1,373,1,"","Taro Jap (Khoai So)",1
+351,1,374,1,"","Taro",1
+352,1,375,1,"","Garlic Shoot",1
+353,1,376,1,"","Onion Flower",1
+354,1,377,1,"","Chive (He )kg",1
+355,1,378,1,"","Pandan leaf",1
+356,1,379,1,"","La Lot",1
+357,1,380,1,"","Hanh huong Kg",1
+358,1,381,1,"","Bac ha kg",1
+359,1,382,1,"","Kinh gioi Kg",1
+360,1,383,1,"","Rau dang kg",1
+361,1,384,1,"","Dot lang Kg",1
+362,1,385,1,"","Gala 1.5 kg",1
+363,1,386,1,"","Water Cress",1
+364,1,387,1,"","Sugar snap",1
+365,1,388,1,"","Mesculin mix",1
+366,1,389,1,"","Baby spinach in bag",1
+367,1,390,1,"","Dates 250g",1
+368,1,391,1,"","Dates 5kg",1
+369,1,392,1,"","Dot Dau",1
+370,1,393,1,"","Bong He",1
+371,1,394,1,"","Purple yam",1
+372,1,395,1,"","Star fruit",1

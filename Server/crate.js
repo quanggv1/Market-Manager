@@ -3,51 +3,50 @@ var csvjson = require('csvjson');
 var json2csv = require('json2csv');
 var fs = require('fs');
 
-var getCrates = function (con, req, res) {
-    con.query('SELECT * FROM crate WHERE date = ?', req.query.date, function (err, result) {
+var CRATE = {};
+
+CRATE.getCrates = function (con, req, res) {
+    var targetFilePath = './uploads/crates/crate_record_' + req.query.date + '.csv';
+
+    if (Utils.today() === req.query.date) {
+        if (fs.existsSync(targetFilePath)) {
+            executeSelectCrates(con, req, res);
+        } else {
+            refreshDataForNewDay(con, req, res)
+        }
+    } else {
+        if (fs.existsSync(targetFilePath)) {
+            Utils.convertCSV2Json(targetFilePath, function onSuccess(result) {
+                res.send({ code: 200, data: result });
+            }, function onError(err) {
+                res.send(Utils.errorResp);
+            })
+        } else {
+            res.send(Utils.errorResp);
+        }
+    }
+}
+
+var refreshDataForNewDay = function (con, req, res) {
+    con.query('DELETE FROM crate WHERE total = 0', function (err) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
-            if (result.length > 0) {
-                res.send({ code: 200, data: result });
-            } else {
-                if (req.query.date == Utils.today()) {
-                    insertNewData(con, req, res);
-                } else {
-                    res.send(Utils.errorResp);
-                }
-            }
+            executeSelectCrates(con, req, res);
         }
-    });
+    })
 }
 
-function insertNewData(con, req, res) {
-    con.query('INSERT INTO crate (provider, total) '
-        + 'SELECT provider, total '
-        + 'FROM crate WHERE date = ? AND total > ?',
-        [Utils.yesterday(), 0],
-        function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(Utils.errorResp);
-            } else {
-                if (result.affectedRows > 0) {
-                    con.query('UPDATE crate '
-                        + 'SET date = ? '
-                        + 'WHERE date = ""', req.query.date, function (err, result) {
-                            if (err) {
-                                console.log(err);
-                                res.send(Utils.errorResp);
-                            } else {
-                                getCrates(con, req, res);
-                            }
-                        })
-                } else {
-                    res.send(Utils.errorResp);
-                }
-            }
-        })
+function executeSelectCrates(con, req, res) {
+    con.query('SELECT * FROM crate', function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            res.send({ code: 200, data: result });
+        }
+    })
 }
 
 function executeUpdateCrates(updatedCrates, con, req, res) {
@@ -67,34 +66,25 @@ function executeUpdateCrates(updatedCrates, con, req, res) {
     }
 }
 
-var updateCrates = function (con, req, res) {
+CRATE.updateCrates = function (con, req, res) {
     var updatedCrates = JSON.parse(req.query.params);
-    executeUpdateCrates(updatedCrates, con, req, res);
+    var targetFilePath = './uploads/crates/crate_record_' + Utils.today() + '.csv';
+    Utils.convertJson2CSV(updatedCrates, targetFilePath, function onSuccess() {
+        console.log(targetFilePath);
+        executeUpdateCrates(updatedCrates, con, req, res);
+    }, function (error) {
+        console.log(error);
+        res.send(Utils.errorResp);
+    })
 }
 
-var exportCrates = function (con, req, res) {
-    con.query('SELECT * FROM crate', function (err, result) {
-        if (err) {
-            console.log(err);
-            res.send(Utils.errorResp);
-        } else {
-            var targetFilePath = './uploads/crates/crate_record' + Utils.today() + '.csv';
-            Utils.convertJson2CSV(result, targetFilePath, function onSuccess() {
-                res.send({ code: 200 });
-            }, function onError() {
-                res.send(Utils.errorResp);
-            })
-        }
-    });
-}
-
-var updateCrateReceivedQty = function (con, crateReceived, crateType) {
+CRATE.updateCrateReceivedQty = function (con, crateReceived, crateType) {
     con.query('UPDATE crate SET receivedQty = receivedQty + ? WHERE crateType = ?', [crateReceived, crateType], function (err, result) {
         if (err) { console.log(err) }
     })
 }
 
-var getCratesDetail = function (con, req, res) {
+CRATE.getCratesDetail = function (con, req, res) {
     con.query('SELECT * FROM crate_detail', function (err, result) {
         if (err) {
             console.log(err);
@@ -106,7 +96,7 @@ var getCratesDetail = function (con, req, res) {
     })
 }
 
-var updateCratesDetail = function (con, req, res) {
+CRATE.updateCratesDetail = function (con, req, res) {
     var updatedCrates = JSON.parse(req.query.params);
     executeUpdateCratesDetail(updatedCrates, con, req, res);
 }
@@ -128,11 +118,4 @@ function executeUpdateCratesDetail(updatedCrates, con, req, res) {
     }
 }
 
-module.exports = {
-    getCrates,
-    updateCrates,
-    exportCrates,
-    updateCrateReceivedQty,
-    getCratesDetail,
-    updateCratesDetail,
-}
+module.exports = CRATE

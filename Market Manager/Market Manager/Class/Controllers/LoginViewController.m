@@ -10,6 +10,7 @@
 #import "ValidateService.h"
 #import "MenuViewController.h"
 #import "UserManager.h"
+#import "SettingViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate> {
     User *tempUser;
@@ -126,6 +127,13 @@
         _passwordSeparator.backgroundColor = [UIColor redColor];
         return NO;
     }
+}
+
+- (IBAction)showSetting:(id)sender {
+    [Utils hideKeyboard];
+    SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSettingView];
+    [self addChildViewController:settingViewController];
+    [self.view addSubview:settingViewController.view];
 }
 
 

@@ -33,7 +33,7 @@ function convertJson2CSV(json, targetFilePath, onSuccess, onError) {
   var csv = json2csv({ data: json, fields: null });
   fs.writeFile(targetFilePath, csv, function (err) {
     if (err) {
-      onError();
+      onError(err);
     } else {
       onSuccess();
     }

@@ -115,19 +115,22 @@ static DateTimePickerController *dateTimePickerController;
     [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
     return NO;}
 
-+ (BOOL)hasWritePermission:(NSString *)side {
++ (BOOL)hasWritePermission:(NSString *)side notify:(BOOL)isShow {
     User *tempUser = [[UserManager sharedInstance] getTempUser];
     if (tempUser.isAdmin || [tempUser.writePermission containsString:side]) {
         return YES;
     }
-    [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
+    if (isShow) {
+        [CallbackAlertView setBlock:titleError message:msgPermissionFailed okTitle:btnOK okBlock:nil cancelTitle:nil cancelBlock:nil];
+
+    }
     return NO;
 }
 
 //* Get title with key */
 
 + (NSString *)getTitle {
-    if([[ProductManager sharedInstance] getProductType] == kVegatables)
+    if([[ProductManager sharedInstance] getProductType] == kVegetables)
         return @"Vegatables";
     else if([[ProductManager sharedInstance] getProductType] == kMeats)
         return @"Meats";

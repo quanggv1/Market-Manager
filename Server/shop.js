@@ -137,23 +137,22 @@ function getShopName(productType, shopName) {
     }
 }
 
-var exportShopProducts = function (con, req, res) {
+var updateShopProducts = function (con, req, res) {
+    var updatedProducts = JSON.parse(req.query.params);
     var shopName = getShopName(req.query.productType, req.query.shopName);
     console.log(shopName);
-    executeSelectShopProducts(con, req, function onSuccess(result) {
-        var targetFilePath = './uploads/shops/' + shopName + Utils.today() + '.csv';
-        Utils.convertJson2CSV(result, targetFilePath, function onSuccess() {
-            res.send({ code: 200 });
-        }, function onError() {
-            res.send(Utils.errorResp);
-        })
-    }, function onError(error) {
+    var targetFilePath = './uploads/shops/' + shopName + Utils.today() + '.csv';
+    Utils.convertJson2CSV(updatedProducts, targetFilePath, function onSuccess() {
+        
+        executeUpdateShopProduct(updatedProducts, con, req, res);
+    }, function onError() {
         res.send(Utils.errorResp);
     })
 }
 
 function executeUpdateShopProduct(updatedProducts, con, req, res) {
     if (updatedProducts.length > 0) {
+        delete updatedProducts[0].productName;
         var shopProductTable = getShopProductTableName(req.query.productType);
         var params = updatedProducts[0];
         con.query('UPDATE ' + shopProductTable + ' SET ? WHERE shopProductID = ' + params.shopProductID, params, function (err, result) {
@@ -170,14 +169,9 @@ function executeUpdateShopProduct(updatedProducts, con, req, res) {
     }
 }
 
-var updateShopProducts = function (con, req, res) {
-    var updatedProducts = JSON.parse(req.query.params);
-    executeUpdateShopProduct(updatedProducts, con, req, res);
-}
-
 var updateShopStock = function (con, shopID, productID, receivedQty, productType) {
     var shopProductTable = getShopProductTableName(productType);
-    con.query('UPDATE '+shopProductTable+' SET stockTake = stockTake + ? WHERE shopID = ? AND productID = ?', [receivedQty, shopID, productID],
+    con.query('UPDATE ' + shopProductTable + ' SET stockTake = stockTake + ? WHERE shopID = ? AND productID = ?', [receivedQty, shopID, productID],
         function (err, result) {
             if (err) { console.log(err) }
         }
@@ -189,7 +183,6 @@ module.exports = {
     addNewShop,
     removeShop,
     getShopProducts,
-    exportShopProducts,
     updateShopProducts,
     updateShopStock,
     removeShopProduct,

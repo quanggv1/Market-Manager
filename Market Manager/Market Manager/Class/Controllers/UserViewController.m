@@ -43,7 +43,7 @@
     [self showActivity];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_GET_DATA_DEFAULT
-      parameters:nil
+      parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType])}
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {

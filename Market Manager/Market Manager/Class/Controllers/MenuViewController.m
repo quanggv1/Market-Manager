@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self showActivity];
-    _menuData = @[[[MenuCellProp alloc] initWith:@"Vegatables & others" image:@"ic_shopping_cart_36pt"],
+    _menuData = @[[[MenuCellProp alloc] initWith:@"Vegetables & others" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Meats" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Food Service" image:@"ic_store_36pt"],
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
@@ -70,14 +70,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         case 1:
-            [[ProductManager sharedInstance] setProductType:kVegatables];
+            if(![Utils hasReadPermission:kVegePermission] || ![Utils hasWritePermission:kVegePermission notify:YES]) return;
+            [[ProductManager sharedInstance] setProductType:kVegetables];
             [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             break;
         case 2:
+            if(![Utils hasReadPermission:kMeatPermission] || ![Utils hasWritePermission:kMeatPermission notify:YES]) return;
             [[ProductManager sharedInstance] setProductType:kMeats];
             [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             break;
         case 3:
+            if(![Utils hasReadPermission:kFoodPermission] || ![Utils hasWritePermission:kFoodPermission notify:YES]) return;
             [[ProductManager sharedInstance] setProductType:kFoods];
             [self performSegueWithIdentifier:SegueShowFunctionList sender:self];;
             break;

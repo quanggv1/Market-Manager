@@ -28,16 +28,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getData];
-    
     self.navBarTitle.title = [Utils getTitle];
-    
     _functionList = [Utils getFunctionList];
     _functionsTableView.delegate = self;
     _functionsTableView.dataSource = self;
-    _functionsTableView.rowHeight = UITableViewAutomaticDimension;
-    _functionsTableView.estimatedRowHeight = 80;
-    
-    [_functionsTableView setContentInset:UIEdgeInsetsMake(220, 0, 0, 0)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,39 +47,49 @@
     return 0.1f;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return (indexPath.row == 0) ? 200 : 80;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _functionList.count;
+    return _functionList.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
-    [cell setMenuWith:[_functionList objectAtIndex:indexPath.row]];
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    UITableViewCell *cell;
+    if (indexPath.row == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:CellFunctionList];
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
+        [(MenuCell *)cell setMenuWith:[_functionList objectAtIndex:indexPath.row - 1]];
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
-        case 0:
+        case 1:
             if(![Utils hasReadPermission:kProductTableName]) return;
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
             break;
-        case 1:
+        case 2:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
             break;
-        case 2:
+        case 3:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
             break;
-        case 3:
+        case 4:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardReportSummaryQtyNeed] animated:YES completion:nil];
             break;
-        case 4:
+        case 5:
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];
             break;
-
-        case 5:
+        case 6:
             if(![Utils hasReadPermission:kCrateTableName]) return;
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
             break;

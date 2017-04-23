@@ -46,15 +46,20 @@ function executeSelectWarehouseProducts(con, req, onSuccess, onError) {
 }
 
 var getWarehouseProducts = function (con, req, res) {
+    var whName = getWarehouseName(req.query.productType, req.query.whName);
+    var targetFilePath = './uploads/warehouses/' + whName + req.query.date + '.csv';
+
     if (Utils.today() === req.query.date) {
-        executeSelectWarehouseProducts(con, req, function onSuccess(result) {
-            res.send({ code: 200, data: result });
-        }, function onError(error) {
-            res.send(Utils.errorResp);
-        })
+        if (fs.existsSync(targetFilePath)) {
+            executeSelectWarehouseProducts(con, req, function onSuccess(result) {
+                res.send({ code: 200, data: result });
+            }, function onError(error) {
+                res.send(Utils.errorResp);
+            })
+        } else {
+            refreshDataForNewDay(con, req, res)
+        }
     } else {
-        var whName = getWarehouseName(req.query.productType, req.query.whName);
-        var targetFilePath = './uploads/warehouses/' + whName + req.query.date + '.csv';
         if (fs.existsSync(targetFilePath)) {
             Utils.convertCSV2Json(targetFilePath, function onSuccess(result) {
                 res.send({ code: 200, data: result });
@@ -65,6 +70,23 @@ var getWarehouseProducts = function (con, req, res) {
             res.send(Utils.errorResp);
         }
     }
+}
+
+var refreshDataForNewDay = function (con, req, res) {
+    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
+    var whID = req.query.whID;
+    con.query('UPDATE ' + warehouseProductTable + ' SET outQuantity = 0, inQuantity = 0, stockTake = total WHERE whID = ?', whID, function (err) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            executeSelectWarehouseProducts(con, req, function onSuccess(result) {
+                res.send({ code: 200, data: result });
+            }, function onError(error) {
+                res.send(Utils.errorResp);
+            })
+        }
+    })
 }
 
 var addNewWarehouse = function (con, req, res) {
@@ -128,17 +150,14 @@ var removeWarehouseProduct = function (con, req, res) {
     });
 }
 
-var exportWarehouseProducts = function (con, req, res) {
-    executeSelectWarehouseProducts(con, req, function onSuccess(result) {
-        var whName = getWarehouseName(req.query.productType, req.query.whName);
-        var targetFilePath = './uploads/warehouses/' + whName + Utils.today() + '.csv';
-        Utils.convertJson2CSV(result, targetFilePath, function onSuccess() {
-            res.send({ code: 200 });
-        }, function onError() {
-            console.log(err);
-            res.send(Utils.errorResp);
-        })
-    }, function onError(error) {
+var updateWarehouseProducts = function (con, req, res) {
+    var updatedProducts = JSON.parse(req.query.params)
+    var whName = getWarehouseName(req.query.productType, req.query.whName);
+    var targetFilePath = './uploads/warehouses/' + whName + Utils.today() + '.csv';
+    Utils.convertJson2CSV(updatedProducts, targetFilePath, function onSuccess() {
+        console.log(targetFilePath);
+        executeUpdateWarehouseProducts(updatedProducts, con, req, res);
+    }, function onError() {
         console.log(err);
         res.send(Utils.errorResp);
     })
@@ -147,6 +166,7 @@ var exportWarehouseProducts = function (con, req, res) {
 function executeUpdateWarehouseProducts(updatedProducts, con, req, res) {
     if (updatedProducts.length > 0) {
         var params = updatedProducts[0];
+        delete params.productName;
         var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
         con.query('UPDATE ' + warehouseProductTable + ' SET ? WHERE wh_pd_ID = ' + params.wh_pd_ID, params, function (err, result) {
             if (err) {
@@ -161,11 +181,6 @@ function executeUpdateWarehouseProducts(updatedProducts, con, req, res) {
     } else {
         res.send({ code: 200 });
     }
-}
-
-var updateWarehouseProducts = function (con, req, res) {
-    var updatedProducts = JSON.parse(req.query.params)
-    executeUpdateWarehouseProducts(updatedProducts, con, req, res);
 }
 
 var getWarehouseNameList = function (con, onSuccess, onError) {
@@ -213,7 +228,6 @@ module.exports = {
     getWarehouseProducts,
     addNewWarehouse,
     removeWarehouse,
-    exportWarehouseProducts,
     updateWarehouseProducts,
     getWarehouseNameList,
     updateWarehouseStock,

@@ -3,6 +3,7 @@ var mysql = require("mysql");
 var app = express();
 var bodyParser = require('body-parser');
 var multiparty = require('multiparty');
+var fs = require('fs');
 
 var Utils = require('./utils');
 var SQL = require('./sql');
@@ -110,10 +111,6 @@ app.get('/getShopProducts', function (req, res) {
   SHOP.getShopProducts(con, req, res);
 })
 
-app.get('/exportShopProducts', function (req, res) {
-  SHOP.exportShopProducts(con, req, res);
-})
-
 app.get('/updateShopProducts', function (req, res) {
   SHOP.updateShopProducts(con, req, res);
 })
@@ -162,10 +159,6 @@ app.get('/removeWarehouse', function (req, res) {
   WH.removeWarehouse(con, req, res);
 })
 
-app.get('/exportWarehouseProducts', function (req, res) {
-  WH.exportWarehouseProducts(con, req, res);
-})
-
 app.get('/updateWarehouseProducts', function (req, res) {
   WH.updateWarehouseProducts(con, req, res);
 })
@@ -190,10 +183,6 @@ app.get('/getCrates', function (req, res) {
 
 app.get('/updateCrates', function (req, res) {
   CRATE.updateCrates(con, req, res);
-})
-
-app.get('/exportCrates', function (req, res) {
-  CRATE.exportCrates(con, req, res);
 })
 
 app.get('/getCratesDetail', function (req, res) {

@@ -113,7 +113,7 @@
 }
 
 - (void)addNewCrate:(NSString *)name {
-    if(![Utils hasWritePermission:kCrateTableName]) return;
+    if(![Utils hasWritePermission:kCrateTableName notify:YES]) return;
     [self showActivity];
     Crate *crate = [[Crate alloc] init];
     crate.name = name;
@@ -143,7 +143,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
-    if(![Utils hasWritePermission:kCrateTableName]) return;
+    if(![Utils hasWritePermission:kCrateTableName notify:YES]) return;
     if([_crates count] == 0) return;
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Crate *crate in _crates) {
@@ -217,7 +217,7 @@
     commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
     forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if(![Utils hasWritePermission:kCrateTableName]) return;
+        if(![Utils hasWritePermission:kCrateTableName notify:NO]) return;
         [self deleteItemAt:indexPath];
     }
 }

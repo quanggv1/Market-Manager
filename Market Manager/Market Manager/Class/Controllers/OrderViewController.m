@@ -96,7 +96,7 @@
 }
 
 - (IBAction)addNewOrder:(id)sender {
-    if(![Utils hasWritePermission:_shop.name]) return;
+    if(![Utils hasWritePermission:_shop.name notify:YES]) return;
     [self showActivity];
     Order *order = [[Order alloc] init];
     order.shopID = _shop.ID;
@@ -145,29 +145,33 @@
     NSDictionary *params = @{kTableName:kOrderTableName,
                              kParams: @{kIdName:kOrderID,
                                         kIdValue:order.ID}};
-    [manager GET:API_DELETEDATA parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self hideActivity];
-        if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-            [_orderDataSource removeObjectAtIndex:indexPath.row];
-            [_orderTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        } else {
-            [CallbackAlertView setCallbackTaget:titleError
-                                        message:msgSomethingWhenWrong
-                                         target:self
-                                        okTitle:btnOK
-                                     okCallback:nil
-                                    cancelTitle:nil
-                                 cancelCallback:nil];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [CallbackAlertView setCallbackTaget:titleError
-                                    message:msgConnectFailed
-                                     target:self
-                                    okTitle:btnOK
-                                 okCallback:nil
-                                cancelTitle:nil
-                             cancelCallback:nil];
-    }];
+    [manager GET:API_DELETEDATA
+      parameters:params
+        progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+             [self hideActivity];
+             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
+                 [_orderDataSource removeObjectAtIndex:indexPath.row];
+                 [_orderTableView deleteRowsAtIndexPaths:@[indexPath]
+                                        withRowAnimation:UITableViewRowAnimationFade];
+             } else {
+                 [CallbackAlertView setCallbackTaget:titleError
+                                             message:msgSomethingWhenWrong
+                                              target:self
+                                             okTitle:btnOK
+                                          okCallback:nil
+                                         cancelTitle:nil
+                                      cancelCallback:nil];
+             }
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             [CallbackAlertView setCallbackTaget:titleError
+                                         message:msgConnectFailed
+                                          target:self
+                                         okTitle:btnOK
+                                      okCallback:nil
+                                     cancelTitle:nil
+                                  cancelCallback:nil];
+         }];
 }
 
 #pragma mark - TABLE DATASOURCE
@@ -184,7 +188,7 @@
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if([Utils hasWritePermission:_shop.name]) {
+    if([Utils hasWritePermission:_shop.name notify:YES]) {
         Order *order = _orderDataSource[indexPath.row];
         switch (order.status) {
             case 0:
@@ -202,10 +206,14 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if(![Utils hasWritePermission:_shop.name]) return;
         [self deleteItemAt:indexPath];
     }
 }
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [Utils hasWritePermission:_shop.name notify:NO];
+}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueOrderDetail]) {

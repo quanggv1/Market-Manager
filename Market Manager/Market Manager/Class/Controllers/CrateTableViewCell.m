@@ -55,7 +55,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     NSInteger qtyIn = [_qtyInField.text integerValue];
     NSInteger qtyOut = [_qtyOutField.text integerValue];
-    NSInteger total = qtyIn - qtyOut + _crate.total;
+    NSInteger total = (qtyIn - _crate.qtyIn) - (qtyOut - _crate.qtyOut) + _crate.total;
     if (total >= 0) {
         _crate.qtyIn = qtyIn;
         _crate.qtyOut = qtyOut;

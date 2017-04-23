@@ -230,15 +230,18 @@ var reportSumOrderEachday = function (con, req, res) {
                 console.log(err);
                 res.send(Utils.errorResp);
             } else {
-                res.send({ code: 200, data: result });
+                if(result.length == 0) {
+                    res.send(Utils.errorResp);
+                } else {
+                    res.send({ code: 200, data: result });
+                }
             }
-        });
+        })
     }, function (error) {
         console.log(error);
         res.send(Utils.errorResp);
     })
 }
-
 
 var invoiceCratesByOrderID = function (con, req, res) {
     var orderID = req.query.orderID;
