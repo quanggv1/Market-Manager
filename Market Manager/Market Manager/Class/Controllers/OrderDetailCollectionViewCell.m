@@ -44,11 +44,13 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if([_key isEqualToString:kCrateType]) {
+        NSArray *crateTypeList = [[CrateManager sharedInstance] getCrateNameList];
         [RecommendListViewController showRecommendListAt:self.controller
                                               viewSource:textField
-                                              recommends:[[CrateManager sharedInstance] getCrateNameList]
+                                              recommends:crateTypeList
                                               onSelected:^(NSString *result) {
                                                   textField.text = result;
+                                                  [_productDic setValue:result forKey:_key];
                                               }];
     }
 }
@@ -101,6 +103,12 @@
         NSInteger numberOfProduct = [_textField.text integerValue];
         [_productDic setValue:@(numberOfProduct) forKey:_key];
         _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
+    } else if([_key isEqualToString:kCrateType]) {
+        NSArray *crateTypeList = [[CrateManager sharedInstance] getCrateNameList];
+        if (![crateTypeList containsObject:_textField.text]) {
+            _textField.text = @"";
+        }
+        [_productDic setValue:_textField.text forKey:_key];
     } else {
         [_productDic setValue:_textField.text forKey:_key];
     }

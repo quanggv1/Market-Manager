@@ -54,6 +54,7 @@ static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 static NSString *const CellCrateDetail = @"CrateDetailTableViewCellID";
 static NSString *const CellFunctionList = @"cellFunctionListBannerID";
+static NSString *const CellCustomer = @"CustomerCellID";
 
 
 #pragma mark - Color
@@ -67,7 +68,6 @@ static NSString *const CellFunctionList = @"cellFunctionListBannerID";
 #pragma mark - Notification
 static NSString *const NotifyShowHideMenu = @"showHideMenu";
 static NSString *const NotifyProductDeletesItem = @"NotifyProductDeletesItem";
-static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
 static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 static NSString *const NotifyShopProductUpdate = @"NotifyShopProductUpdate";
@@ -86,13 +86,14 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
+static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
 //#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 //#define SERVER @"http://172.27.97.165:5000/"
 
-#define SERVER_DEFAULT @"http://localhost:5000/"
+#define SERVER_DEFAULT @"http://172.27.97.149:5000/"
 
 #define SERVER [[StorageService sharedInstance] getItemByKey:kStorageIPAdress]
 
@@ -140,6 +141,9 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_REMOVE_WAREHOUSE_PRODUCT [SERVER stringByAppendingString:@"removeWarehouseProduct"]
 #define API_GET_CRATES_DETAIL [SERVER stringByAppendingString:@"getCratesDetail"]
 #define API_UPDATE_CRATES_DETAIL [SERVER stringByAppendingString:@"updateCratesDetail"]
+#define API_GET_CUSTOMERS [SERVER stringByAppendingString:@"getCustomers"]
+#define API_UPDATE_CUSTOMER [SERVER stringByAppendingString:@"updateCustomer"]
+
 
 
 
@@ -195,6 +199,10 @@ static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";
 static NSString *const kOrderQty = @"order_quantity";
 
+static NSString *const kCustomerID = @"id";
+static NSString *const kCustomerName = @"name";
+static NSString *const kCustomerInfo = @"info";
+
 static NSString *const kTitleOrder = @"Order Management";
 static NSString *const kTitleProduct = @"Product Management";
 static NSString *const kTitleWH = @"Ware House";
@@ -224,6 +232,8 @@ static NSString *const kWarehouseProductTableName = @"warehouse_product";
 static NSString *const kVegePermission = @"Vegetable Permission";
 static NSString *const kMeatPermission = @"Meat Permission";
 static NSString *const kFoodPermission = @"Food Permission";
+
+#define kIndexTag 201
 
 #define ShowMsgConnectFailed [CallbackAlertView setCallbackTaget:titleError message:msgConnectFailed target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 #define ShowMsgSomethingWhenWrong [CallbackAlertView setCallbackTaget:titleError message:msgSomethingWhenWrong target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]

@@ -1,15 +1,13 @@
 //
-//  ShopTableViewCell.h
+//  CustomerCell.h
 //  Market Manager
 //
-//  Created by Quang on 2/18/17.
+//  Created by quanggv on 4/24/17.
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "Shop.h"
 #import "Customer.h"
 
-@interface ShopTableViewCell : UITableViewCell
-- (void)setShop:(Shop *)shop;
+@interface CustomerCell : UITableViewCell
 - (void)setCustomer:(Customer *)customer;
 @end

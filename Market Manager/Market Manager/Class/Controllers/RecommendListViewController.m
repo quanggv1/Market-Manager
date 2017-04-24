@@ -27,13 +27,8 @@ static RecommendListViewController *recommendListViewCtrl;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    recommendListViewCtrl = nil;
-    [Utils hideKeyboard];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
     [self dismiss];
+    [Utils hideKeyboard];
 }
 
 - (void)didReceiveMemoryWarning {

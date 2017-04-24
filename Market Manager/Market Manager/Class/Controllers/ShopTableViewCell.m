@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *shopImage;
 @property (weak, nonatomic) IBOutlet UILabel *shopName;
 @property (weak, nonatomic) Shop *shop;
+@property (weak, nonatomic) Customer *customer;
 @end
 
 @implementation ShopTableViewCell
@@ -27,10 +28,17 @@
     // Configure the view for the selected state
 }
 
-- (void)initWith:(Shop *)shop {
+- (void)setShop:(Shop *)shop {
     _shop = shop;
     _shopName.text = _shop.name;
 }
+
+- (void)setCustomer:(Customer *)customer {
+    _customer = customer;
+    _shopName.text = _customer.name;
+}
+
+
 
 
 @end
