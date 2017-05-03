@@ -31,7 +31,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationItem.title = [NSString stringWithFormat:@"ID: %@ %@", _order.ID, _order.date];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", _shop.name, _order.date];
 }
 
 - (void)download {

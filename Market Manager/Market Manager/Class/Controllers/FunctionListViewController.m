@@ -28,20 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getData];
-    
-    if([[ProductManager sharedInstance] getProductType] == kVegetables)
-        self.navBarTitle.title = @"Vegetables";
-    else if([[ProductManager sharedInstance] getProductType] == kMeats)
-        self.navBarTitle.title = @"Meats";
-    else
-        self.navBarTitle.title = @"Foods";
-    
-    _functionList = @[[[MenuCellProp alloc] initWith:@"Products" image:@"ic_shopping_cart_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Ware House" image:@"ic_swap_vertical_circle_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Shop" image:@"ic_store_36pt"],
-                      [[MenuCellProp alloc] initWith:@"Market Need" image:@"ic_store_36pt"],
-                  [[MenuCellProp alloc] initWith:kTitleOrderManagement image:@"ic_description_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Crate Management" image:@"ic_dns_36pt"]];
+    self.navBarTitle.title = [Utils getTitle];
+    _functionList = [Utils getFunctionList];
     _functionsTableView.delegate = self;
     _functionsTableView.dataSource = self;
 }
@@ -84,29 +72,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    switch (indexPath.row) {
-        case 1:
-            if(![Utils hasReadPermission:kProductTableName]) return;
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardProductNavigation] animated:YES completion:nil];
-            break;
-        case 2:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation] animated:YES completion:nil];
-            break;
-        case 3:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardShopNavigation] animated:YES completion:nil];
-            break;
-        case 4:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardReportSummaryQtyNeed] animated:YES completion:nil];
-            break;
-        case 5:
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardOrderNavigation] animated:YES completion:nil];
-            break;
-        case 6:
-            if(![Utils hasReadPermission:kCrateTableName]) return;
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardCrateNavigation] animated:YES completion:nil];
-            break;
-        default:
-            break;
+    if (indexPath.row != 0) {
+        MenuCell *cellSelected = [tableView cellForRowAtIndexPath:indexPath];
+        NSString *title = cellSelected.menuTitle.text;
+        [Utils showDetailBy:title at:self];
     }
 }
 

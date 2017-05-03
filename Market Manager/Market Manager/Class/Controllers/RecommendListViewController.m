@@ -27,12 +27,20 @@ static RecommendListViewController *recommendListViewCtrl;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    recommendListViewCtrl = nil;
+    [self dismiss];
     [Utils hideKeyboard];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)dismiss {
+    if(recommendListViewCtrl) {
+        [recommendListViewCtrl removeFromParentViewController];
+        [recommendListViewCtrl.view removeFromSuperview];
+        recommendListViewCtrl = nil;
+    }
 }
 
 - (void)updateRecommedListWith:(NSString *)keySearch {
@@ -107,7 +115,6 @@ static RecommendListViewController *recommendListViewCtrl;
 + (void)updateRecommedListWith:(NSString *)keySearch {
     [recommendListViewCtrl updateRecommedListWith:keySearch];
 }
-
 
 
 @end

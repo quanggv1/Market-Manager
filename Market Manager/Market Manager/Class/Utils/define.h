@@ -33,8 +33,9 @@ static NSString *const StoryboardMenuView = @"menuViewController";
 static NSString *const StoryboardCrateNavigation = @"crateNavigationId";
 static NSString *const StoryboardAddNewShopProduct = @"AddNewShopProductViewControllerId";
 static NSString *const StoryboardAddNewSupplyProduct = @"AddNewSupplyProductViewControllerId";
-static NSString *const StoryboardReportSummaryQtyNeed = @"SummaryNavigationQtyNeedID";
+static NSString *const SBReportSummaryQtyNeed = @"SummaryNavigationQtyNeedID";
 static NSString *const StoryboardSettingView = @"settingViewID";
+static NSString *const SBCustomerNavID = @"CustomerNavigationId";
 
 static NSString *const CellMenu = @"menuCell";
 static NSString *const CellMenuBanner = @"menuBannerCellID";
@@ -53,6 +54,7 @@ static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 static NSString *const CellCrateDetail = @"CrateDetailTableViewCellID";
 static NSString *const CellFunctionList = @"cellFunctionListBannerID";
+static NSString *const CellCustomer = @"CustomerCellID";
 
 
 #pragma mark - Color
@@ -66,7 +68,6 @@ static NSString *const CellFunctionList = @"cellFunctionListBannerID";
 #pragma mark - Notification
 static NSString *const NotifyShowHideMenu = @"showHideMenu";
 static NSString *const NotifyProductDeletesItem = @"NotifyProductDeletesItem";
-static NSString *const NotifyOrderDeletesItem = @"NotifyOrderDeletesItem";
 static NSString *const NotifyProductAddNewItem = @"NotifyProductAddNewItem";
 static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 static NSString *const NotifyShopProductUpdate = @"NotifyShopProductUpdate";
@@ -85,9 +86,10 @@ static NSString *const SegueOrderForm = @"showOrderForm";
 static NSString *const SegueReportOrderForm = @"reportOrder";
 static NSString *const SegueInvoiceOrderForm = @"toInnvoice";
 static NSString *const SegueShowFunctionList = @"showFunctionList";
+static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 #pragma mark - Link
 //#define SERVER @"http://localhost:5000/"
-
+//#define SERVER @"http://172.27.97.149:5000/"
 //#define SERVER @"http://192.168.1.17:5000/"
 //#define SERVER @"http://172.27.97.165:5000/"
 
@@ -113,7 +115,6 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_REPORT_SUM_ORDER_EACHDAY [SERVER stringByAppendingString:@"reportSumOrderEachday"]
 #define API_UPDATE_CRATES [SERVER stringByAppendingString:@"updateCrates"]
 #define API_GET_CRATES [SERVER stringByAppendingString:@"getCrates"]
-#define API_EXPORT_CRATES [SERVER stringByAppendingString:@"exportCrates"]
 #define API_GET_DATA_DEFAULT [SERVER stringByAppendingString:@"getDataDefault"]
 #define API_ADD_NEW_WAREHOUSE [SERVER stringByAppendingString:@"addNewWarehouse"]
 #define API_REMOVE_WAREHOUSE [SERVER stringByAppendingString:@"removeWarehouse"]
@@ -140,6 +141,9 @@ static NSString *const SegueShowFunctionList = @"showFunctionList";
 #define API_REMOVE_WAREHOUSE_PRODUCT [SERVER stringByAppendingString:@"removeWarehouseProduct"]
 #define API_GET_CRATES_DETAIL [SERVER stringByAppendingString:@"getCratesDetail"]
 #define API_UPDATE_CRATES_DETAIL [SERVER stringByAppendingString:@"updateCratesDetail"]
+#define API_GET_CUSTOMERS [SERVER stringByAppendingString:@"getCustomers"]
+#define API_UPDATE_CUSTOMER [SERVER stringByAppendingString:@"updateCustomer"]
+
 
 
 
@@ -195,8 +199,17 @@ static NSString *const kOrderTableName = @"orders";
 static NSString *const kOrderID = @"orderID";
 static NSString *const kOrderQty = @"order_quantity";
 
-static NSString *const kTitleOrderManagement = @"Order Management";
-static NSString *const kTitleProductManagement = @"Product Management";
+static NSString *const kCustomerID = @"id";
+static NSString *const kCustomerName = @"name";
+static NSString *const kCustomerInfo = @"info";
+
+static NSString *const kTitleOrder = @"Order Management";
+static NSString *const kTitleProduct = @"Product Management";
+static NSString *const kTitleWH = @"Ware House";
+static NSString *const kTitleShop = @"Shop";
+static NSString *const kTitleCrate = @"Crate Management";
+static NSString *const kTitleCustomer = @"Customer";
+static NSString *const kTitleMarketNeed = @"Market Need";
 
 static NSString *const kCode = @"code";
 static NSString *const kStatus = @"status";
@@ -219,6 +232,8 @@ static NSString *const kWarehouseProductTableName = @"warehouse_product";
 static NSString *const kVegePermission = @"Vegetable Permission";
 static NSString *const kMeatPermission = @"Meat Permission";
 static NSString *const kFoodPermission = @"Food Permission";
+
+#define kIndexTag 201
 
 #define ShowMsgConnectFailed [CallbackAlertView setCallbackTaget:titleError message:msgConnectFailed target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 #define ShowMsgSomethingWhenWrong [CallbackAlertView setCallbackTaget:titleError message:msgSomethingWhenWrong target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]

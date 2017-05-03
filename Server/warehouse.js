@@ -49,7 +49,6 @@ var getWarehouseProducts = function (con, req, res) {
     var whName = getWarehouseName(req.query.productType, req.query.whName);
     var targetFilePath = './uploads/warehouses/' + whName + req.query.date + '.csv';
 
-
     if (Utils.today() === req.query.date) {
         if (fs.existsSync(targetFilePath)) {
             executeSelectWarehouseProducts(con, req, function onSuccess(result) {

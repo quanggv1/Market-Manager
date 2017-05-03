@@ -27,33 +27,18 @@
     [super viewDidLoad];
     _orderTableView.delegate = self;
     _orderTableView.dataSource = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifyOrderDeletesItem
-                                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     [self download];
-    self.navigationItem.title = [_shop.name stringByAppendingString:@" Orders"];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deleteItem:)
-                                                 name:NotifyOrderDeletesItem
-                                               object:nil];
+    self.navigationItem.title = [_shop.name stringByAppendingString:@" orders"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)deleteItem:(NSNotification *)notificaion {
-    NSIndexPath *indexPath = [notificaion object];
-    [_orderDataSource removeObjectAtIndex:indexPath.row];
-    [_orderTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                           withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)didReceiveMemoryWarning {

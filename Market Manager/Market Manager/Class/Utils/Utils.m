@@ -127,5 +127,54 @@ static DateTimePickerController *dateTimePickerController;
     return NO;
 }
 
+//* Get title with key */
+
++ (NSString *)getTitle {
+    if([[ProductManager sharedInstance] getProductType] == kVegetables)
+        return @"Vegatables";
+    else if([[ProductManager sharedInstance] getProductType] == kMeats)
+        return @"Meats";
+    else
+        return @"Foods";
+}
+
++ (NSArray *)getFunctionList {
+    if([[ProductManager sharedInstance] getProductType] == kFoods)
+        return @[[[MenuCellProp alloc] initWith:kTitleProduct image:@"ic_shopping_cart_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleWH image:@"ic_swap_vertical_circle_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleOrder image:@"ic_description_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleCustomer image:@"ic_description_36pt"]];
+    else
+        return @[[[MenuCellProp alloc] initWith:kTitleProduct image:@"ic_shopping_cart_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleWH image:@"ic_swap_vertical_circle_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleShop image:@"ic_store_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleMarketNeed image:@"ic_store_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleOrder image:@"ic_description_36pt"],
+                 [[MenuCellProp alloc] initWith:kTitleCrate image:@"ic_dns_36pt"]];
+}
+
++ (void)showDetailBy:(NSString *)name at:(UIViewController *)view {
+    UIStoryboard *mainSB = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
+    UIViewController *detailCtrl;
+    if ([name isEqualToString:kTitleProduct] && [Utils hasReadPermission:kProductTableName]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardProductNavigation];
+    } else if ([name isEqualToString:kTitleWH]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation];
+    } else if ([name isEqualToString:kTitleShop]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardShopNavigation];
+    } else if ([name isEqualToString:kTitleMarketNeed]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:SBReportSummaryQtyNeed];
+    } else if ([name isEqualToString:kTitleOrder]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardOrderNavigation];
+    } else if ([name isEqualToString:kTitleCrate] && [Utils hasReadPermission:kCrateTableName]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardCrateNavigation];
+    } else if ([name isEqualToString:kTitleCustomer]) {
+        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:SBCustomerNavID];
+    }
+    if (detailCtrl) {
+        [view presentViewController:detailCtrl animated:YES completion:nil];
+    }
+}
+
 
 @end

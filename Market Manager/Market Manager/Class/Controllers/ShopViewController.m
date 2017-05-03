@@ -103,7 +103,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ShopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellShop];
-    [cell initWith: [_shopDataSource objectAtIndex:indexPath.row]];
+    [cell setShop:[_shopDataSource objectAtIndex:indexPath.row]];
     return cell;
 }
 

@@ -13,6 +13,7 @@ var WH = require('./warehouse');
 var CRATE = require('./crate');
 var ORDER = require('./order');
 var PRODUCT = require('./product');
+var CUSTOMER = require('./customer');
 var errorResp = { 'code': '400', 'status': 'error' };
 
 
@@ -185,10 +186,6 @@ app.get('/updateCrates', function (req, res) {
   CRATE.updateCrates(con, req, res);
 })
 
-app.get('/exportCrates', function (req, res) {
-  CRATE.exportCrates(con, req, res);
-})
-
 app.get('/getCratesDetail', function (req, res) {
   CRATE.getCratesDetail(con, req, res);
 })
@@ -251,6 +248,23 @@ app.get('/invoiceCratesByOrderID', function (req, res) {
       });
     });
   });
+})
+
+/** Customer */
+app.get('/getCustomers', function (req, res) {
+  CUSTOMER.getCustomers(con, req, res);
+})
+
+app.get('/addNewCustomer', function (req, res) {
+  CUSTOMER.addNewCustomer(con, req, res);
+})
+
+app.get('/removeCustomer', function (req, res) {
+  CUSTOMER.removeCustomer(con, req, res);
+})
+
+app.get('/updateCustomer', function (req, res) {
+  CUSTOMER.updateCustomer(con, req, res);
 })
 
 

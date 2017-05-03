@@ -272,6 +272,7 @@
             [((UserDetailTableViewCell *)cell) setPermissionDict:_warehouses[indexPath.row]];
             break;
         default:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"userPermissionCell"];
             break;
     }
     return cell;
