@@ -21,8 +21,12 @@ static ActivityView *activityView;
     return sharedInstance;
 }
 
-- (void)showAt:(UIView *)view {
-    [view addSubview:activityView];
+- (void)show {
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    [topController.view addSubview:activityView];
     [activityView show];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.0f]];
 }

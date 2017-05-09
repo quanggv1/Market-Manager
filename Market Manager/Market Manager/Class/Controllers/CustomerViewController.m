@@ -56,11 +56,11 @@
 
 - (IBAction)onAddCustomer:(id)sender {
     UIAlertController * alertCtrl;
-    alertCtrl = [UIAlertController alertControllerWithTitle: @"New customer"
+    alertCtrl = [UIAlertController alertControllerWithTitle: @"Customer"
                                                     message: @""
                                              preferredStyle:UIAlertControllerStyleAlert];
     [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Customer name";
+        textField.placeholder = @"Name";
         textField.textColor = [UIColor blueColor];
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textField.borderStyle = UITextBorderStyleNone;
@@ -110,7 +110,7 @@
 
 - (void)showMessage {
     [CallbackAlertView setCallbackTaget:titleError
-                                message:@"Please input Crate type"
+                                message:@"Please input name"
                                  target:self
                                 okTitle:btnOK
                              okCallback:nil

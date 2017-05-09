@@ -20,8 +20,8 @@
     return sharedInstance;
 }
 
-- (void)get:(NSString *)url target:(id)target data:(id)data success:(void(^)(id res))successCallback error:(void(^)())errorCacllback {
-    [[Loading shareInstance] showAt:((UIViewController *)target).view];
+- (void)get:(NSString *)url data:(id)data success:(void(^)(id res))successCallback error:(void(^)())errorCacllback {
+    [[Loading shareInstance] show];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     [[manager requestSerializer] setTimeoutInterval:5];

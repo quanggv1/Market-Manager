@@ -21,7 +21,7 @@
     _menuTitle.text = _content.cellTitle;
     UIImage *image = [UIImage imageNamed:_content.imageName];
     _menuImage.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [_menuImage setTintColor:[UIColor whiteColor]];
+//    [_menuImage setTintColor:[UIColor whiteColor]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

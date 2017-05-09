@@ -10,6 +10,6 @@
 
 @interface Loading : NSObject
 + (instancetype)shareInstance;
-- (void)showAt:(UIView *)view;
+- (void)show;
 - (void)hide;
 @end

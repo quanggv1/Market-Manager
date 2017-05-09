@@ -8,6 +8,7 @@
 
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
+#import "Data.h"
 
 @interface ProductDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
@@ -108,27 +109,20 @@
 }
 
 - (void)updateProduct {
-    [self showActivity];
     NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
                              kParams: @{kProductID: _product.productId,
                                         kProductName: _product.name,
                                         kProductPrice: @(_product.price),
                                         kProductDesc: _product.productDesc}};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_UPDATE_PRODUCT
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[ProductManager sharedInstance] update:_product];
-                 [self.navigationController popViewControllerAnimated:YES];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
+    [[Data sharedInstance] get:API_UPDATE_PRODUCT data:params success:^(id res) {
+        if([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [[ProductManager sharedInstance] update:_product];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
     }];
 }
 

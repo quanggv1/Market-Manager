@@ -51,11 +51,11 @@
     NSDictionary *params = @{kUserName: userName,
                              kUserPassword: password};
     
-    [[Data sharedInstance] get:API_AUTHEN target:self data:params success:^(id res) {
+    [[Data sharedInstance] get:API_AUTHEN data:params success:^(id res) {
         if([[res objectForKey:kCode] intValue] == kResSuccess ){
             tempUser = [[User alloc] initWith:[res objectForKey:kData]];
             [[UserManager sharedInstance] setTempUser:tempUser];
-            [self pushToMain];
+            [self performSegueWithIdentifier:@"showMenu" sender:self];
         } else {
             [CallbackAlertView setCallbackTaget:@""
                                         message:msgAuthenFailed
@@ -68,11 +68,6 @@
     } error:^{
         ShowMsgConnectFailed;
     }];
-}
-
-- (void)pushToMain {
-    MenuViewController *vc = (MenuViewController *)[self.storyboard instantiateViewControllerWithIdentifier:StoryboardMenuView];
-    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)onForgetPasswordClicked:(id)sender {

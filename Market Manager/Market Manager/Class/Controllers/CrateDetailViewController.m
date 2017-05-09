@@ -27,8 +27,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = @"Crate Management";
     [super viewWillAppear:animated];
+    
 }
 
 - (void)addRefreshControll {

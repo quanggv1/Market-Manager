@@ -131,7 +131,7 @@ static DateTimePickerController *dateTimePickerController;
 
 + (NSString *)getTitle {
     if([[ProductManager sharedInstance] getProductType] == kVegetables)
-        return @"Vegatables";
+        return @"Vegetables";
     else if([[ProductManager sharedInstance] getProductType] == kMeats)
         return @"Meats";
     else
@@ -154,25 +154,20 @@ static DateTimePickerController *dateTimePickerController;
 }
 
 + (void)showDetailBy:(NSString *)name at:(UIViewController *)view {
-    UIStoryboard *mainSB = [UIStoryboard storyboardWithName:StoryboardMain bundle:nil];
-    UIViewController *detailCtrl;
     if ([name isEqualToString:kTitleProduct] && [Utils hasReadPermission:kProductTableName]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardProductNavigation];
+        [view performSegueWithIdentifier:@"showProducts" sender:view];
     } else if ([name isEqualToString:kTitleWH]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardSupplyNavigation];
+        [view performSegueWithIdentifier:@"showWarehouses" sender:view];
     } else if ([name isEqualToString:kTitleShop]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardShopNavigation];
+        [view performSegueWithIdentifier:@"showShops" sender:view];
     } else if ([name isEqualToString:kTitleMarketNeed]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:SBReportSummaryQtyNeed];
+        [view performSegueWithIdentifier:@"showQtyNeededReport" sender:view];
     } else if ([name isEqualToString:kTitleOrder]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardOrderNavigation];
+        [view performSegueWithIdentifier:@"showOrderCategories" sender:view];
     } else if ([name isEqualToString:kTitleCrate] && [Utils hasReadPermission:kCrateTableName]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:StoryboardCrateNavigation];
+        [view performSegueWithIdentifier:@"showCrateManager" sender:view];
     } else if ([name isEqualToString:kTitleCustomer]) {
-        detailCtrl = [mainSB instantiateViewControllerWithIdentifier:SBCustomerNavID];
-    }
-    if (detailCtrl) {
-        [view presentViewController:detailCtrl animated:YES completion:nil];
+        [view performSegueWithIdentifier:@"showCustomers" sender:view];
     }
 }
 

@@ -29,10 +29,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self getData];
-    self.navBarTitle.title = [Utils getTitle];
+    
     _functionList = [Utils getFunctionList];
     _functionsTableView.delegate = self;
     _functionsTableView.dataSource = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationItem.title = [Utils getTitle];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,7 +87,7 @@
 
 - (void)getData {
     NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [[Data sharedInstance] get:API_GET_DATA_DEFAULT target:self
+    [[Data sharedInstance] get:API_GET_DATA_DEFAULT
                           data:params
                        success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == kResSuccess) {

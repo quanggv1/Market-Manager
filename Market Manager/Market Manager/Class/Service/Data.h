@@ -10,6 +10,6 @@
 
 @interface Data : NSObject
 + (instancetype)sharedInstance;
-- (void)get:(NSString *)url target:(id)target data:(id)data success:(void(^)(id res))successCallback error:(void(^)())errorCacllback;
+- (void)get:(NSString *)url data:(id)data success:(void(^)(id res))successCallback error:(void(^)())errorCacllback;
 
 @end

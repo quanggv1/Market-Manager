@@ -11,8 +11,14 @@
 #import "ProductCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
+#import "Data.h"
 
-@interface ProductViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
+@interface ProductViewController ()
+<UITableViewDelegate,
+    UITableViewDataSource,
+    UIPopoverPresentationControllerDelegate,
+    UITextFieldDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
 @property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
 @property (strong, nonatomic) NSMutableArray *productTableDataSource;
@@ -61,20 +67,19 @@
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {
     Product *productDeleted = _productTableDataSource[indexPath.row];
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
                              kProductID:productDeleted.productId};
-    [manager GET:API_REMOVE_PRODUCT
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             [self hideActivity];
-             [[ProductManager sharedInstance] delete:productDeleted];
-             [_productTableDataSource removeObjectAtIndex:indexPath.row];
-             [_productTableView reloadData];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
+    
+    [[Data sharedInstance] get:API_REMOVE_PRODUCT data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [[ProductManager sharedInstance] delete:productDeleted];
+            [_productTableDataSource removeObjectAtIndex:indexPath.row];
+            [_productTableView reloadData];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
     }];
 }
 
@@ -82,7 +87,8 @@
     NSString *searchString = _productSearchTextField.text;
     if(searchString && searchString.length > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[cd] %@", searchString];
-        _productTableDataSource = [NSMutableArray arrayWithArray:[[[ProductManager sharedInstance] getProductList] filteredArrayUsingPredicate:predicate]];
+        NSArray *products = [[ProductManager sharedInstance] getProductList];
+        _productTableDataSource = [NSMutableArray arrayWithArray:[products filteredArrayUsingPredicate:predicate]];
         [_productTableView reloadData];
     } else {
         [self reloadProductTableView];
@@ -90,7 +96,8 @@
 }
 
 - (void)reloadProductTableView {
-    _productTableDataSource = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductList]];
+    NSArray *products = [[ProductManager sharedInstance] getProductList];
+    _productTableDataSource = [NSMutableArray arrayWithArray:products];
     [_productTableView reloadData];
 }
 
@@ -110,27 +117,22 @@
 }
 
 - (void)download {
-    [self showActivity];
     NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_GET_PRODUCTS
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[ProductManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
-                 _productTableDataSource = [[NSMutableArray alloc] initWithArray:[[ProductManager sharedInstance] getProductList]];
-             } else {
-                 _productTableDataSource = nil;
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self.refreshControl endRefreshing];
-             [_productTableView reloadData];
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             [self.refreshControl endRefreshing];
-             ShowMsgConnectFailed;
+    [[Data sharedInstance] get:API_GET_PRODUCTS data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            NSArray *products = [res objectForKey:kData];
+            [[ProductManager sharedInstance] setValueWith:products];
+            products = [[ProductManager sharedInstance] getProductList];
+            _productTableDataSource = [[NSMutableArray alloc] initWithArray:products];
+        } else {
+            _productTableDataSource = nil;
+            ShowMsgSomethingWhenWrong;
+        }
+        [self.refreshControl endRefreshing];
+        [_productTableView reloadData];
+    } error:^{
+        [self.refreshControl endRefreshing];
+        ShowMsgConnectFailed;
     }];
 }
 
@@ -139,7 +141,8 @@
     return _productTableDataSource.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProduct];
     UILabel *index = [cell viewWithTag:201];
     index.text = @(indexPath.row + 1).stringValue;
@@ -166,7 +169,9 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView
+    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+     forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteItemAt:indexPath];
     }
