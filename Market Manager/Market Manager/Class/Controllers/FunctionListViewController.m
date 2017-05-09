@@ -13,6 +13,7 @@
 #import "SupplyManager.h"
 #import "CrateManager.h"
 #import "Crate.h"
+#import "Data.h"
 
 @interface FunctionListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *functionsTableView;
@@ -80,26 +81,22 @@
 }
 
 - (void)getData {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_GET_DATA_DEFAULT
-      parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType])}
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 NSDictionary *data = [responseObject objectForKey:kData];
-                 [[CrateManager sharedInstance] setValueWith:[data objectForKey:kCrateTableName]];
-                 [[SupplyManager sharedInstance] setValueWith:[data objectForKey:kSupplyTableName]];
-                 [[ShopManager sharedInstance] setValueWith:[data objectForKey:kShopTableName]];
-                 [[ProductManager sharedInstance] setValueWith:[data objectForKey:kProductTableName]];
-             } else {
-                 [self showConfirmToBack];
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self showConfirmToBack];
-             [self hideActivity];
-         }];
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
+    [[Data sharedInstance] get:API_GET_DATA_DEFAULT target:self
+                          data:params
+                       success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            NSDictionary *data = [res objectForKey:kData];
+            [[CrateManager sharedInstance] setValueWith:[data objectForKey:kCrateTableName]];
+            [[SupplyManager sharedInstance] setValueWith:[data objectForKey:kSupplyTableName]];
+            [[ShopManager sharedInstance] setValueWith:[data objectForKey:kShopTableName]];
+            [[ProductManager sharedInstance] setValueWith:[data objectForKey:kProductTableName]];
+        } else {
+            [self showConfirmToBack];
+        }
+    } error:^{
+        [self showConfirmToBack];
+    }];
 }
 
 @end

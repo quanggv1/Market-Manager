@@ -45,6 +45,8 @@
 		3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m */; };
 		3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */; };
 		3D4CCE2B1E77DA0600A000BE /* market.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4CCE2A1E77DA0600A000BE /* market.jpg */; };
+		3D5D65ED1EC16BBF00BB58F2 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D65EC1EC16BBF00BB58F2 /* Data.m */; };
+		3D5D65F01EC17B5800BB58F2 /* Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D65EF1EC17B5800BB58F2 /* Loading.m */; };
 		3D6BF9051E6E9F8D00EA3ADB /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */; };
 		3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9041E6E9F8D00EA3ADB /* Info.plist */; };
 		3D6BF9091E6EA44400EA3ADB /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D6BF9071E6EA44400EA3ADB /* background.png */; };
@@ -200,6 +202,10 @@
 		3D41D7C51E56E33A00123A71 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		3D41D7C61E56E33A00123A71 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		3D4CCE2A1E77DA0600A000BE /* market.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = market.jpg; sourceTree = "<group>"; };
+		3D5D65EB1EC16BBF00BB58F2 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
+		3D5D65EC1EC16BBF00BB58F2 /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		3D5D65EE1EC17B5800BB58F2 /* Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loading.h; sourceTree = "<group>"; };
+		3D5D65EF1EC17B5800BB58F2 /* Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loading.m; sourceTree = "<group>"; };
 		3D6BF9021E6E9F8D00EA3ADB /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		3D6BF9031E6E9F8D00EA3ADB /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		3D6BF9041E6E9F8D00EA3ADB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -367,6 +373,10 @@
 				3D0C18911E5A82C2008CA470 /* ActivityView.m */,
 				748B3A881E62C36300AA9AA6 /* ValidateService.h */,
 				748B3A891E62C36300AA9AA6 /* ValidateService.m */,
+				3D5D65EB1EC16BBF00BB58F2 /* Data.h */,
+				3D5D65EC1EC16BBF00BB58F2 /* Data.m */,
+				3D5D65EE1EC17B5800BB58F2 /* Loading.h */,
+				3D5D65EF1EC17B5800BB58F2 /* Loading.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -924,6 +934,7 @@
 				3D7D25911EADE8C60098C2FC /* CustomerDetailViewController.m in Sources */,
 				7430095A1EACB53700F87525 /* CustomerViewController.m in Sources */,
 				748B20D31E6200C200571111 /* AddNewShopViewController.m in Sources */,
+				3D5D65F01EC17B5800BB58F2 /* Loading.m in Sources */,
 				74D4EB111E7192DF0041FD72 /* AddNewShopProductViewController.m in Sources */,
 				BC27F89D1E894B2C0006AC56 /* SummaryQtyNeedController.m in Sources */,
 				3D41D7C91E56E33A00123A71 /* AFSecurityPolicy.m in Sources */,
@@ -981,6 +992,7 @@
 				3DA93D481E948E2300B72F70 /* SettingViewController.m in Sources */,
 				74E904451E57F54D005D391D /* ProductCell.m in Sources */,
 				3D41D79D1E55903800123A71 /* IQPreviousNextView.m in Sources */,
+				3D5D65ED1EC16BBF00BB58F2 /* Data.m in Sources */,
 				3D41D7941E55903800123A71 /* IQUIScrollView+Additions.m in Sources */,
 				3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */,
 				3D41D7971E55903800123A71 /* IQUIViewController+Additions.m in Sources */,

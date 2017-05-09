@@ -17,7 +17,7 @@
 #import "SupplyManager.h"
 #import "CrateManager.h"
 #import "Crate.h"
-
+#import "Data.h"
 
 @interface UserViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) NSMutableArray *userDataSource;
@@ -40,43 +40,31 @@
 }
 
 - (void)getData {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_GET_DATA_DEFAULT
-      parameters:@{kProduct: @([[ProductManager sharedInstance] getProductType])}
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[SupplyManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kSupplyTableName]];
-                 [[ShopManager sharedInstance] setValueWith:[[responseObject objectForKey:kData] objectForKey:kShopTableName]];
-                 [self getUserData];
-             } else {
-                 [self hideActivity];
-                 [self showConfirmToBack];
-             }
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self showConfirmToBack];
-             [self hideActivity];
-         }];
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
+    [[Data sharedInstance] get:API_GET_DATA_DEFAULT target:self data: params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [[SupplyManager sharedInstance] setValueWith:[[res objectForKey:kData] objectForKey:kSupplyTableName]];
+            [[ShopManager sharedInstance] setValueWith:[[res objectForKey:kData] objectForKey:kShopTableName]];
+            [self getUserData];
+        } else {
+            [self showConfirmToBack];
+        }
+    } error:^{
+        [self showConfirmToBack];
+    }];
 }
 
 - (void)getUserData {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_GET_USERS
-      parameters:nil
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id  responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[UserManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
-                 _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
-                 [_userTableView reloadData];
-             } else {
-                 [self showConfirmToBack];;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             [self showConfirmToBack];
+    [[Data sharedInstance] get:API_GET_USERS target:self data:nil success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [[UserManager sharedInstance] setValueWith:[res objectForKey:kData]];
+            _userDataSource = [[NSMutableArray alloc] initWithArray:[[UserManager sharedInstance] getUserList]];
+            [_userTableView reloadData];
+        } else {
+            [self showConfirmToBack];;
+        }
+    } error:^{
+        [self showConfirmToBack];
     }];
 }
 
