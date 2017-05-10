@@ -60,10 +60,10 @@ var reportOrderEachday = function (con, req, res) {
         } else {
             rows.forEach(function (item) {
                 var whName = item.whName;
-                receivedTotalQuery = receivedTotalQuery + ' '+individualOrderTable+'.`' + whName + '` +';
+                receivedTotalQuery = receivedTotalQuery + ' ' + individualOrderTable + '.`' + whName + '` +';
             })
             receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
-            sql = 'SELECT '+productTable+'.productName, '+individualOrderTable+'.order_quantity, (' + receivedTotalQuery + ') as received, ('+individualOrderTable+'.order_quantity - (' + receivedTotalQuery + ')) as quantity_need, (' + receivedTotalQuery + ' + '+individualOrderTable+'.stockTake) as total, '+individualOrderTable+'.crate_qty, '+individualOrderTable+'.crateType FROM '+individualOrderTable+' JOIN '+productTable+' ON '+individualOrderTable+'.productID = '+productTable+'.productID WHERE '+individualOrderTable+'.orderID =?';
+            sql = 'SELECT ' + productTable + '.productName, ' + individualOrderTable + '.order_quantity, (' + receivedTotalQuery + ') as received, (' + individualOrderTable + '.order_quantity - (' + receivedTotalQuery + ')) as quantity_need, (' + receivedTotalQuery + ' + ' + individualOrderTable + '.stockTake) as total, ' + individualOrderTable + '.crate_qty, ' + individualOrderTable + '.crateType FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID WHERE ' + individualOrderTable + '.orderID =?';
             con.query(sql, orderID, function (err, result) {
                 if (err) {
                     console.log(err);
@@ -127,7 +127,7 @@ var getOrderDetail = function (con, req, res) {
     var orderID = req.query.orderID;
     var individualOrderTable = getIndividualOrderTableName(req.query.productType);
     var productTable = PRODUCT.getProductTableName(req.query.productType);
-    sql = 'SELECT '+individualOrderTable+'.*, '+productTable+'.productName FROM '+individualOrderTable+' JOIN '+productTable+' ON '+individualOrderTable+'.productID = '+productTable+'.productID WHERE `orderID` = ?';
+    sql = 'SELECT ' + individualOrderTable + '.*, ' + productTable + '.productName FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID WHERE `orderID` = ?';
     con.query(sql, orderID, function (err, rows) {
         if (err) {
             console.log(err);
@@ -145,7 +145,7 @@ function executeUpdateOrderDetail(productOrders, shopID, orderID, warehouseNameL
         var productOrder = productOrders[0];
         var individualOrderTable = getIndividualOrderTableName(req.query.productType)
 
-        con.query('SELECT * FROM '+individualOrderTable+' WHERE `productOrderID` = ?', productOrder.productOrderID, function (err, rows) {
+        con.query('SELECT * FROM ' + individualOrderTable + ' WHERE `productOrderID` = ?', productOrder.productOrderID, function (err, rows) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);
@@ -168,7 +168,7 @@ function executeUpdateOrderDetail(productOrders, shopID, orderID, warehouseNameL
                 // CRATE.updateCrateReceivedQty(con, crateReceived, productOrder.crateType);
 
                 /** update order_each_day */
-                con.query('UPDATE '+individualOrderTable+' SET ? WHERE productOrderID = ' + productOrder.productOrderID, productOrder, function (err, result) {
+                con.query('UPDATE ' + individualOrderTable + ' SET ? WHERE productOrderID = ' + productOrder.productOrderID, productOrder, function (err, result) {
                     if (err) {
                         console.log(err);
                         res.send(Utils.errorResp);
@@ -200,7 +200,7 @@ var invoiceProductByOrderID = function (con, req, res) {
     var productTable = PRODUCT.getProductTableName(req.query.productType);
     var individualOrderTable = getIndividualOrderTableName(req.query.productType);
     var orderID = req.query.orderID;
-    sql = "SELECT "+productTable+".productName as name, "+productTable+".price, "+individualOrderTable+".order_quantity as quantity, Round(("+productTable+".price * "+individualOrderTable+".order_quantity),2) as total from "+individualOrderTable+" JOIN "+productTable+" ON "+productTable+".productID = "+individualOrderTable+".productID and "+individualOrderTable+".orderID=?";
+    sql = "SELECT " + productTable + ".productName as name, " + productTable + ".price, " + individualOrderTable + ".order_quantity as quantity, Round((" + productTable + ".price * " + individualOrderTable + ".order_quantity),2) as total from " + individualOrderTable + " JOIN " + productTable + " ON " + productTable + ".productID = " + individualOrderTable + ".productID and " + individualOrderTable + ".orderID=?";
     con.query(sql, orderID, function (err, rows) {
         if (err) {
             console.log(err);
@@ -215,25 +215,50 @@ var reportSumOrderEachday = function (con, req, res) {
     var individualOrderTable = getIndividualOrderTableName(req.query.productType);
     var productTable = PRODUCT.getProductTableName(req.query.productType);
     var orderTable = getOrderTableName(req.query.productType);
+    var whProductTable = WH.getWarehouseProductTableName(req.query.productType);
     var tempDate = req.query.date;
     var receivedTotalQuery = '';
     WH.getWarehouseNameList(con, function (success) {
         success.forEach(function (item) {
             var whName = item.whName;
-            receivedTotalQuery = receivedTotalQuery + ' '+individualOrderTable+'.`' + whName + '` +';
+            receivedTotalQuery = receivedTotalQuery + ' ' + individualOrderTable + '.`' + whName + '` +';
         })
         console.log(receivedTotalQuery)
         receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
-        sql = 'SELECT '+productTable+'.productName, '+individualOrderTable+'.order_quantity,  sum('+individualOrderTable+'.order_quantity - (' + receivedTotalQuery + ')) as quantity_need FROM '+individualOrderTable+' JOIN '+productTable+' ON '+individualOrderTable+'.productID = '+productTable+'.productID JOIN '+orderTable+' ON '+individualOrderTable+'.orderID = '+orderTable+'.orderID WHERE '+orderTable+'.date=?  GROUP BY '+productTable+'.productName';
+        var sql = 'SELECT s1.productName, s1.shopName, s1.qty_needed, sum(s2.total) as stockTake FROM (SELECT t1.productID, t1.productName, t2.shopName, sum(t1.order_quantity) as qty_needed FROM (SELECT  ' + individualOrderTable + '.productID, ' + productTable + '.productName,' + orderTable + '.shopID, ' + individualOrderTable + '.order_quantity FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID JOIN ' + orderTable + ' ON ' + individualOrderTable + '.orderID = ' + orderTable + '.orderID WHERE ' + orderTable + '.date=?) t1 INNER JOIN (SELECT shopName, shopID FROM shop) t2 ON t1.shopID = t2.shopID GROUP BY t2.shopName, t1.productName) s1 LEFT JOIN (SElECT productID, total FROM '+whProductTable+') s2 ON s1.productID = s2.productID GROUP BY s1.productID, s1.shopName';
+        // var sql = 'SELECT t3.total, t1.productName, t2.shopName, sum(t1.order_quantity) as qty_needed FROM (SELECT ' + individualOrderTable + '.productID, ' + productTable + '.productName,' + orderTable + '.shopID, ' + individualOrderTable + '.order_quantity FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID JOIN ' + orderTable + ' ON ' + individualOrderTable + '.orderID = ' + orderTable + '.orderID WHERE ' + orderTable + '.date=?) t1 INNER JOIN (SELECT shopName, shopID FROM shop) t2 ON t1.shopID = t2.shopID INNER JOIN (SELECT productID, total FROM warehouse_product) t3 ON t1.productID = t3.productID GROUP BY t2.shopName, t1.productName';
         con.query(sql, tempDate, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);
             } else {
-                if(result.length == 0) {
+                if (result.length == 0) {
                     res.send(Utils.errorResp);
                 } else {
-                    res.send({ code: 200, data: result });
+                    var list = [];
+                    while (result.length > 0) {
+                        var productName = result[0].productName;
+                        var total = 0;
+                        var record = { 'productName': productName, 'stockTake': result[0].stockTake};
+                        var listProductWithSameName = result.filter(function (item) {
+                            return item.productName == productName;
+                        })
+
+                        listProductWithSameName.forEach(function (item) {
+                            total += item.qty_needed
+                            record[item.shopName] = item.qty_needed;
+                        })
+
+                        record.total = total;
+                        record.marketNeed = (record.stockTake < total) ? (total - record.stockTake) : 0;
+
+                        result = result.filter(function (item) {
+                            return item.productName != productName;
+                        })
+
+                        list.push(record);
+                    }
+                    res.send({ code: 200, data: list });
                 }
             }
         })
@@ -246,7 +271,7 @@ var reportSumOrderEachday = function (con, req, res) {
 var invoiceCratesByOrderID = function (con, req, res) {
     var orderID = req.query.orderID;
     var individualOrderTable = getIndividualOrderTableName(req.query.productType);
-    sql = "SELECT crate_detail.crateType as name, crate_detail.price, sum("+individualOrderTable+".crate_qty) as quantity, Round((crate_detail.price * sum("+individualOrderTable+".crate_qty)),2) as total from "+individualOrderTable+" JOIN crate_detail ON crate_detail.crateType = "+individualOrderTable+".crateType and "+individualOrderTable+".orderID=? GROUP BY crate_detail.crateType";
+    sql = "SELECT crate_detail.crateType as name, crate_detail.price, sum(" + individualOrderTable + ".crate_qty) as quantity, Round((crate_detail.price * sum(" + individualOrderTable + ".crate_qty)),2) as total from " + individualOrderTable + " JOIN crate_detail ON crate_detail.crateType = " + individualOrderTable + ".crateType and " + individualOrderTable + ".orderID=? GROUP BY crate_detail.crateType";
     con.query(sql, orderID, function (err, rows) {
         if (err) {
             console.log(err);
