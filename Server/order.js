@@ -217,54 +217,48 @@ var reportSumOrderEachday = function (con, req, res) {
     var orderTable = getOrderTableName(req.query.productType);
     var whProductTable = WH.getWarehouseProductTableName(req.query.productType);
     var tempDate = req.query.date;
-    var receivedTotalQuery = '';
-    WH.getWarehouseNameList(con, function (success) {
-        success.forEach(function (item) {
-            var whName = item.whName;
-            receivedTotalQuery = receivedTotalQuery + ' ' + individualOrderTable + '.`' + whName + '` +';
-        })
-        console.log(receivedTotalQuery)
-        receivedTotalQuery = receivedTotalQuery.slice(0, receivedTotalQuery.length - 1);
-        var sql = 'SELECT s1.productName, s1.shopName, s1.qty_needed, sum(s2.total) as stockTake FROM (SELECT t1.productID, t1.productName, t2.shopName, sum(t1.order_quantity) as qty_needed FROM (SELECT  ' + individualOrderTable + '.productID, ' + productTable + '.productName,' + orderTable + '.shopID, ' + individualOrderTable + '.order_quantity FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID JOIN ' + orderTable + ' ON ' + individualOrderTable + '.orderID = ' + orderTable + '.orderID WHERE ' + orderTable + '.date=?) t1 INNER JOIN (SELECT shopName, shopID FROM shop) t2 ON t1.shopID = t2.shopID GROUP BY t2.shopName, t1.productName) s1 LEFT JOIN (SElECT productID, total FROM '+whProductTable+') s2 ON s1.productID = s2.productID GROUP BY s1.productID, s1.shopName';
-        // var sql = 'SELECT t3.total, t1.productName, t2.shopName, sum(t1.order_quantity) as qty_needed FROM (SELECT ' + individualOrderTable + '.productID, ' + productTable + '.productName,' + orderTable + '.shopID, ' + individualOrderTable + '.order_quantity FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID JOIN ' + orderTable + ' ON ' + individualOrderTable + '.orderID = ' + orderTable + '.orderID WHERE ' + orderTable + '.date=?) t1 INNER JOIN (SELECT shopName, shopID FROM shop) t2 ON t1.shopID = t2.shopID INNER JOIN (SELECT productID, total FROM warehouse_product) t3 ON t1.productID = t3.productID GROUP BY t2.shopName, t1.productName';
-        con.query(sql, tempDate, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(Utils.errorResp);
-            } else {
-                if (result.length == 0) {
-                    res.send(Utils.errorResp);
-                } else {
-                    var list = [];
-                    while (result.length > 0) {
-                        var productName = result[0].productName;
-                        var total = 0;
-                        var record = { 'productName': productName, 'stockTake': result[0].stockTake};
-                        var listProductWithSameName = result.filter(function (item) {
-                            return item.productName == productName;
-                        })
+    var sql = 'SELECT s1.productName, s1.shopName, s1.qty_needed, sum(s2.total) as stockTake FROM (SELECT t1.productID, t1.productName, t2.shopName, sum(t1.order_quantity) as qty_needed FROM (SELECT  ' + individualOrderTable + '.productID, ' + productTable + '.productName,' + orderTable + '.shopID, ' + individualOrderTable + '.order_quantity FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID JOIN ' + orderTable + ' ON ' + individualOrderTable + '.orderID = ' + orderTable + '.orderID WHERE ' + orderTable + '.date=?) t1 INNER JOIN (SELECT shopName, shopID FROM shop) t2 ON t1.shopID = t2.shopID GROUP BY t2.shopName, t1.productName) s1 LEFT JOIN (SElECT productID, total FROM ' + whProductTable + ') s2 ON s1.productID = s2.productID GROUP BY s1.productID, s1.shopName';
+    con.query(sql, tempDate, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            var list = [];
+            while (result.length > 0) {
+                var productName = result[0].productName;
+                var total = 0;
+                var record = { 'productName': productName, 'stockTake': result[0].stockTake };
+                var listProductWithSameName = result.filter(function (item) {
+                    return item.productName == productName;
+                })
 
-                        listProductWithSameName.forEach(function (item) {
-                            total += item.qty_needed
-                            record[item.shopName] = item.qty_needed;
-                        })
+                listProductWithSameName.forEach(function (item) {
+                    total += item.qty_needed
+                    record[item.shopName] = item.qty_needed;
+                })
 
-                        record.total = total;
-                        record.marketNeed = (record.stockTake < total) ? (total - record.stockTake) : 0;
+                record.total = total;
+                record.marketNeed = (record.stockTake < total) ? (total - record.stockTake) : 0;
 
-                        result = result.filter(function (item) {
-                            return item.productName != productName;
-                        })
+                result = result.filter(function (item) {
+                    return item.productName != productName;
+                })
 
-                        list.push(record);
-                    }
-                    res.send({ code: 200, data: list });
-                }
+                list.push(record);
             }
-        })
-    }, function (error) {
-        console.log(error);
-        res.send(Utils.errorResp);
+            con.query('SELECT * FROM shop', function (err, shopList) {
+                var titles = [];
+                titles.push("productName");
+                shopList.forEach(function (item) {
+                    titles.push(item.shopName);
+                })
+                titles.push("total");
+                titles.push("stockTake");
+                titles.push("marketNeed");
+
+                res.send({ code: 200, data: { titles, list } });
+            });
+        }
     })
 }
 
