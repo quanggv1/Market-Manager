@@ -878,7 +878,7 @@
 				TargetAttributes = {
 					7466EAE71E51E95E00A2C0F5 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 966G4393N4;
+						DevelopmentTeam = MPHGXRS63U;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1140,7 +1140,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 966G4393N4;
+				DEVELOPMENT_TEAM = MPHGXRS63U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
@@ -1158,7 +1158,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 966G4393N4;
+				DEVELOPMENT_TEAM = MPHGXRS63U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
