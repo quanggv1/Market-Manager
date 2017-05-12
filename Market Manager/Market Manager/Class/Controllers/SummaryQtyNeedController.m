@@ -134,21 +134,29 @@
     return _titleList.count;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0) {
-        return CGSizeMake(120, 50);
-    } else {
-        return CGSizeMake(80, 50);
-    }
-}
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"qtyNeedReportTitleCollectionId" forIndexPath:indexPath];
     UILabel *contentLabel = [cell viewWithTag:kContentTag];
-    contentLabel.text = (indexPath.row == 0)? @"Product" : _titleList[indexPath.row];
+    NSString *title = _titleList[indexPath.row];
+    title = [self updateTitle:title];
+    contentLabel.text = title;
     return cell;
+}
+
+- (NSString *)updateTitle:(NSString *)title
+{
+    if ([title isEqualToString:@"productName"]) {
+        return @"Product";
+    } else if ([title isEqualToString:@"total"]) {
+        return @"Total order";
+    } else if ([title isEqualToString:@"stockTake"]) {
+        return @"Total S.take";
+    } else if ([title isEqualToString:@"marketNeed"]) {
+        return @"Market needed";
+    } else {
+        return title;
+    }
 }
 
 #pragma mark - SCROLLVIEW DELEGATE
@@ -164,6 +172,7 @@
 }
 
 - (void)viewWillLayoutSubviews {
+    [_titleCollectionView setContentOffset:CGPointMake(0, 0)];
     [_productTableWidthConstraint setConstant: _titleCollectionView.contentSize.width];
 }
 

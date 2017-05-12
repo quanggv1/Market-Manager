@@ -109,8 +109,6 @@
 
 }
 
-
-
 - (IBAction)onSaveClicked:(id)sender {
     if(![Utils hasWritePermission:_supply.name notify:YES]) return;
     if (!_products) return;
