@@ -19,7 +19,8 @@
 
 @implementation SupplyProductTableViewCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     _stocktakeField.delegate = self;
     _inQuantityField.delegate = self;
@@ -27,13 +28,15 @@
     _totalField.delegate = self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
-- (void)setProduct:(Product *)product {
+- (void)setProduct:(Product *)product
+{
     _product = product;
     _stocktakeField.text = @(_product.STake).stringValue;
     _inQuantityField.text = @(_product.inQty).stringValue;
@@ -42,13 +45,19 @@
     _productNameLabel.text = _product.name;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    _product.inQty = [_inQuantityField.text integerValue];
-    _product.outQty = [_outQuantityField.text integerValue];
-    _product.whTotal = _product.STake + _product.inQty - _product.outQty;
-    _totalField.text = @(_product.whTotal).stringValue;
-    _inQuantityField.text = @(_product.inQty).stringValue;
-    _outQuantityField.text = @(_product.outQty).stringValue;
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == _inQuantityField) {
+        _product.inQty = [_inQuantityField.text integerValue];
+        _product.whTotal = _product.STake + _product.inQty - _product.outQty;
+        _totalField.text = @(_product.whTotal).stringValue;
+        _inQuantityField.text = @(_product.inQty).stringValue;
+    } else {
+        _product.STake = [_stocktakeField.text integerValue];
+        _product.whTotal = _product.STake + _product.inQty - _product.outQty;
+        _totalField.text = @(_product.whTotal).stringValue;
+        _stocktakeField.text = @(_product.STake).stringValue;
+    }
 }
 
 @end

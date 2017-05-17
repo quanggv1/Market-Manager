@@ -11,6 +11,7 @@
 #import "MenuViewController.h"
 #import "UserManager.h"
 #import "SettingViewController.h"
+#import "Data.h"
 
 @interface LoginViewController ()<UITextFieldDelegate> {
     User *tempUser;
@@ -44,40 +45,29 @@
 - (IBAction)onLoginClicked:(id)sender {
     if(![self isNameValid]) return;
     if(![self isPasswordValid]) return;
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
     NSString *userName = _userNameTextField.text;
     NSString *password = _passwordTextField.text;
-//    NSString *userName = @"admin";
-//    NSString *password = @"admin";
     NSDictionary *params = @{kUserName: userName,
                              kUserPassword: password};
-    [self showActivity];
-    [manager GET:API_AUTHEN parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:@"code"] intValue] == kResSuccess ){
-                 tempUser = [[User alloc] initWith:[responseObject objectForKey:kData]];
-                 [[UserManager sharedInstance] setTempUser:tempUser];
-                 [self pushToMain];
-             } else {
-                 [CallbackAlertView setCallbackTaget:@""
-                                             message:msgAuthenFailed
-                                              target:self
-                                             okTitle:btnOK
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             ShowMsgConnectFailed;
-             [self hideActivity];
-         }];
-}
-
-- (void)pushToMain {
-    MenuViewController *vc = (MenuViewController *)[self.storyboard instantiateViewControllerWithIdentifier:StoryboardMenuView];
-    [self presentViewController:vc animated:YES completion:nil];
+    
+    [[Data sharedInstance] get:API_AUTHEN data:params success:^(id res) {
+        if([[res objectForKey:kCode] intValue] == kResSuccess ){
+            tempUser = [[User alloc] initWith:[res objectForKey:kData]];
+            [[UserManager sharedInstance] setTempUser:tempUser];
+            [self performSegueWithIdentifier:@"showMenu" sender:self];
+        } else {
+            [CallbackAlertView setCallbackTaget:@""
+                                        message:msgAuthenFailed
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
 }
 
 - (IBAction)onForgetPasswordClicked:(id)sender {

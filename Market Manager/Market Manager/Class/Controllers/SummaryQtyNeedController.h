@@ -11,5 +11,4 @@
 
 @interface SummaryQtyNeedController : BaseViewController
 @property (weak, nonatomic) Supply *supply;
-@property (strong, nonatomic) NSMutableArray *products;
 @end

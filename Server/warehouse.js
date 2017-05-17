@@ -233,5 +233,6 @@ module.exports = {
     updateWarehouseStock,
     checkTotalWarehouseProduct,
     addNewWarehouseProduct,
-    removeWarehouseProduct
+    removeWarehouseProduct,
+    getWarehouseProductTableName
 }

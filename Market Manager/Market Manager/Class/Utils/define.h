@@ -234,6 +234,7 @@ static NSString *const kMeatPermission = @"Meat Permission";
 static NSString *const kFoodPermission = @"Food Permission";
 
 #define kIndexTag 201
+#define kContentTag 301
 
 #define ShowMsgConnectFailed [CallbackAlertView setCallbackTaget:titleError message:msgConnectFailed target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 #define ShowMsgSomethingWhenWrong [CallbackAlertView setCallbackTaget:titleError message:msgSomethingWhenWrong target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]

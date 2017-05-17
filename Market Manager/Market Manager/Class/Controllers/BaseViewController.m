@@ -56,7 +56,7 @@
                         message:@"Couldn't download data, please try later"
                         okTitle:btnOK
                         okBlock:^{
-                            [self dismissViewControllerAnimated:YES completion:nil];
+                            [self.navigationController popViewControllerAnimated:YES];
                         }
                     cancelTitle:nil
                     cancelBlock:nil];

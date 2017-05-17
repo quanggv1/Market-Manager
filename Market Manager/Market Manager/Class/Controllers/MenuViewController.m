@@ -23,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self showActivity];
     _menuData = @[[[MenuCellProp alloc] initWith:@"Vegetables & others" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Meats" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Food Service" image:@"ic_store_36pt"],
@@ -35,60 +34,48 @@
     _menuTable.estimatedRowHeight = 80;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self hideActivity];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationItem.title = @"Supermarket";
 }
-
-
 
 #pragma mark - table
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.1f;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _menuData.count + 1;
+    return _menuData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenuBanner];
-        cell.layer.shouldRasterize = YES;
-        cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        return cell;
-    } else {
-        MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
-        [cell setMenuWith:[_menuData objectAtIndex:indexPath.row - 1]];
-        cell.layer.shouldRasterize = YES;
-        cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        return cell;
-    }
+    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
+    [cell setMenuWith:[_menuData objectAtIndex:indexPath.row]];
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
-        case 1:
+        case 0:
             if(![Utils hasReadPermission:kVegePermission] || ![Utils hasWritePermission:kVegePermission notify:YES]) return;
             [[ProductManager sharedInstance] setProductType:kVegetables];
             [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             break;
-        case 2:
+        case 1:
             if(![Utils hasReadPermission:kMeatPermission] || ![Utils hasWritePermission:kMeatPermission notify:YES]) return;
             [[ProductManager sharedInstance] setProductType:kMeats];
             [self performSegueWithIdentifier:SegueShowFunctionList sender:self];
             break;
-        case 3:
+        case 2:
             if(![Utils hasReadPermission:kFoodPermission] || ![Utils hasWritePermission:kFoodPermission notify:YES]) return;
             [[ProductManager sharedInstance] setProductType:kFoods];
             [self performSegueWithIdentifier:SegueShowFunctionList sender:self];;
             break;
-        case 4:
+        case 3:
             if(![Utils hasReadPermission:kUserTableName]) return;
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:StoryboardUserNavigation] animated:YES completion:nil];
+            [self performSegueWithIdentifier:@"showUsers" sender:self];
             break;
-        case 5:
+        case 4:
             [self dismissViewControllerAnimated:YES completion:nil];
         default:
             break;
