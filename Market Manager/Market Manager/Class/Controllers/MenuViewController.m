@@ -14,46 +14,63 @@
 #import "CrateManager.h"
 #import "Crate.h"
 
-@interface MenuViewController ()
+@interface MenuViewController ()<UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
 @property (nonatomic, strong) NSArray *menuData;
 @end
 
 @implementation MenuViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _menuData = @[[[MenuCellProp alloc] initWith:@"Vegetables & others" image:@"ic_shopping_cart_36pt"],
                   [[MenuCellProp alloc] initWith:@"Meats" image:@"ic_swap_vertical_circle_36pt"],
                   [[MenuCellProp alloc] initWith:@"Food Service" image:@"ic_store_36pt"],
-                  [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"],
-                  [[MenuCellProp alloc] initWith:@"Log out" image:@"ic_exit_to_app_36pt"]];
+                  [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
-    _menuTable.rowHeight = UITableViewAutomaticDimension;
-    _menuTable.estimatedRowHeight = 80;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    self.navigationItem.title = @"Supermarket";
+    self.navigationItem.title = kAppName;
 }
 
-#pragma mark - table
+#pragma mark - table datasource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _menuData.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
     [cell setMenuWith:[_menuData objectAtIndex:indexPath.row]];
-    cell.layer.shouldRasterize = YES;
-    cell.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    UIImage *banner;
+    switch (indexPath.row) {
+        case 0:
+            banner = [UIImage imageNamed:@"vegetable-banner.jpg"];
+            break;
+        case 1:
+            banner = [UIImage imageNamed:@"meat-banner.jpg"];
+            break;
+        case 2:
+            banner = [UIImage imageNamed:@"food-banner.jpg"];
+            break;
+        default:
+            banner = [UIImage imageNamed:@"user-banner.jpg"];
+            break;
+    }
+    [cell.banner setImage:banner];
+
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         case 0:
@@ -75,11 +92,32 @@
             if(![Utils hasReadPermission:kUserTableName]) return;
             [self performSegueWithIdentifier:@"showUsers" sender:self];
             break;
-        case 4:
-            [self dismissViewControllerAnimated:YES completion:nil];
         default:
             break;
     }
 }
+
+#pragma mark - IBAction
+- (IBAction)onLogoutClicked:(id)sender
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you ready want to log out?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:@"Yes, log out"
+                                                    otherButtonTitles:nil];
+    [actionSheet showInView:self.view];
+    actionSheet.tag = 100;
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 100 && buttonIndex == 0) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+
+
+
 
 @end

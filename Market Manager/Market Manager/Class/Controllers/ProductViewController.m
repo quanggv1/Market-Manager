@@ -17,11 +17,13 @@
 <UITableViewDelegate,
     UITableViewDataSource,
     UIPopoverPresentationControllerDelegate,
-    UITextFieldDelegate>
+    UITextFieldDelegate,
+    UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *productTableView;
-@property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
-@property (strong, nonatomic) NSMutableArray *productTableDataSource;
+@property (nonatomic, weak) IBOutlet UITableView    *productTableView;
+@property (nonatomic, weak) IBOutlet UITextField    *productSearchTextField;
+@property (nonatomic, weak) IBOutlet UISearchBar    *searchBar;
+@property (nonatomic, strong) NSMutableArray        *productTableDataSource;
 @end
 
 @implementation ProductViewController
@@ -31,6 +33,7 @@
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
+    _searchBar.delegate = self;
     [self download];
     
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
@@ -83,10 +86,18 @@
     }];
 }
 
-- (void)searchByName{
-    NSString *searchString = _productSearchTextField.text;
-    if(searchString && searchString.length > 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[cd] %@", searchString];
+#pragma mark - SearchBar Delegate
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = NO;
+    [Utils hideKeyboard];
+    [self reloadProductTableView];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if(searchText && searchText.length > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[cd] %@", searchText];
         NSArray *products = [[ProductManager sharedInstance] getProductList];
         _productTableDataSource = [NSMutableArray arrayWithArray:[products filteredArrayUsingPredicate:predicate]];
         [_productTableView reloadData];
@@ -95,21 +106,17 @@
     }
 }
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = YES;
+}
+
 - (void)reloadProductTableView {
     NSArray *products = [[ProductManager sharedInstance] getProductList];
     _productTableDataSource = [NSMutableArray arrayWithArray:products];
     [_productTableView reloadData];
 }
 
-- (IBAction)onSearch:(id)sender {
-    [_productSearchTextField becomeFirstResponder];
-}
-
-- (IBAction)onRefreshClicked:(id)sender {
-    [Utils hideKeyboard];
-    _productSearchTextField.text = @"";
-    [self reloadProductTableView];
-}
 
 - (IBAction)onAddNewProduct:(id)sender {
     if(![Utils hasWritePermission:kProductTableName notify:YES]) return;

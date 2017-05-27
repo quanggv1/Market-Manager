@@ -129,13 +129,27 @@ static DateTimePickerController *dateTimePickerController;
 
 //* Get title with key */
 
-+ (NSString *)getTitle {
++ (NSString *)getTitle
+{
     if([[ProductManager sharedInstance] getProductType] == kVegetables)
         return @"Vegetables";
     else if([[ProductManager sharedInstance] getProductType] == kMeats)
         return @"Meats";
     else
         return @"Foods";
+}
+
++ (UIImage *)getBanner
+{
+    NSString *imageName;
+    if([[ProductManager sharedInstance] getProductType] == kVegetables) {
+        imageName = @"vegetable-banner.jpg";
+    } else if([[ProductManager sharedInstance] getProductType] == kMeats) {
+        imageName = @"meat-banner.jpg";
+    } else {
+        imageName = @"food-banner.jpg";
+    }
+    return [UIImage imageNamed:imageName];
 }
 
 + (NSArray *)getFunctionList {

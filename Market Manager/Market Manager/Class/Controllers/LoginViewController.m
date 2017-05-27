@@ -43,6 +43,7 @@
 }
 
 - (IBAction)onLoginClicked:(id)sender {
+    [Utils hideKeyboard];
     if(![self isNameValid]) return;
     if(![self isPasswordValid]) return;
     

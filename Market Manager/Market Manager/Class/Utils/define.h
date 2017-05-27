@@ -53,7 +53,6 @@ static NSString *const CellCrateManager = @"CrateTableViewCellID";
 static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 static NSString *const CellCrateDetail = @"CrateDetailTableViewCellID";
-static NSString *const CellFunctionList = @"cellFunctionListBannerID";
 static NSString *const CellCustomer = @"CustomerCellID";
 
 
@@ -93,7 +92,8 @@ static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 //#define SERVER @"http://192.168.1.17:5000/"
 //#define SERVER @"http://172.27.97.165:5000/"
 
-#define SERVER_DEFAULT @"http://172.27.97.149:5000/"
+//#define SERVER_DEFAULT @"http://172.27.97.149:5000/"
+#define SERVER_DEFAULT @"http://localhost:5000/"
 
 #define SERVER [[StorageService sharedInstance] getItemByKey:kStorageIPAdress]
 
@@ -232,6 +232,8 @@ static NSString *const kWarehouseProductTableName = @"warehouse_product";
 static NSString *const kVegePermission = @"Vegetable Permission";
 static NSString *const kMeatPermission = @"Meat Permission";
 static NSString *const kFoodPermission = @"Food Permission";
+
+static NSString *const kAppName = @"Supermarket";
 
 #define kIndexTag 201
 #define kContentTag 301

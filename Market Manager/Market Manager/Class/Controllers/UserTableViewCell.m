@@ -28,6 +28,8 @@
     if(!_user) {
         _user = user;
         _userName.text = _user.name;
+        UIImage *image = [UIImage imageNamed: _user.isAdmin? @"ic_account_circle" : @"ic_card_membership"];
+         _userImage.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
 }
 

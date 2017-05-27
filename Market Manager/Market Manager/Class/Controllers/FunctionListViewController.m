@@ -16,26 +16,29 @@
 #import "Data.h"
 
 @interface FunctionListViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (weak, nonatomic) IBOutlet UITableView *functionsTableView;
-@property (nonatomic, strong) NSArray *functionList;
-@property (assign, nonatomic) NSInteger numberOfFunction;
-@property (weak, nonatomic) IBOutlet UINavigationBar *functionsNavigationBar;
-@property (weak, nonatomic) IBOutlet UINavigationItem *navBarTitle;
-
+@property (nonatomic, strong) NSArray       *functionList;
+@property (assign, nonatomic) NSInteger     numberOfFunction;
+@property (weak, nonatomic) IBOutlet UINavigationBar    *functionsNavigationBar;
+@property (weak, nonatomic) IBOutlet UINavigationItem   *navBarTitle;
+@property (weak, nonatomic) IBOutlet UIImageView        *banner;
+@property (weak, nonatomic) IBOutlet UITableView        *functionsTableView;
 @end
 
 @implementation FunctionListViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self getData];
     
     _functionList = [Utils getFunctionList];
     _functionsTableView.delegate = self;
     _functionsTableView.dataSource = self;
+    [_banner setImage:[Utils getBanner]];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationItem.title = [Utils getTitle];
 }
@@ -49,40 +52,24 @@
 }
 
 #pragma mark - table
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1f;
-}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.1f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.row == 0) ? 200 : 80;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _functionList.count + 1;
+    return _functionList.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
-    if (indexPath.row == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:CellFunctionList];
-    } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
-        [(MenuCell *)cell setMenuWith:[_functionList objectAtIndex:indexPath.row - 1]];
-    }
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MenuCell *cell = [tableView dequeueReusableCellWithIdentifier:CellMenu];
+    [cell setMenuWith:_functionList[indexPath.row]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (indexPath.row != 0) {
-        MenuCell *cellSelected = [tableView cellForRowAtIndexPath:indexPath];
-        NSString *title = cellSelected.menuTitle.text;
-        [Utils showDetailBy:title at:self];
-    }
+    MenuCell *cellSelected = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *title = cellSelected.menuTitle.text;
+    [Utils showDetailBy:title at:self];
 }
 
 - (void)getData {

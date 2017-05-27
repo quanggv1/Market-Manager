@@ -14,7 +14,8 @@
 @end
 
 @interface MenuCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *menuImage;
-@property (weak, nonatomic) IBOutlet UILabel *menuTitle;
+@property (weak, nonatomic) IBOutlet UIImageView    *menuImage;
+@property (weak, nonatomic) IBOutlet UILabel        *menuTitle;
+@property (weak, nonatomic) IBOutlet UIImageView    *banner;
 - (void)setMenuWith:(MenuCellProp *)menuCell;
 @end

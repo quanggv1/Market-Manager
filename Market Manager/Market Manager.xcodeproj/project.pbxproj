@@ -95,6 +95,10 @@
 		74C5A7401E7468CA00BB5B40 /* CrateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A73F1E7468CA00BB5B40 /* CrateViewController.m */; };
 		74C5A7431E74693E00BB5B40 /* CrateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A7421E74693E00BB5B40 /* CrateTableViewCell.m */; };
 		74D4EB111E7192DF0041FD72 /* AddNewShopProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D4EB101E7192DF0041FD72 /* AddNewShopProductViewController.m */; };
+		74DDCB181ED92C7C001F5495 /* vegetable-banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 74DDCB171ED92C7C001F5495 /* vegetable-banner.jpg */; };
+		74DDCB1A1ED92F6E001F5495 /* meat-banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 74DDCB191ED92F6E001F5495 /* meat-banner.jpg */; };
+		74DDCB1C1ED92FC3001F5495 /* food-banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 74DDCB1B1ED92FC3001F5495 /* food-banner.jpg */; };
+		74DDCB1E1ED93043001F5495 /* user-banner.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 74DDCB1D1ED93043001F5495 /* user-banner.jpg */; };
 		74E904451E57F54D005D391D /* ProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904441E57F54D005D391D /* ProductCell.m */; };
 		74E904561E57F781005D391D /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E904551E57F781005D391D /* Product.m */; };
 		74E9045C1E5822AD005D391D /* ProductDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9045B1E5822AD005D391D /* ProductDetailViewController.m */; };
@@ -299,6 +303,10 @@
 		74C5A7421E74693E00BB5B40 /* CrateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrateTableViewCell.m; sourceTree = "<group>"; };
 		74D4EB0F1E7192DF0041FD72 /* AddNewShopProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewShopProductViewController.h; sourceTree = "<group>"; };
 		74D4EB101E7192DF0041FD72 /* AddNewShopProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewShopProductViewController.m; sourceTree = "<group>"; };
+		74DDCB171ED92C7C001F5495 /* vegetable-banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "vegetable-banner.jpg"; sourceTree = "<group>"; };
+		74DDCB191ED92F6E001F5495 /* meat-banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "meat-banner.jpg"; sourceTree = "<group>"; };
+		74DDCB1B1ED92FC3001F5495 /* food-banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "food-banner.jpg"; sourceTree = "<group>"; };
+		74DDCB1D1ED93043001F5495 /* user-banner.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "user-banner.jpg"; sourceTree = "<group>"; };
 		74E904431E57F54D005D391D /* ProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCell.h; sourceTree = "<group>"; };
 		74E904441E57F54D005D391D /* ProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCell.m; sourceTree = "<group>"; };
 		74E904541E57F781005D391D /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
@@ -537,6 +545,10 @@
 		3D4CCE291E77DA0600A000BE /* image */ = {
 			isa = PBXGroup;
 			children = (
+				74DDCB1B1ED92FC3001F5495 /* food-banner.jpg */,
+				74DDCB1D1ED93043001F5495 /* user-banner.jpg */,
+				74DDCB191ED92F6E001F5495 /* meat-banner.jpg */,
+				74DDCB171ED92C7C001F5495 /* vegetable-banner.jpg */,
 				3D4CCE2A1E77DA0600A000BE /* market.jpg */,
 				3D72E1C31E923FF400DC017F /* icon.png */,
 				3D72E1C41E923FF400DC017F /* logo_chuan.png */,
@@ -906,14 +918,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74DDCB1E1ED93043001F5495 /* user-banner.jpg in Resources */,
 				7466EAFB1E51E95F00A2C0F5 /* LaunchScreen.storyboard in Resources */,
 				3D6BF9091E6EA44400EA3ADB /* background.png in Resources */,
 				3D72E1C61E923FF400DC017F /* logo_chuan.png in Resources */,
 				3D72E1C51E923FF400DC017F /* icon.png in Resources */,
+				74DDCB1C1ED92FC3001F5495 /* food-banner.jpg in Resources */,
 				7466EAF81E51E95E00A2C0F5 /* Assets.xcassets in Resources */,
 				3D41D7A11E55903800123A71 /* IQKeyboardManager.bundle in Resources */,
+				74DDCB181ED92C7C001F5495 /* vegetable-banner.jpg in Resources */,
 				3D6BF90A1E6EA44400EA3ADB /* page.png in Resources */,
 				3D4CCE2B1E77DA0600A000BE /* market.jpg in Resources */,
+				74DDCB1A1ED92F6E001F5495 /* meat-banner.jpg in Resources */,
 				3D6BF9061E6E9F8D00EA3ADB /* Info.plist in Resources */,
 				7466EB031E51F5DB00A2C0F5 /* MarketManager.storyboard in Resources */,
 			);
