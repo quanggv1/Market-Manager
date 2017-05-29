@@ -37,7 +37,7 @@ var getOrders = function (con, req, res) {
     var orderTableName = getOrderTableName(req.query.productType);
     var shopID = req.query.shopID;
     console.log(shopID)
-    var sql = 'SELECT * FROM ' + orderTableName + '  WHERE `shopID` = ?';
+    var sql = 'SELECT * FROM ' + orderTableName + '  WHERE `shopID` = ? ORDER BY orderID DESC';
     con.query(sql, shopID, function (err, rows) {
         if (err) {
             console.log(err);

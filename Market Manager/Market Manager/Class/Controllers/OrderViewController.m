@@ -14,10 +14,11 @@
 #import "OrderFormViewController.h"
 #import "SummaryViewController.h"
 #import "ProductManager.h"
+#import "Data.h"
 
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *orderTableView;
-@property (strong, nonatomic) NSMutableArray *orderDataSource;
+@property (strong, nonatomic) NSMutableArray *orders;
 @property (weak, nonatomic) IBOutlet UITextField *orderSearchTextField;
 @end
 
@@ -29,47 +30,31 @@
     _orderTableView.dataSource = self;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
-    
-    [self download];
+    [self downloadData];
     self.navigationItem.title = [_shop.name stringByAppendingString:@" orders"];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)download {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+- (void)downloadData
+{
     NSDictionary *params = @{kShopID:_shop.ID,
                              kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [manager GET:API_GET_ORDERS
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-            if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                _orderDataSource = [NSMutableArray arrayWithArray:[[OrderManager sharedInstance] getOrderList:[responseObject objectForKey:kData]]];
-                [_orderTableView reloadData];
-            } else {
-                [CallbackAlertView setCallbackTaget:titleError
-                                            message:msgConnectFailed
-                                             target:self
-                                            okTitle:btnOK
-                                         okCallback:nil
-                                        cancelTitle:nil
-                                     cancelCallback:nil];
-            }
-            [self hideActivity];
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-            [self hideActivity];
+
+    [[Data sharedInstance] get:API_GET_ORDERS data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            NSArray *orders = [res objectForKey:kData];
+            orders = [[OrderManager sharedInstance] getOrderList:orders];
+            self.orders = [NSMutableArray arrayWithArray:orders];
+            [_orderTableView reloadData];
+        } else {
             [CallbackAlertView setCallbackTaget:titleError
                                         message:msgConnectFailed
                                          target:self
@@ -77,55 +62,75 @@
                                      okCallback:nil
                                     cancelTitle:nil
                                  cancelCallback:nil];
-         }];
+        }
+
+    } error:^{
+        [CallbackAlertView setCallbackTaget:titleError
+                                    message:msgConnectFailed
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    }];
+}
+
+- (BOOL)checkCreatedOrderToday
+{
+    for (Order *order in self.orders) {
+        if ([order.date isEqualToString:[Utils stringTodayDateTime]]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (IBAction)addNewOrder:(id)sender {
-    if(![Utils hasWritePermission:_shop.name notify:YES]) return;
-    [self showActivity];
+    if (![Utils hasWritePermission:_shop.name notify:YES]) return;
+    
+    BOOL isCreatedOrderToday = [self checkCreatedOrderToday];
+    
+    if (isCreatedOrderToday) {
+        [CallbackAlertView setCallbackTaget:nil
+                                    message:msgOrderLimited
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    } else {
+        [self createOrder];
+    }
+    
+}
+
+- (void)createOrder
+{
     Order *order = [[Order alloc] init];
     order.shopID = _shop.ID;
     order.date = [Utils stringTodayDateTime];
     order.status = kOrderNew;
     NSDictionary *params = @{kParams: @{kShopID: order.shopID,
-                                          kDate: order.date,
+                                        kDate: order.date,
                                         kStatus: @(order.status)},
                              kProduct: @([[ProductManager sharedInstance] getProductType])};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_ADD_NEW_ORDER parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            if([[responseObject objectForKey:kCode] intValue] == kResSuccess) {
-                NSDictionary *data = [responseObject objectForKey:kData];
-                order.ID = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
-                [_orderDataSource insertObject:order atIndex:0];
-                [_orderTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                                       withRowAnimation:UITableViewRowAnimationFade];
-            } else {
-                [CallbackAlertView setCallbackTaget:titleError
-                                            message:msgAddNewOrderFailed
-                                             target:self
-                                            okTitle:btnOK
-                                         okCallback:nil
-                                        cancelTitle:nil
-                                     cancelCallback:nil];
-            }
-            [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
-            [CallbackAlertView setCallbackTaget:titleError
-                                        message:msgConnectFailed
-                                         target:self
-                                        okTitle:btnOK
-                                     okCallback:nil
-                                    cancelTitle:nil
-                                 cancelCallback:nil];
-         }];
+    [[Data sharedInstance] get:API_ADD_NEW_ORDER data:params success:^(id res) {
+        if([[res objectForKey:kCode] intValue] == kResSuccess) {
+            NSDictionary *data = [res objectForKey:kData];
+            order.ID = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
+            [_orders insertObject:order atIndex:0];
+            [_orderTableView reloadData];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
 }
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {
     [self showActivity];
-    Order *order = _orderDataSource[indexPath.row];
+    Order *order = _orders[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kTableName:kOrderTableName,
                              kParams: @{kIdName:kOrderID,
@@ -136,7 +141,7 @@
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              [self hideActivity];
              if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [_orderDataSource removeObjectAtIndex:indexPath.row];
+                 [_orders removeObjectAtIndex:indexPath.row];
                  [_orderTableView deleteRowsAtIndexPaths:@[indexPath]
                                         withRowAnimation:UITableViewRowAnimationFade];
              } else {
@@ -161,20 +166,20 @@
 
 #pragma mark - TABLE DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _orderDataSource.count;
+    return _orders.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
     ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
-    [cell setOrder: [_orderDataSource objectAtIndex:indexPath.row]];
+    [cell setOrder: [_orders objectAtIndex:indexPath.row]];
     return cell;
 }
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if([Utils hasWritePermission:_shop.name notify:YES]) {
-        Order *order = _orderDataSource[indexPath.row];
+        Order *order = _orders[indexPath.row];
         switch (order.status) {
             case 0:
                 [self performSegueWithIdentifier: SegueOrderForm sender:self];
@@ -203,11 +208,11 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:SegueOrderDetail]) {
         OrderDetailViewController *vc = segue.destinationViewController;
-        vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
+        vc.order = _orders[_orderTableView.indexPathForSelectedRow.row];
         vc.shop = _shop;
     } else if([segue.identifier isEqualToString:SegueOrderForm]) {
         OrderFormViewController *vc = segue.destinationViewController;
-        vc.order = _orderDataSource[_orderTableView.indexPathForSelectedRow.row];
+        vc.order = _orders[_orderTableView.indexPathForSelectedRow.row];
         vc.shop = _shop;
     }
 }

@@ -19,6 +19,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    UIImage *image = _supplyImage.image;
+    _supplyImage.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

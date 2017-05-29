@@ -35,6 +35,7 @@
     _functionsTableView.delegate = self;
     _functionsTableView.dataSource = self;
     [_banner setImage:[Utils getBanner]];
+    [_functionsTableView setContentInset:UIEdgeInsetsMake(100, 0, 0, 0)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
