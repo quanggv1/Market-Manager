@@ -89,8 +89,7 @@ module.exports = {
                 res.send(Utils.errorResp);
               } else {
                 data.shop = result;
-                var productTable = PD.getProductTableName(req.query.productType);
-                con.query('SELECT * FROM ' + productTable, function (err, result) {
+                con.query('SELECT * FROM np_products', function (err, result) {
                   if (err) {
                     console.log(err);
                     res.send(Utils.errorResp);

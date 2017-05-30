@@ -185,5 +185,10 @@ static DateTimePickerController *dateTimePickerController;
     }
 }
 
++ (NSString *)trim:(NSString *)text
+{
+    return [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
 
 @end

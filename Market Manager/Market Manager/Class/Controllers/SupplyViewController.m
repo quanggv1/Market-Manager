@@ -12,138 +12,108 @@
 #import "SupplyDetailViewController.h"
 #import "AddNewSupplyViewController.h"
 #import "SupplyManager.h"
+#import "Data.h"
 
 @interface SupplyViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *supplyTableView;
-@property (strong, nonatomic) NSMutableArray *supplyDataSource;
+@property (strong, nonatomic) NSMutableArray *warehouses;
 
 @end
 
 @implementation SupplyViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _supplyTableView.delegate = self;
     _supplyTableView.dataSource = self;
     
-    [self download];
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.supplyTableView;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(download) forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
+    [self loadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)loadData
+{
+    _warehouses = [NSMutableArray arrayWithArray:[self getWarehouses]];
+    [_supplyTableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationItem.title = @"Ware House";
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (NSArray *)getWarehouses
+{
+    return [[SupplyManager sharedInstance] getWarehouses];
 }
 
-- (void)deleteItem:(NSNotification *)notificaion {
-    NSIndexPath *indexPath = [notificaion object];
-    [_supplyDataSource removeObjectAtIndex:indexPath.row];
-    [_supplyTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-}
-
-- (void)download {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{@"tableName":kSupplyTableName};
-    [manager GET:API_GETDATA
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 [[SupplyManager sharedInstance] setValueWith:[responseObject objectForKey:kData]];
-                 _supplyDataSource = [[NSMutableArray alloc] initWithArray:[[SupplyManager sharedInstance] getSupplyList]];
-                 [_supplyTableView reloadData];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self.refreshControl endRefreshing];
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-             [self.refreshControl endRefreshing];
-    }];
-    [_supplyTableView reloadData];
-}
-
-- (void)deleteItemAt:(NSIndexPath *)indexPath {
-    [self showActivity];
-    Supply *supply = _supplyDataSource[indexPath.row];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+- (void)deleteItemAt:(NSIndexPath *)indexPath
+{
+    Supply *supply = _warehouses[indexPath.row];
     NSDictionary *params = @{kSupplyName:supply.name};
-    [manager GET:API_REMOVE_WAREHOUSE
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [[SupplyManager sharedInstance] delete:supply];
-                 [_supplyDataSource removeObjectAtIndex:indexPath.row];
-                 [_supplyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self hideActivity];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self hideActivity];
+    [[Data sharedInstance] get:API_REMOVE_WAREHOUSE data:params success:^(id res) {
+        if([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [[SupplyManager sharedInstance] delete:supply];
+            [self loadData];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
         ShowMsgConnectFailed;
     }];
 }
 
-- (IBAction)onAddNewSupply:(id)sender {
+- (IBAction)onAddNewSupply:(id)sender
+{
     if(![Utils hasWritePermission:kSupplyTableName notify:YES]) return;
     [AddNewSupplyViewController showViewAt:self onSave:^(Supply *supply) {
-        [_supplyDataSource insertObject:supply atIndex:0];
-        [_supplyTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                                withRowAnimation:UITableViewRowAnimationFade];
+        [self loadData];
     }];
 }
 
 #pragma mark - TABLE DATASOURCE
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _supplyDataSource.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _warehouses.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     SupplyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellSupply];
-    [cell initWith: [_supplyDataSource objectAtIndex:indexPath.row]];
+    [cell initWith: [_warehouses objectAtIndex:indexPath.row]];
     return cell;
 }
 
 #pragma mark - TABLE DELEGATE
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *whName = ((Supply *)_supplyDataSource[_supplyTableView.indexPathForSelectedRow.row]).name;
-    if([Utils hasReadPermission:whName]) {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Supply *warehouse = _warehouses[indexPath.row];
+    if([Utils hasReadPermission:warehouse.name]) {
         [self performSegueWithIdentifier:SegueSupplyDetail sender:self];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteItemAt:indexPath];
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return [Utils hasWritePermission:kSupplyTableName notify:NO];
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if([segue.identifier isEqualToString:SegueSupplyDetail]) {
         SupplyDetailViewController *vc = segue.destinationViewController;
-        vc.supply = _supplyDataSource[_supplyTableView.indexPathForSelectedRow.row];
+        vc.supply = _warehouses[_supplyTableView.indexPathForSelectedRow.row];
     }
 }
-
 
 
 @end

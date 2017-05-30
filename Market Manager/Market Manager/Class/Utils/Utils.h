@@ -24,4 +24,5 @@
 + (NSArray *)getFunctionList;
 + (void)showDetailBy:(NSString *)name at:(UIViewController *)view;
 + (UIImage *)getBanner;
++ (NSString *)trim:(NSString *)text;
 @end

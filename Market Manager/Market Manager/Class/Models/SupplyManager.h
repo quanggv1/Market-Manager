@@ -10,11 +10,12 @@
 
 @interface SupplyManager : NSObject
 + (instancetype)sharedInstance;
-- (void)setValueWith:(NSArray *)data;
-- (NSArray *)getSupplyList;
+- (void)setWarehouses:(NSArray *)data;
+- (NSArray *)getWarehouses;
 - (void)delete:(Supply *)supply;
 - (void)insert:(Supply *)supply;
 - (void)update:(Supply *)supply;
 - (void)deleteAll;
 - (NSArray *)getSupplyNameList;
+- (BOOL)exist:(NSString *)warehouseName;
 @end

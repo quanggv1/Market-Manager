@@ -18,6 +18,7 @@ static NSString *const msgAddNewOrderFailed = @"Can't add new order at this time
 static NSString *const msgPermissionFailed = @"You have not permission";
 static NSString *const msgSomethingWhenWrong = @"Something when wrong!";
 static NSString *const msgOrderLimited = @"You have created a request for today";
+static NSString *const msgLoadDataFailed = @"Couldn't download data, please try later";
 
 static NSString *const titleError = @"Error";
 static NSString *const titleSuccess = @"Successfully";

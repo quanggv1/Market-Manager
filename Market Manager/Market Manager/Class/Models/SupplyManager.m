@@ -9,7 +9,7 @@
 #import "SupplyManager.h"
 
 @implementation SupplyManager {
-    NSMutableArray *supplyList;
+    NSMutableArray *warehouses;
 }
 
 + (instancetype)sharedInstance {
@@ -22,51 +22,62 @@
     return sharedInstance;
 }
 
-- (void)setValueWith:(NSArray *)data {
-    supplyList = [[NSMutableArray alloc] init];
+- (void)setWarehouses:(NSArray *)data {
+    warehouses = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in data) {
         Supply *supply = [[Supply alloc] initWith:dictionary];
-        [supplyList addObject:supply];
+        [warehouses addObject:supply];
     }
 }
 
-- (NSArray *)getSupplyList {
-    return supplyList;
+- (NSArray *)getWarehouses {
+    return warehouses;
 }
 
 - (void)delete:(Supply *)supply {
-    for (Supply *item in supplyList) {
+    for (Supply *item in warehouses) {
         if(item.ID == supply.ID) {
-            [supplyList removeObject:item];
+            [warehouses removeObject:item];
             break;
         }
     }
 }
 
 - (void)insert:(Supply *)supply {
-    [supplyList insertObject:supply atIndex:0];
+    [warehouses insertObject:supply atIndex:0];
 }
 
 - (void)update:(Supply *)supply {
-    for (Supply *item in supplyList) {
+    for (Supply *item in warehouses) {
         if(item.ID == supply.ID) {
-            NSMutableArray *newsupplyList = [supplyList mutableCopy];
-            [newsupplyList replaceObjectAtIndex:[supplyList indexOfObject:item] withObject:supply];
-            supplyList = [NSMutableArray arrayWithArray:newsupplyList];
+            NSMutableArray *newsupplyList = [warehouses mutableCopy];
+            [newsupplyList replaceObjectAtIndex:[warehouses indexOfObject:item] withObject:supply];
+            warehouses = [NSMutableArray arrayWithArray:newsupplyList];
         }
     }
 }
 
 - (void)deleteAll {
-    [supplyList removeAllObjects];
+    [warehouses removeAllObjects];
 }
 
 - (NSArray *)getSupplyNameList {
     NSMutableArray *SupplyNameList = [[NSMutableArray alloc] init];
-    for (Supply *item in supplyList) {
+    for (Supply *item in warehouses) {
         [SupplyNameList addObject:item.name];
     }
     return SupplyNameList;
+}
+
+#pragma mark - Extend
+- (BOOL)exist:(NSString *)warehouseName
+{
+    for (Supply *supply in warehouses) {
+        if ([supply.name isEqualToString:warehouseName]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

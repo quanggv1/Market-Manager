@@ -29,7 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self getData];
     
     _functionList = [Utils getFunctionList];
     _functionsTableView.delegate = self;
@@ -48,14 +47,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (IBAction)onBackClicked:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 #pragma mark - table
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _functionList.count;
 }
 
@@ -66,30 +61,12 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     MenuCell *cellSelected = [tableView cellForRowAtIndexPath:indexPath];
     NSString *title = cellSelected.menuTitle.text;
     [Utils showDetailBy:title at:self];
-}
-
-- (void)getData {
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [[Data sharedInstance] get:API_GET_DATA_DEFAULT
-                          data:params
-                       success:^(id res) {
-        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
-            NSDictionary *data = [res objectForKey:kData];
-            [[CrateManager sharedInstance] setValueWith:[data objectForKey:kCrateTableName]];
-            [[SupplyManager sharedInstance] setValueWith:[data objectForKey:kSupplyTableName]];
-            [[ShopManager sharedInstance] setValueWith:[data objectForKey:kShopTableName]];
-            [[ProductManager sharedInstance] setValueWith:[data objectForKey:kProductTableName]];
-        } else {
-            [self showConfirmToBack];
-        }
-    } error:^{
-        [self showConfirmToBack];
-    }];
 }
 
 @end

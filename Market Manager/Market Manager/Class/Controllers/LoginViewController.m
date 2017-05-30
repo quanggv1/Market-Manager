@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIView *passwordSeparator;
 @property (assign, nonatomic) BOOL isUserNameValid;
 @property (assign, nonatomic) BOOL isPasswordValid;
+@property (weak, nonatomic) SettingViewController *settingViewController;
 @end
 
 @implementation LoginViewController
@@ -40,6 +41,13 @@
     _passwordTextField.text = @"";
     _labelPhoneValidation.text = @"";
     _labelPasswordValidation.text = @"";
+    [self restrictRotation:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self restrictRotation:NO];
 }
 
 - (IBAction)onLoginClicked:(id)sender {
@@ -122,11 +130,15 @@
     }
 }
 
-- (IBAction)showSetting:(id)sender {
+- (IBAction)showSetting:(id)sender
+{
     [Utils hideKeyboard];
-    SettingViewController *settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSettingView];
-    [self addChildViewController:settingViewController];
-    [self.view addSubview:settingViewController.view];
+    if (!_settingViewController) {
+        _settingViewController = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardSettingView];
+        [self addChildViewController:_settingViewController];
+        [self.view addSubview:_settingViewController.view];
+    }
+    [_settingViewController.view setHidden:NO];
 }
 
 

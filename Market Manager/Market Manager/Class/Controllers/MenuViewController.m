@@ -13,6 +13,7 @@
 #import "SupplyManager.h"
 #import "CrateManager.h"
 #import "Crate.h"
+#import "Data.h"
 
 @interface MenuViewController ()<UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *menuTable;
@@ -30,12 +31,41 @@
                   [[MenuCellProp alloc] initWith:@"User Management" image:@"ic_people_36pt"]];
     _menuTable.delegate = self;
     _menuTable.dataSource = self;
+    
+    [self donwloadData];
+}
+
+- (void)donwloadData
+{
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
+    [[Data sharedInstance] get:API_GET_DATA_DEFAULT
+                          data:params
+                       success:^(id res) {
+                           if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+                               NSDictionary *data = [res objectForKey:kData];
+                               [[CrateManager sharedInstance] setValueWith:[data objectForKey:kCrateTableName]];
+                               [[SupplyManager sharedInstance] setWarehouses:[data objectForKey:kSupplyTableName]];
+                               [[ShopManager sharedInstance] setValueWith:[data objectForKey:kShopTableName]];
+                               [[ProductManager sharedInstance] setProducts:[data objectForKey:kProductTableName]];
+                           } else {
+                               [self showConfirmToBack];
+                           }
+                       } error:^{
+                           [self showConfirmToBack];
+                       }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationItem.title = kAppName;
+    [self restrictRotation:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self restrictRotation:NO];
 }
 
 #pragma mark - table datasource

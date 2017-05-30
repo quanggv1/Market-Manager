@@ -148,17 +148,17 @@ static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 
 
 #pragma mark - Key
-static NSString *const kProductName = @"productName";
+static NSString *const kProductName = @"name";
 static NSString *const kProductDesc = @"description";
 static NSString *const kProductPrice = @"price";
 static NSString *const kProductTableName = @"product";
-static NSString *const kProductID = @"productID";
+static NSString *const kProductID = @"id";
 static NSString *const kProductSTake = @"stockTake";
 static NSString *const kProductOrder = @"order_quantity";
 static NSString *const kShopProductID = @"shopProductID";
 static NSString *const kProductOrderID = @"productOrderID";
 static NSString *const kProductWareHouseID = @"wh_pd_ID";
-static NSString *const kProduct = @"productType";
+static NSString *const kProduct = @"type";
 
 static NSString *const kShopID = @"shopID";
 static NSString *const kShopName = @"shopName";
@@ -235,6 +235,13 @@ static NSString *const kFoodPermission = @"Food Permission";
 
 static NSString *const kAppName = @"Supermarket";
 
+
+static NSString *const kType            = @"type";
+static NSString *const kId              = @"id";
+static NSString *const kName            = @"name";
+static NSString *const kDescription     = @"description";
+static NSString *const kPrice           = @"price";
+
 #define kIndexTag 201
 #define kContentTag 301
 
@@ -243,6 +250,8 @@ static NSString *const kAppName = @"Supermarket";
 #define ShowMsgUnavaiableData [CallbackAlertView setCallbackTaget:titleError message:@"Unavaiable data for this day" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil]
 
 #endif /* define_h */
+
+
 
 
 

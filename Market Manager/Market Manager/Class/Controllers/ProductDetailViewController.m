@@ -22,7 +22,8 @@
     UIBarButtonItem *rightBarButton;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     if(_product) {
         [self fillData];
@@ -34,86 +35,105 @@
     }
 }
 
-- (void)fillData {
+- (void)fillData
+{
     _productNameTextField.text = _product.name;
     _productPriceTextField.text = [NSString stringWithFormat:@"%.2f", _product.price];
     _descriptionTextView.text = _product.productDesc;
     _descriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationItem.title = _product.name;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 
-- (IBAction)onProductDetailSave:(id)sender {
+- (IBAction)onProductDetailSave:(id)sender
+{
     if (![self checkData]) {
-        [CallbackAlertView setCallbackTaget:@"Error" message:@"Please input correct product name & price" target:self okTitle:@"OK" okCallback:nil cancelTitle:nil cancelCallback:nil];
+        [CallbackAlertView setCallbackTaget:nil
+                                    message:@"Please input correct product name & price"
+                                     target:self
+                                    okTitle:@"OK"
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
     } else {
-        NSString *productName = [_productNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *price = [_productPriceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        ProductManager *productManager = [ProductManager sharedInstance];
+        NSString *productName = [Utils trim:_productNameTextField.text];
+        NSInteger productType = [productManager getProductType];
+        
+        NSString *price = [Utils trim:_productPriceTextField.text];
         NSString *description = _descriptionTextView.text;
         if(_product) {
+            if (![_product.name isEqualToString:productName]) {
+                if ([self isProductExisted:productName]) return;
+            }
             _product.name = productName;
             _product.price = [price floatValue];
             _product.productDesc = description;
             [self updateProduct];
         } else {
-            [self addNewProductWith:productName price:price description:description];
+            Product *product = [[Product alloc] init];
+            if ([self isProductExisted:productName]) return;
+            product.name = productName;
+            product.price = [price floatValue];
+            product.productDesc = description;
+            product.type = productType;
+            [self addNewProduct:product];
         }
     }
 }
 
-- (void)addNewProductWith:(NSString *)productName price:(NSString *)price description:(NSString *)description {
-    [self showActivity];
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
-                             kParams: @{kProductName: productName,
-                                        kProductPrice: price,
-                                        kProductDesc: description}};
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_ADD_NEW_PRODUCT
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:kCode] intValue] == 200) {
-                 NSDictionary *data = [responseObject objectForKey:kData];
-                 NSString *productId = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
-                 [self insertNewProduct:productId name:productName price:price description:description];
-                 [self.navigationController popViewControllerAnimated:YES];
-             } else {
-                 [CallbackAlertView setCallbackTaget:@"Error"
-                                             message:@"This product is exits"
-                                              target:self
-                                             okTitle:@"OK"
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-         }];
+- (BOOL)isProductExisted:(NSString *)productName
+{
+    ProductManager *productManager = [ProductManager sharedInstance];
+    if ([productManager exist:productName type:[productManager getProductType]]) {
+        [CallbackAlertView setCallbackTaget:nil
+                                    message:@"Name of product is existed"
+                                     target:self
+                                    okTitle:@"OK"
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+        return YES;
+    }
+    return NO;
 }
 
-- (void)insertNewProduct:(NSString *)productId name:(NSString *)productName price:(NSString *)price description:(NSString *)description {
-    Product *newProduct = [[Product alloc] initWith:@{kProductID:productId,
-                                                      kProductName:productName,
-                                                      kProductPrice:price,
-                                                      kProductDesc: description}];
-    [[ProductManager sharedInstance] insert:newProduct];
+- (void)addNewProduct:(Product *)product
+{
+    NSDictionary *params = @{kParams: @{kName: product.name,
+                                        kProductPrice: @(product.price),
+                                        kProductDesc: product.productDesc,
+                                        kType: @(product.type)}};
+    Data *data = [Data sharedInstance];
+    
+    [data get:API_ADD_NEW_PRODUCT data:params success:^(id res) {
+        if([[res objectForKey:kCode] intValue] == 200) {
+            NSDictionary *data = [res objectForKey:kData];
+            product.productId = [NSString stringWithFormat:@"%@", [data objectForKey:kInsertID]];
+            [[ProductManager sharedInstance] insert:product];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
 }
 
 - (void)updateProduct {
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
-                             kParams: @{kProductID: _product.productId,
-                                        kProductName: _product.name,
-                                        kProductPrice: @(_product.price),
-                                        kProductDesc: _product.productDesc}};
+    NSDictionary *params = @{kParams: @{kId: _product.productId,
+                                        kName: _product.name,
+                                        kPrice: @(_product.price),
+                                        kDescription: _product.productDesc}};
     [[Data sharedInstance] get:API_UPDATE_PRODUCT data:params success:^(id res) {
         if([[res objectForKey:kCode] integerValue] == kResSuccess) {
             [[ProductManager sharedInstance] update:_product];
@@ -146,13 +166,12 @@
 }
 
 - (BOOL)checkData {
-    if ([[_productPriceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""] ||
-        [[_productNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+    if ([[Utils trim:_productPriceTextField.text] isEqualToString:@""] ||
+        [[Utils trim:_productNameTextField.text] isEqualToString:@""]) {
         return NO;
     } else {
         return YES;
     }
 }
-
 
 @end

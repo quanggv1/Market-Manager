@@ -43,7 +43,7 @@
     NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
     [[Data sharedInstance] get:API_GET_DATA_DEFAULT data: params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
-            [[SupplyManager sharedInstance] setValueWith:[[res objectForKey:kData] objectForKey:kSupplyTableName]];
+            [[SupplyManager sharedInstance] setWarehouses:[[res objectForKey:kData] objectForKey:kSupplyTableName]];
             [[ShopManager sharedInstance] setValueWith:[[res objectForKey:kData] objectForKey:kShopTableName]];
             [self getUserData];
         } else {

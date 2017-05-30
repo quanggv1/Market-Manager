@@ -16,18 +16,21 @@
     ActivityView *activityView_;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     activityView_ = [[ActivityView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:activityView_];
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     self.navigationItem.title = @"";
     [Utils hideKeyboard];
@@ -47,19 +50,26 @@
 }
 
 #pragma mark - POPOVER DELEGATE
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
     return UIModalPresentationNone;
 }
 
 - (void)showConfirmToBack {
-    [CallbackAlertView setBlock:@"Error"
-                        message:@"Couldn't download data, please try later"
+    [CallbackAlertView setBlock:nil
+                        message:msgLoadDataFailed
                         okTitle:btnOK
                         okBlock:^{
                             [self.navigationController popViewControllerAnimated:YES];
                         }
                     cancelTitle:nil
                     cancelBlock:nil];
+}
+
+- (void)restrictRotation:(BOOL)restriction
+{
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.restrictRotation = restriction;
 }
 
 

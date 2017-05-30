@@ -36,4 +36,21 @@
     }
     return self;
 }
+
+- (instancetype)initOriginProduct:(NSDictionary *)theDictionary
+{
+    self = [super init];
+    if (self) {
+        self.name = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kName]];
+        
+        id description = [theDictionary objectForKey:kDescription];
+        self.productDesc = (description) ? [NSString stringWithFormat:@"%@", description] : @"";
+        
+        self.price = [[theDictionary objectForKey:kPrice] floatValue];
+        self.productId = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kId]];
+        self.type = [[theDictionary objectForKey:kType] integerValue];
+    }
+    return self;
+}
+
 @end

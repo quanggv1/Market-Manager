@@ -13,70 +13,50 @@
 #import "ProductManager.h"
 #import "Data.h"
 
-@interface ProductViewController ()
-<UITableViewDelegate,
-    UITableViewDataSource,
-    UIPopoverPresentationControllerDelegate,
-    UITextFieldDelegate,
-    UISearchBarDelegate>
+@interface ProductViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView    *productTableView;
-@property (nonatomic, weak) IBOutlet UITextField    *productSearchTextField;
 @property (nonatomic, weak) IBOutlet UISearchBar    *searchBar;
-@property (nonatomic, strong) NSMutableArray        *productTableDataSource;
+@property (nonatomic, strong) NSMutableArray        *products;
+
+@property (nonatomic, weak) ProductManager *productManager;
 @end
 
 @implementation ProductViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
-    _productSearchTextField.delegate = self;
     _searchBar.delegate = self;
-    [self download];
     
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.productTableView;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self
-                            action:@selector(reload)
-                  forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
-    
-    [_productSearchTextField addTarget:self
-                                action:@selector(searchByName)
-                      forControlEvents:UIControlEventEditingChanged];
+    _productManager = [ProductManager sharedInstance];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (NSArray *)getProducts
+{
+    return [_productManager getProductsWithType:[_productManager getProductType]];
 }
 
-- (void)reload {
-    [self download];
-}
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationItem.title = kTitleProduct;
-    [self reloadProductTableView];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    self.products = [NSMutableArray arrayWithArray:[self getProducts]];
+    [_productTableView reloadData];
 }
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {
-    Product *productDeleted = _productTableDataSource[indexPath.row];
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
-                             kProductID:productDeleted.productId};
+    Product *product = _products[indexPath.row];
+    NSDictionary *params = @{kProductID:product.productId};
     
     [[Data sharedInstance] get:API_REMOVE_PRODUCT data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
-            [[ProductManager sharedInstance] delete:productDeleted];
-            [_productTableDataSource removeObjectAtIndex:indexPath.row];
+            [[ProductManager sharedInstance] delete:product];
+            [_products removeObjectAtIndex:indexPath.row];
             [_productTableView reloadData];
         } else {
             ShowMsgSomethingWhenWrong;
@@ -91,61 +71,38 @@
 {
     searchBar.showsCancelButton = NO;
     [Utils hideKeyboard];
-    [self reloadProductTableView];
+    self.products = [NSMutableArray arrayWithArray:[self getProducts]];
+    [_productTableView reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if(searchText && searchText.length > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name CONTAINS[cd] %@", searchText];
-        NSArray *products = [[ProductManager sharedInstance] getProductList];
-        _productTableDataSource = [NSMutableArray arrayWithArray:[products filteredArrayUsingPredicate:predicate]];
-        [_productTableView reloadData];
+        NSArray *originProducts = [self getProducts];
+        _products = [NSMutableArray arrayWithArray:[originProducts filteredArrayUsingPredicate:predicate]];
     } else {
-        [self reloadProductTableView];
+        _products = [NSMutableArray arrayWithArray:[self getProducts]];
     }
+    [_productTableView reloadData];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton = YES;
 }
+#pragma mark ----------------
 
-- (void)reloadProductTableView {
-    NSArray *products = [[ProductManager sharedInstance] getProductList];
-    _productTableDataSource = [NSMutableArray arrayWithArray:products];
-    [_productTableView reloadData];
-}
-
-
-- (IBAction)onAddNewProduct:(id)sender {
+- (IBAction)onAddNewProduct:(id)sender
+{
     if(![Utils hasWritePermission:kProductTableName notify:YES]) return;
     [self performSegueWithIdentifier:SegueProductDetail sender:self];
 }
 
-- (void)download {
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [[Data sharedInstance] get:API_GET_PRODUCTS data:params success:^(id res) {
-        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
-            NSArray *products = [res objectForKey:kData];
-            [[ProductManager sharedInstance] setValueWith:products];
-            products = [[ProductManager sharedInstance] getProductList];
-            _productTableDataSource = [[NSMutableArray alloc] initWithArray:products];
-        } else {
-            _productTableDataSource = nil;
-            ShowMsgSomethingWhenWrong;
-        }
-        [self.refreshControl endRefreshing];
-        [_productTableView reloadData];
-    } error:^{
-        [self.refreshControl endRefreshing];
-        ShowMsgConnectFailed;
-    }];
-}
 
 #pragma mark - TABLE DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _productTableDataSource.count;
+    return _products.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -153,7 +110,7 @@
     ProductCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProduct];
     UILabel *index = [cell viewWithTag:201];
     index.text = @(indexPath.row + 1).stringValue;
-    [cell initWith: [_productTableDataSource objectAtIndex:indexPath.row]];
+    [cell initWith: [_products objectAtIndex:indexPath.row]];
     return cell;
 }
 
@@ -171,14 +128,13 @@
     if([segue.identifier isEqualToString:SegueProductDetail]) {
         ProductDetailViewController *vc = segue.destinationViewController;
         if(_productTableView.indexPathForSelectedRow) {
-            vc.product = _productTableDataSource[_productTableView.indexPathForSelectedRow.row];
+            vc.product = _products[_productTableView.indexPathForSelectedRow.row];
         }
     }
 }
 
-- (void)tableView:(UITableView *)tableView
-    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-     forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteItemAt:indexPath];
     }

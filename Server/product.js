@@ -2,6 +2,7 @@ var Utils = require('./utils');
 var csvjson = require('csvjson');
 var json2csv = require('json2csv');
 var fs = require('fs');
+var PRODUCT = {};
 
 function getProductTableName(productType) {
     switch(productType) {
@@ -17,9 +18,8 @@ function getProductTableName(productType) {
 }
 
 var getProducts = function (con, req, res) {
-    var tableName = getProductTableName(req.query.productType);
-    console.log(tableName);
-    con.query('SELECT * FROM ' + tableName, function (err, result) {
+    var type = req.query.type;
+    con.query('SELECT * FROM np_products', [type], function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -30,10 +30,8 @@ var getProducts = function (con, req, res) {
 }
 
 var removeProduct = function (con, req, res) {
-    var tableName = getProductTableName(req.query.productType);
-    console.log(tableName);
-    var productID = req.query.productID;
-    con.query('DELETE FROM '+ tableName +' WHERE productID = ?', productID, function (err, result) {
+    var productID = req.query.id;
+    con.query('DELETE FROM np_products WHERE id = ?', productID, function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -48,10 +46,8 @@ var removeProduct = function (con, req, res) {
 }
 
 var addNewProduct = function (con, req, res) {
-    var tableName = getProductTableName(req.query.productType);
     var params = req.query.params;
-    console.log(params);
-    con.query('INSERT INTO ' + tableName + ' SET ?', params, function (err, result) {
+    con.query('INSERT INTO np_products SET ?', params, function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -62,9 +58,8 @@ var addNewProduct = function (con, req, res) {
 }
 
 var updateProduct = function (con, req, res) {
-    var tableName = getProductTableName(req.query.productType);
     var params = req.query.params;
-    con.query('UPDATE ' + tableName + ' SET ? Where productID = ' + params.productID, params, function (err, result) {
+    con.query('UPDATE np_products SET ? WHERE id = ' + params.id, params, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);

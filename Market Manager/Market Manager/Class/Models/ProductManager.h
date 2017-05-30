@@ -10,15 +10,18 @@
 
 @interface ProductManager : NSObject
 + (instancetype)sharedInstance;
-- (void)setValueWith:(NSArray *)data;
-- (NSArray *)getProductList;
+
+- (void)setProducts:(NSArray *)data;
+- (NSArray *)getProductsWithType:(kProductType)type;
 - (void)delete:(Product *)product;
 - (void)insert:(Product *)product;
 - (void)update:(Product *)product;
 - (void)deleteAll;
+
 - (NSArray *)getProductNameList;
 - (NSArray *)getProductListWith:(NSArray *)data;
 - (NSString *)getProductIdBy:(NSString *)productName;
 - (void)setProductType:(kProductType)productType;
 - (kProductType)getProductType;
+- (BOOL)exist:(NSString *)productName type:(NSInteger)type;
 @end

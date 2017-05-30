@@ -20,24 +20,31 @@
     _ipAddressField.text = [[StorageService sharedInstance] getItemByKey:kStorageIPAdress];
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    _ipAddressField.text = [Utils trim:_ipAddressField.text];
+}
+
+- (IBAction)onCancelClicked:(id)sender
+{
+    [self showSetting:NO];
+}
+
+- (void)showSetting:(BOOL)show
+{
+    [self.view setHidden:!show];
+}
+
+- (IBAction)onSavedClicked:(id)sender
+{
+    [Utils hideKeyboard];
+    [[StorageService sharedInstance] saveItem:_ipAddressField.text forKey:kStorageIPAdress];
+    [self showSetting:NO];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    _ipAddressField.text = [_ipAddressField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-}
-
-- (IBAction)onOutsideClicked:(id)sender {
-    [self removeFromParentViewController];
-    [self.view removeFromSuperview];
-}
-
-- (IBAction)onSavedClicked:(id)sender {
-    [Utils hideKeyboard];
-    [[StorageService sharedInstance] saveItem:_ipAddressField.text forKey:kStorageIPAdress];
-    [self onOutsideClicked:nil];
 }
 
 @end

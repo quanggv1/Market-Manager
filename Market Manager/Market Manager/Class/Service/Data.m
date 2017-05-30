@@ -20,7 +20,8 @@
     return sharedInstance;
 }
 
-- (void)get:(NSString *)url data:(id)data success:(void(^)(id res))successCallback error:(void(^)())errorCacllback {
+- (void)get:(NSString *)url data:(id)data success:(void(^)(id res))successCallback error:(void(^)())errorCacllback
+{
     [[Loading shareInstance] show];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
