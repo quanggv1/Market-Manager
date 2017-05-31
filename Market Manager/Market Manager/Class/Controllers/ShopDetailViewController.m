@@ -12,6 +12,7 @@
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
 #import "AddNewShopProductViewController.h"
+#import "Data.h"
 
 @interface ShopDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
@@ -71,30 +72,26 @@
 }
 
 - (void)downloadWith:(NSString *)stringDate{
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSDictionary *params = @{kShopID:_shop.ID,
                              kDate: stringDate,
                              kShopName: _shop.name,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [manager GET:API_GETSHOP_PRODUCTS
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-            if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
-            } else {
-                _products = nil;
-                ShowMsgUnavaiableData;
-            }
-            [_productTableView reloadData];
-            [self hideActivity];
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-            [self hideActivity];
+                             kType: @([[ProductManager sharedInstance] getProductType])};
+    
+    [[Data sharedInstance] get:API_GETSHOP_PRODUCTS data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            NSArray *shopProducts = [res objectForKey:kData];
+            shopProducts = [[ProductManager sharedInstance] getShopProductsFromData:shopProducts];
+            _products = [NSMutableArray arrayWithArray:shopProducts];
+        } else {
             _products = nil;
-            [_productTableView reloadData];
-            ShowMsgConnectFailed;
-        }];
+            ShowMsgUnavaiableData;
+        }
+        [_productTableView reloadData];
+    } error:^{
+        _products = nil;
+        [_productTableView reloadData];
+        ShowMsgConnectFailed;
+    }];
 }
 
 - (IBAction)onCalendarClicked:(id)sender {
@@ -115,36 +112,33 @@
 - (IBAction)onSaveClicked:(id)sender {
     if (![Utils hasWritePermission:_shop.name notify:YES]) return;
     if (![searchDate isEqualToString:today]) return;
-    [self showActivity];
+    
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Product *product in _products) {
-        [updates addObject:@{kShopProductID: product.shopProductID,
-                             kProductName: product.name,
+        [updates addObject:@{kId: product.productId,
+                             kName: product.name,
                              kProductSTake: @(product.STake)}];
     }
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_UPDATE_SHOP_PRODUCTS
-      parameters:@{kShopName:_shop.name,
-                   kProduct: @([[ProductManager sharedInstance] getProductType]),
-                   kParams: [Utils objectToJsonString:updates]}
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 [CallbackAlertView setCallbackTaget:@""
-                                             message:@"Data has been saved!"
-                                              target:self
-                                             okTitle:btnOK
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-         }];
+    
+    NSDictionary *params = @{kShopName:_shop.name,
+                             kProduct: @([[ProductManager sharedInstance] getProductType]),
+                             kParams: [Utils objectToJsonString:updates]};
+    
+    [[Data sharedInstance] get:API_UPDATE_SHOP_PRODUCTS data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == 200) {
+            [CallbackAlertView setCallbackTaget:@""
+                                        message:@"Data has been saved!"
+                                         target:self
+                                        okTitle:btnOK
+                                     okCallback:nil
+                                    cancelTitle:nil
+                                 cancelCallback:nil];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
 }
 
 #pragma mark - TABLE DATASOURCE

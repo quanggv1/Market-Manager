@@ -75,11 +75,12 @@ var removeShopProduct = function (con, req, res) {
 }
 
 function executeSelectShopProducts(con, req, onSuccess, onError) {
-    var shopProductTable = getShopProductTableName(req.query.productType);
-    var productTable = PRODUCT.getProductTableName(req.query.productType);
+    var productType = req.query.type;
     var shopID = req.query.shopID;
-    var sql = "SELECT " + shopProductTable + ".*, " + productTable + ".productName, " + productTable + ".price FROM " + shopProductTable + " JOIN " + productTable + " ON " + shopProductTable + ".productID = " + productTable + ".productID WHERE " + shopProductTable + ".shopID=?";
-    con.query(sql, shopID, function (err, result) {
+    var sql = "SELECT np_shop_products.*, np_products.name, np_products.price " +
+                "FROM np_shop_products JOIN np_products ON np_shop_products.productID = np_products.id " +
+                "WHERE np_shop_products.shopID = ? AND np_products.type = ?";
+    con.query(sql, [shopID, productType], function (err, result) {
         if (err) {
             console.log(err);
             onError(err);
@@ -97,7 +98,7 @@ var getShopProducts = function (con, req, res) {
             res.send(Utils.errorResp);
         });
     } else {
-        var shopName = getShopName(req.query.productType, req.query.shopName);
+        var shopName = getShopName(req.query.type, req.query.shopName);
         var targetFilePath = './uploads/shops/' + shopName + req.query.date + '.csv';
         if (fs.existsSync(targetFilePath)) {
             Utils.convertCSV2Json(targetFilePath, function onSuccess(result) {
@@ -139,11 +140,9 @@ function getShopName(productType, shopName) {
 
 var updateShopProducts = function (con, req, res) {
     var updatedProducts = JSON.parse(req.query.params);
-    var shopName = getShopName(req.query.productType, req.query.shopName);
-    console.log(shopName);
+    var shopName = getShopName(req.query.type, req.query.shopName);
     var targetFilePath = './uploads/shops/' + shopName + Utils.today() + '.csv';
     Utils.convertJson2CSV(updatedProducts, targetFilePath, function onSuccess() {
-        
         executeUpdateShopProduct(updatedProducts, con, req, res);
     }, function onError() {
         res.send(Utils.errorResp);
@@ -152,10 +151,9 @@ var updateShopProducts = function (con, req, res) {
 
 function executeUpdateShopProduct(updatedProducts, con, req, res) {
     if (updatedProducts.length > 0) {
-        delete updatedProducts[0].productName;
-        var shopProductTable = getShopProductTableName(req.query.productType);
+        delete updatedProducts[0].name;
         var params = updatedProducts[0];
-        con.query('UPDATE ' + shopProductTable + ' SET ? WHERE shopProductID = ' + params.shopProductID, params, function (err, result) {
+        con.query('UPDATE np_shop_products SET ? WHERE id = ' + params.id, params, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);

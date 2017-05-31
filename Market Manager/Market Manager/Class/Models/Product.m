@@ -53,4 +53,21 @@
     return self;
 }
 
+- (instancetype)initShopProduct:(NSDictionary *)theDictionary
+{
+    self = [super init];
+    if (self) {
+        
+        self.productId = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kId]];
+        self.name = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kName]];
+        
+//        id description = [theDictionary objectForKey:kDescription];
+//        self.productDesc = (description) ? [NSString stringWithFormat:@"%@", description] : @"";
+        
+        self.price = [[theDictionary objectForKey:kPrice] floatValue];
+        self.STake = [[theDictionary objectForKey:kProductSTake] integerValue];
+    }
+    return self;
+}
+
 @end

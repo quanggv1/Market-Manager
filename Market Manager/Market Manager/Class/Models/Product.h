@@ -26,5 +26,6 @@
 
 - (instancetype)initWith:(NSDictionary *)data;
 - (instancetype)initOriginProduct:(NSDictionary *)theDictionary;
+- (instancetype)initShopProduct:(NSDictionary *)theDictionary;
 @end
 

@@ -891,7 +891,7 @@
 					7466EAE71E51E95E00A2C0F5 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 966G4393N4;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -1164,8 +1164,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6ae171c4-9958-4af9-b19d-d45c2dc4cff5";
+				PROVISIONING_PROFILE_SPECIFIER = iOS_Dev_Provisioning;
 			};
 			name = Debug;
 		};
@@ -1182,8 +1182,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6ae171c4-9958-4af9-b19d-d45c2dc4cff5";
+				PROVISIONING_PROFILE_SPECIFIER = iOS_Dev_Provisioning;
 			};
 			name = Release;
 		};

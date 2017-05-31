@@ -24,4 +24,5 @@
 - (void)setProductType:(kProductType)productType;
 - (kProductType)getProductType;
 - (BOOL)exist:(NSString *)productName type:(NSInteger)type;
+- (NSArray *)getShopProductsFromData:(NSArray *)theArray;
 @end
