@@ -11,67 +11,66 @@
 #import "ShopProductTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
-#import "AddNewShopProductViewController.h"
 #import "Data.h"
 
-@interface ShopDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *productTableView;
-@property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
+@interface ShopDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,  UIPickerViewDelegate, UIPickerViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView    *productTableView;
+@property (weak, nonatomic) IBOutlet UITextField    *productSearchTextField;
+@property (weak, nonatomic) IBOutlet UIPickerView   *productsPicker;
+@property (weak, nonatomic) IBOutlet UIView         *productsPickerView;
+@property (strong, nonatomic) NSMutableArray *pickerData;
+@property (weak, nonatomic) ProductManager *productManager;
 @end
 
-@implementation ShopDetailViewController {
+@implementation ShopDetailViewController
+{
     NSString *searchDate;
     NSString *today;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
+    _productManager = [ProductManager sharedInstance];
+    
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
+    _productsPicker.delegate = self;
+    _productsPicker.dataSource = self;
+    
     today = [[Utils dateFormatter] stringFromDate:[NSDate date]];
     _productSearchTextField.text = today;
     searchDate = today;
     [self downloadWith:today];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear :animated];
     self.navigationItem.title = _shop.name;
 }
 
-- (IBAction)addNewProduct:(id)sender {
-    if(![Utils hasWritePermission:_shop.name notify:YES]) return;
-    [AddNewShopProductViewController showViewAt:self onSave:^(Product *product) {
-        [_products insertObject:product atIndex:0];
-        [_productTableView reloadData];
+- (void)deleteItemAt:(NSIndexPath *)indexPath
+{
+    Product *product = _products[indexPath.row];
+    NSDictionary *params = @{kId: product.productId};
+    
+    [[Data sharedInstance] get:API_REMOVE_SHOP_PRODUCT data:params success:^(id res) {
+        if([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [_products removeObjectAtIndex:indexPath.row];
+            [_productTableView reloadData];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
     }];
 }
 
-- (void)deleteItemAt:(NSIndexPath *)indexPath {
-    [self showActivity];
-    Product *product = _products[indexPath.row];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
-                             kShopProductID: product.shopProductID};
-    [manager GET:API_REMOVE_SHOP_PRODUCT
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [_products removeObjectAtIndex:indexPath.row];
-                 [_productTableView reloadData];
-             } else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-         }];
-}
-
-- (void)downloadWith:(NSString *)stringDate{
+- (void)downloadWith:(NSString *)stringDate
+{
     NSDictionary *params = @{kShopID:_shop.ID,
                              kDate: stringDate,
                              kShopName: _shop.name,
@@ -142,7 +141,6 @@
 }
 
 #pragma mark - TABLE DATASOURCE
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _products.count;
 }
@@ -167,6 +165,83 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return [Utils hasWritePermission:_shop.name notify:NO];
+}
+
+#pragma mark - Add new products
+- (IBAction)onAddClicked:(id)sender
+{
+    if (![Utils hasWritePermission:_shop.name notify:YES]) return;
+    if (![searchDate isEqualToString:today]) return;
+    
+    _pickerData = [[NSMutableArray alloc] init];
+    NSArray *allProducts = [_productManager getProductsWithType:[_productManager getProductType]];
+    for (Product *originProduct in allProducts) {
+        BOOL isExisted = NO;
+        for (Product *product in _products) {
+            if ([originProduct.name isEqualToString: product.name]) {
+                isExisted = YES;
+            }
+        }
+        if (!isExisted) {
+            [_pickerData addObject:originProduct];
+        }
+    }
+    if (_pickerData.count > 0) {
+        [_productsPicker reloadAllComponents];
+        [_productsPickerView setHidden:NO];
+    } else {
+        [CallbackAlertView setCallbackTaget:@""
+                                    message:@"Shop has already include all products"
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    }
+    
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _pickerData.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    Product *product = _pickerData[row];
+    return [NSString stringWithFormat:@"%@          %.2f $", product.name, product.price];
+}
+
+- (IBAction)onPickerSelected:(id)sender
+{
+    Product *product = _pickerData[[_productsPicker selectedRowInComponent:0]];
+    
+    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
+                             kParams: @{kShopID: _shop.ID,
+                                        kProductID: product.productId}};
+    
+    [[Data sharedInstance] get:API_ADD_NEW_SHOP_PRODUCT data:params success:^(id res) {
+        if([[res objectForKey:kCode] intValue] == 200) {
+            product.productId = [NSString stringWithFormat:@"%@", [[res objectForKey:kData] objectForKey:kInsertID]];
+            [_products insertObject:product atIndex:0];
+            [_productTableView reloadData];
+            [_productsPickerView setHidden:YES];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
+}
+
+- (IBAction)onPickerCancel:(id)sender
+{
+    [_productsPickerView setHidden:YES];
 }
 
 

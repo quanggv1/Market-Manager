@@ -31,22 +31,23 @@ function getWarehouseName(productType, whName) {
 }
 
 function executeSelectWarehouseProducts(con, req, onSuccess, onError) {
-    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
-    var productTable = PRODUCT.getProductTableName(req.query.productType);
+    var type = req.query.type;
     var whID = req.query.whID;
-    con.query('SELECT  ' + warehouseProductTable + '.*, ' + productTable + '.productName FROM ' + warehouseProductTable + ' JOIN ' + productTable + ' ON ' + warehouseProductTable + '.productID = ' + productTable + '.productID WHERE ' + warehouseProductTable + '.whID = ?', whID,
-        function (err, rows) {
-            if (err) {
-                console.log(err);
-                onError(err);
-            } else {
-                onSuccess(rows);
-            }
-        });
+    var sql = 'SELECT  np_warehouse_products.*, np_products.name ' +
+        'FROM np_warehouse_products JOIN np_products ON np_warehouse_products.productID = np_products.id ' +
+        'WHERE np_warehouse_products.whID = ? AND np_products.type = ?';
+    con.query(sql, [whID, type], function (err, rows) {
+        if (err) {
+            console.log(err);
+            onError(err);
+        } else {
+            onSuccess(rows);
+        }
+    });
 }
 
 var getWarehouseProducts = function (con, req, res) {
-    var whName = getWarehouseName(req.query.productType, req.query.whName);
+    var whName = getWarehouseName(req.query.type, req.query.whName);
     var targetFilePath = './uploads/warehouses/' + whName + req.query.date + '.csv';
 
     if (Utils.today() === req.query.date) {
@@ -73,9 +74,13 @@ var getWarehouseProducts = function (con, req, res) {
 }
 
 var refreshDataForNewDay = function (con, req, res) {
-    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
     var whID = req.query.whID;
-    con.query('UPDATE ' + warehouseProductTable + ' SET outQuantity = 0, inQuantity = 0, stockTake = total WHERE whID = ?', whID, function (err) {
+
+    var sql = 'UPDATE np_warehouse_products ' +
+        'SET outQuantity = 0, inQuantity = 0, stockTake = total ' +
+        'WHERE whID = ?'
+
+    con.query(sql, whID, function (err) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -135,8 +140,8 @@ var addNewWarehouseProduct = function (con, req, res) {
 
 var removeWarehouseProduct = function (con, req, res) {
     var wh_pd_ID = req.query.wh_pd_ID;
-    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
-    con.query('DELETE FROM ' + warehouseProductTable + ' WHERE wh_pd_ID = ?', [wh_pd_ID], function (err, result) {
+    var sql = 'DELETE FROM np_warehouse_products WHERE wh_pd_ID = ?';
+    con.query(sql, [wh_pd_ID], function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -152,10 +157,9 @@ var removeWarehouseProduct = function (con, req, res) {
 
 var updateWarehouseProducts = function (con, req, res) {
     var updatedProducts = JSON.parse(req.query.params)
-    var whName = getWarehouseName(req.query.productType, req.query.whName);
+    var whName = getWarehouseName(req.query.type, req.query.whName);
     var targetFilePath = './uploads/warehouses/' + whName + Utils.today() + '.csv';
     Utils.convertJson2CSV(updatedProducts, targetFilePath, function onSuccess() {
-        console.log(targetFilePath);
         executeUpdateWarehouseProducts(updatedProducts, con, req, res);
     }, function onError() {
         console.log(err);
@@ -166,9 +170,13 @@ var updateWarehouseProducts = function (con, req, res) {
 function executeUpdateWarehouseProducts(updatedProducts, con, req, res) {
     if (updatedProducts.length > 0) {
         var params = updatedProducts[0];
-        delete params.productName;
-        var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
-        con.query('UPDATE ' + warehouseProductTable + ' SET ? WHERE wh_pd_ID = ' + params.wh_pd_ID, params, function (err, result) {
+        delete params.name;
+
+        var sql = 'UPDATE np_warehouse_products ' +
+            'SET ? ' +
+            'WHERE wh_pd_ID = ' + params.wh_pd_ID;
+
+        con.query(sql, params, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);

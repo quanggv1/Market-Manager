@@ -45,9 +45,8 @@ var removeShop = function (con, req, res) {
 }
 
 var addNewShopProduct = function (con, req, res) {
-    var shopProductTable = getShopProductTableName(req.query.productType);
     var params = req.query.params;
-    con.query('INSERT INTO ' + shopProductTable + ' SET ?', params, function (err, result) {
+    con.query('INSERT INTO np_shop_products SET ?', params, function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -58,9 +57,8 @@ var addNewShopProduct = function (con, req, res) {
 }
 
 var removeShopProduct = function (con, req, res) {
-    var shopProductID = req.query.shopProductID;
-    var shopProductTable = getShopProductTableName(req.query.productType);
-    con.query('DELETE FROM ' + shopProductTable + ' WHERE shopProductID = ?', [shopProductID], function (err, result) {
+    var id = req.query.id;
+    con.query('DELETE FROM np_shop_products WHERE id = ?', [id], function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);

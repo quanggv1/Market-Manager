@@ -70,4 +70,18 @@
     return self;
 }
 
+- (instancetype)initWareHouseProduct:(NSDictionary *)theDictionary
+{
+    self = [super init];
+    if (self) {
+        self.productWhID = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kProductWareHouseID]];
+        self.name = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kName]];
+        self.productId = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kProductID]];
+        self.STake = [[theDictionary objectForKey:kProductSTake] integerValue];
+        self.outQty = [[theDictionary objectForKey:kWhOutQuantity] integerValue];
+        self.inQty = [[theDictionary objectForKey:kWhInQuantity] integerValue];
+    }
+    return self;
+}
+
 @end

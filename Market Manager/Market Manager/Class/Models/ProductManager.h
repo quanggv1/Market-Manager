@@ -25,4 +25,5 @@
 - (kProductType)getProductType;
 - (BOOL)exist:(NSString *)productName type:(NSInteger)type;
 - (NSArray *)getShopProductsFromData:(NSArray *)theArray;
+- (NSArray *)getWarehouseProductsFromData:(NSArray *)theArray;
 @end

@@ -12,6 +12,7 @@
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
 #import "AddNewSupplyProductViewController.h"
+#import "Data.h"
 
 @interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *productTableView;
@@ -55,33 +56,29 @@
                              withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)downloadWith:(NSString *)date{
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+- (void)downloadWith:(NSString *)date
+{
     NSDictionary *params = @{kWarehouseID:_supply.ID,
                              kDate: date,
                              kWhName: _supply.name,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [manager GET:API_GET_WAREHOUSE_PRODUCTS
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 _products = [NSMutableArray arrayWithArray:[[ProductManager sharedInstance] getProductListWith:[responseObject objectForKey:kData]]];
-                 
-                 [_productTableView reloadData];
-             } else {
-                 _products = nil;
-                 [_productTableView reloadData];
-                 ShowMsgUnavaiableData;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-             [self hideActivity];
-             _products = nil;
-             [_productTableView reloadData];
-             ShowMsgConnectFailed;
-         }];
+                             kType: @([[ProductManager sharedInstance] getProductType])};
+    
+    [[Data sharedInstance] get:API_GET_WAREHOUSE_PRODUCTS data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == 200) {
+            NSArray *products = [res objectForKey:kData];
+            products = [[ProductManager sharedInstance] getWarehouseProductsFromData:products];
+            _products = [NSMutableArray arrayWithArray:products];
+            [_productTableView reloadData];
+        } else {
+            _products = nil;
+            [_productTableView reloadData];
+            ShowMsgUnavaiableData;
+        }
+    } error:^{
+        _products = nil;
+        [_productTableView reloadData];
+        ShowMsgConnectFailed;
+    }];
 }
 
 - (IBAction)onCalendarClicked:(id)sender {
@@ -113,7 +110,7 @@
     if(![Utils hasWritePermission:_supply.name notify:YES]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
-        [self showActivity];
+        
         NSMutableArray *updates = [[NSMutableArray alloc] init];
         for (Product *product in _products) {
             [updates addObject:@{kProductWareHouseID: product.productWhID,
@@ -124,54 +121,45 @@
                                  kWhTotal: @(product.whTotal)}];
         }
         
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        [manager GET:API_UPDATE_WAREHOUSE_PRODUCTS
-          parameters:@{kWhName: _supply.name,
-                       kProduct: @([[ProductManager sharedInstance] getProductType]),
-                       kParams: [Utils objectToJsonString:updates]}
-            progress:nil
-             success:^(NSURLSessionDataTask * task, id responseObject) {
-                 if ([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                     [CallbackAlertView setCallbackTaget:@""
-                                                 message:@"Data has been saved"
-                                                  target:self
-                                                 okTitle:btnOK
-                                              okCallback:nil
-                                             cancelTitle:nil
-                                          cancelCallback:nil];
-                 } else {
-                     ShowMsgSomethingWhenWrong;
-                 }
-                 [self hideActivity];
-             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                 [self hideActivity];
-                 ShowMsgConnectFailed;
+        NSDictionary *params = @{kWhName: _supply.name,
+                                 kType: @([[ProductManager sharedInstance] getProductType]),
+                                 kParams: [Utils objectToJsonString:updates]};
+        
+        [[Data sharedInstance] get:API_UPDATE_WAREHOUSE_PRODUCTS data:params success:^(id res) {
+            if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+                [CallbackAlertView setCallbackTaget:@""
+                                            message:@"Data has been saved"
+                                             target:self
+                                            okTitle:btnOK
+                                         okCallback:nil
+                                        cancelTitle:nil
+                                     cancelCallback:nil];
+            } else {
+                ShowMsgSomethingWhenWrong;
+            }
+        } error:^{
+            ShowMsgConnectFailed;
         }];
     }
 }
 
 - (void)deleteItemAt:(NSIndexPath *)indexPath {
-    [self showActivity];
+    
     Product *product = _products[indexPath.row];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kProduct:@([[ProductManager sharedInstance] getProductType]),
-                             kProductWareHouseID:product.productWhID};
-    [manager GET:API_REMOVE_WAREHOUSE_PRODUCT
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if([[responseObject objectForKey:kCode] integerValue] == kResSuccess) {
-                 [_products removeObjectAtIndex:indexPath.row];
-                 [_productTableView reloadData];
-             }
-             else {
-                 ShowMsgSomethingWhenWrong;
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-             [self hideActivity];
-             ShowMsgConnectFailed;
-         }];
+    
+    NSDictionary *params = @{kProductWareHouseID:product.productWhID};
+    
+    [[Data sharedInstance] get:API_REMOVE_WAREHOUSE_PRODUCT data:params success:^(id res) {
+        if([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            [_products removeObjectAtIndex:indexPath.row];
+            [_productTableView reloadData];
+        }
+        else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
 }
 
 #pragma mark - TABLE DATASOURCE

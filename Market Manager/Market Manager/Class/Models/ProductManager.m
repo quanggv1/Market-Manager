@@ -108,6 +108,16 @@
     return shopProducts;
 }
 
+- (NSArray *)getWarehouseProductsFromData:(NSArray *)theArray
+{
+    NSMutableArray *warehouseProducts = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in theArray) {
+        Product *product = [[Product alloc] initWareHouseProduct:dictionary];
+        [warehouseProducts addObject:product];
+    }
+    return warehouseProducts;
+}
+
 - (NSArray *)getProductListWith:(NSArray *)data {
     NSMutableArray *productList = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in data) {
