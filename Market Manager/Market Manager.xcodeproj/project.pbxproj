@@ -114,7 +114,6 @@
 		74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */; };
 		74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */; };
 		74FB615F1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */; };
-		74FB61621E75189100F65BF1 /* AddNewSupplyProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */; };
 		BC220B081E7BE644002CAE91 /* InvoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC220B071E7BE644002CAE91 /* InvoiceViewController.m */; };
 		BC27F89D1E894B2C0006AC56 /* SummaryQtyNeedController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC27F89C1E894B2C0006AC56 /* SummaryQtyNeedController.m */; };
 		BC27F8A01E8963130006AC56 /* SummaryQtyNeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC27F89F1E8963130006AC56 /* SummaryQtyNeedTableViewCell.m */; };
@@ -336,8 +335,6 @@
 		74ED223D1E5A05B40079D3F0 /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController.m; sourceTree = "<group>"; };
 		74FB615D1E74FB9E00F65BF1 /* SupplyProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyProductTableViewCell.h; sourceTree = "<group>"; };
 		74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyProductTableViewCell.m; sourceTree = "<group>"; };
-		74FB61601E75189100F65BF1 /* AddNewSupplyProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewSupplyProductViewController.h; sourceTree = "<group>"; };
-		74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewSupplyProductViewController.m; sourceTree = "<group>"; };
 		BC220B061E7BE644002CAE91 /* InvoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvoiceViewController.h; sourceTree = "<group>"; };
 		BC220B071E7BE644002CAE91 /* InvoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvoiceViewController.m; sourceTree = "<group>"; };
 		BC27F89B1E894B2C0006AC56 /* SummaryQtyNeedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryQtyNeedController.h; sourceTree = "<group>"; };
@@ -785,8 +782,6 @@
 				74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */,
 				74FB615D1E74FB9E00F65BF1 /* SupplyProductTableViewCell.h */,
 				74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */,
-				74FB61601E75189100F65BF1 /* AddNewSupplyProductViewController.h */,
-				74FB61611E75189100F65BF1 /* AddNewSupplyProductViewController.m */,
 				748B20D41E620D8700571111 /* AddNewSupplyViewController.h */,
 				748B20D51E620D8700571111 /* AddNewSupplyViewController.m */,
 			);
@@ -886,7 +881,7 @@
 					7466EAE71E51E95E00A2C0F5 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 966G4393N4;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -952,7 +947,6 @@
 				3D41D7D11E56E33A00123A71 /* UIButton+AFNetworking.m in Sources */,
 				3D41D7931E55903800123A71 /* IQNSArray+Sort.m in Sources */,
 				7466EAF01E51E95E00A2C0F5 /* AppDelegate.m in Sources */,
-				74FB61621E75189100F65BF1 /* AddNewSupplyProductViewController.m in Sources */,
 				3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */,
 				3D41D7CB1E56E33A00123A71 /* AFURLResponseSerialization.m in Sources */,
 				3D41D7691E5583D700123A71 /* UserViewController.m in Sources */,
@@ -1150,7 +1144,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 966G4393N4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
@@ -1158,8 +1152,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6ae171c4-9958-4af9-b19d-d45c2dc4cff5";
+				PROVISIONING_PROFILE_SPECIFIER = iOS_Dev_Provisioning;
 			};
 			name = Debug;
 		};
@@ -1168,7 +1162,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 966G4393N4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Market Manager/Info.plist";
@@ -1176,8 +1170,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = fpt.hanhnn.npsupermarkert2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6ae171c4-9958-4af9-b19d-d45c2dc4cff5";
+				PROVISIONING_PROFILE_SPECIFIER = iOS_Dev_Provisioning;
 			};
 			name = Release;
 		};

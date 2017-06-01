@@ -11,7 +11,6 @@
 #import "SummaryQtyNeedTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
-#import "AddNewSupplyProductViewController.h"
 #import "Data.h"
 
 @interface SummaryQtyNeedController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>

@@ -126,9 +126,8 @@ var removeWarehouse = function (con, req, res) {
 }
 
 var addNewWarehouseProduct = function (con, req, res) {
-    var warehouseProductTable = getWarehouseProductTableName(req.query.productType);
     var params = req.query.params;
-    con.query('INSERT INTO ' + warehouseProductTable + ' SET ?', params, function (err, result) {
+    con.query('INSERT INTO np_warehouse_products SET ?', params, function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);

@@ -11,12 +11,15 @@
 #import "SupplyProductTableViewCell.h"
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
-#import "AddNewSupplyProductViewController.h"
 #import "Data.h"
 
-@interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *productTableView;
-@property (weak, nonatomic) IBOutlet UITextField *productSearchTextField;
+@interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView    *productTableView;
+@property (weak, nonatomic) IBOutlet UITextField    *productSearchTextField;
+@property (nonatomic, weak) IBOutlet UIPickerView   *productsPicker;
+@property (nonatomic, weak) IBOutlet UIView         *productsPickerView;
+@property (nonatomic, strong) NSMutableArray    *pickerData;
+@property (nonatomic, weak) ProductManager      *productManager;
 @end
 
 @implementation SupplyDetailViewController {
@@ -24,32 +27,43 @@
     NSString *today;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     _productTableView.delegate = self;
     _productTableView.dataSource = self;
     _productSearchTextField.delegate = self;
+    _productsPicker.delegate = self;
+    _productsPicker.dataSource = self;
+    
+    _productManager = [ProductManager sharedInstance];
+    
     today = [[Utils dateFormatter] stringFromDate:[NSDate date]];
     _productSearchTextField.text = today;
     searchDate = today;
+    
     [self downloadWith:today];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationItem.title = _supply.name;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)deleteItem:(NSNotification *)notificaion {
+- (void)deleteItem:(NSNotification *)notificaion
+{
     NSIndexPath *indexPath = [notificaion object];
     [_products removeObjectAtIndex:indexPath.row];
     [_productTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
@@ -81,11 +95,13 @@
     }];
 }
 
-- (IBAction)onCalendarClicked:(id)sender {
+- (IBAction)onCalendarClicked:(id)sender
+{
     [Utils showDatePickerWith:_productSearchTextField.text target:self selector:@selector(onDatePickerSelected:)];
 }
 
-- (void)onDatePickerSelected:(NSDate *)dateSelected {
+- (void)onDatePickerSelected:(NSDate *)dateSelected
+{
     NSString *date = [[Utils dateFormatter] stringFromDate:dateSelected];
     _productSearchTextField.text = date;
     if(![date isEqualToString:searchDate]) {
@@ -94,19 +110,8 @@
     }
 }
 
-- (IBAction)addNewProduct:(id)sender {
-    if(![Utils hasWritePermission:_supply.name notify:YES]) return;
-    [AddNewSupplyProductViewController showViewAt:self onSave:^(Product *product) {
-        [_products addObject:product];
-        [_productTableView reloadData];
-    }];
-}
-
-- (IBAction)onExportClicked:(id)sender {
-
-}
-
-- (IBAction)onSaveClicked:(id)sender {
+- (IBAction)onSaveClicked:(id)sender
+{
     if(![Utils hasWritePermission:_supply.name notify:YES]) return;
     if (!_products) return;
     if ([searchDate isEqualToString:today]) {
@@ -143,7 +148,8 @@
     }
 }
 
-- (void)deleteItemAt:(NSIndexPath *)indexPath {
+- (void)deleteItemAt:(NSIndexPath *)indexPath
+{
     
     Product *product = _products[indexPath.row];
     
@@ -164,11 +170,13 @@
 
 #pragma mark - TABLE DATASOURCE
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _products.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     SupplyProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseProduct];
     ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
     [cell setProduct:_products[indexPath.row]];
@@ -176,18 +184,99 @@
 }
 
 #pragma mark - TABLE DELEGATE
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self deleteItemAt:indexPath];
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return [Utils hasWritePermission:_supply.name notify:NO];
+}
+
+#pragma mark - Add new products
+- (IBAction)onAddClicked:(id)sender
+{
+    if (![Utils hasWritePermission:_supply.name notify:YES]) return;
+    if (![searchDate isEqualToString:today]) return;
+    
+    _pickerData = [[NSMutableArray alloc] init];
+    NSArray *allProducts = [_productManager getProductsWithType:[_productManager getProductType]];
+    for (Product *originProduct in allProducts) {
+        BOOL isExisted = NO;
+        for (Product *product in _products) {
+            if ([originProduct.name isEqualToString: product.name]) {
+                isExisted = YES;
+            }
+        }
+        if (!isExisted) {
+            [_pickerData addObject:originProduct];
+        }
+    }
+    if (_pickerData.count > 0) {
+        [_productsPicker reloadAllComponents];
+        [_productsPickerView setHidden:NO];
+    } else {
+        [CallbackAlertView setCallbackTaget:@""
+                                    message:@"Warehouse has already include all products"
+                                     target:self
+                                    okTitle:btnOK
+                                 okCallback:nil
+                                cancelTitle:nil
+                             cancelCallback:nil];
+    }
+    
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _pickerData.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    Product *product = _pickerData[row];
+    return [NSString stringWithFormat:@"%@          %.2f $", product.name, product.price];
+}
+
+- (IBAction)onPickerSelected:(id)sender
+{
+    Product *product = _pickerData[[_productsPicker selectedRowInComponent:0]];
+
+    
+    NSDictionary *params = @{kType:@([[ProductManager sharedInstance] getProductType]),
+                             kParams: @{kSupplyID: _supply.ID,
+                                        kProductID: product.productId}};
+
+    [[Data sharedInstance] get:API_ADD_NEW_WAREHOUSE_PRODUCT data:params success:^(id res) {
+        if([[res objectForKey:kCode] intValue] == 200) {
+            product.productWhID = [NSString stringWithFormat:@"%@", [[res objectForKey:kData] objectForKey:kInsertID]];
+            [_products insertObject:product atIndex:0];
+            [_productTableView reloadData];
+            [_productsPickerView setHidden:YES];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
+}
+
+- (IBAction)onPickerCancel:(id)sender
+{
+    [_productsPickerView setHidden:YES];
 }
 
 @end
