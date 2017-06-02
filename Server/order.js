@@ -34,11 +34,10 @@ function getIndividualOrderTableName(productType) {
 }
 
 var getOrders = function (con, req, res) {
-    var orderTableName = getOrderTableName(req.query.productType);
     var shopID = req.query.shopID;
-    console.log(shopID)
-    var sql = 'SELECT * FROM ' + orderTableName + '  WHERE `shopID` = ? ORDER BY orderID DESC';
-    con.query(sql, shopID, function (err, rows) {
+    var productType = req.query.type;
+    var sql = 'SELECT * FROM np_orders  WHERE shopID = ? AND type = ? ORDER BY id DESC';
+    con.query(sql, [shopID, productType], function (err, rows) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);

@@ -46,7 +46,7 @@
 - (void)downloadData
 {
     NSDictionary *params = @{kShopID:_shop.ID,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
+                             kType: @([[ProductManager sharedInstance] getProductType])};
 
     [[Data sharedInstance] get:API_GET_ORDERS data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
@@ -63,7 +63,6 @@
                                     cancelTitle:nil
                                  cancelCallback:nil];
         }
-
     } error:^{
         [CallbackAlertView setCallbackTaget:titleError
                                     message:msgConnectFailed
