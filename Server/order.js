@@ -34,15 +34,51 @@ function getIndividualOrderTableName(productType) {
 }
 
 var getOrders = function (con, req, res) {
-    var shopID = req.query.shopID;
-    var productType = req.query.type;
-    var sql = 'SELECT * FROM np_orders  WHERE shopID = ? AND type = ? ORDER BY id DESC';
+    var shopID          = req.query.shopID;
+    var productType     = req.query.type;
+
+    var sql = 'SELECT * FROM np_orders ' +
+        'WHERE shopID = ? AND type = ? ' +
+        'ORDER BY id DESC';
+
     con.query(sql, [shopID, productType], function (err, rows) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
             res.send({ code: 200, data: rows });
+        }
+    });
+}
+
+var addNewOrder = function (con, req, res) {
+    var params = req.query.params;
+    var productType = req.query.type;
+    con.query('INSERT INTO np_orders SET ?', params, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            res.send({ code: 200, data: { insertId: result.insertId } });
+        }
+    });
+}
+
+var removeOrder = function (con, req, res) {
+    var orderID = req.query.id;
+    var sql = 'DELETE FROM np_orders ' +
+        'WHERE id = ?'
+
+    con.query(sql, [orderID], function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            if (result.affectedRows > 0) {
+                res.send({ code: 200, status: 'success' });
+            } else {
+                res.send(Utils.errorResp)
+            }
         }
     });
 }
@@ -75,18 +111,7 @@ var reportOrderEachday = function (con, req, res) {
     });
 }
 
-var addNewOrder = function (con, req, res) {
-    var orderTableName = getOrderTableName(req.query.productType);
-    var params = req.query.params;
-    con.query('INSERT INTO ' + orderTableName + ' SET ?', params, function (err, result) {
-        if (err) {
-            console.log(err);
-            res.send(Utils.errorResp);
-        } else {
-            res.send({ code: 200, data: { insertId: result.insertId } });
-        }
-    });
-}
+
 
 function executeUpdateNewOrder(productOrders, orderID, con, req, res) {
     if (productOrders.length > 0) {
@@ -285,4 +310,5 @@ module.exports = {
     reportSumOrderEachday,
     invoiceProductByOrderID,
     invoiceCratesByOrderID,
+    removeOrder
 }

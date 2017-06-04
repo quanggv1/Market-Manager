@@ -9,5 +9,5 @@
 #import "Order.h"
 
 @interface OrderTableViewCell : UITableViewCell
-- (void)setOrder:(Order *)order;
+@property (weak, nonatomic) IBOutlet UILabel *dateOrderLabel;
 @end

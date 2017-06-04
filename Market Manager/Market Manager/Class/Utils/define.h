@@ -143,6 +143,7 @@ static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 #define API_UPDATE_CRATES_DETAIL [SERVER stringByAppendingString:@"updateCratesDetail"]
 #define API_GET_CUSTOMERS [SERVER stringByAppendingString:@"getCustomers"]
 #define API_UPDATE_CUSTOMER [SERVER stringByAppendingString:@"updateCustomer"]
+#define API_REMOVE_ORDER [SERVER stringByAppendingString:@"removeOrder"]
 
 
 

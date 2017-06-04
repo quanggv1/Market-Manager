@@ -26,7 +26,7 @@
     _shopTableView.dataSource = self;
     
     if ([[ProductManager sharedInstance] getProductType] == kFoods) {
-        [self getData];
+        [self getCustomers];
     } else {
         _shopDataSource = [[ShopManager sharedInstance] getShopList];
         [_shopTableView reloadData];
@@ -38,12 +38,7 @@
     self.navigationItem.title = kTitleOrder;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)getData {
+- (void)getCustomers {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager GET:API_GET_CUSTOMERS
       parameters:nil

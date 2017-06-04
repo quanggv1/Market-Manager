@@ -10,6 +10,6 @@
 
 @interface Order : NSObject
 @property (nonatomic, strong) NSString *date, *shopID, *ID;
-@property (nonatomic, assign) NSInteger status;
+@property (nonatomic, assign) NSInteger type;
 - (instancetype)initWith:(NSDictionary *)data;
 @end

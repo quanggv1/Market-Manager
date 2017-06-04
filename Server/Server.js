@@ -200,6 +200,10 @@ app.get('/getOrderList', function (req, res) {
   ORDER.getOrders(con, req, res);
 });
 
+app.get('/removeOrder', function (req, res) {
+  ORDER.removeOrder(con, req, res);
+})
+
 app.get("/reportOrderEachday", function (req, res) {
   ORDER.reportOrderEachday(con, req, res);
 })
