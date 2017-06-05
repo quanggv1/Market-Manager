@@ -25,4 +25,5 @@
 + (void)showDetailBy:(NSString *)name at:(UIViewController *)view;
 + (UIImage *)getBanner;
 + (NSString *)trim:(NSString *)text;
++ (NSArray *)sortArray:(NSArray *)theArray withDescription:(NSString *)description;
 @end

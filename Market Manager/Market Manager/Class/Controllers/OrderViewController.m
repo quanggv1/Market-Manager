@@ -8,10 +8,8 @@
 
 #import "OrderViewController.h"
 #import "Order.h"
-#import "OrderTableViewCell.h"
 #import "OrderDetailViewController.h"
 #import "OrderManager.h"
-#import "OrderFormViewController.h"
 #import "SummaryViewController.h"
 #import "ProductManager.h"
 #import "Data.h"
@@ -152,10 +150,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
     
     UILabel *indexLbl   = [cell viewWithTag:kIndexTag];
-    UILabel *dateLbl    = cell.dateOrderLabel;
+    UILabel *dateLbl    = [cell viewWithTag:202];
     NSInteger index     = indexPath.row;
     Order *order        = _orders[index];
     

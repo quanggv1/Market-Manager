@@ -34,8 +34,8 @@ function getIndividualOrderTableName(productType) {
 }
 
 var getOrders = function (con, req, res) {
-    var shopID          = req.query.shopID;
-    var productType     = req.query.type;
+    var shopID = req.query.shopID;
+    var productType = req.query.type;
 
     var sql = 'SELECT * FROM np_orders ' +
         'WHERE shopID = ? AND type = ? ' +
@@ -149,10 +149,12 @@ var updateNewOrder = function (con, req, res) {
 
 var getOrderDetail = function (con, req, res) {
     var orderID = req.query.orderID;
-    var individualOrderTable = getIndividualOrderTableName(req.query.productType);
-    var productTable = PRODUCT.getProductTableName(req.query.productType);
-    sql = 'SELECT ' + individualOrderTable + '.*, ' + productTable + '.productName FROM ' + individualOrderTable + ' JOIN ' + productTable + ' ON ' + individualOrderTable + '.productID = ' + productTable + '.productID WHERE `orderID` = ?';
-    con.query(sql, orderID, function (err, rows) {
+
+    sql = 'SELECT np_order_detail.*, np_products.name ' +
+        'FROM np_order_detail JOIN np_products ON np_order_detail.productID = np_products.id ' +
+        'WHERE `orderID` = ?';
+
+    con.query(sql, [orderID], function (err, rows) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -162,14 +164,15 @@ var getOrderDetail = function (con, req, res) {
     });
 }
 
+
+
 function executeUpdateOrderDetail(productOrders, shopID, orderID, warehouseNameList, con, req, res) {
     if (productOrders.length > 0) {
         /** update order_each_day */
-        delete productOrders[0].productName;
+        delete productOrders[0].name;
         var productOrder = productOrders[0];
-        var individualOrderTable = getIndividualOrderTableName(req.query.productType)
 
-        con.query('SELECT * FROM ' + individualOrderTable + ' WHERE `productOrderID` = ?', productOrder.productOrderID, function (err, rows) {
+        con.query('SELECT * FROM np_order_detail WHERE id = ?', productOrder.id, function (err, rows) {
             if (err) {
                 console.log(err);
                 res.send(Utils.errorResp);
@@ -180,19 +183,23 @@ function executeUpdateOrderDetail(productOrders, shopID, orderID, warehouseNameL
                 /** update wh_product */
                 warehouseNameList.forEach(function (whName) {
                     var thisWhReceived = productOrder[whName] - data[whName];
-                    WH.updateWarehouseStock(con, whName, productOrder.productID, thisWhReceived, req.query.productType)
+                    WH.updateWarehouseStock(con, whName, productOrder.productID, thisWhReceived, req.query.type)
                     totalReceived += thisWhReceived;
                 })
 
                 /** update shop_product */
-                SHOP.updateShopStock(con, shopID, productOrder.productID, totalReceived, req.query.productType);
+                SHOP.updateShopStock(con, shopID, productOrder.productID, totalReceived, req.query.type);
 
                 /** update crate */
                 // var crateReceived = productOrder.crate_qty - data.crate_qty;
                 // CRATE.updateCrateReceivedQty(con, crateReceived, productOrder.crateType);
 
                 /** update order_each_day */
-                con.query('UPDATE ' + individualOrderTable + ' SET ? WHERE productOrderID = ' + productOrder.productOrderID, productOrder, function (err, result) {
+                sql = 'UPDATE np_order_detail ' +
+                    'SET ? ' +
+                    'WHERE id = ' + productOrder.id;
+
+                con.query(sql, [productOrder], function (err, result) {
                     if (err) {
                         console.log(err);
                         res.send(Utils.errorResp);
@@ -211,9 +218,10 @@ function executeUpdateOrderDetail(productOrders, shopID, orderID, warehouseNameL
 var updateOrderDetail = function (con, req, res) {
     var productOrders = JSON.parse(req.query.params)
     WH.getWarehouseNameList(con, function (success) {
-        console.log(success);
         var warehouseNameList = [];
-        success.forEach(function (item) { warehouseNameList.push(item.whName) });
+        success.forEach(function (item) {
+            warehouseNameList.push(item.whName)
+        });
         executeUpdateOrderDetail(productOrders, req.query.shopID, req.query.orderID, warehouseNameList, con, req, res)
     }, function (error) {
         res.send(Utils.errorResp);

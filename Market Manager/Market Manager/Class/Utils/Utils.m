@@ -190,5 +190,12 @@ static DateTimePickerController *dateTimePickerController;
     return [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
++ (NSArray *)sortArray:(NSArray *)theArray withDescription:(NSString *)description {
+    NSSortDescriptor *sortDescriptor =
+    [NSSortDescriptor sortDescriptorWithKey:@"name"
+                                  ascending:YES
+                                   selector:nil];
+    return [NSMutableArray arrayWithArray:[theArray sortedArrayUsingDescriptors:@[sortDescriptor]]];
+}
 
 @end

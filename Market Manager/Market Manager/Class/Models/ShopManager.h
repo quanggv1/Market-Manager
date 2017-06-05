@@ -17,4 +17,7 @@
 - (void)update:(Shop *)shop;
 - (void)deleteAll;
 - (NSArray *)getShopNameList;
+
+- (void)getShopProductsWithDate:(NSString *)date shop:(Shop *)theShop success:(void (^)(NSArray *products))callbackSuccess error:(void (^)())callbackError;
 @end
+

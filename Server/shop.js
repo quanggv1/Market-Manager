@@ -166,8 +166,10 @@ function executeUpdateShopProduct(updatedProducts, con, req, res) {
 }
 
 var updateShopStock = function (con, shopID, productID, receivedQty, productType) {
-    var shopProductTable = getShopProductTableName(productType);
-    con.query('UPDATE ' + shopProductTable + ' SET stockTake = stockTake + ? WHERE shopID = ? AND productID = ?', [receivedQty, shopID, productID],
+    var sql = 'UPDATE np_shop_products '+
+    'SET stockTake = stockTake + ? '+
+    'WHERE shopID = ? AND productID = ?';
+    con.query(sql, [receivedQty, shopID, productID],
         function (err, result) {
             if (err) { console.log(err) }
         }

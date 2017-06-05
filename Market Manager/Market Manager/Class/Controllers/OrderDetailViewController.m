@@ -12,37 +12,49 @@
 #import "SupplyManager.h"
 #import "SummaryViewController.h"
 #import "InvoiceViewController.h"
+#import "Data.h"
+#import "ShopManager.h"
 
-@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
-@property (weak, nonatomic) IBOutlet UITableView *orderFormTableView;
-@property (weak, nonatomic) IBOutlet UIButton *submitButton;
-@property (strong, nonatomic) NSMutableArray *productOrderList;
-@property (weak, nonatomic) IBOutlet UITableView *productNameTableView;
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *orderTableConstraintWidth;
+@interface OrderDetailViewController ()<UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView            *orderFormTableView;
+@property (weak, nonatomic) IBOutlet UIButton               *submitButton;
+@property (weak, nonatomic) IBOutlet UITableView            *productNameTableView;
+@property (weak, nonatomic) IBOutlet UICollectionView       *collectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint     *orderTableConstraintWidth;
+@property (weak, nonatomic) IBOutlet UIPickerView           *productsPicker;
+@property (weak, nonatomic) IBOutlet UIView                 *productsPickerView;
+
+@property (strong, nonatomic) NSMutableArray    *products;
+@property (strong, nonatomic) NSArray           *shopProducts;
+@property (strong, nonatomic) NSMutableArray    *shopProductsNotOrdered;
 @end
 
 @implementation OrderDetailViewController
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    _orderFormTableView.dataSource = self;
-    _orderFormTableView.delegate = self;
+    _orderFormTableView.dataSource      = self;
+    _orderFormTableView.delegate        = self;
     
-    _productNameTableView.delegate = self;
-    _productNameTableView.dataSource = self;
+    _productNameTableView.delegate      = self;
+    _productNameTableView.dataSource    = self;
     
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
+    _collectionView.delegate            = self;
+    _collectionView.dataSource          = self;
+    
     [self download];
     [self titleContents];
     [_collectionView reloadData];
 }
 
-- (void)viewWillLayoutSubviews {
+- (void)viewWillLayoutSubviews
+{
     [_orderTableConstraintWidth setConstant: _collectionView.contentSize.width];
 }
 
-- (NSArray *)titleContents {
+- (NSArray *)titleContents
+{
     if(!_titleContents) {
         _titleContents = [[NSMutableArray alloc] init];
         [_titleContents addObject:@"Order"];
@@ -56,59 +68,100 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [_submitButton setUserInteractionEnabled:([[ProductManager sharedInstance] getProductType] != kFoods)];
     self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", _shop.name, _order.date];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+#pragma mark -- add new product
+- (IBAction)onAddClicked:(id)sender
+{
+    [self getShopProducts];
 }
 
-- (void)download {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kOrderID:_order.ID,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [manager GET:API_GET_ORDER_DETAIL
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 _productOrderList = [[NSMutableArray alloc] init];
-                 for (NSDictionary *item in [responseObject objectForKey:kData]) {
-                     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
-                     [_productOrderList addObject:dict];
-                 }
-                 [_orderFormTableView reloadData];
-                 [_productNameTableView reloadData];
-             } else {
-                 [CallbackAlertView setCallbackTaget:titleError
-                                             message:msgSomethingWhenWrong
-                                              target:self
-                                             okTitle:btnOK
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             }
-             [self hideActivity];
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-             [self hideActivity];
-             [CallbackAlertView setCallbackTaget:titleError
-                                         message:msgConnectFailed
-                                          target:self
-                                         okTitle:btnOK
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];
-         }];
+- (void)getShopProducts
+{
+    if (_shopProducts) {
+        [self updateProductPickerDatasource];
+    } else {
+        [[ShopManager sharedInstance] getShopProductsWithDate:[Utils stringTodayDateTime] shop:_shop success:^(NSArray *products) {
+            _shopProducts = products;
+            [self updateProductPickerDatasource];
+         } error:nil];
+    }
 }
 
-- (IBAction)onSubmit:(id)sender {
-    NSDictionary *params = @{kProduct:@([[ProductManager sharedInstance] getProductType]),
-                             kParams: [Utils objectToJsonString:_productOrderList],
-                             kOrderID: _order.ID,
+- (void)updateProductPickerDatasource
+{
+    _shopProductsNotOrdered = [[NSMutableArray alloc] init];
+    for (Product *originProduct in _shopProducts) {
+        BOOL isExisted = NO;
+        for (Product *product in _products) {
+            if ([originProduct.name isEqualToString: product.name]) {
+                isExisted = YES;
+            }
+        }
+        if (!isExisted) {
+            [_shopProductsNotOrdered addObject:originProduct];
+        }
+    }
+    [self showProductsWillBeAdded];
+}
+
+- (void)showProductsWillBeAdded
+{
+    [_productsPickerView setHidden: NO];
+    [_productsPicker reloadAllComponents];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _shopProductsNotOrdered.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    Product *product = _shopProductsNotOrdered[row];
+    return [NSString stringWithFormat:@"%@          %.2f $", product.name, product.price];
+    
+}
+
+
+
+#pragma mark ---------
+
+- (void)download
+{
+    NSDictionary *params = @{kOrderID:_order.ID};
+    [[Data sharedInstance] get:API_GET_ORDER_DETAIL data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == 200) {
+            _products = [[NSMutableArray alloc] init];
+            for (NSDictionary *item in [res objectForKey:kData]) {
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
+                [_products addObject:dict];
+            }
+            [_orderFormTableView reloadData];
+            [_productNameTableView reloadData];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
+}
+
+- (IBAction)onSubmit:(id)sender
+{
+    NSDictionary *params = @{kType:@([[ProductManager sharedInstance] getProductType]),
+                             kParams: [Utils objectToJsonString:_products],
+                             kId: _order.ID,
                              kShopID: _shop.ID,
                              @"whNameList": [[SupplyManager sharedInstance] getSupplyNameList]};
     [self showActivity];
@@ -135,7 +188,8 @@
          }];
 }
 
-- (IBAction)onShowReport:(id)sender {
+- (IBAction)onShowReport:(id)sender
+{
     if ([[ProductManager sharedInstance] getProductType] == kFoods) {
         [self performSegueWithIdentifier:SegueInvoiceOrderForm sender:self];
     } else {
@@ -145,27 +199,30 @@
 
 
 #pragma mark - TABLE DATASOUCE
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _productOrderList.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _products.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (tableView == self.productNameTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderFormCell"];
         NSString *strIndex = @(indexPath.row + 1).stringValue;
-        NSString *strProductName = [_productOrderList[indexPath.row] objectForKey:kProductName];
+        NSString *strProductName = [_products[indexPath.row] objectForKey:kProductName];
         ((UILabel *)[cell viewWithTag:201]).text = strIndex;
         ((UILabel *)[cell viewWithTag:202]).text = strProductName;
         return cell;
     } else {
         OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];
-        [cell setProductDic: _productOrderList[indexPath.row]];
+        [cell setProductDic: _products[indexPath.row]];
         return cell;
     }
 }
 
 #pragma mark - TABLE DELEGATE
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

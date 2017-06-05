@@ -12,6 +12,7 @@
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
 #import "Data.h"
+#import "ShopManager.h"
 
 @interface ShopDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,  UIPickerViewDelegate, UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView    *productTableView;
@@ -55,7 +56,7 @@
 - (void)deleteItemAt:(NSIndexPath *)indexPath
 {
     Product *product = _products[indexPath.row];
-    NSDictionary *params = @{kId: product.productId};
+    NSDictionary *params = @{kId: product.shopProductID};
     
     [[Data sharedInstance] get:API_REMOVE_SHOP_PRODUCT data:params success:^(id res) {
         if([[res objectForKey:kCode] integerValue] == kResSuccess) {
@@ -71,25 +72,12 @@
 
 - (void)downloadWith:(NSString *)stringDate
 {
-    NSDictionary *params = @{kShopID:_shop.ID,
-                             kDate: stringDate,
-                             kShopName: _shop.name,
-                             kType: @([[ProductManager sharedInstance] getProductType])};
-    
-    [[Data sharedInstance] get:API_GETSHOP_PRODUCTS data:params success:^(id res) {
-        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
-            NSArray *shopProducts = [res objectForKey:kData];
-            shopProducts = [[ProductManager sharedInstance] getShopProductsFromData:shopProducts];
-            _products = [NSMutableArray arrayWithArray:shopProducts];
-        } else {
-            _products = nil;
-            ShowMsgUnavaiableData;
-        }
+    [[ShopManager sharedInstance] getShopProductsWithDate:stringDate shop:_shop success:^(NSArray *products) {
+        _products = [NSMutableArray arrayWithArray:products];
         [_productTableView reloadData];
     } error:^{
         _products = nil;
         [_productTableView reloadData];
-        ShowMsgConnectFailed;
     }];
 }
 
@@ -114,7 +102,7 @@
     
     NSMutableArray *updates = [[NSMutableArray alloc] init];
     for (Product *product in _products) {
-        [updates addObject:@{kId: product.productId,
+        [updates addObject:@{kId: product.shopProductID,
                              kName: product.name,
                              kProductSTake: @(product.STake)}];
     }
@@ -221,13 +209,13 @@
 {
     Product *product = _pickerData[[_productsPicker selectedRowInComponent:0]];
     
-    NSDictionary *params = @{kProduct: @([[ProductManager sharedInstance] getProductType]),
+    NSDictionary *params = @{kType: @([[ProductManager sharedInstance] getProductType]),
                              kParams: @{kShopID: _shop.ID,
                                         kProductID: product.productId}};
     
     [[Data sharedInstance] get:API_ADD_NEW_SHOP_PRODUCT data:params success:^(id res) {
         if([[res objectForKey:kCode] intValue] == 200) {
-            product.productId = [NSString stringWithFormat:@"%@", [[res objectForKey:kData] objectForKey:kInsertID]];
+            product.shopProductID = [NSString stringWithFormat:@"%@", [[res objectForKey:kData] objectForKey:kInsertID]];
             [_products insertObject:product atIndex:0];
             [_productTableView reloadData];
             [_productsPickerView setHidden:YES];

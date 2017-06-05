@@ -7,6 +7,7 @@
 //
 
 #import "ShopManager.h"
+#import "Data.h"
 
 @implementation ShopManager {
     NSMutableArray *shopList;
@@ -67,5 +68,25 @@
         [ShopNameList addObject:item.name];
     }
     return ShopNameList;
+}
+
+- (void)getShopProductsWithDate:(NSString *)date shop:(Shop *)theShop success:(void (^)(NSArray *products))callbackSuccess error:(void (^)())callbackError
+{
+    NSDictionary *params = @{kShopID:theShop.ID,
+                             kDate: date,
+                             kShopName: theShop.name,
+                             kType: @([[ProductManager sharedInstance] getProductType])};
+    
+    [[Data sharedInstance] get:API_GETSHOP_PRODUCTS data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
+            NSArray *shopProducts = [res objectForKey:kData];
+            shopProducts = [[ProductManager sharedInstance] getShopProductsFromData:shopProducts];
+            callbackSuccess(shopProducts);
+        } else {
+            callbackError();
+        }
+    } error:^{
+        callbackError();
+    }];
 }
 @end

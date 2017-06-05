@@ -88,8 +88,6 @@
 		748B3A8A1E62C36300AA9AA6 /* ValidateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 748B3A891E62C36300AA9AA6 /* ValidateService.m */; };
 		7496AB6F1E9107D9005D8364 /* CrateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7496AB6E1E9107D9005D8364 /* CrateDetailViewController.m */; };
 		7496AB721E911C18005D8364 /* CrateDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7496AB711E911C18005D8364 /* CrateDetailTableViewCell.m */; };
-		74C5A7331E73F94200BB5B40 /* OrderFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A7321E73F94200BB5B40 /* OrderFormViewController.m */; };
-		74C5A7361E73FE2F00BB5B40 /* OrderFormTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A7351E73FE2F00BB5B40 /* OrderFormTableViewCell.m */; };
 		74C5A73A1E7466F100BB5B40 /* Crate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A7391E7466F100BB5B40 /* Crate.m */; };
 		74C5A73D1E7467A600BB5B40 /* CrateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A73C1E7467A600BB5B40 /* CrateManager.m */; };
 		74C5A7401E7468CA00BB5B40 /* CrateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C5A73F1E7468CA00BB5B40 /* CrateViewController.m */; };
@@ -108,7 +106,6 @@
 		74E904701E586189005D391D /* Supply.m in Sources */ = {isa = PBXBuildFile; fileRef = 74E9046F1E586189005D391D /* Supply.m */; };
 		74ED22271E59F7160079D3F0 /* SupplyDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */; };
 		74ED222A1E59FC660079D3F0 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22291E59FC660079D3F0 /* Order.m */; };
-		74ED222E1E59FF1E0079D3F0 /* OrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED222D1E59FF1E0079D3F0 /* OrderTableViewCell.m */; };
 		74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */; };
 		74ED22371E5A05350079D3F0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED22361E5A05350079D3F0 /* User.m */; };
 		74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74ED223A1E5A05A00079D3F0 /* UserTableViewCell.m */; };
@@ -287,10 +284,6 @@
 		7496AB6E1E9107D9005D8364 /* CrateDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrateDetailViewController.m; sourceTree = "<group>"; };
 		7496AB701E911C18005D8364 /* CrateDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrateDetailTableViewCell.h; sourceTree = "<group>"; };
 		7496AB711E911C18005D8364 /* CrateDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrateDetailTableViewCell.m; sourceTree = "<group>"; };
-		74C5A7311E73F94200BB5B40 /* OrderFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderFormViewController.h; sourceTree = "<group>"; };
-		74C5A7321E73F94200BB5B40 /* OrderFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderFormViewController.m; sourceTree = "<group>"; };
-		74C5A7341E73FE2F00BB5B40 /* OrderFormTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderFormTableViewCell.h; sourceTree = "<group>"; };
-		74C5A7351E73FE2F00BB5B40 /* OrderFormTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderFormTableViewCell.m; sourceTree = "<group>"; };
 		74C5A7381E7466F100BB5B40 /* Crate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crate.h; sourceTree = "<group>"; };
 		74C5A7391E7466F100BB5B40 /* Crate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crate.m; sourceTree = "<group>"; };
 		74C5A73B1E7467A600BB5B40 /* CrateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrateManager.h; sourceTree = "<group>"; };
@@ -323,8 +316,6 @@
 		74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyDetailViewController.m; sourceTree = "<group>"; };
 		74ED22281E59FC660079D3F0 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
 		74ED22291E59FC660079D3F0 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
-		74ED222C1E59FF1E0079D3F0 /* OrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTableViewCell.h; sourceTree = "<group>"; };
-		74ED222D1E59FF1E0079D3F0 /* OrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTableViewCell.m; sourceTree = "<group>"; };
 		74ED22321E59FF6E0079D3F0 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
 		74ED22331E59FF6E0079D3F0 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 		74ED22351E5A05350079D3F0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -797,12 +788,6 @@
 				744424ED1E6B1BE900F0ECA8 /* ShopOrderViewController.m */,
 				7466EB101E51F9A800A2C0F5 /* OrderViewController.h */,
 				7466EB111E51F9A800A2C0F5 /* OrderViewController.m */,
-				74ED222C1E59FF1E0079D3F0 /* OrderTableViewCell.h */,
-				74ED222D1E59FF1E0079D3F0 /* OrderTableViewCell.m */,
-				74C5A7311E73F94200BB5B40 /* OrderFormViewController.h */,
-				74C5A7321E73F94200BB5B40 /* OrderFormViewController.m */,
-				74C5A7341E73FE2F00BB5B40 /* OrderFormTableViewCell.h */,
-				74C5A7351E73FE2F00BB5B40 /* OrderFormTableViewCell.m */,
 				74C5A7301E73F92A00BB5B40 /* OrderDetail */,
 			);
 			name = Order;
@@ -936,7 +921,6 @@
 				748B20D61E620D8700571111 /* AddNewSupplyViewController.m in Sources */,
 				3D41D7D31E56E33A00123A71 /* UIProgressView+AFNetworking.m in Sources */,
 				3D7D258B1EAD9BD70098C2FC /* CustomerManager.m in Sources */,
-				74C5A7361E73FE2F00BB5B40 /* OrderFormTableViewCell.m in Sources */,
 				3D7D25911EADE8C60098C2FC /* CustomerDetailViewController.m in Sources */,
 				7430095A1EACB53700F87525 /* CustomerViewController.m in Sources */,
 				748B20D31E6200C200571111 /* AddNewShopViewController.m in Sources */,
@@ -972,7 +956,6 @@
 				3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */,
 				7466EB0F1E51F8C900A2C0F5 /* MenuCell.m in Sources */,
 				3D41D79C1E55903800123A71 /* IQBarButtonItem.m in Sources */,
-				74ED222E1E59FF1E0079D3F0 /* OrderTableViewCell.m in Sources */,
 				74C5A73D1E7467A600BB5B40 /* CrateManager.m in Sources */,
 				BC7E61B01E7679A200C057AD /* SummaryTableViewCell.m in Sources */,
 				3D41D7981E55903800123A71 /* IQUIWindow+Hierarchy.m in Sources */,
@@ -1011,7 +994,6 @@
 				3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */,
 				7496AB6F1E9107D9005D8364 /* CrateDetailViewController.m in Sources */,
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
-				74C5A7331E73F94200BB5B40 /* OrderFormViewController.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
 				743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */,
 				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,

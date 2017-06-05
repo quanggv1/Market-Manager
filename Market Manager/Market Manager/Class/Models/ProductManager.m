@@ -105,7 +105,8 @@
         Product *product = [[Product alloc] initShopProduct:dictionary];
         [shopProducts addObject:product];
     }
-    return shopProducts;
+    return [Utils sortArray:shopProducts withDescription:@"name"];
+
 }
 
 - (NSArray *)getWarehouseProductsFromData:(NSArray *)theArray

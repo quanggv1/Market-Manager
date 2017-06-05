@@ -97,7 +97,8 @@ var refreshDataForNewDay = function (con, req, res) {
 var addNewWarehouse = function (con, req, res) {
     var whName = req.query.params.whName;
     var whDesc = req.query.params.description;
-    con.query('INSERT INTO warehouse SET ?', req.query.params, function (err, result) {
+    var sql = 'INSERT INTO warehouse SET ?';
+    con.query(sql, [req.query.params], function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -105,9 +106,7 @@ var addNewWarehouse = function (con, req, res) {
             res.send({ code: 200, data: { insertId: result.insertId } });
         }
     })
-    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_VEGETABLE + ' ADD `' + whName + '` int NOT NULL')
-    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_MEAT + ' ADD `' + whName + '` int NOT NULL')
-    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_FOOD + ' ADD `' + whName + '` int NOT NULL')
+    con.query('ALTER TABLE np_order_detail ADD `' + whName + '` int NOT NULL')
 }
 
 var removeWarehouse = function (con, req, res) {
@@ -204,7 +203,9 @@ var getWarehouseNameList = function (con, onSuccess, onError) {
 
 var updateWarehouseStock = function (con, whName, productID, outQuantity, productType) {
     var whProductTable = getWarehouseProductTableName(productType);
-    var sql = 'UPDATE ' + whProductTable + ' SET outQuantity = outQuantity + ?, total = total - ? WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?';
+    var sql = 'UPDATE np_warehouse_products ' +
+        'SET outQuantity = outQuantity + ?, total = total - ? ' +
+        'WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?';
     con.query(sql, [outQuantity, outQuantity, whName, productID],
         function (err, result) {
             if (err) { console.log(err) }
@@ -216,8 +217,10 @@ var checkTotalWarehouseProduct = function (con, req, res) {
     var pd_ID = req.query.productID;
     var whName = req.query.whName;
     var receivedQty = req.query.receivedQty;
-    var whProductTable = getWarehouseProductTableName(req.query.productType);
-    con.query('SELECT total FROM ' + whProductTable + ' WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?', [whName, pd_ID], function (err, result) {
+    var sql = 'SELECT total ' +
+        'FROM np_warehouse_products ' +
+        'WHERE whID IN(SELECT whID FROM warehouse WHERE whName = ?) AND productID = ?';
+    con.query(sql, [whName, pd_ID], function (err, result) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);

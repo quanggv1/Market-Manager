@@ -58,8 +58,9 @@
     self = [super init];
     if (self) {
         
-        self.productId = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kId]];
+        self.shopProductID = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kId]];
         self.name = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kName]];
+        self.productId = [NSString stringWithFormat:@"%@", [theDictionary objectForKey:kProductID]];
         
 //        id description = [theDictionary objectForKey:kDescription];
 //        self.productDesc = (description) ? [NSString stringWithFormat:@"%@", description] : @"";
