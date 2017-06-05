@@ -212,6 +212,10 @@ app.get('/addNewOrder', function (req, res) {
   ORDER.addNewOrder(con, req, res);
 })
 
+app.get('/addNewOrderDetail', function (req, res) {
+  ORDER.addNewOrderDetail(con, req, res);
+})
+
 app.get('/updateNewOrder', function (req, res) {
   ORDER.updateNewOrder(con, req, res);
 })

@@ -144,6 +144,7 @@ static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 #define API_GET_CUSTOMERS [SERVER stringByAppendingString:@"getCustomers"]
 #define API_UPDATE_CUSTOMER [SERVER stringByAppendingString:@"updateCustomer"]
 #define API_REMOVE_ORDER [SERVER stringByAppendingString:@"removeOrder"]
+#define API_ADD_NEW_ORDER_DETAIL [SERVER stringByAppendingString:@"addNewOrderDetail"]
 
 
 
@@ -153,7 +154,7 @@ static NSString *const kProductName = @"name";
 static NSString *const kProductDesc = @"description";
 static NSString *const kProductPrice = @"price";
 static NSString *const kProductTableName = @"product";
-static NSString *const kProductID = @"productId";
+static NSString *const kProductID = @"productID";
 static NSString *const kProductSTake = @"stockTake";
 static NSString *const kProductOrder = @"order_quantity";
 static NSString *const kShopProductID = @"shopProductID";

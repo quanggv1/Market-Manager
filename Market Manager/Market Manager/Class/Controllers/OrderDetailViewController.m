@@ -78,6 +78,7 @@
 #pragma mark -- add new product
 - (IBAction)onAddClicked:(id)sender
 {
+    if (!_productNameTableView.hidden) return
     [self getShopProducts];
 }
 
@@ -98,14 +99,18 @@
     _shopProductsNotOrdered = [[NSMutableArray alloc] init];
     for (Product *originProduct in _shopProducts) {
         BOOL isExisted = NO;
-        for (Product *product in _products) {
-            if ([originProduct.name isEqualToString: product.name]) {
+        for (NSDictionary *product in _products) {
+            if ([originProduct.name isEqualToString: [product objectForKey:kName]]) {
                 isExisted = YES;
             }
         }
         if (!isExisted) {
             [_shopProductsNotOrdered addObject:originProduct];
         }
+    }
+    if (_shopProductsNotOrdered.count == 0) {
+        [CallbackAlertView setCallbackTaget:nil message:@"" target:self okTitle:btnOK okCallback:nil cancelTitle:nil cancelCallback:nil];
+        return;
     }
     [self showProductsWillBeAdded];
 }
@@ -130,10 +135,41 @@
 {
     Product *product = _shopProductsNotOrdered[row];
     return [NSString stringWithFormat:@"%@          %.2f $", product.name, product.price];
+}
+
+- (IBAction)onPickerSelected:(id)sender
+{
+    NSInteger index = [_productsPicker selectedRowInComponent:0];
+    Product *product = _shopProductsNotOrdered[index];
+    [self addNewOrderDetail: product];
     
 }
 
+- (IBAction)onPickerCancel:(id)sender
+{
+    [_productsPickerView setHidden: YES];
+}
 
+- (void)addNewOrderDetail:(Product *)product
+{
+    NSDictionary *params = @{kParams: @{kOrderID:_order.ID,
+                                        kProductID: product.productId}};
+    
+    [[Data sharedInstance] get:API_ADD_NEW_ORDER_DETAIL data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == 200) {
+            NSDictionary *result = [res objectForKey:kData];
+            NSMutableDictionary *product = [NSMutableDictionary dictionaryWithDictionary:result];
+            [_products addObject:product];
+            [_productNameTableView reloadData];
+            [_productsPickerView setHidden: YES];
+            [_orderFormTableView reloadData];
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
+}
 
 #pragma mark ---------
 
@@ -209,7 +245,7 @@
     if (tableView == self.productNameTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderFormCell"];
         NSString *strIndex = @(indexPath.row + 1).stringValue;
-        NSString *strProductName = [_products[indexPath.row] objectForKey:kProductName];
+        NSString *strProductName = [_products[indexPath.row] objectForKey:kName];
         ((UILabel *)[cell viewWithTag:201]).text = strIndex;
         ((UILabel *)[cell viewWithTag:202]).text = strProductName;
         return cell;

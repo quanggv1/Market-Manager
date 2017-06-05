@@ -64,6 +64,29 @@ var addNewOrder = function (con, req, res) {
     });
 }
 
+var addNewOrderDetail = function (con, req, res) {
+    var params = req.query.params;
+    con.query('INSERT INTO np_order_detail SET ?', params, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            var sql = 'SELECT np_order_detail.*, np_products.name ' +
+                'FROM np_order_detail JOIN np_products ON np_order_detail.productID = np_products.id ' +
+                'WHERE np_order_detail.id = ?';
+
+            con.query(sql, [result.insertId], function (err, rows) {
+                if (err) {
+                    console.log(err);
+                    res.send(Utils.errorResp);
+                } else {
+                    res.send({ code: 200, data: rows[0] })
+                }
+            })
+        }
+    });
+}
+
 var removeOrder = function (con, req, res) {
     var orderID = req.query.id;
     var sql = 'DELETE FROM np_orders ' +
@@ -318,5 +341,6 @@ module.exports = {
     reportSumOrderEachday,
     invoiceProductByOrderID,
     invoiceCratesByOrderID,
-    removeOrder
+    removeOrder,
+    addNewOrderDetail,
 }

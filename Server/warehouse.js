@@ -119,9 +119,7 @@ var removeWarehouse = function (con, req, res) {
             res.send({ code: 200 });
         }
     })
-    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_VEGETABLE + ' DROP COLUMN `' + whName + '`')
-    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_MEAT + ' DROP COLUMN `' + whName + '`')
-    con.query('ALTER TABLE ' + Utils.Table.ORDER_INDIVIDUAL_FOOD + ' DROP COLUMN `' + whName + '`')
+    con.query('ALTER TABLE np_order_detail DROP COLUMN `' + whName + '`')
 }
 
 var addNewWarehouseProduct = function (con, req, res) {
