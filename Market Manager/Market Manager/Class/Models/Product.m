@@ -81,6 +81,7 @@
         self.STake = [[theDictionary objectForKey:kProductSTake] integerValue];
         self.outQty = [[theDictionary objectForKey:kWhOutQuantity] integerValue];
         self.inQty = [[theDictionary objectForKey:kWhInQuantity] integerValue];
+        self.whTotal = [[theDictionary objectForKey:kWhTotal] integerValue];
     }
     return self;
 }

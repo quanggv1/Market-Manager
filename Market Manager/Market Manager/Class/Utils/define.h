@@ -72,6 +72,9 @@ static NSString *const NotifyProductUpdateItem = @"NotifyProductUpdateItem";
 static NSString *const NotifyShopProductUpdate = @"NotifyShopProductUpdate";
 static NSString *const NotifyNewOrderUpdate = @"NotifyNewOrderUpdate";
 static NSString *const NotifyUpdateProfile = @"NotifyUpdateProfile";
+static NSString *const NotifyShowOrderDetail = @"NotifyShowOrderDetail";
+static NSString *const NotifyShowOrderReport = @"NotifyShowOrderReport";
+static NSString *const NotifyShowOrderInvoice = @"NotifyShowOrderInvoice";
 
 #pragma mark - Segue
 static NSString *const SegueMain = @"segueMain";

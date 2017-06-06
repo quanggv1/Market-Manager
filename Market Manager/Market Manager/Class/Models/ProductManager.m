@@ -106,7 +106,6 @@
         [shopProducts addObject:product];
     }
     return [Utils sortArray:shopProducts withDescription:@"name"];
-
 }
 
 - (NSArray *)getWarehouseProductsFromData:(NSArray *)theArray
@@ -116,7 +115,7 @@
         Product *product = [[Product alloc] initWareHouseProduct:dictionary];
         [warehouseProducts addObject:product];
     }
-    return warehouseProducts;
+    return [Utils sortArray:warehouseProducts withDescription:@"name"];
 }
 
 - (NSArray *)getProductListWith:(NSArray *)data {
@@ -125,11 +124,8 @@
         Product *product = [[Product alloc] initOriginProduct:dictionary];
         [productList addObject:product];
     }
-    NSSortDescriptor *sortDescriptor =
-    [NSSortDescriptor sortDescriptorWithKey:@"name"
-                                  ascending:YES
-                                   selector:nil];
-    return [NSMutableArray arrayWithArray:[productList sortedArrayUsingDescriptors:@[sortDescriptor]]];
+    
+    return [Utils sortArray:productList withDescription:@"name"];
 }
 
 - (BOOL)exist:(NSString *)productName type:(NSInteger)type {

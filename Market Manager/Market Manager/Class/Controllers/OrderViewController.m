@@ -13,15 +13,18 @@
 #import "SummaryViewController.h"
 #import "ProductManager.h"
 #import "Data.h"
+#import "OrderTableViewCell.h"
+#import "InvoiceViewController.h"
 
 @interface OrderViewController ()<UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView    *orderTableView;
 @property (weak, nonatomic) IBOutlet UITextField    *orderSearchTextField;
 
-@property (strong, nonatomic) NSMutableArray    *orders;
-@property (nonatomic, weak) ProductManager      *productManager;
-@property (nonatomic, assign) NSInteger         productType;
+@property (nonatomic, strong)   NSMutableArray      *orders;
+@property (nonatomic, weak)     ProductManager      *productManager;
+@property (nonatomic, assign)   NSInteger           productType;
+@property (nonatomic, weak)     Order               *orderSelected;
 @end
 
 @implementation OrderViewController
@@ -36,6 +39,38 @@
     _productType        = [_productManager getProductType];
     
     [self getOrders];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showOrderDetail:) name:NotifyShowOrderDetail object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showOrderReport:) name:NotifyShowOrderReport object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showOrderInvoice:) name:NotifyShowOrderInvoice object:nil];
+}
+
+- (void)showOrderDetail:(NSNotification *)object
+{
+    _orderSelected = [object object];
+    if([Utils hasWritePermission:_shop.name notify:YES]) {
+        [self performSegueWithIdentifier: SegueOrderDetail sender:self];
+    }
+}
+
+- (void)showOrderReport:(NSNotification *)object
+{
+    _orderSelected = [object object];
+    if([Utils hasWritePermission:_shop.name notify:YES]) {
+        [self performSegueWithIdentifier: SegueReportOrderForm sender:self];
+    }
+}
+
+- (void)showOrderInvoice:(NSNotification *)object
+{
+    _orderSelected = [object object];
+    if([Utils hasWritePermission:_shop.name notify:YES]) {
+        [self performSegueWithIdentifier: SegueInvoiceOrderForm sender:self];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -150,7 +185,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
+    OrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellOrder];
     
     UILabel *indexLbl   = [cell viewWithTag:kIndexTag];
     UILabel *dateLbl    = [cell viewWithTag:202];
@@ -159,15 +194,14 @@
     
     [dateLbl setText:order.date];
     [indexLbl setText:@(indexPath.row + 1).stringValue];
+    
+    [cell setOrder:order];
     return cell;
 }
 
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([Utils hasWritePermission:_shop.name notify:YES]) {
-        [self performSegueWithIdentifier: SegueOrderDetail sender:self];
-    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -188,8 +222,14 @@
 {
     if([segue.identifier isEqualToString:SegueOrderDetail]) {
         OrderDetailViewController *vc = segue.destinationViewController;
-        vc.order = _orders[_orderTableView.indexPathForSelectedRow.row];
+        vc.order = _orderSelected;
         vc.shop = _shop;
+    } else if([segue.identifier isEqualToString:SegueInvoiceOrderForm]) {
+        InvoiceViewController *invoice = segue.destinationViewController;
+        invoice.order = _orderSelected;
+    } else {
+        SummaryViewController *vc = segue.destinationViewController;
+        vc.order = _orderSelected;
     }
 }
 

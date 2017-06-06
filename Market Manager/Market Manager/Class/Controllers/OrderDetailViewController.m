@@ -224,16 +224,6 @@
          }];
 }
 
-- (IBAction)onShowReport:(id)sender
-{
-    if ([[ProductManager sharedInstance] getProductType] == kFoods) {
-        [self performSegueWithIdentifier:SegueInvoiceOrderForm sender:self];
-    } else {
-        [self performSegueWithIdentifier:SegueReportOrderForm sender:self];
-    }
-}
-
-
 #pragma mark - TABLE DATASOUCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -263,7 +253,8 @@
 }
 
 #pragma mark - SCROLLVIEW DELEGATE
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
     if(scrollView == _collectionView) {
         CGRect frame = _orderFormTableView.frame;
         frame.origin.x = _productNameTableView.frame.size.width - _collectionView.contentOffset.x;
@@ -275,26 +266,19 @@
 }
 
 #pragma mark - COLLECTION DATASOURCE
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
     if ([[ProductManager sharedInstance] getProductType] == kFoods) return 1;
     return _titleContents.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"orderDetailTitleCollectionViewCellID" forIndexPath:indexPath];
     ((UILabel *)[cell viewWithTag:203]).text = _titleContents[indexPath.row];
     return cell;
 }
 
-#pragma mark - SEGUE DELEGATE 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:SegueInvoiceOrderForm]) {
-        InvoiceViewController *invoice = segue.destinationViewController;
-        invoice.order = self.order;
-    } else {
-        SummaryViewController *vc = segue.destinationViewController;
-        vc.order = _order;
-    }
-}
+#pragma mark - SEGUE DELEGATE
 
 @end

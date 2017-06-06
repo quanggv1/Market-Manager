@@ -60,7 +60,7 @@
 
 - (void)downloadWith:(NSString *)date{
     NSDictionary *params = @{kDate: date,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
+                             kType: @([[ProductManager sharedInstance] getProductType])};
     [[Data sharedInstance] get:API_REPORT_SUM_ORDER_EACHDAY data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == 200) {
             _titleList = [[res objectForKey:kData] objectForKey:@"titles"];

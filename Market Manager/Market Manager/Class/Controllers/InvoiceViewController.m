@@ -8,6 +8,7 @@
 
 #import "InvoiceViewController.h"
 #import "ProductManager.h"
+#import "Data.h"
 
 @interface InvoiceViewController () <UIWebViewDelegate> {
     NSMutableArray *productsInvoice, *cratesInvoice;
@@ -31,41 +32,25 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)download:(NSString *)apiName {
-    [self showActivity];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
     NSDictionary *params = @{kOrderID:_order.ID,
-                             kProduct: @([[ProductManager sharedInstance] getProductType])};
-    [manager GET:apiName
-      parameters:params
-        progress:nil
-         success:^(NSURLSessionDataTask * task, id responseObject) {
-             if ([[responseObject objectForKey:kCode] integerValue] == 200) {
-                 if([apiName isEqualToString:API_INVOICE_PRODUCT]){
-                     productsInvoice = [NSMutableArray arrayWithArray:[responseObject objectForKey:kData]];
-                     [self download:API_INVOICE_CRATES];
-                 } else {
-                     cratesInvoice = [NSMutableArray arrayWithArray:[responseObject objectForKey:kData]];
-                     [self createPDF];
-                 }
-             } else {
-                 [CallbackAlertView setCallbackTaget:titleError
-                                             message:msgSomethingWhenWrong
-                                              target:self
-                                             okTitle:btnOK
-                                          okCallback:nil
-                                         cancelTitle:nil
-                                      cancelCallback:nil];
-             }
-         } failure:^(NSURLSessionDataTask * task, NSError * error) {
-             [self hideActivity];
-             [CallbackAlertView setCallbackTaget:titleError
-                                         message:msgConnectFailed
-                                          target:self
-                                         okTitle:btnOK
-                                      okCallback:nil
-                                     cancelTitle:nil
-                                  cancelCallback:nil];
-         }];
+                             kType: @([[ProductManager sharedInstance] getProductType])};
+    
+    [[Data sharedInstance] get:apiName data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == 200) {
+            if([apiName isEqualToString:API_INVOICE_PRODUCT]){
+                productsInvoice = [NSMutableArray arrayWithArray:[res objectForKey:kData]];
+                [self download:API_INVOICE_CRATES];
+            } else {
+                cratesInvoice = [NSMutableArray arrayWithArray:[res objectForKey:kData]];
+                [self createPDF];
+            }
+        } else {
+            ShowMsgSomethingWhenWrong;
+        }
+    } error:^{
+        ShowMsgConnectFailed;
+    }];
 }
 
 - (void)createPDF {

@@ -6,8 +6,6 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Product.h"
 @interface SummaryTableViewCell : UITableViewCell<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lbOrder;
 @property (weak, nonatomic) IBOutlet UILabel *lbReceived;
@@ -16,6 +14,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbProductName;
 @property (weak, nonatomic) IBOutlet UILabel *lbCrateQty;
 @property (weak, nonatomic) IBOutlet UILabel *lbCrateType;
-@property (weak, nonatomic) Product *product;
-- (void)setProduct:(Product *)product;
+- (void)setProduct:(NSDictionary *)dict;
 @end

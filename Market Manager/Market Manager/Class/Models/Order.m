@@ -12,9 +12,10 @@
 - (instancetype)initWith:(NSDictionary *)data {
     self = [super init];
     if(self) {
-        self.ID = [NSString stringWithFormat:@"%@", [data objectForKey:kId]];
-        self.date = [NSString stringWithFormat:@"%@",[data objectForKey:kDate]];
-        self.type = [[data objectForKey:kType] integerValue];
+        self.ID     = [NSString stringWithFormat:@"%@", [data objectForKey:kId]];
+        self.date   = [NSString stringWithFormat:@"%@",[data objectForKey:kDate]];
+        self.type   = [[data objectForKey:kType] integerValue];
+        self.shopID = [NSString stringWithFormat:@"%@",[data objectForKey:kShopID]];
     }
     return self;
 }

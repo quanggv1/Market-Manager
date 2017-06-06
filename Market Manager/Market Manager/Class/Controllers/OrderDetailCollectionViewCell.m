@@ -53,6 +53,7 @@
                                                   textField.text = result;
                                                   [_productDic setValue:result forKey:_key];
                                               }];
+        [Utils hideKeyboard];
     }
 }
 
@@ -93,8 +94,9 @@
 
 - (void)updateWarehouse
 {
+    NSInteger valueChange = [_textField.text integerValue] - [[_productDic objectForKey:_key] integerValue];
     NSDictionary *params = @{kProductID: [NSString stringWithFormat:@"%@", [_productDic objectForKey:kProductID]],
-                             @"receivedQty": _textField.text,
+                             @"receivedQty": @(valueChange),
                              kWhName: _key,
                              kType:@([[ProductManager sharedInstance] getProductType])};
     

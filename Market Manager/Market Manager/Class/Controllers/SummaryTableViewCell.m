@@ -20,15 +20,14 @@
 
     // Configure the view for the selected state
 }
--(void)setProduct:(Product *)product {
-    _product = product;
-    _lbProductName.text = _product.name;
-    _lbOrder.text = @(_product.order).stringValue;
-    _lbTotal.text = @(_product.reportTotal).stringValue;
-    _lbReceived.text = @(_product.reportReceived).stringValue;
-    _lbQuantityNeeded.text = @(_product.reportQuantityNeed).stringValue;
-    _lbCrateQty.text = @(_product.crateQty).stringValue;
-    _lbCrateType.text = @(_product.crateType).stringValue;
+-(void)setProduct:(NSDictionary *)dict {
+    _lbProductName.text         = [NSString stringWithFormat:@"%@", [dict objectForKey:kName]];
+    _lbOrder.text               = [NSString stringWithFormat:@"%@", [dict objectForKey:kOrderQty]];
+    _lbTotal.text               = [NSString stringWithFormat:@"%@", [dict objectForKey:kWhTotal]];
+    _lbReceived.text            = [NSString stringWithFormat:@"%@", [dict objectForKey:@"received"]];
+    _lbQuantityNeeded.text      = [NSString stringWithFormat:@"%@", [dict objectForKey:@"quantity_need"]];
+    _lbCrateQty.text            = [NSString stringWithFormat:@"%@", [dict objectForKey:@"crate_qty"]];
+    _lbCrateType.text           = [NSString stringWithFormat:@"%@", [dict objectForKey:@"crateType"]];
 }
 
 @end
