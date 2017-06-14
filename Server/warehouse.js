@@ -106,7 +106,8 @@ var addNewWarehouse = function (con, req, res) {
             res.send({ code: 200, data: { insertId: result.insertId } });
         }
     })
-    con.query('ALTER TABLE np_order_detail ADD `' + whName + '` int NOT NULL')
+    con.query('ALTER TABLE np_order_detail ADD `' + whName + '` int NOT NULL');
+    con.query('ALTER TABLE np_order_detail ADD `' + whName + ' receive expected' + '` int NOT NULL');
 }
 
 var removeWarehouse = function (con, req, res) {
@@ -120,6 +121,7 @@ var removeWarehouse = function (con, req, res) {
         }
     })
     con.query('ALTER TABLE np_order_detail DROP COLUMN `' + whName + '`')
+    con.query('ALTER TABLE np_order_detail DROP COLUMN `' + whName + ' receive expected' + '`');
 }
 
 var addNewWarehouseProduct = function (con, req, res) {
@@ -231,6 +233,12 @@ var checkTotalWarehouseProduct = function (con, req, res) {
         }
     });
 }
+
+var updateWarehouseExpected = function (con, req, res) {
+    // UPDATE `np_order_detail` SET `WH1 receive expected` = 20 WHERE productID = '87' AND orderID in (SELECT id FROM np_orders WHERE date = '2017-06-14' AND shopID IN (SELECT shopID FROM shop WHERE shopName = 'Giraween'))
+}
+
+
 
 module.exports = {
     getWarehouseProducts,

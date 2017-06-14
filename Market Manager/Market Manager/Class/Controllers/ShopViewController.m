@@ -44,7 +44,8 @@
 - (void)deleteItemAt:(NSIndexPath *)indexPath
 {
     Shop *deletedShop = _shops[indexPath.row];
-    NSDictionary *params = @{kShopID: deletedShop.ID};
+    NSDictionary *params = @{kShopID: deletedShop.ID,
+                             kShopName: deletedShop.name};
     
     [[Data sharedInstance] get:API_REMOVE_SHOP data:params success:^(id res) {
         if([[res objectForKey:kCode] integerValue] == kResSuccess) {

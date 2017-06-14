@@ -17,6 +17,7 @@ var getShops = function (con, req, res) {
 
 var addNewShop = function (con, req, res) {
     var params = req.query.params;
+    var shopName = params.shopName;
     console.log(params);
     con.query('INSERT INTO shop SET ?', params, function (err, result) {
         if (err) {
@@ -26,10 +27,12 @@ var addNewShop = function (con, req, res) {
             res.send({ code: 200, data: { insertId: result.insertId } });
         }
     });
+    con.query('ALTER TABLE np_wh_expected ADD `' + shopName + '` int NOT NULL')
 }
 
 var removeShop = function (con, req, res) {
     var shopID = req.query.shopID;
+    var shopName = req.query.shopName;
     con.query('DELETE FROM shop WHERE shopID = ?', shopID, function (err, result) {
         if (err) {
             console.log(err);
@@ -42,6 +45,7 @@ var removeShop = function (con, req, res) {
             }
         }
     });
+    con.query('ALTER TABLE np_wh_expected DROP COLUMN `' + shopName + '`')
 }
 
 var addNewShopProduct = function (con, req, res) {

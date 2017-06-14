@@ -66,6 +66,7 @@ var addNewOrder = function (con, req, res) {
 
 var addNewOrderDetail = function (con, req, res) {
     var params = req.query.params;
+    var date   = req.query.date;
     con.query('INSERT INTO np_order_detail SET ?', params, function (err, result) {
         if (err) {
             console.log(err);
@@ -80,11 +81,29 @@ var addNewOrderDetail = function (con, req, res) {
                     console.log(err);
                     res.send(Utils.errorResp);
                 } else {
-                    res.send({ code: 200, data: rows[0] })
+                    var newProduct = rows[0];
+                    addNewIntoWhExpectedTable(newProduct.productID, date, con);
+                    res.send({ code: 200, data: newProduct })
                 }
             })
         }
     });
+}
+
+function addNewIntoWhExpectedTable(productID, date, con) {
+    con.query('SELECT * FROM np_wh_expected WHERE productID = ? AND date = ?', [productID, date], function(err, rows) {
+        if (err) {
+            console.log(err);
+        } else {
+            if (!rows.length || rows.length == 0) {
+                con.query('INSERT INTO np_wh_expected (productID, date) VALUES (?, ?)', [productID, date], function(err, result) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+            }
+        }
+    })
 }
 
 var removeOrder = function (con, req, res) {
@@ -350,35 +369,6 @@ var invoiceCratesByOrderID = function (con, req, res) {
             res.send({ code: 200, data: rows });
         }
     });
-}
-
-var getExpectedReceived = function (con, req, res) {
-    var orderID = req.query.orderID;
-    var date = req.query.date;
-
-    var sql = 'SELECT np_products.name, np_order_detail.productID, orderID, order_quantity, np_orders.shopID, shop.shopName'+
-    'FROM np_order_detail '+
-    'JOIN np_orders ON np_order_detail.orderID = np_orders.id '+
-    'JOIN shop ON np_orders.shopID = shop.shopID '+
-    'join np_products ON np_products.id = np_order_detail.productID '+
-    'WHERE orderID in (SELECT id FROM np_orders WHERE date = ? AND type = ?)'
-
-    con.query(sql, [date, orderID], function (err, rows) {
-        if (err) {
-            console.log(err);
-            res.send(Utils.errorResp);
-        } else {
-            rows.forEach(function(item) {
-
-            })
-
-        }
-    });
-
-
-
-
-
 }
 
 module.exports = {

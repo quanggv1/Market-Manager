@@ -153,7 +153,8 @@
 - (void)addNewOrderDetail:(Product *)product
 {
     NSDictionary *params = @{kParams: @{kOrderID:_order.ID,
-                                        kProductID: product.productId}};
+                                        kProductID: product.productId},
+                             kDate: [Utils stringTodayDateTime]};
     
     [[Data sharedInstance] get:API_ADD_NEW_ORDER_DETAIL data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == 200) {
