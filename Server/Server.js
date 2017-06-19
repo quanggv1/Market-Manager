@@ -176,6 +176,14 @@ app.get('/removeWarehouseProduct', function (req, res) {
   WH.removeWarehouseProduct(con, req, res);
 })
 
+app.get('/updateWarehouseExpected', function (req, res) {
+  WH.updateWarehouseExpected(con, req, res);
+})
+
+app.get('/getWarehouseExpected', function (req, res) {
+  WH.getWarehouseExpected(con, req, res);
+})
+
 /** CRATES */
 
 app.get('/getCrates', function (req, res) {

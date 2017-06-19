@@ -235,11 +235,102 @@ var checkTotalWarehouseProduct = function (con, req, res) {
 }
 
 var updateWarehouseExpected = function (con, req, res) {
-    // UPDATE `np_order_detail` SET `WH1 receive expected` = 20 WHERE productID = '87' AND orderID in (SELECT id FROM np_orders WHERE date = '2017-06-14' AND shopID IN (SELECT shopID FROM shop WHERE shopName = 'Giraween'))
+    var params = req.query;
+    var shopName = params.shopName;
+    var id = params.id;
+    var whName = params.whName + ' receive expected';
+    var value = params.value;
+    var productID = params.productID;
+    var date = params.date;
+
+
+    var sql = 'UPDATE np_wh_expected ' +
+        'SET `' + shopName + '` = ? ' +
+        'WHERE id = ?'
+
+    con.query(sql, [value, id], function (err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            var updateOrderDetailSQL = 'UPDATE np_order_detail ' +
+                'SET `' + whName + '` = ? ' +
+                'WHERE productID = ? ' +
+                'AND orderID in (SELECT id ' +
+                'FROM np_orders ' +
+                'WHERE date = ? ' +
+                'AND shopID IN (SELECT shopID FROM shop WHERE shopName = ?))'
+            con.query(updateOrderDetailSQL, [value, productID, date, shopName], function (err) {
+                if (err) {
+                    console.log(err);
+                    res.send(Utils.errorResp);
+                } else {
+                    res.send({ code: 200 });
+                }
+            });
+        }
+    })
 }
 
+var getWarehouseExpected = function (con, req, res) {
+    var date = req.query.date;
+    var whID = req.query.whID;
 
+    var sqlGetProductsByWhID = 'SELECT np_wh_expected.*, np_products.name ' +
+        'FROM np_wh_expected ' +
+        'JOIN np_products ON productID = np_products.id ' +
+        'WHERE whID = ?';
 
+    var sqlGetProductsByDefault = 'SELECT * FROM `np_wh_expected` WHERE whID = 0';
+
+    con.query(sqlGetProductsByWhID, [whID], function (err, rows) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            if (rows.length > 0) {
+                res.send({ code: 200, data: rows });
+            } else {
+                con.query(sqlGetProductsByDefault, function (err, rows) {
+                    if (err) {
+                        console.log(err);
+                        res.send(Utils.errorResp);
+                    } else {
+                        if (rows.length > 0) {
+                            rows.forEach(function (item) {
+                                delete item.id;
+                                item.whID = whID;
+                            })
+                            console.log(rows);
+                            insertWhExpected(con, req, res, rows);
+                        } else {
+                            console.log('Khong co du lieu');
+                            res.send(Utils.errorResp);
+                        }
+                    }
+                })
+            }
+        }
+    })
+}
+
+function insertWhExpected(con, req, res, rows) {
+    if (rows.length > 0) {
+        var sqlInsert = 'INSERT INTO np_wh_expected SET ?'
+        con.query(sqlInsert, rows[0], function (err) {
+            if (err) {
+                console.log(err);
+                res.send(Utils.errorResp);
+            } else {
+                rows.shift()
+                insertWhExpected(con, req, res, rows);
+            }
+        })
+    } else {
+        getWarehouseExpected(con, req, res);
+    }
+}
+    
 module.exports = {
     getWarehouseProducts,
     addNewWarehouse,
@@ -250,5 +341,7 @@ module.exports = {
     checkTotalWarehouseProduct,
     addNewWarehouseProduct,
     removeWarehouseProduct,
-    getWarehouseProductTableName
+    getWarehouseProductTableName,
+    updateWarehouseExpected,
+    getWarehouseExpected
 }

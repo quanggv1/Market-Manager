@@ -18,8 +18,14 @@
 @property (weak, nonatomic) IBOutlet UITextField    *productSearchTextField;
 @property (nonatomic, weak) IBOutlet UIPickerView   *productsPicker;
 @property (nonatomic, weak) IBOutlet UIView         *productsPickerView;
+
+@property (weak, nonatomic) IBOutlet UITableView            *expectedTableView;
+@property (weak, nonatomic) IBOutlet UITableView            *productNameTableView;
+@property (weak, nonatomic) IBOutlet UICollectionView       *titleCollectionView;
+
 @property (nonatomic, strong) NSMutableArray    *pickerData;
 @property (nonatomic, weak) ProductManager      *productManager;
+@property (strong, nonatomic) NSMutableArray    *productsExpected;
 @end
 
 @implementation SupplyDetailViewController {
@@ -51,17 +57,6 @@
     self.navigationItem.title = _supply.name;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)deleteItem:(NSNotification *)notificaion
 {
     NSIndexPath *indexPath = [notificaion object];
@@ -83,6 +78,7 @@
             products = [[ProductManager sharedInstance] getWarehouseProductsFromData:products];
             _products = [NSMutableArray arrayWithArray:products];
             [_productTableView reloadData];
+            [self getProductsExpected:date];
         } else {
             _products = nil;
             [_productTableView reloadData];
@@ -91,6 +87,27 @@
     } error:^{
         _products = nil;
         [_productTableView reloadData];
+        ShowMsgConnectFailed;
+    }];
+}
+
+- (void)getProductsExpected:(NSString *)date
+{
+    NSDictionary *params = @{kDate: date,
+                            kWarehouseID: _supply.ID};
+    
+    [[Data sharedInstance] get:API_GET_WAREHOUSE_EXPECTED data:params success:^(id res) {
+        if ([[res objectForKey:kCode] integerValue] == 200) {
+            _productsExpected = [[NSMutableArray alloc] init];
+            NSArray *products = [res objectForKey:kData];
+            for (NSDictionary *item in products) {
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
+                [_productsExpected addObject:dict];
+            }
+        } else {
+            ShowMsgUnavaiableData;
+        }
+    } error:^{
         ShowMsgConnectFailed;
     }];
 }

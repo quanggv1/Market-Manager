@@ -97,6 +97,7 @@
 }
 
 - (IBAction)onSaveClicked:(id)sender {
+    
     if (![Utils hasWritePermission:_shop.name notify:YES]) return;
     if (![searchDate isEqualToString:today]) return;
     
