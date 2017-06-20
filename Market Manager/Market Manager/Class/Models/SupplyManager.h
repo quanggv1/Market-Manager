@@ -18,4 +18,6 @@
 - (void)deleteAll;
 - (NSArray *)getSupplyNameList;
 - (BOOL)exist:(NSString *)warehouseName;
+- (void)setCurrentWarehouseName:(NSString *)name;
+- (NSString *)getCurrentWarehouseName;
 @end

@@ -54,6 +54,10 @@ static NSString *const CellWarehouseProduct = @"SupplyProductTableViewCellID";
 static NSString *const CellSummaryQtyNeed = @"SummaryQtyNeedTableViewCellID";
 static NSString *const CellCrateDetail = @"CrateDetailTableViewCellID";
 static NSString *const CellCustomer = @"CustomerCellID";
+static NSString *const CellWarehouseExpectedName = @"CellWarehouseExpectedName";
+static NSString *const CellWarehouseExpectedProducts = @"CellWarehouseExpectedProducts";
+static NSString *const CellWarehouseExpectedTitleCollection = @"CellWarehouseExpectedTitleCollection";
+
 
 
 #pragma mark - Color
@@ -149,6 +153,8 @@ static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 #define API_REMOVE_ORDER [SERVER stringByAppendingString:@"removeOrder"]
 #define API_ADD_NEW_ORDER_DETAIL [SERVER stringByAppendingString:@"addNewOrderDetail"]
 #define API_GET_WAREHOUSE_EXPECTED [SERVER stringByAppendingString:@"getWarehouseExpected"]
+#define API_UPDATE_WAREHOUSE_EXPECTED [SERVER stringByAppendingString:@"updateWarehouseExpected"]
+
 
 
 

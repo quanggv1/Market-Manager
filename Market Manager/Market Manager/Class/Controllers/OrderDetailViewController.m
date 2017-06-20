@@ -44,8 +44,6 @@
     _collectionView.dataSource          = self;
     
     [self download];
-    [self titleContents];
-    [_collectionView reloadData];
 }
 
 - (void)viewWillLayoutSubviews
@@ -58,11 +56,17 @@
     if(!_titleContents) {
         _titleContents = [[NSMutableArray alloc] init];
         [_titleContents addObject:@"Order"];
-        for (NSString *item in [[SupplyManager sharedInstance] getSupplyNameList]) {
-            [_titleContents addObject:item];
+        for (NSString *whName in [[SupplyManager sharedInstance] getSupplyNameList]) {
+            NSString *whExpected = [whName stringByAppendingString:@" receive expected"];
+            NSString *balance = [@"balance of " stringByAppendingString:whName];
+            [_titleContents addObject:whName];
+            [_titleContents addObject:whExpected];
+            [_titleContents addObject:balance];
         }
         [_titleContents addObject:@"Crate Q.ty"];
         [_titleContents addObject:@"Crate Type"];
+//        [_titleContents addObject:@"Total receive expected"];
+//        [_titleContents addObject:@"Total balance"];
     }
     return _titleContents;
 }
@@ -142,7 +146,6 @@
     NSInteger index = [_productsPicker selectedRowInComponent:0];
     Product *product = _shopProductsNotOrdered[index];
     [self addNewOrderDetail: product];
-    
 }
 
 - (IBAction)onPickerCancel:(id)sender
@@ -154,7 +157,8 @@
 {
     NSDictionary *params = @{kParams: @{kOrderID:_order.ID,
                                         kProductID: product.productId},
-                             kDate: [Utils stringTodayDateTime]};
+                             kDate: [Utils stringTodayDateTime],
+                             kType: @([[ProductManager sharedInstance] getProductType])};
     
     [[Data sharedInstance] get:API_ADD_NEW_ORDER_DETAIL data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == 200) {
@@ -182,10 +186,14 @@
             _products = [[NSMutableArray alloc] init];
             for (NSDictionary *item in [res objectForKey:kData]) {
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
+                
                 [_products addObject:dict];
             }
             [_orderFormTableView reloadData];
             [_productNameTableView reloadData];
+            
+            [self titleContents];
+            [_collectionView reloadData];
         } else {
             ShowMsgSomethingWhenWrong;
         }

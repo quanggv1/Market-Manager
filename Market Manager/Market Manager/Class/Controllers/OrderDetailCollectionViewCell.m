@@ -41,6 +41,8 @@
     _key = key;
     _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
     _textField.delegate = self;
+    _textField.enabled = ![_key containsString:@"receive expected"];
+    _textField.enabled = ![_key containsString:@"balance of "];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

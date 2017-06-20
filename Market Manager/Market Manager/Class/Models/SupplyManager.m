@@ -10,6 +10,7 @@
 
 @implementation SupplyManager {
     NSMutableArray *warehouses;
+    NSString *warehouseName;
 }
 
 + (instancetype)sharedInstance {
@@ -78,6 +79,16 @@
         }
     }
     return NO;
+}
+
+- (void)setCurrentWarehouseName:(NSString *)name
+{
+    warehouseName = name;
+}
+
+- (NSString *)getCurrentWarehouseName
+{
+    return warehouseName;
 }
 
 @end

@@ -107,7 +107,8 @@ var addNewWarehouse = function (con, req, res) {
         }
     })
     con.query('ALTER TABLE np_order_detail ADD `' + whName + '` int NOT NULL');
-    con.query('ALTER TABLE np_order_detail ADD `' + whName + ' receive expected' + '` int NOT NULL');
+    con.query('ALTER TABLE np_order_detail ADD `' + whName + ' receive expected` int NOT NULL');
+    con.query('ALTER TABLE np_order_detail ADD `balance of ' + whName + '` int NOT NULL');
 }
 
 var removeWarehouse = function (con, req, res) {
@@ -121,7 +122,8 @@ var removeWarehouse = function (con, req, res) {
         }
     })
     con.query('ALTER TABLE np_order_detail DROP COLUMN `' + whName + '`')
-    con.query('ALTER TABLE np_order_detail DROP COLUMN `' + whName + ' receive expected' + '`');
+    con.query('ALTER TABLE np_order_detail DROP COLUMN `' + whName + ' receive expected`');
+    con.query('ALTER TABLE np_order_detail DROP COLUMN `balance of ' + whName + '`');
 }
 
 var addNewWarehouseProduct = function (con, req, res) {
@@ -238,7 +240,9 @@ var updateWarehouseExpected = function (con, req, res) {
     var params = req.query;
     var shopName = params.shopName;
     var id = params.id;
-    var whName = params.whName + ' receive expected';
+    var whName = '`' + params.whName + '`';
+    var whExpected = '`' + params.whName + ' receive expected`';
+    var whBalance = '`balance of '+ params.whName +'`';
     var value = params.value;
     var productID = params.productID;
     var date = params.date;
@@ -254,7 +258,7 @@ var updateWarehouseExpected = function (con, req, res) {
             res.send(Utils.errorResp);
         } else {
             var updateOrderDetailSQL = 'UPDATE np_order_detail ' +
-                'SET `' + whName + '` = ? ' +
+                'SET ' + whExpected + ' = ?, ' + whBalance + ' = (' + whName + ' - ' + whExpected + ') ' +
                 'WHERE productID = ? ' +
                 'AND orderID in (SELECT id ' +
                 'FROM np_orders ' +
@@ -275,15 +279,16 @@ var updateWarehouseExpected = function (con, req, res) {
 var getWarehouseExpected = function (con, req, res) {
     var date = req.query.date;
     var whID = req.query.whID;
+    var type = req.query.type;
 
     var sqlGetProductsByWhID = 'SELECT np_wh_expected.*, np_products.name ' +
         'FROM np_wh_expected ' +
         'JOIN np_products ON productID = np_products.id ' +
-        'WHERE whID = ?';
+        'WHERE whID = ? AND np_wh_expected.type = ? AND date = ?';
 
-    var sqlGetProductsByDefault = 'SELECT * FROM `np_wh_expected` WHERE whID = 0';
+    var sqlGetProductsByDefault = 'SELECT * FROM `np_wh_expected` WHERE whID = 0 AND date = ? AND np_wh_expected.type = ?';
 
-    con.query(sqlGetProductsByWhID, [whID], function (err, rows) {
+    con.query(sqlGetProductsByWhID, [whID, type, date], function (err, rows) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
@@ -291,7 +296,7 @@ var getWarehouseExpected = function (con, req, res) {
             if (rows.length > 0) {
                 res.send({ code: 200, data: rows });
             } else {
-                con.query(sqlGetProductsByDefault, function (err, rows) {
+                con.query(sqlGetProductsByDefault,[date, type], function (err, rows) {
                     if (err) {
                         console.log(err);
                         res.send(Utils.errorResp);
@@ -301,7 +306,6 @@ var getWarehouseExpected = function (con, req, res) {
                                 delete item.id;
                                 item.whID = whID;
                             })
-                            console.log(rows);
                             insertWhExpected(con, req, res, rows);
                         } else {
                             console.log('Khong co du lieu');

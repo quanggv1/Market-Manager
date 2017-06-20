@@ -57,12 +57,14 @@
 		3D7D258B1EAD9BD70098C2FC /* CustomerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D258A1EAD9BD70098C2FC /* CustomerManager.m */; };
 		3D7D258E1EADAC360098C2FC /* CustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D258D1EADAC360098C2FC /* CustomerCell.m */; };
 		3D7D25911EADE8C60098C2FC /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D25901EADE8C60098C2FC /* CustomerDetailViewController.m */; };
+		3D84EE041EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D84EE031EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m */; };
 		3DA566231EE67A82009C25DC /* OrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA566221EE67A82009C25DC /* OrderTableViewCell.m */; };
 		3DA93D481E948E2300B72F70 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA93D471E948E2300B72F70 /* SettingViewController.m */; };
 		3DA93D4B1E949C6800B72F70 /* StorageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA93D4A1E949C6800B72F70 /* StorageService.m */; };
 		3DB505961E80F95300B81FD5 /* UserDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB505951E80F95300B81FD5 /* UserDetailTableViewCell.m */; };
 		3DD12EBA1E84DE3E0017FED2 /* FunctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */; };
 		3DE0F14A1E8B669300433F90 /* CrateTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */; };
+		3DEAD9901EF8D1F900D09FAC /* WhExpectedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DEAD98F1EF8D1F900D09FAC /* WhExpectedTableViewCell.m */; };
 		3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */; };
 		3DFD45B71E5EE4AC00069D7D /* ProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B61E5EE4AC00069D7D /* ProductManager.m */; };
 		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
@@ -221,6 +223,8 @@
 		3D7D258D1EADAC360098C2FC /* CustomerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerCell.m; sourceTree = "<group>"; };
 		3D7D258F1EADE8C60098C2FC /* CustomerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailViewController.h; sourceTree = "<group>"; };
 		3D7D25901EADE8C60098C2FC /* CustomerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailViewController.m; sourceTree = "<group>"; };
+		3D84EE021EF8D29E00D550E2 /* WhExpectedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhExpectedCollectionViewCell.h; sourceTree = "<group>"; };
+		3D84EE031EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhExpectedCollectionViewCell.m; sourceTree = "<group>"; };
 		3DA566211EE67A82009C25DC /* OrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTableViewCell.h; sourceTree = "<group>"; };
 		3DA566221EE67A82009C25DC /* OrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTableViewCell.m; sourceTree = "<group>"; };
 		3DA93D461E948E2300B72F70 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 		3DD12EB91E84DE3E0017FED2 /* FunctionListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionListViewController.m; sourceTree = "<group>"; };
 		3DE0F1481E8B669300433F90 /* CrateTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrateTabbarViewController.h; sourceTree = "<group>"; };
 		3DE0F1491E8B669300433F90 /* CrateTabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrateTabbarViewController.m; sourceTree = "<group>"; };
+		3DEAD98E1EF8D1F900D09FAC /* WhExpectedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhExpectedTableViewCell.h; sourceTree = "<group>"; };
+		3DEAD98F1EF8D1F900D09FAC /* WhExpectedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhExpectedTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B21E5EDEFF00069D7D /* OrderProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductTableViewCell.h; sourceTree = "<group>"; };
 		3DFD45B31E5EDEFF00069D7D /* OrderProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductTableViewCell.m; sourceTree = "<group>"; };
 		3DFD45B51E5EE4AC00069D7D /* ProductManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductManager.h; sourceTree = "<group>"; };
@@ -778,6 +784,10 @@
 				74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */,
 				748B20D41E620D8700571111 /* AddNewSupplyViewController.h */,
 				748B20D51E620D8700571111 /* AddNewSupplyViewController.m */,
+				3DEAD98E1EF8D1F900D09FAC /* WhExpectedTableViewCell.h */,
+				3DEAD98F1EF8D1F900D09FAC /* WhExpectedTableViewCell.m */,
+				3D84EE021EF8D29E00D550E2 /* WhExpectedCollectionViewCell.h */,
+				3D84EE031EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m */,
 			);
 			name = Supply;
 			sourceTree = "<group>";
@@ -956,6 +966,7 @@
 				74E904691E585DE0005D391D /* ShopDetailViewController.m in Sources */,
 				742F5FFF1E5F5DB200DB1498 /* BaseViewController.m in Sources */,
 				BC27F8A01E8963130006AC56 /* SummaryQtyNeedTableViewCell.m in Sources */,
+				3DEAD9901EF8D1F900D09FAC /* WhExpectedTableViewCell.m in Sources */,
 				74ED223E1E5A05B40079D3F0 /* UserDetailViewController.m in Sources */,
 				744424EE1E6B1BE900F0ECA8 /* ShopOrderViewController.m in Sources */,
 				3DFD45B41E5EDEFF00069D7D /* OrderProductTableViewCell.m in Sources */,
@@ -970,6 +981,7 @@
 				74ED223B1E5A05A00079D3F0 /* UserTableViewCell.m in Sources */,
 				3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */,
 				3D41D7CC1E56E33A00123A71 /* AFURLSessionManager.m in Sources */,
+				3D84EE041EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m in Sources */,
 				BC220B081E7BE644002CAE91 /* InvoiceViewController.m in Sources */,
 				3D6BF9051E6E9F8D00EA3ADB /* iCarousel.m in Sources */,
 				748B3A841E62914800AA9AA6 /* AddNewUserViewController.m in Sources */,

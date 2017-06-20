@@ -12,12 +12,19 @@
 #import "ProductDetailViewController.h"
 #import "ProductManager.h"
 #import "Data.h"
+#import "ShopManager.h"
+#import "WhExpectedTableViewCell.h"
+#import "SupplyManager.h"
 
-@interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView    *productTableView;
 @property (weak, nonatomic) IBOutlet UITextField    *productSearchTextField;
 @property (nonatomic, weak) IBOutlet UIPickerView   *productsPicker;
 @property (nonatomic, weak) IBOutlet UIView         *productsPickerView;
+@property (nonatomic, weak) IBOutlet UIView         *stockTakeView;
+@property (nonatomic, weak) IBOutlet UIView         *expectedView;
+@property (nonatomic, weak) IBOutlet UIButton       *buttonShowExpected;
+@property (nonatomic, weak) IBOutlet UIButton       *buttonShowStockTake;
 
 @property (weak, nonatomic) IBOutlet UITableView            *expectedTableView;
 @property (weak, nonatomic) IBOutlet UITableView            *productNameTableView;
@@ -25,7 +32,10 @@
 
 @property (nonatomic, strong) NSMutableArray    *pickerData;
 @property (nonatomic, weak) ProductManager      *productManager;
-@property (strong, nonatomic) NSMutableArray    *productsExpected;
+@property (nonatomic, strong) NSMutableArray    *productsExpected;
+@property (nonatomic, strong) NSMutableArray    *titleContents;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint     *whExpectedTableConstraintWidth;
 @end
 
 @implementation SupplyDetailViewController {
@@ -33,14 +43,42 @@
     NSString *today;
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [_whExpectedTableConstraintWidth setConstant: _titleCollectionView.contentSize.width];
+}
+
+- (IBAction)onShowExpected:(id)sender
+{
+    if (_buttonShowExpected.isSelected) return;
+    [self showStockTakeView:NO];
+}
+
+- (IBAction)onShowStockTake:(id)sender
+{
+    if (_buttonShowStockTake.isSelected) return;
+    [self showStockTakeView:YES];
+}
+
+- (void)showStockTakeView:(BOOL)show
+{
+    _buttonShowExpected.selected     = !show;
+    _buttonShowStockTake.selected    = show;
+    
+    _stockTakeView.hidden   = !show;
+    _expectedView.hidden    = show;
+    
+    [self.navigationItem.rightBarButtonItem setEnabled:show];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _productTableView.delegate = self;
-    _productTableView.dataSource = self;
-    _productSearchTextField.delegate = self;
-    _productsPicker.delegate = self;
-    _productsPicker.dataSource = self;
+    _productTableView.delegate          = self;
+    _productTableView.dataSource        = self;
+    _productSearchTextField.delegate    = self;
+    _productsPicker.delegate            = self;
+    _productsPicker.dataSource          = self;
     
     _productManager = [ProductManager sharedInstance];
     
@@ -49,6 +87,19 @@
     searchDate = today;
     
     [self downloadWith:today];
+    [self getTitleContent];
+    [self showStockTakeView:YES];
+    
+    [[SupplyManager sharedInstance] setCurrentWarehouseName:_supply.name];
+}
+
+- (void)getTitleContent
+{
+    _titleContents = [[NSMutableArray alloc] init];
+    for (NSString *item in [[ShopManager sharedInstance] getShopNameList]) {
+        [_titleContents addObject:item];
+    }
+    [_titleCollectionView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -65,6 +116,7 @@
                              withRowAnimation:UITableViewRowAnimationFade];
 }
 
+
 - (void)downloadWith:(NSString *)date
 {
     NSDictionary *params = @{kWarehouseID:_supply.ID,
@@ -78,12 +130,11 @@
             products = [[ProductManager sharedInstance] getWarehouseProductsFromData:products];
             _products = [NSMutableArray arrayWithArray:products];
             [_productTableView reloadData];
-            [self getProductsExpected:date];
         } else {
             _products = nil;
             [_productTableView reloadData];
-            ShowMsgUnavaiableData;
         }
+        [self getProductsExpected:date];
     } error:^{
         _products = nil;
         [_productTableView reloadData];
@@ -94,7 +145,8 @@
 - (void)getProductsExpected:(NSString *)date
 {
     NSDictionary *params = @{kDate: date,
-                            kWarehouseID: _supply.ID};
+                             kWarehouseID: _supply.ID,
+                             kType: @([[ProductManager sharedInstance] getProductType])};
     
     [[Data sharedInstance] get:API_GET_WAREHOUSE_EXPECTED data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == 200) {
@@ -104,8 +156,12 @@
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
                 [_productsExpected addObject:dict];
             }
+            [_productNameTableView reloadData];
+            [_expectedTableView reloadData];
         } else {
-            ShowMsgUnavaiableData;
+            _productsExpected = [[NSMutableArray alloc] init];
+            [_productNameTableView reloadData];
+            [_expectedTableView reloadData];
         }
     } error:^{
         ShowMsgConnectFailed;
@@ -189,15 +245,34 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _products.count;
+    return (tableView == _productTableView) ? _products.count : _productsExpected.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SupplyProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseProduct];
-    ((UILabel *)[cell viewWithTag:201]).text = @(indexPath.row + 1).stringValue;
-    [cell setProduct:_products[indexPath.row]];
-    return cell;
+    if (tableView == _productTableView) {
+        SupplyProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseProduct];
+        
+        UILabel *indexLabel = [cell viewWithTag:kIndexTag];
+        [indexLabel setText:@(indexPath.row + 1).stringValue];
+        [cell setProduct:_products[indexPath.row]];
+        
+        return cell;
+    } else if (tableView == _productNameTableView) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseExpectedName];
+        
+        UILabel *indexLabel = [cell viewWithTag:kIndexTag];
+        UILabel *productNameLabel = [cell viewWithTag:kContentTag];
+        
+        [indexLabel setText: @(indexPath.row + 1).stringValue];
+        [productNameLabel setText: [_productsExpected[indexPath.row] objectForKey:kName]];
+        
+        return cell;
+    } else {
+        WhExpectedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellWarehouseExpectedProducts];
+        [cell setTheDictionary:_productsExpected[indexPath.row]];
+        return cell;
+    }
 }
 
 #pragma mark - TABLE DELEGATE
@@ -215,7 +290,41 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [Utils hasWritePermission:_supply.name notify:NO];
+    return (tableView == _productTableView) && [Utils hasWritePermission:_supply.name notify:NO];
+}
+
+#pragma mark - COLLECTION DATASOURCE
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(100, 50);
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return _titleContents.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellWarehouseExpectedTitleCollection forIndexPath:indexPath];
+    
+    UILabel *descriptionLabel   = [cell viewWithTag:kContentTag];
+    descriptionLabel.text       = _titleContents[indexPath.row];
+    
+    return cell;
+}
+
+#pragma mark - SCROLLVIEW DELEGATE
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if(scrollView == _titleCollectionView) {
+        CGRect frame = _expectedTableView.frame;
+        frame.origin.x = _productNameTableView.frame.size.width - _titleCollectionView.contentOffset.x;
+        _expectedTableView.frame = frame;
+    } else {
+        _expectedTableView.contentOffset = scrollView.contentOffset;
+        _productNameTableView.contentOffset = scrollView.contentOffset;
+    }
 }
 
 #pragma mark - Add new products

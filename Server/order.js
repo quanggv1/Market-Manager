@@ -67,6 +67,8 @@ var addNewOrder = function (con, req, res) {
 var addNewOrderDetail = function (con, req, res) {
     var params = req.query.params;
     var date   = req.query.date;
+    var type   = req.query.type;
+
     con.query('INSERT INTO np_order_detail SET ?', params, function (err, result) {
         if (err) {
             console.log(err);
@@ -82,7 +84,7 @@ var addNewOrderDetail = function (con, req, res) {
                     res.send(Utils.errorResp);
                 } else {
                     var newProduct = rows[0];
-                    addNewIntoWhExpectedTable(newProduct.productID, date, con);
+                    addNewIntoWhExpectedTable(newProduct.productID, date, type, con);
                     res.send({ code: 200, data: newProduct })
                 }
             })
@@ -90,13 +92,13 @@ var addNewOrderDetail = function (con, req, res) {
     });
 }
 
-function addNewIntoWhExpectedTable(productID, date, con) {
+function addNewIntoWhExpectedTable(productID, date, type, con) {
     con.query('SELECT * FROM np_wh_expected WHERE productID = ? AND date = ?', [productID, date], function(err, rows) {
         if (err) {
             console.log(err);
         } else {
             if (!rows.length || rows.length == 0) {
-                con.query('INSERT INTO np_wh_expected (productID, date) VALUES (?, ?)', [productID, date], function(err, result) {
+                con.query('INSERT INTO np_wh_expected (productID, date, type) VALUES (?, ?, ?)', [productID, date, type], function(err, result) {
                     if (err) {
                         console.log(err);
                     }
