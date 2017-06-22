@@ -41,8 +41,14 @@
     _key = key;
     _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
     _textField.delegate = self;
-    _textField.enabled = ![_key containsString:@"receive expected"];
-    _textField.enabled = ![_key containsString:@"balance of "];
+    if ([_key containsString:@"receive expected"] ||
+        [_key containsString:@"balance of "] ||
+        [_key containsString:@"Total expected"] ||
+        [_key containsString:@"Total balance"]) {
+        _textField.enabled = NO;
+    } else {
+        _textField.enabled = YES;
+    }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -106,6 +112,14 @@
         if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
             NSInteger numberOfProduct = [_textField.text integerValue];
             [_productDic setValue:@(numberOfProduct) forKey:_key];
+            
+            NSInteger totalBalance = [[_productDic objectForKey:@"Total balance"] integerValue];
+            totalBalance += valueChange;
+            [_productDic setValue:@(totalBalance) forKey:@"Total balance"];
+            
+            NSInteger balance = [[_productDic objectForKey:[@"balance of " stringByAppendingString:_key]] integerValue];
+            balance += valueChange;
+            [_productDic setValue:@(balance) forKey:[@"balance of " stringByAppendingString:_key]];
         } else {
             [CallbackAlertView setCallbackTaget:titleError
                                         message:@"Please input number no more than number of warehouse's product"

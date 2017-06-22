@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Crate : NSObject
-@property (nonatomic, strong) NSString *name, *ID, *crateDesc, *provider;
+@property (nonatomic, strong) NSString *name, *ID, *crateDesc, *provider, *type;
 @property (nonatomic, assign) float price;
 @property (nonatomic, assign) NSInteger qtyIn, qtyOut, total;
 - (instancetype)initWith:(NSDictionary *)data;

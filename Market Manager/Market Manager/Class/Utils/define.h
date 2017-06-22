@@ -154,7 +154,9 @@ static NSString *const SegueShowCustomerDetail = @"showCustomerDetail";
 #define API_ADD_NEW_ORDER_DETAIL [SERVER stringByAppendingString:@"addNewOrderDetail"]
 #define API_GET_WAREHOUSE_EXPECTED [SERVER stringByAppendingString:@"getWarehouseExpected"]
 #define API_UPDATE_WAREHOUSE_EXPECTED [SERVER stringByAppendingString:@"updateWarehouseExpected"]
-
+#define API_ADD_NEW_SUPPLY [SERVER stringByAppendingString:@"addNewSupply"]
+#define API_REMOVE_SUPPLY [SERVER stringByAppendingString:@"removeSupply"]
+#define API_GET_WH_PRODUCT_W_ID [SERVER stringByAppendingString:@"getWhProductsWithId"]
 
 
 

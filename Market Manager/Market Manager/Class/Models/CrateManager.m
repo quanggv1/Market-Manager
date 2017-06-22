@@ -60,7 +60,9 @@
 - (NSArray *)getCrateNameList {
     NSMutableArray *crateNames = [[NSMutableArray alloc] init];
     for (Crate *item in crateList) {
-        [crateNames addObject:item.name];
+        if ([item.type isEqualToString:@"0"]) {
+            [crateNames addObject:item.name];
+        }
     }
     return crateNames;
 }

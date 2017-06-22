@@ -15,6 +15,7 @@
 #import "ShopManager.h"
 #import "WhExpectedTableViewCell.h"
 #import "SupplyManager.h"
+#import "SupplyPalletViewController.h"
 
 @interface SupplyDetailViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView    *productTableView;
@@ -278,6 +279,9 @@
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    if (tableView == _productTableView) {
+//        [self performSegueWithIdentifier:@"showProductDetail" sender:self];
+//    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -403,6 +407,16 @@
 - (IBAction)onPickerCancel:(id)sender
 {
     [_productsPickerView setHidden:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showProductDetail"]) {
+        SupplyPalletViewController *vc = segue.destinationViewController;
+        NSInteger index = [_productTableView indexPathForSelectedRow].row;
+        Product *product = _products[index];
+        vc.wh_pd_ID = product.productWhID;
+    }
 }
 
 @end

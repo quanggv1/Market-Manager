@@ -73,6 +73,20 @@ var getWarehouseProducts = function (con, req, res) {
     }
 }
 
+var getWhProductsWithId = function (con, req, res) {
+    var id = con.query.wh_pd_ID;
+    var sql = 'SELECT * FROM np_warehouse_products WHERE wh_pd_ID = ?';
+
+    con.query(sql, [id], function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            res.send({ code: 200, data: results[0] });
+        }
+    })
+}
+
 var refreshDataForNewDay = function (con, req, res) {
     var whID = req.query.whID;
 
@@ -347,5 +361,6 @@ module.exports = {
     removeWarehouseProduct,
     getWarehouseProductTableName,
     updateWarehouseExpected,
-    getWarehouseExpected
+    getWarehouseExpected,
+    getWhProductsWithId,
 }

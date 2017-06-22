@@ -50,7 +50,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationItem.title = @"Crate Management";
+    self.parentViewController.navigationItem.title = @"Suppliers manager";
 }
 
 - (void)downloadWith:(NSString *)date {
@@ -84,10 +84,10 @@
     [self showActivity];
     Crate *CrateDeleted = _crateDataSource[indexPath.row];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSDictionary *params = @{kTableName:kCrateTableName,
-                             kParams: @{kIdName:kCrateID,
-                                        kIdValue:CrateDeleted.ID}};
-    [manager GET:API_DELETEDATA
+    NSDictionary *params = @{kCrateID: CrateDeleted.ID,
+                             kCrateProvider: CrateDeleted.provider};
+    
+    [manager GET:API_REMOVE_SUPPLY
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -154,10 +154,9 @@
     [self showActivity];
     Crate *crate = [[Crate alloc] init];
     crate.provider = provider;
-    NSDictionary *params = @{kTableName:kCrateTableName,
-                             kParams: @{kCrateProvider:crate.provider}};
+    NSDictionary *params = @{kCrateProvider:crate.provider};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:API_INSERTDATA
+    [manager GET:API_ADD_NEW_SUPPLY
       parameters:params
         progress:nil
          success:^(NSURLSessionDataTask * task, id responseObject) {

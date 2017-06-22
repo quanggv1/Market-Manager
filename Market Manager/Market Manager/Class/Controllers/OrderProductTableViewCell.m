@@ -31,6 +31,7 @@
 
 - (void)setProductDic:(NSDictionary *)productDic {
     _productDic = productDic;
+    [_collectionView reloadData];
 }
 
 - (void)awakeFromNib {

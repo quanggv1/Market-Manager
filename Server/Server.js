@@ -184,6 +184,10 @@ app.get('/getWarehouseExpected', function (req, res) {
   WH.getWarehouseExpected(con, req, res);
 })
 
+app.get('/getWhProductsWithId', function (req, res) {
+  WH.getWhProductsWithId(con, req, res);
+})
+
 /** CRATES */
 
 app.get('/getCrates', function (req, res) {
@@ -200,6 +204,14 @@ app.get('/getCratesDetail', function (req, res) {
 
 app.get('/updateCratesDetail', function (req, res) {
   CRATE.updateCratesDetail(con, req, res);
+})
+
+app.get('/addNewSupply', function (req, res) {
+  CRATE.addNewSupply(con, req, res);
+})
+
+app.get('/removeSupply', function (req, res) {
+  CRATE.removeSupply(con, req, res);
 })
 
 /** ORDER */

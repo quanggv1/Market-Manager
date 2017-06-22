@@ -6,18 +6,18 @@
 //  Copyright © 2017 Market Manager. All rights reserved.
 //
 
-#import "CrateDetailViewController.h"
+#import "PalletViewController.h"
 #import "CrateManager.h"
 #import "Crate.h"
-#import "CrateDetailTableViewCell.h"
+#import "PalletTableViewCell.h"
 #import "Data.h"
 
-@interface CrateDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface PalletViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSMutableArray *crates;
 @property (nonatomic, weak) IBOutlet UITableView *cratesTableView;
 @end
 
-@implementation CrateDetailViewController
+@implementation PalletViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,7 +29,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.parentViewController.navigationItem.title = @"Crate manager";
+    self.parentViewController.navigationItem.title = @"Pallet manager";
 }
 
 - (void)addRefreshControll {
@@ -41,7 +41,7 @@
 }
 
 - (void)getData {
-    NSDictionary *params = @{kType: @"0"};
+    NSDictionary *params = @{kType: @"1"};
     
     [[Data sharedInstance] get:API_GET_CRATES_DETAIL data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == kResSuccess) {
@@ -50,7 +50,8 @@
             
             crates = [[CrateManager sharedInstance] getCrateListForm:crates];
             
-            self.crates = [NSMutableArray arrayWithArray:crates];
+            _crates = [NSMutableArray arrayWithArray:crates];
+            
             [self.cratesTableView reloadData];
         } else {
             ShowMsgSomethingWhenWrong;
@@ -117,10 +118,10 @@
     crate.name = name;
     crate.price = 0;
     crate.crateDesc = @"";
-    crate.type = @"0";
+    crate.type = @"1";
     
     NSDictionary *params = @{kTableName:@"crate_detail",
-                             kParams: @{kCrateType: crate.name,
+                             kParams: @{kCrateType:crate.name,
                                         kType: crate.type}};
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -209,7 +210,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CrateDetailTableViewCell *cell;
+    PalletTableViewCell *cell;
     UILabel *indexLabel;
     cell = [tableView dequeueReusableCellWithIdentifier:CellCrateDetail];
     [cell setCrate:_crates[indexPath.row]];

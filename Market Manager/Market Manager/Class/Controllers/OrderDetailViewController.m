@@ -24,8 +24,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint     *orderTableConstraintWidth;
 @property (weak, nonatomic) IBOutlet UIPickerView           *productsPicker;
 @property (weak, nonatomic) IBOutlet UIView                 *productsPickerView;
+@property (weak, nonatomic) IBOutlet UISwitch               *theSwitch;
 
-@property (strong, nonatomic) NSMutableArray    *products;
+@property (strong, nonatomic) NSMutableArray    *originProducts;
+@property (strong, nonatomic) NSMutableArray    *productsInBalance;
 @property (strong, nonatomic) NSArray           *shopProducts;
 @property (strong, nonatomic) NSMutableArray    *shopProductsNotOrdered;
 @end
@@ -44,6 +46,20 @@
     _collectionView.dataSource          = self;
     
     [self download];
+}
+
+- (IBAction)onSwitchOn:(id)sender
+{
+    if (_theSwitch.isOn) {
+        _productsInBalance = [[NSMutableArray alloc] init];
+        for (NSDictionary *dict in _originProducts) {
+            if ([[dict objectForKey:@"Total balance"] integerValue] >= 0) {
+                [_productsInBalance addObject:dict];
+            }
+        }
+    }
+    [_orderFormTableView reloadData];
+    [_productNameTableView reloadData];
 }
 
 - (void)viewWillLayoutSubviews
@@ -65,8 +81,8 @@
         }
         [_titleContents addObject:@"Crate Q.ty"];
         [_titleContents addObject:@"Crate Type"];
-//        [_titleContents addObject:@"Total receive expected"];
-//        [_titleContents addObject:@"Total balance"];
+        [_titleContents addObject:@"Total expected"];
+        [_titleContents addObject:@"Total balance"];
     }
     return _titleContents;
 }
@@ -103,7 +119,7 @@
     _shopProductsNotOrdered = [[NSMutableArray alloc] init];
     for (Product *originProduct in _shopProducts) {
         BOOL isExisted = NO;
-        for (NSDictionary *product in _products) {
+        for (NSDictionary *product in _originProducts) {
             if ([originProduct.name isEqualToString: [product objectForKey:kName]]) {
                 isExisted = YES;
             }
@@ -164,7 +180,7 @@
         if ([[res objectForKey:kCode] integerValue] == 200) {
             NSDictionary *result = [res objectForKey:kData];
             NSMutableDictionary *product = [NSMutableDictionary dictionaryWithDictionary:result];
-            [_products addObject:product];
+            [_originProducts addObject:product];
             [_productNameTableView reloadData];
             [_productsPickerView setHidden: YES];
             [_orderFormTableView reloadData];
@@ -183,11 +199,25 @@
     NSDictionary *params = @{kOrderID:_order.ID};
     [[Data sharedInstance] get:API_GET_ORDER_DETAIL data:params success:^(id res) {
         if ([[res objectForKey:kCode] integerValue] == 200) {
-            _products = [[NSMutableArray alloc] init];
+            _originProducts = [[NSMutableArray alloc] init];
             for (NSDictionary *item in [res objectForKey:kData]) {
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:item];
                 
-                [_products addObject:dict];
+                NSInteger totalExpected = 0;
+                NSInteger totalBalance = 0;
+                
+                for (NSString *key in dict.allKeys) {
+                    if ([key containsString:@" receive expected"]) {
+                        totalExpected += [[dict objectForKey:key] integerValue];
+                    } else if ([key containsString:@"balance of"]) {
+                        totalBalance += [[dict objectForKey:key] integerValue];
+                    }
+                }
+                
+                [dict setObject:@(totalBalance) forKey:@"Total balance"];
+                [dict setObject:@(totalExpected) forKey:@"Total expected"];
+                
+                [_originProducts addObject:dict];
             }
             [_orderFormTableView reloadData];
             [_productNameTableView reloadData];
@@ -205,7 +235,7 @@
 - (IBAction)onSubmit:(id)sender
 {
     NSDictionary *params = @{kType:@([[ProductManager sharedInstance] getProductType]),
-                             kParams: [Utils objectToJsonString:_products],
+                             kParams: [Utils objectToJsonString:_originProducts],
                              kId: _order.ID,
                              kShopID: _shop.ID,
                              @"whNameList": [[SupplyManager sharedInstance] getSupplyNameList]};
@@ -236,21 +266,22 @@
 #pragma mark - TABLE DATASOUCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _products.count;
+    return _theSwitch.isOn ? _productsInBalance.count : _originProducts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSMutableArray *array = _theSwitch.isOn ? _productsInBalance : _originProducts;
     if (tableView == self.productNameTableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"orderFormCell"];
         NSString *strIndex = @(indexPath.row + 1).stringValue;
-        NSString *strProductName = [_products[indexPath.row] objectForKey:kName];
+        NSString *strProductName = [array[indexPath.row] objectForKey:kName];
         ((UILabel *)[cell viewWithTag:201]).text = strIndex;
         ((UILabel *)[cell viewWithTag:202]).text = strProductName;
         return cell;
     } else {
         OrderProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellProductOrder];
-        [cell setProductDic: _products[indexPath.row]];
+        [cell setProductDic: array[indexPath.row]];
         return cell;
     }
 }

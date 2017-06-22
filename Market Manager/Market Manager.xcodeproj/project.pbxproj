@@ -58,6 +58,9 @@
 		3D7D258E1EADAC360098C2FC /* CustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D258D1EADAC360098C2FC /* CustomerCell.m */; };
 		3D7D25911EADE8C60098C2FC /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D25901EADE8C60098C2FC /* CustomerDetailViewController.m */; };
 		3D84EE041EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D84EE031EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m */; };
+		3D84EE0A1EFBAD0000D550E2 /* PalletTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D84EE071EFBAD0000D550E2 /* PalletTableViewCell.m */; };
+		3D84EE0B1EFBAD0000D550E2 /* PalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D84EE091EFBAD0000D550E2 /* PalletViewController.m */; };
+		3D84EE0E1EFBC54300D550E2 /* SupplyPalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D84EE0D1EFBC54300D550E2 /* SupplyPalletViewController.m */; };
 		3DA566231EE67A82009C25DC /* OrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA566221EE67A82009C25DC /* OrderTableViewCell.m */; };
 		3DA93D481E948E2300B72F70 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA93D471E948E2300B72F70 /* SettingViewController.m */; };
 		3DA93D4B1E949C6800B72F70 /* StorageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA93D4A1E949C6800B72F70 /* StorageService.m */; };
@@ -225,6 +228,12 @@
 		3D7D25901EADE8C60098C2FC /* CustomerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailViewController.m; sourceTree = "<group>"; };
 		3D84EE021EF8D29E00D550E2 /* WhExpectedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhExpectedCollectionViewCell.h; sourceTree = "<group>"; };
 		3D84EE031EF8D29E00D550E2 /* WhExpectedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhExpectedCollectionViewCell.m; sourceTree = "<group>"; };
+		3D84EE061EFBAD0000D550E2 /* PalletTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PalletTableViewCell.h; sourceTree = "<group>"; };
+		3D84EE071EFBAD0000D550E2 /* PalletTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PalletTableViewCell.m; sourceTree = "<group>"; };
+		3D84EE081EFBAD0000D550E2 /* PalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PalletViewController.h; sourceTree = "<group>"; };
+		3D84EE091EFBAD0000D550E2 /* PalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PalletViewController.m; sourceTree = "<group>"; };
+		3D84EE0C1EFBC54300D550E2 /* SupplyPalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyPalletViewController.h; sourceTree = "<group>"; };
+		3D84EE0D1EFBC54300D550E2 /* SupplyPalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyPalletViewController.m; sourceTree = "<group>"; };
 		3DA566211EE67A82009C25DC /* OrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTableViewCell.h; sourceTree = "<group>"; };
 		3DA566221EE67A82009C25DC /* OrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTableViewCell.m; sourceTree = "<group>"; };
 		3DA93D461E948E2300B72F70 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -689,6 +698,10 @@
 				7496AB6E1E9107D9005D8364 /* CrateDetailViewController.m */,
 				7496AB701E911C18005D8364 /* CrateDetailTableViewCell.h */,
 				7496AB711E911C18005D8364 /* CrateDetailTableViewCell.m */,
+				3D84EE081EFBAD0000D550E2 /* PalletViewController.h */,
+				3D84EE091EFBAD0000D550E2 /* PalletViewController.m */,
+				3D84EE061EFBAD0000D550E2 /* PalletTableViewCell.h */,
+				3D84EE071EFBAD0000D550E2 /* PalletTableViewCell.m */,
 			);
 			name = Crate;
 			sourceTree = "<group>";
@@ -780,6 +793,8 @@
 				74E9046C1E58616F005D391D /* SupplyTableViewCell.m */,
 				74ED22251E59F7160079D3F0 /* SupplyDetailViewController.h */,
 				74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */,
+				3D84EE0C1EFBC54300D550E2 /* SupplyPalletViewController.h */,
+				3D84EE0D1EFBC54300D550E2 /* SupplyPalletViewController.m */,
 				74FB615D1E74FB9E00F65BF1 /* SupplyProductTableViewCell.h */,
 				74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */,
 				748B20D41E620D8700571111 /* AddNewSupplyViewController.h */,
@@ -988,6 +1003,7 @@
 				7466EB191E51FB1000A2C0F5 /* Utils.m in Sources */,
 				74E904561E57F781005D391D /* Product.m in Sources */,
 				3D41D7D41E56E33A00123A71 /* UIRefreshControl+AFNetworking.m in Sources */,
+				3D84EE0A1EFBAD0000D550E2 /* PalletTableViewCell.m in Sources */,
 				3D41D79F1E55903800123A71 /* IQToolbar.m in Sources */,
 				74C5A7401E7468CA00BB5B40 /* CrateViewController.m in Sources */,
 				7466EAED1E51E95E00A2C0F5 /* main.m in Sources */,
@@ -1003,6 +1019,7 @@
 				3D41D7CA1E56E33A00123A71 /* AFURLRequestSerialization.m in Sources */,
 				3D41D79B1E55903800123A71 /* IQTextView.m in Sources */,
 				3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */,
+				3D84EE0B1EFBAD0000D550E2 /* PalletViewController.m in Sources */,
 				3D41D7CF1E56E33A00123A71 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				74C5A73A1E7466F100BB5B40 /* Crate.m in Sources */,
 				744424EB1E6B089100F0ECA8 /* ShopProductTableViewCell.m in Sources */,
@@ -1014,6 +1031,7 @@
 				74ED22341E59FF6E0079D3F0 /* OrderDetailViewController.m in Sources */,
 				BCB4614D1E545EFA0090CBC3 /* SupplyViewController.m in Sources */,
 				743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */,
+				3D84EE0E1EFBC54300D550E2 /* SupplyPalletViewController.m in Sources */,
 				BCB4614A1E545EB90090CBC3 /* ProductViewController.m in Sources */,
 				3D0C18921E5A82C2008CA470 /* ActivityView.m in Sources */,
 				3D41D7661E5583C400123A71 /* ShopViewController.m in Sources */,

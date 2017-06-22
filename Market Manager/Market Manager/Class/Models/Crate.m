@@ -20,6 +20,7 @@
         self.price = [[data objectForKey:@"price"] floatValue];
         self.crateDesc = [NSString stringWithFormat:@"%@",[data objectForKey:kCrateDesc]];
         self.provider = [NSString stringWithFormat:@"%@", [data objectForKey:kCrateProvider]];
+        self.type = [NSString stringWithFormat:@"%@",[data objectForKey:kType]];
     }
     return self;
 }
