@@ -82,7 +82,7 @@ var getWhProductsWithId = function (con, req, res) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
-            res.send({ code: 200, data: results[0] });
+            res.send({ code: 200, data: results });
         }
     })
 }
