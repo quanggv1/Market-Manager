@@ -188,6 +188,10 @@ app.get('/getWhProductsWithId', function (req, res) {
   WH.getWhProductsWithId(con, req, res);
 })
 
+app.get('/updateWhProductWithId', function (req, res) {
+  WH.updateWhProductWithId(con, req, res);
+})
+
 /** CRATES */
 
 app.get('/getCrates', function (req, res) {

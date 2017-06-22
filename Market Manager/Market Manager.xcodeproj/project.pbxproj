@@ -73,6 +73,7 @@
 		3DFD45BA1E5EE62F00069D7D /* ShopManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45B91E5EE62F00069D7D /* ShopManager.m */; };
 		3DFD45BD1E5EE69C00069D7D /* SupplyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BC1E5EE69C00069D7D /* SupplyManager.m */; };
 		3DFD45C01E5EE8CD00069D7D /* OrderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */; };
+		7419353B1EFBEE7A000207DC /* SupplyPalletTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7419353A1EFBEE7A000207DC /* SupplyPalletTableViewCell.m */; };
 		742F5FFF1E5F5DB200DB1498 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */; };
 		7430095A1EACB53700F87525 /* CustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 743009591EACB53700F87525 /* CustomerViewController.m */; };
 		743242181E614EA6006ABCA0 /* CallbackAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 743242171E614EA6006ABCA0 /* CallbackAlertView.m */; };
@@ -258,6 +259,8 @@
 		3DFD45BC1E5EE69C00069D7D /* SupplyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyManager.m; sourceTree = "<group>"; };
 		3DFD45BE1E5EE8CD00069D7D /* OrderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderManager.h; sourceTree = "<group>"; };
 		3DFD45BF1E5EE8CD00069D7D /* OrderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderManager.m; sourceTree = "<group>"; };
+		741935391EFBEE7A000207DC /* SupplyPalletTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupplyPalletTableViewCell.h; sourceTree = "<group>"; };
+		7419353A1EFBEE7A000207DC /* SupplyPalletTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupplyPalletTableViewCell.m; sourceTree = "<group>"; };
 		742F5FFD1E5F5DB200DB1498 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		742F5FFE1E5F5DB200DB1498 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		743009581EACB53700F87525 /* CustomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerViewController.h; sourceTree = "<group>"; };
@@ -795,6 +798,8 @@
 				74ED22261E59F7160079D3F0 /* SupplyDetailViewController.m */,
 				3D84EE0C1EFBC54300D550E2 /* SupplyPalletViewController.h */,
 				3D84EE0D1EFBC54300D550E2 /* SupplyPalletViewController.m */,
+				741935391EFBEE7A000207DC /* SupplyPalletTableViewCell.h */,
+				7419353A1EFBEE7A000207DC /* SupplyPalletTableViewCell.m */,
 				74FB615D1E74FB9E00F65BF1 /* SupplyProductTableViewCell.h */,
 				74FB615E1E74FB9E00F65BF1 /* SupplyProductTableViewCell.m */,
 				748B20D41E620D8700571111 /* AddNewSupplyViewController.h */,
@@ -971,6 +976,7 @@
 				748B3A871E62944E00AA9AA6 /* UserManager.m in Sources */,
 				3D0C18951E5AB0E2008CA470 /* DateTimePickerController.m in Sources */,
 				3D41D7D51E56E33A00123A71 /* UIWebView+AFNetworking.m in Sources */,
+				7419353B1EFBEE7A000207DC /* SupplyPalletTableViewCell.m in Sources */,
 				3D228D881E7B898000BC7BD3 /* OrderDetailCollectionViewCell.m in Sources */,
 				3D41D7A01E55903800123A71 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				74E9046D1E58616F005D391D /* SupplyTableViewCell.m in Sources */,

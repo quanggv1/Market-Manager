@@ -88,6 +88,7 @@ static RecommendListViewController *recommendListViewCtrl;
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     _onSelectedCell(orderDropdownDatasource[indexPath.row]);
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismiss];
 }
 
 + (void)showRecommendListAt:(UIViewController *)controller

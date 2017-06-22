@@ -74,15 +74,40 @@ var getWarehouseProducts = function (con, req, res) {
 }
 
 var getWhProductsWithId = function (con, req, res) {
-    var id = con.query.wh_pd_ID;
+    var id = req.query.wh_pd_ID;
     var sql = 'SELECT * FROM np_warehouse_products WHERE wh_pd_ID = ?';
+    var sqlGetSuppliers = 'SELECT provider FROM crate';
 
-    con.query(sql, [id], function(err, results) {
+    var product;
+    var suppliers;
+
+    con.query(sql, [id], function(err, rows) {
         if (err) {
             console.log(err);
             res.send(Utils.errorResp);
         } else {
-            res.send({ code: 200, data: results });
+            product = rows[0];
+
+            con.query(sqlGetSuppliers, function (err, rows) {
+                suppliers = rows;
+                res.send({code: 200, data:{product, suppliers}})
+            })
+        }
+    })
+}
+
+var updateWhProductWithId = function (con, req, res) {
+    var id = req.query.wh_pd_ID;
+    var data = JSON.parse(req.query.data);
+    var sql = 'UPDATE np_warehouse_products SET ? WHERE wh_pd_ID = ?';
+    console.log(data);
+
+    con.query(sql, [data, id], function(err, result) {
+        if (err) {
+            console.log(err);
+            res.send(Utils.errorResp);
+        } else {
+            res.send({code: 200});
         }
     })
 }
@@ -363,4 +388,5 @@ module.exports = {
     updateWarehouseExpected,
     getWarehouseExpected,
     getWhProductsWithId,
+    updateWhProductWithId
 }

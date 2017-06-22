@@ -87,7 +87,6 @@
     _productSearchTextField.text = today;
     searchDate = today;
     
-    [self downloadWith:today];
     [self getTitleContent];
     [self showStockTakeView:YES];
     
@@ -106,7 +105,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self downloadWith:today];
     self.navigationItem.title = _supply.name;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self onSaveClicked:nil];
 }
 
 - (void)deleteItem:(NSNotification *)notificaion
@@ -279,9 +285,9 @@
 #pragma mark - TABLE DELEGATE
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (tableView == _productTableView) {
-//        [self performSegueWithIdentifier:@"showProductDetail" sender:self];
-//    }
+    if (tableView == _productTableView) {
+        [self performSegueWithIdentifier:@"showProductDetail" sender:self];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

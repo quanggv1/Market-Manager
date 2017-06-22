@@ -122,7 +122,7 @@ var addNewSupply = function (con, req, res) {
             res.send(Utils.errorResp);
         } else {
             con.query('ALTER TABLE np_warehouse_products ADD `In from ' + name + '` int NOT NULL');
-            con.query('ALTER TABLE np_warehouse_products ADD `Pallet type From ' + name + '` int NOT NULL');
+            con.query('ALTER TABLE np_warehouse_products ADD `Pallet type From ' + name + '` varchar(100) NOT NULL');
             con.query('ALTER TABLE np_warehouse_products ADD `Number of pallet From ' + name + '` int NOT NULL');
             res.send({ code: 200, data: { insertId: result.insertId } });
         }

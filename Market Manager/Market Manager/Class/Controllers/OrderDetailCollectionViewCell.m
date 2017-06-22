@@ -70,20 +70,8 @@
     if ([[[SupplyManager sharedInstance] getSupplyNameList] containsObject:_key]) {
         [self updateWarehouse];
     } else if([_key isEqualToString:kCrateQty]) {
-        NSArray *crateTypeList = [[CrateManager sharedInstance] getCrateNameList];
-        NSString *crateType = [NSString stringWithFormat:@"%@", [_productDic objectForKey:kCrateType]];
-        if([crateTypeList containsObject:crateType]) {
-            NSInteger crateQty = [_textField.text integerValue];
-            [_productDic setValue:@(crateQty) forKey:_key];
-        } else {
-            [CallbackAlertView setCallbackTaget:titleError
-                                        message:@"Please input correct crate type"
-                                         target:self
-                                        okTitle:btnOK
-                                     okCallback:nil
-                                    cancelTitle:nil
-                                 cancelCallback:nil];
-        }
+        NSInteger crateQty = [_textField.text integerValue];
+        [_productDic setValue:@(crateQty) forKey:_key];
         _textField.text = [NSString stringWithFormat:@"%@",[_productDic objectForKey:_key]];
     } else if([_key isEqualToString:kProductOrder]) {
         NSInteger numberOfProduct = [_textField.text integerValue];
